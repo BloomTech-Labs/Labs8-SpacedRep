@@ -1,0 +1,33 @@
+.container {
+  width: 1000px;
+  height: 600px;
+  margin: 0 auto;
+}
+
+.wrapper-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.sidebar-and-card-list-container {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+.sidebar-container {
+  display: flex;
+  flex-direction: row;
+  width: 200px;
+  height: 100%;
+}
+
+.card-list-container {
+  width: 800px;
+  height: 100%;
+}
+
+.header-container {
+  height: 100px;
+}
