@@ -1,0 +1,33 @@
+{
+  "name": "mealprepbackend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "server": "nodemon",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DrewMoody/mealprepbackend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DrewMoody/mealprepbackend/issues"
+  },
+  "homepage": "https://github.com/DrewMoody/mealprepbackend#readme",
+  "dependencies": {
+    "cors": "^2.8.4",
+    "express": "^4.16.4",
+    "helmet": "^3.14.0",
+    "knex": "^0.15.2",
+    "pg": "^7.5.0",
+    "sqlite3": "^4.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4"
+  }
+}
