@@ -10,7 +10,7 @@
   height: 100%;
 }
 
-.sidebar-and-card-list-container {
+.sidebar-and-deck-list-container {
   display: flex;
   flex-direction: row;
   height: 100%;
@@ -18,8 +18,21 @@
 
 .sidebar-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   width: 200px;
+  height: 100%;
+  padding: 20px;
+}
+
+.sidebar-link {
+  font-size: 20px;
+  margin: 0 0 20px 0;
+}
+
+.deck-list-container {
+  width: 800px;
   height: 100%;
 }
 
@@ -30,4 +43,23 @@
 
 .header-container {
   height: 100px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.header-link {
+  font-size: 20px;
+  margin: 0 20px 0 20px;
+}
+
+.landing-page-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.landing-page-text {
+  width: 400px;
 }

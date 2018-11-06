@@ -6,6 +6,8 @@ import RegistrationForm from './components/auth/RegistrationForm';
 import Login from './components/auth/Login';
 import Wrapper from './components/Wrapper';
 import LandingPage from './components/LandingPage';
+import DeckList from './components/DeckList';
+import CardList from './components/CardList';
 import './App.css';
 
 function onAuthRequired({ history }) {
@@ -20,10 +22,12 @@ class App extends Component {
         onAuthRequired={onAuthRequired}
       >
         <div className="container">
-          <Route path='/' component={LandingPage} />
+          <Route exact path='/' component={LandingPage} />
           <Route path="/register" component={RegistrationForm} />
           <Route path='/login' render={() => <Login baseUrl={config.url} />} />
           <Route path='/implicit/callback' component={ImplicitCallback} />
+          <SecureRoute path='/dashboard/decks' component={DeckList} />
+          <SecureRoute path='/dashboard/cards' component={CardList} />
           <SecureRoute exact path='/dashboard' component={Wrapper} />
         </div>
       </Security>

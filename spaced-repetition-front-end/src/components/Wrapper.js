@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Header from './Header';
 import Sidebar from './Sidebar';
-import CardList from './CardList';
 import '../App.css';
 
 class Wrapper extends Component {
@@ -9,9 +8,9 @@ class Wrapper extends Component {
     return (
       <div className="wrapper-container">
         <Header />
-        <div className="sidebar-and-card-list-container">
+        <div className="sidebar-and-deck-list-container">
           <Sidebar />
-          <CardList />
+          {this.props.children}
         </div>
       </div>
     );
