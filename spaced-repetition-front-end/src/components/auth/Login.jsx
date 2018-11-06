@@ -25,7 +25,7 @@ export default withAuth(class Login extends Component {
     render() {
         if (this.state.authenticated === null) return null;
         return this.state.authenticated ?
-            <Redirect to={{ pathname: '/' }} /> :
+            <Redirect to={{ pathname: '/dashboard' }} /> :
             <React.Fragment>
                 <h1>Please login to see this content.</h1>
                 <LoginForm baseUrl={this.props.baseUrl} />;

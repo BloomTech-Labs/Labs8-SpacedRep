@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Route, withRouter, Switch } from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 import { Security, SecureRoute, ImplicitCallback } from '@okta/okta-react';
 import config from './components/auth/config';
+import RegistrationForm from './components/auth/RegistrationForm';
 import Login from './components/auth/Login';
 import Wrapper from './components/Wrapper';
 import LandingPage from './components/LandingPage';
@@ -19,10 +20,11 @@ class App extends Component {
         onAuthRequired={onAuthRequired}
       >
         <div className="container">
-          <Route path='/landing' component={LandingPage} />
+          <Route path='/' component={LandingPage} />
+          <Route path="/register" component={RegistrationForm} />
           <Route path='/login' render={() => <Login baseUrl={config.url} />} />
           <Route path='/implicit/callback' component={ImplicitCallback} />
-          <SecureRoute exact path='/' component={Wrapper} />
+          <SecureRoute exact path='/dashboard' component={Wrapper} />
         </div>
       </Security>
     );
