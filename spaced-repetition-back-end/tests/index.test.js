@@ -113,6 +113,6 @@ describe('SRSLY', () => {
           done();
         });
     });
-    it.skip('Should fail if bad URL is provided', () => {}); // puts in pending state
+    // it.skip('Should fail if bad URL is provided', () => {}); // puts in pending state
   });
 });
