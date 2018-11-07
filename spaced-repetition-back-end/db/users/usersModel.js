@@ -1,4 +1,4 @@
-const db = require('../knex.js');
+const db = require('../../knex.js');
 const table = 'Users';
 
 module.exports = {
