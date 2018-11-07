@@ -2,7 +2,7 @@ language: node_js
 node_js:
   - '7'
 before_script:
-  - psql -c 'create database travis-ci-test;' -U postgres
+  - psql -c 'create database travis;' -U postgres
 before_install: if [[ `npm -v` != 4* ]]; then npm i -g npm@4; fi
 cache:
   directories:
