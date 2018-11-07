@@ -6,10 +6,10 @@ class Sidebar extends Component {
   render() {
     return (
       <div className="sidebar-container">
-        <Link to="/decks" className="sidebar-link">
+        <Link to="/dashboard/decks" className="sidebar-link">
           Decks
         </Link>
-        <Link to="/cards" className="sidebar-link">
+        <Link to="/dashboard/cards" className="sidebar-link">
           Cards
         </Link>
       </div>
