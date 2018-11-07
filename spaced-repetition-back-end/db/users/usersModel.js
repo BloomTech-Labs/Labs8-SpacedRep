@@ -1,12 +1,12 @@
 const db = require('../knex.js');
-const table = 'Recipes'
+const table = 'Users';
 
 module.exports = {
   find,
   findById,
   add,
   update,
-  remove,
+  remove
 };
 
 function find() {

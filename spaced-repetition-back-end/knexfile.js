@@ -1,32 +1,39 @@
 // Update with your config settings.
 
 module.exports = {
-
   development: {
-    client: 'sqlite3',
-    connection: {
-      filename: './data/mealprepdb.sqlite3'
-    },
-    useNullAsDefault: true,
+    client: 'pg',
+    connection: 'postgres://localhost/srsly',
     migrations: {
-      directory: './data/migrations'
+      directory: './db/migrations'
     },
     seeds: {
-      directory: './data/seeds'
-    }
+      directory: './db/seeds'
+    },
+    useNullAsDefault: true
   },
+
+  test: {
+    client: 'pg',
+    connection: 'postgres://localhost/test',
+    migrations: {
+      directory: './db/migrations'
+    },
+    seeds: {
+      directory: './db/seeds/test'
+    },
+    useNullAsDefault: true
+  },
+
   production: {
     client: 'pg',
     connection: process.env.DATABASE_URL,
     migrations: {
-      tableName: 'knex_migrations',
-      directory: './data/migrations'
+      directory: './db/migrations'
     },
     seeds: {
-      directory: './data/seeds'
+      directory: './db/seeds/production'
     },
-    useNullAsDefault: true,
-    ssl: true,
+    useNullAsDefault: true
   }
-  
 };

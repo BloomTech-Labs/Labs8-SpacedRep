@@ -1,13 +1,13 @@
 const express = require('express');
-const recipes = require('./recipesModel.js');
+const users = require('./usersModel.js');
 
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  recipes
+  users
     .find()
-    .then(recipes => {
-      res.status(200).json(recipes);
+    .then(users => {
+      res.status(200).json(users);
     })
     .catch(err => res.status(500).json(err));
 });
@@ -16,12 +16,12 @@ router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
 
-    const recipes = await recipes.findById(id);
+    const users = await users.findById(id);
 
-    if (recipe) {
-      res.status(200).json(recipe);
+    if (user) {
+      res.status(200).json(user);
     } else {
-      res.status(404).json({ message: 'Recipe not found' });
+      res.status(404).json({ message: 'user not found' });
     }
   } catch (error) {
     res.status(500).json(error);
@@ -29,10 +29,10 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  const recipe = req.body;
+  const user = req.body;
 
-  recipes
-    .add(recipe)
+  users
+    .add(user)
     .then(ids => {
       res.status(201).json(ids[0]);
     })
@@ -45,7 +45,7 @@ router.put('/:id', (req, res) => {
   const { id } = req.params;
   const changes = req.body;
 
-  recipes
+  users
     .update(id, changes)
     .then(success => {
       if (!success || success < 1) {
@@ -60,7 +60,7 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
 
-  recipes
+  users
     .remove(id)
     .then(success => {
       if (!success || success < 1) {

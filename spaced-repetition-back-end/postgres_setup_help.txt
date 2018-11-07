@@ -1,0 +1,37 @@
+POSTGRES SETUP AND TESTING
+
+----FIRST TERMINAL WINDOW----
+start server: 
+postgres -h localhost
+
+----SECOND TERMINAL WINDOW----
+in another cmd window:
+psql
+OR 
+psql -U postgres
+
+if you didnt already create a database to use:
+>> CREATE DATABASE srsly;
+>> GRANT ALL PRIVILEGES ON DATABASE srsly TO <yourusername>; postgres=> \list
+
+>>\connect srsly
+
+if database works you will see your shell says: srsly-#
+
+----THIRD TERMINAL WINDOW----
+in a new cmd window:
+cd Labs8-SpacedRep\spaced-repetition-back-end\db
+
+knex migrate:latest
+
+-Test this in SECOND terminal by typing \dt and you should see a list of tables in the database
+
+-Back in THIRD terminal
+
+knex seed:run
+
+-Test in SECOND window again by typing:
+
+SELECT * from users;
+
+you should now see all the seeded data in the users table

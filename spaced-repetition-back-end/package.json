@@ -1,5 +1,5 @@
 {
-  "name": "mealprepbackend",
+  "name": "srslybackend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -24,10 +24,9 @@
     "express": "^4.16.4",
     "helmet": "^3.14.0",
     "knex": "^0.15.2",
-    "pg": "^7.5.0",
-    "sqlite3": "^4.0.3"
+    "pg": "^7.6.0"
   },
   "devDependencies": {
-    "nodemon": "^1.18.4"
+    "nodemon": "^1.18.6"
   }
 }
