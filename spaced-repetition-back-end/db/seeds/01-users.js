@@ -18,4 +18,4 @@ exports.seed = function(knex, Promise) {
     });
 };
 
-//decks is still being tested, need to figure out the best way to send arrays from knex to postgres
+//decks are still being tested, need to figure out the best way to send arrays from knex to postgres

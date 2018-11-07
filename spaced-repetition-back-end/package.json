@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "server": "nodemon",
-    "test": "mocha *.test.js --exit"
+    "test": "mocha ./tests/*.test.js --exit"
   },
   "repository": {
     "type": "git",
@@ -18,7 +18,7 @@
   "bugs": {
     "url": "https://github.com/DrewMoody/mealprepbackend/issues"
   },
-  "homepage": "https://github.com/DrewMoody/mealprepbackend#readme",
+  "homepage": "https://srs-ly.herokuapp.com/",
   "dependencies": {
     "chai": "^4.2.0",
     "chai-http": "^4.2.0",

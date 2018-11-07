@@ -22,4 +22,10 @@ server.get('/', (req, res) => {
 
 server.use('/api/users', usersRoutes);
 
-server.listen(PORT, () => console.log(`API running on ${PORT}`));
+module.exports = server.listen(PORT, () =>
+  console.log(`API running on ${PORT}`)
+);
+
+// if (process.env.NODE_ENV !== 'test') {
+//   app.use(logger('dev'));
+// }
