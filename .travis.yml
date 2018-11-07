@@ -5,7 +5,7 @@ before_script:
   - psql -c 'create database travis;' -U postgres
 before_install: if [[ `npm -v` != 4* ]]; then npm i -g npm@4; fi
 install:
-  -yarn add
+  - npm i
 cache:
   directories:
     -node_modules
