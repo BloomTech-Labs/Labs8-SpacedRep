@@ -4,8 +4,8 @@ node_js:
 before_script:
   - psql -c 'create database travis;' -U postgres
 before_install: if [[ `npm -v` != 4* ]]; then npm i -g npm@4; fi
-install:
-  - npm i -g mocha
+script:
+  - npm test
 cache:
   directories:
     -node_modules
