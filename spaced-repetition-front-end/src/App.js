@@ -21,12 +21,10 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.setState(
-      {
-        cards: data.cards,
-        decks: data.decks,
-      },
-    );
+    this.setState({
+      cards: data.cards,
+      decks: data.decks,
+    });
   }
 
   onAuthRequired() {
@@ -37,10 +35,7 @@ class App extends Component {
     const { decks } = this.state;
     const { cards } = this.state;
     return (
-      <Security
-        {...config}
-        onAuthRequired={this.onAuthRequired}
-      >
+      <Security {...config} onAuthRequired={this.onAuthRequired}>
         <div className="container">
           <Switch>
             <Route exact path="/" component={LandingPage} />
@@ -50,13 +45,20 @@ class App extends Component {
             <SecureRoute exact path="/dashboard" component={Wrapper} />
             <SecureRoute
               path="/dashboard/decks"
-              render={(<Wrapper><DeckList decks={decks} /></Wrapper>)
-              }
+              render={props => (
+                <Wrapper {...props}>
+                  <DeckList decks={decks} />
+                </Wrapper>
+              )}
             />
+
             <SecureRoute
               path="/dashboard/cards"
-              render={(<Wrapper><CardList decks={cards} /></Wrapper>)
-              }
+              render={props => (
+                <Wrapper {...props}>
+                  <CardList cards={cards} />
+                </Wrapper>
+              )}
             />
           </Switch>
         </div>
