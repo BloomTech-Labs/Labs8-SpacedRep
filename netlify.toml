@@ -1,2 +1,3 @@
 [build]
  base = "spaced-repetition-front-end"
+ publish = "build"
