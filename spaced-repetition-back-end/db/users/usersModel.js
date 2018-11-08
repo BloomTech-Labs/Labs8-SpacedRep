@@ -1,5 +1,5 @@
 const db = require('../../knex.js');
-const table = 'Users';
+const table = 'users';
 
 module.exports = {
   find,
