@@ -54,7 +54,7 @@ export default withAuth(
         handleSubmit(e) {
             e.preventDefault();
             const createUser = this.state;
-            axios.post('http://localhost:4242/api/user', createUser,
+            axios.post('https://srs-ly.herokuapp.com/api/users/register', createUser,
                 {
                     'Content-Type': 'application/json'
                 })

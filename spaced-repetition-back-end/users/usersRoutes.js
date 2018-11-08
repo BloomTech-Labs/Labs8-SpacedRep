@@ -1,7 +1,39 @@
 const express = require('express');
+const oktaClient = require('../lib/config.jsx');
 const users = require('./usersModel.js');
 
 const router = express.Router();
+
+/**
+ * Registers a new user through Okta's API.
+ * A success returns a user object with id and profile properties.
+ */
+router.post('/register', (req, res, next) => {
+  if (!req.body) return res.sendStatus(400);
+  const newUser = {
+    profile: {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      login: req.body.email
+    },
+    credentials: {
+      password: {
+        value: req.body.password
+      }
+    }
+  };
+  oktaClient
+    .createUser(newUser)
+    .then(user => {
+      res.status(201);
+      res.send(user);
+    })
+    .catch(err => {
+      res.status(400);
+      res.send({ Error: err });
+    });
+});
 
 router.get('/', (req, res) => {
   users
