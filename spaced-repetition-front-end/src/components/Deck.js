@@ -5,7 +5,7 @@ class Deck extends Component {
   render() {
     return (
       <div className="deck-container">
-        Decks go here.
+        {this.props.deck.deckName}
       </div>
     );
   }
