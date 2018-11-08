@@ -1,0 +1,36 @@
+{
+  "name": "srslybackend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "server": "nodemon",
+    "test": "mocha ./tests/*.test.js --exit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DrewMoody/mealprepbackend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DrewMoody/mealprepbackend/issues"
+  },
+  "homepage": "https://srs-ly.herokuapp.com/",
+  "dependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.0",
+    "cors": "^2.8.4",
+    "express": "^4.16.4",
+    "helmet": "^3.14.0",
+    "knex": "^0.15.2",
+    "mocha": "^5.2.0",
+    "pg": "^7.6.0",
+    "sinon": "^7.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.6"
+  }
+}
