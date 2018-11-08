@@ -1,2 +1,2 @@
 [build]
- base = "spaced-repetition-front-end"
+ base = "spaced-repetition-front-end/"
