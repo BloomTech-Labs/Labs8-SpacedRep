@@ -5,17 +5,10 @@ exports.seed = function(knex, Promise) {
     .then(function() {
       // Inserts seed entries
       return knex('users').insert([
-        { name: 'Saxon', isStudent: false },
-        { name: 'Megan', isStudent: false },
-        { name: 'Dave', isStudent: false },
-        { name: 'Gabriel', isStudent: false },
-        {
-          name: 'testStudent',
-          isStudent: true,
-          decks: ['test-DeckID1', 'test-DeckID2']
-        }
+        { firstName: 'Drew', lastName: 'Smith', email: 'drew@drew.com', tier: 'free' },
+        { firstName: 'Gabe', lastName: 'Smith', email: 'gabe@gabe.com', tier: 'free' },
+        { firstName: 'Megan', lastName: 'Smith', email: 'megan@megan.com', tier: 'free' },
+        { firstName: 'Saxon', lastName: 'Smith', email: 'saxon@saxon.com', tier: 'free' },
       ]);
     });
 };
-
-//decks are still being tested, need to figure out the best way to send arrays from knex to postgres
