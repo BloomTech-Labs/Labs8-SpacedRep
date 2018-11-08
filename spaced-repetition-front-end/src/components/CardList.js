@@ -1,17 +1,21 @@
-import React, { Component } from 'react';
+import React from 'react';
+// import PropTypes from 'prop-types';
 import Card from './Card';
 import '../App.css';
 
-class CardList extends Component {
-  render() {
-    return (
-      <div className="card-list-container">
-        {this.props.cards.map(card => {
-          return <Card card={card} />
-        })}
-      </div>
-    );
-  }
-}
+const CardList = (props) => {
+  const { cards } = props;
+  return (
+    <div className="card-list-container">
+      {cards.map(card => (
+        <Card card={card} />
+      ))}
+    </div>
+  );
+};
 
 export default CardList;
+
+// Wrapper.propTypes = {
+//   decks: PropTypes.array.isRequired
+// };
