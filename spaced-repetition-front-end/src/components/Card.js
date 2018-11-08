@@ -1,18 +1,37 @@
-import React, { Component } from 'react';
+import React from 'react';
+// import PropTypes from 'prop-types';
 import '../App.css';
 
-class Card extends Component {
-  render() {
-    return (
-      <div className="card-container">
-        <div>name: {this.props.card.cardName}</div>
-        <div>question: {this.props.card.questionText}</div>
-        <div>answer: {this.props.card.answerText}</div>
-        <div>code: {this.props.card.codeSnippet}</div>
-        <div>tags: {this.props.card.tags.join(", ")}</div>
+const Card = (props) => {
+  const { card } = props;
+  return (
+    <div className="card-container">
+      <div>
+        name:
+        {card.cardName}
       </div>
-    );
-  }
-}
+      <div>
+        question:
+        {card.questionText}
+      </div>
+      <div>
+        answer:
+        {card.answerText}
+      </div>
+      <div>
+        code:
+        {card.codeSnippet}
+      </div>
+      <div>
+        tags:
+        {card.tags.join(', ')}
+      </div>
+    </div>
+  );
+};
 
 export default Card;
+
+// Wrapper.propTypes = {
+//   card: PropTypes.object.isRequired
+// };
