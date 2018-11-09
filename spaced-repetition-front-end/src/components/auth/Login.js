@@ -32,10 +32,7 @@ class Login extends Component {
     return authenticated ? (
       <Redirect to={{ pathname: '/dashboard' }} />
     ) : (
-      <React.Fragment>
-        <h1>Please login to see this content.</h1>
-        <LoginForm baseUrl={baseUrl} />
-      </React.Fragment>
+      <LoginForm baseUrl={baseUrl} />
     );
   }
 }

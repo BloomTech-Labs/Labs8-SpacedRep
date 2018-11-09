@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import OktaAuth from '@okta/okta-auth-js';
 import { withAuth } from '@okta/okta-react';
+import { Link } from 'react-router-dom';
 
 class LoginForm extends Component {
   constructor(props) {
@@ -15,8 +16,7 @@ class LoginForm extends Component {
   }
 
   handleSubmit = (e) => {
-    const { username } = this.state;
-    const { password } = this.state;
+    const { username, password } = this.state;
     e.preventDefault();
     this.oktaAuth
       .signIn({
@@ -42,13 +42,50 @@ class LoginForm extends Component {
     }
 
     return (
-      <form onSubmit={this.handleSubmit}>
-        Username:
-        <input name="username" type="text" value={username} onChange={this.handleChange} />
-        Password:
-        <input name="password" type="password" value={password} onChange={this.handleChange} />
-        <input id="submit" type="submit" value="Submit" />
-      </form>
+      <div className="wrapper-container">
+        <div className="header-container">
+          <div className="app-name-link-container">
+            <Link to="/" className="header-link">
+              Seriously.
+            </Link>
+          </div>
+          <div className="login-register-links-container">
+            <Link to="/register" className="header-link">
+              Sign up
+            </Link>
+            <Link to="/login" className="header-link">
+              Sign in
+            </Link>
+          </div>
+        </div>
+        <div className="form-container">
+          <form onSubmit={this.handleSubmit} autoComplete="off">
+            <input
+              name="username"
+              type="text"
+              placeholder="username"
+              value={username}
+              onChange={this.handleChange}
+            />
+            <input
+              name="password"
+              type="password"
+              placeholder="password"
+              value={password}
+              onChange={this.handleChange}
+            />
+            <button id="submit" type="submit" value="Submit">
+              SIGN IN
+            </button>
+            <div className="form-link-text">
+              {'Not Registered? '}
+              <Link to="/register" className="form-link">
+                Create an account.
+              </Link>
+            </div>
+          </form>
+        </div>
+      </div>
     );
   }
 }
