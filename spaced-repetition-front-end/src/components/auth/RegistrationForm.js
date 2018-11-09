@@ -3,6 +3,7 @@ import React from 'react';
 import axios from 'axios';
 import OktaAuth from '@okta/okta-auth-js';
 import { withAuth } from '@okta/okta-react';
+import { Link } from 'react-router-dom';
 
 import config from './config';
 
@@ -77,11 +78,7 @@ class RegistrationForm extends React.Component {
 
   render() {
     const {
-      email,
-      firstName,
-      lastName,
-      password,
-      sessionToken,
+      email, firstName, lastName, password, sessionToken,
     } = this.state;
     const { auth } = this.props;
     if (sessionToken) {
@@ -90,37 +87,58 @@ class RegistrationForm extends React.Component {
     }
 
     return (
-      <form onSubmit={this.handleSubmit}>
-        <input
-          type="text"
-          id="firstName"
-          placeholder="first name"
-          value={firstName}
-          onChange={this.handleFirstNameChange}
-        />
-        <input
-          type="text"
-          id="lastName"
-          placeholder="last name"
-          value={lastName}
-          onChange={this.handleLastNameChange}
-        />
-        <input
-          type="email"
-          id="email"
-          placeholder="email"
-          value={email}
-          onChange={this.handleEmailChange}
-        />
-        <input
-          type="password"
-          id="password"
-          placeholder="password"
-          value={password}
-          onChange={this.handlePasswordChange}
-        />
-        <input type="submit" id="submit" value="Register" />
-      </form>
+      <div className="wrapper-container">
+        <div className="header-container">
+          <div className="app-name-link-container">
+            <Link to="/" className="header-link">
+              Seriously
+            </Link>
+          </div>
+          <div className="login-register-links-container">
+            <Link to="/register" className="header-link">
+              Sign up
+            </Link>
+            <Link to="/login" className="header-link">
+              Sign in
+            </Link>
+          </div>
+        </div>
+        <div className="form-container">
+          <form onSubmit={this.handleSubmit} autoComplete="off">
+            <input
+              type="text"
+              id="firstName"
+              placeholder="First name"
+              value={firstName}
+              onChange={this.handleFirstNameChange}
+            />
+            <input
+              type="text"
+              id="lastName"
+              placeholder="Last name"
+              value={lastName}
+              onChange={this.handleLastNameChange}
+            />
+            <input
+              type="email"
+              id="email"
+              placeholder="Email"
+              value={email}
+              onChange={this.handleEmailChange}
+            />
+            <input
+              type="password"
+              id="password"
+              placeholder="Password"
+              value={password}
+              onChange={this.handlePasswordChange}
+            />
+            <button type="submit" id="submit" value="Register">
+              Register
+            </button>
+          </form>
+        </div>
+      </div>
     );
   }
 }

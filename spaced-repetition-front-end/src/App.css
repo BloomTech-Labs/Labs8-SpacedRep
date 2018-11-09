@@ -4,6 +4,38 @@
   margin: 0 auto;
 }
 
+.form-container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+  padding: 20px;
+  /* border: 1px solid black; */
+}
+
+input {
+  height: 50px;
+  margin-bottom: 10px;
+  border-radius: 3px;
+  padding: 0 15px 0 15px;
+  border: 1px solid black;
+}
+
+button {
+  height: 50px;
+  cursor: pointer;
+  border-radius: 3px;
+  font-size: 20px;
+  margin-top: 5px;
+  border: 1px solid black;
+}
+
 .wrapper-container {
   display: flex;
   flex-direction: column;
@@ -44,8 +76,9 @@
 .header-container {
   height: 100px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid black;
 }
 
 .header-link {

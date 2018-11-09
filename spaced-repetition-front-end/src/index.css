@@ -1,7 +1,22 @@
-* {
+/* * {
   border: 1px solid black;
-}
+} */
 
 body {
   font-family: sans-serif;
+  background: rgb(205, 231, 240);
+}
+
+a {
+  text-decoration: none;
+  font-size: 50px;
+  font-weight: bold;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:visited {
+  color: black;
 }
