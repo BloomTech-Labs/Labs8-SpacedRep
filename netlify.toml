@@ -1,2 +1,7 @@
 [build]
  base = "spaced-repetition-front-end/"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
