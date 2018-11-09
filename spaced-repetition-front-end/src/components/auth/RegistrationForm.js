@@ -134,8 +134,14 @@ class RegistrationForm extends React.Component {
               onChange={this.handlePasswordChange}
             />
             <button type="submit" id="submit" value="Register">
-              Register
+              REGISTER
             </button>
+            <div className="form-link-text">
+              {'Already have an account? '}
+              <Link to="/login" className="form-link">
+                Log in.
+              </Link>
+            </div>
           </form>
         </div>
       </div>

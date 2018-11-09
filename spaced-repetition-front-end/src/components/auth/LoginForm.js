@@ -46,7 +46,7 @@ class LoginForm extends Component {
         <div className="header-container">
           <div className="app-name-link-container">
             <Link to="/" className="header-link">
-              Seriously
+              Seriously.
             </Link>
           </div>
           <div className="login-register-links-container">
@@ -63,20 +63,26 @@ class LoginForm extends Component {
             <input
               name="username"
               type="text"
-              placeholder="Username"
+              placeholder="username"
               value={username}
               onChange={this.handleChange}
             />
             <input
               name="password"
               type="password"
-              placeholder="Password"
+              placeholder="password"
               value={password}
               onChange={this.handleChange}
             />
             <button id="submit" type="submit" value="Submit">
-              Sign in
+              SIGN IN
             </button>
+            <div className="form-link-text">
+              {'Not Registered? '}
+              <Link to="/register" className="form-link">
+                Create an account.
+              </Link>
+            </div>
           </form>
         </div>
       </div>

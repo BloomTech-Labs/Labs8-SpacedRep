@@ -3,14 +3,14 @@
 } */
 
 body {
-  font-family: sans-serif;
-  background: rgb(205, 231, 240);
+  font-family: Helvetica;
+  background: lightsteelblue;
+  color: white;
 }
 
 a {
   text-decoration: none;
   font-size: 50px;
-  font-weight: bold;
 }
 
 a:hover {
@@ -18,5 +18,5 @@ a:hover {
 }
 
 a:visited {
-  color: black;
+  color: white;
 }
