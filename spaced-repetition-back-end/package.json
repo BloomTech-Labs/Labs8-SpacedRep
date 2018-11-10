@@ -20,7 +20,6 @@
   },
   "homepage": "https://srs-ly.herokuapp.com/",
   "dependencies": {
-    "@okta/okta-sdk-nodejs": "^1.2.0",
     "chai": "^4.2.0",
     "chai-http": "^4.2.0",
     "cors": "^2.8.4",
