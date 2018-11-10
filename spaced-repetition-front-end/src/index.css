@@ -1,7 +1,22 @@
-* {
+/* * {
   border: 1px solid black;
-}
+} */
 
 body {
-  font-family: sans-serif;
+  font-family: Helvetica;
+  background: lightsteelblue;
+  color: white;
+}
+
+a {
+  text-decoration: none;
+  font-size: 50px;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:visited {
+  color: white;
 }

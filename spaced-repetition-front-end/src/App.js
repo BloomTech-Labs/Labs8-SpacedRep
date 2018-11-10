@@ -32,8 +32,7 @@ class App extends Component {
   }
 
   render() {
-    const { decks } = this.state;
-    const { cards } = this.state;
+    const { decks, cards } = this.state;
     return (
       <Security {...config} onAuthRequired={this.onAuthRequired}>
         <div className="container">
@@ -51,7 +50,6 @@ class App extends Component {
                 </Wrapper>
               )}
             />
-
             <SecureRoute
               path="/dashboard/cards"
               render={props => (
