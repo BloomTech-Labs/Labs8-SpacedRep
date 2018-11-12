@@ -5,12 +5,3 @@
   from = "/*"
   to = "/index.html"
   status = 200
-
-[[headers]]
- for = "/*"
- [headers.values]
-   Access-Control-Allow-Origin = "*"
-
-[template.environment]
-  OKTA_BASE_URL = "https://srsly-auth.netlify.com"
-  OKTA_CLIENT_ID = "0oahcok82vwwvkL9N0h7"
