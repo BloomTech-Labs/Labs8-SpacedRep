@@ -3,17 +3,31 @@ import React from 'react';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import '../App.css';
+import styled from 'styled-components';
+
+const Wrapper_Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: ${props => props.theme.dark.bodyBackground};
+`;
+
+const BodyContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+`;
 
 const Wrapper = (props) => {
   const { children } = props;
   return (
-    <div className="wrapper-container">
+    <Wrapper_Container>
       <Header />
-      <div className="sidebar-and-deck-list-container">
+      <BodyContainer>
         <Sidebar />
         {children}
-      </div>
-    </div>
+      </BodyContainer>
+    </Wrapper_Container>
   );
 };
 

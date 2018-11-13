@@ -1,11 +1,12 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
 import '../App.css';
+import styled from 'styled-components';
 
 const Card = (props) => {
   const { card } = props;
   return (
-    <div className="card-container">
+    <Container>
       <div>
         name:
         {card.cardName}
@@ -26,11 +27,16 @@ const Card = (props) => {
         tags:
         {card.tags.join(', ')}
       </div>
-    </div>
+    </Container>
   );
 };
 
 export default Card;
+
+const Container = styled.div`
+  padding: 40px;
+  border: 1px solid ${props => props.theme.dark.sidebar};
+`;
 
 // Wrapper.propTypes = {
 //   card: PropTypes.object.isRequired

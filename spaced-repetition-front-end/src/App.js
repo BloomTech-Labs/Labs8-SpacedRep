@@ -6,6 +6,7 @@ import DeckList from './components/DeckList';
 import CardList from './components/CardList';
 import data from './dummyData';
 import './App.css';
+import styled from 'styled-components';
 
 class App extends Component {
   constructor(props) {
@@ -26,7 +27,7 @@ class App extends Component {
   render() {
     const { decks, cards } = this.state;
     return (
-      <div className="container">
+      <App_Wrapper>
         <Switch>
           <Route exact path="/" component={LandingPage} />
           <Route exact path="/dashboard" component={Wrapper} />
@@ -47,9 +48,17 @@ class App extends Component {
             )}
           />
         </Switch>
-      </div>
+      </App_Wrapper>
     );
   }
 }
 
 export default withRouter(App);
+
+// styles
+const App_Wrapper = styled.div`
+  width: 1000px;
+  height: 600px;
+  margin: 0 auto;
+  background: ${props => props.theme.dark.bodyBackground};
+`;

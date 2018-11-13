@@ -2,19 +2,25 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 import Deck from './Deck';
 import '../App.css';
+import styled from 'styled-components';
 
 const DeckList = (props) => {
   const { decks } = props;
   return (
-    <div className="deck-list-container">
+    <Container>
       {decks.map(deck => (
         <Deck deck={deck} />
       ))}
-    </div>
+    </Container>
   );
 };
 
 export default DeckList;
+
+const Container = styled.div`
+  width: 800px;
+  height: 100%;
+`;
 
 // Wrapper.propTypes = {
 //   decks: PropTypes.array.isRequired
