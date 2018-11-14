@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../App.css';
 
 class Header extends React.Component {
   goTo(route) {
@@ -49,7 +48,7 @@ class Header extends React.Component {
 export default Header;
 
 
-// class LandingPage extends Component {
+// class Header extends React.Component {
 //   goTo(route) {
 //     this.props.history.replace(`/${route}`);
 //   }
@@ -99,3 +98,5 @@ export default Header;
 //     );
 //   }
 // }
+
+// export default Header;
