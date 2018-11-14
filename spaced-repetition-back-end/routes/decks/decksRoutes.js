@@ -1,37 +1,43 @@
 const express = require('express');
-const users = require('./usersModel.js');
+const decks = require('./decksModel.js');
 
 const router = express.Router();
 
+// --- FOR TESTING PURPOSES ONLY --- //
 router.get('/', (req, res) => {
-  users
+  decks
     .find()
-    .then(users => {
-      res.status(200).json(users);
+    .then(decks => {
+      res.status(200).json(decks);
     })
     .catch(err => res.status(500).json(err));
 });
 
-router.get('/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
+router.get('/:id', (req, res) => {
+  decks
+    .findById(req.params.id)
+    .then(decks => {
+      res.status(200).json(decks);
+    })
+    .catch(err => res.status(500).json(err));
+});
+// --- END FOR TESTING PURPOSES ONLY --- //
 
-    const users = await users.findById(id);
-
-    if (user) {
-      res.status(200).json(user);
-    } else {
-      res.status(404).json({ message: 'user not found' });
-    }
-  } catch (error) {
-    res.status(500).json(error);
-  }
+// THIS SHOULD BE AT THE /api/users/:id/decks ENDPOINT
+// This endpoint should also include any matches from the userdeck junction table
+router.get('/author/:id', (req, res) => {
+  decks
+    .findByAuthor(req.params.id)
+    .then(decks => {
+      res.status(200).json(decks);
+    })
+    .catch(err => res.status(500).json(err));
 });
 
 router.post('/', (req, res) => {
   const user = req.body;
 
-  users
+  decks
     .add(user)
     .then(ids => {
       res.status(201).json(ids[0]);
@@ -45,7 +51,7 @@ router.put('/:id', (req, res) => {
   const { id } = req.params;
   const changes = req.body;
 
-  users
+  decks
     .update(id, changes)
     .then(success => {
       if (!success || success < 1) {
@@ -60,7 +66,7 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
 
-  users
+  decks
     .remove(id)
     .then(success => {
       if (!success || success < 1) {
