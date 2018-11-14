@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Route, withRouter, Switch } from 'react-router-dom';
+import styled from 'styled-components';
 import Wrapper from './components/Wrapper';
 import LandingPage from './components/LandingPage';
 import DeckList from './components/DeckList';
@@ -7,6 +8,7 @@ import CardList from './components/CardList';
 import Billing from './components/Billing';
 import data from './dummyData';
 import './App.css';
+
 
 class App extends Component {
   constructor(props) {
@@ -27,7 +29,7 @@ class App extends Component {
   render() {
     const { decks, cards } = this.state;
     return (
-      <div className="container">
+      <AppWrapper>
         <Switch>
           <Route exact path="/" component={LandingPage} />
           <Route exact path="/dashboard" component={Wrapper} />
@@ -56,9 +58,18 @@ class App extends Component {
             )}
           />
         </Switch>
-      </div>
+      </AppWrapper>
     );
   }
 }
 
 export default withRouter(App);
+
+// styles
+const AppWrapper = styled.div`
+  width: 1000px;
+  height: 600px;
+  margin: 0 auto;
+  background: ${props => props.theme.dark.bodyBackground};
+  color: white;
+`;

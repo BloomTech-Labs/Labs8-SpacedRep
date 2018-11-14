@@ -1,19 +1,33 @@
 import React from 'react';
+import styled from 'styled-components';
 // import PropTypes from 'prop-types';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import '../App.css';
 
-const Wrapper = (props) => {
+const WrapperContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: ${props => props.theme.dark.bodyBackground};
+`;
+
+const BodyContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+`;
+
+const Wrapper = props => {
   const { children } = props;
   return (
-    <div className="wrapper-container">
+    <WrapperContainer>
       <Header />
-      <div className="sidebar-and-deck-list-container">
+      <BodyContainer>
         <Sidebar />
         {children}
-      </div>
-    </div>
+      </BodyContainer>
+    </WrapperContainer>
   );
 };
 
