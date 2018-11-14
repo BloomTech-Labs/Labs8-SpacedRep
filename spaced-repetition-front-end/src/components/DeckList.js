@@ -4,11 +4,12 @@ import Deck from './Deck';
 import '../App.css';
 
 const DeckList = (props) => {
+  console.log('props', props);
   const { decks } = props;
   return (
     <div className="deck-list-container">
       {decks.map(deck => (
-        <Deck deck={deck} />
+        <Deck key={deck.deckName} deck={deck} />
       ))}
     </div>
   );
