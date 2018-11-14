@@ -1,10 +1,10 @@
 import React from 'react';
+import styled from 'styled-components';
 // import PropTypes from 'prop-types';
 import Deck from './Deck';
 import '../App.css';
-import styled from 'styled-components';
 
-const DeckList = (props) => {
+const DeckList = props => {
   const { decks } = props;
   return (
     <Container>

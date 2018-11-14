@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { ThemeProvider } from 'styled-components';
 import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
 import './index.css';
-import { ThemeProvider } from 'styled-components';
 
 const theme = {
   dark: {
@@ -11,8 +11,8 @@ const theme = {
     cardBackground: '#56656f',
     sidebar: '#2c3d48',
     logo: '#48e6ae',
-    TEST: 'blue',
-  },
+    TEST: 'blue'
+  }
 };
 
 ReactDOM.render(
@@ -21,5 +21,5 @@ ReactDOM.render(
       <App />
     </Router>
   </ThemeProvider>,
-  document.getElementById('root'),
+  document.getElementById('root')
 );

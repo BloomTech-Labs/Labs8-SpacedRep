@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
 import { CardElement, injectStripe } from 'react-stripe-elements';
 
 class CheckoutForm extends Component {
@@ -7,7 +8,7 @@ class CheckoutForm extends Component {
     this.state = {};
   }
 
-  submit = async (e) => {
+  submit = async e => {
     e.preventDefault();
     const { stripe } = this.props;
     console.log(stripe);
@@ -19,7 +20,7 @@ class CheckoutForm extends Component {
     const response = await fetch('/charge', {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain' },
-      body: token.id,
+      body: token.id
     });
     if (response.ok) console.log('Purchase Complete!');
   };

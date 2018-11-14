@@ -1,9 +1,9 @@
 import React from 'react';
+import styled from 'styled-components';
 // import PropTypes from 'prop-types';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import '../App.css';
-import styled from 'styled-components';
 
 const WrapperContainer = styled.div`
   display: flex;
@@ -18,7 +18,7 @@ const BodyContainer = styled.div`
   height: 100%;
 `;
 
-const Wrapper = (props) => {
+const Wrapper = props => {
   const { children } = props;
   return (
     <WrapperContainer>
