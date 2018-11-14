@@ -13,6 +13,9 @@ class CheckoutForm extends Component {
     console.log(stripe);
     const { token } = await stripe.createToken();
     console.log(token);
+    if (!token) {
+      return;
+    }
     const response = await fetch('/charge', {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain' },
