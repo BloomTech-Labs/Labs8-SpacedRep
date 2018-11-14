@@ -6,15 +6,11 @@ import styled from 'styled-components';
 const Sidebar = () => (
   <Container>
     <SidebarItem>
-      <Link to="/dashboard/decks" className="sidebar-link">
-        Decks
-      </Link>
+      <Link to="/dashboard/decks">Decks</Link>
     </SidebarItem>
     <Divider />
     <SidebarItem>
-      <Link to="/dashboard/cards" className="sidebar-link">
-        Cards
-      </Link>
+      <StyledLink to="/dashboard/cards">Cards</StyledLink>
     </SidebarItem>
   </Container>
 );
@@ -42,4 +38,8 @@ const SidebarItem = styled.div`
 
 const Divider = styled.hr`
   width: 100%;
+`;
+
+const StyledLink = styled(Link)`
+  color: white;
 `;

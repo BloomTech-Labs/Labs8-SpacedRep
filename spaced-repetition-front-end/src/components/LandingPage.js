@@ -73,6 +73,7 @@ const LinkStyled = styled(Link)`
   margin-left: 20px;
   font-weight: 100;
   padding: 0px;
+  color: white;
 `;
 
 const Body = styled.div`
