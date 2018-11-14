@@ -4,6 +4,58 @@
   margin: 0 auto;
 }
 
+.form-container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  padding: 40px 40px 30px 40px;
+  background: white;
+  border-radius: 3px;
+  box-shadow: 10px 10px 10px grey;
+}
+
+input {
+  height: 50px;
+  margin-bottom: 10px;
+  border-radius: 3px;
+  padding: 0 15px 0 15px;
+  background: lightgray;
+  border: none;
+}
+
+button {
+  height: 50px;
+  cursor: pointer;
+  border-radius: 3px;
+  font-size: 15px;
+  margin-top: 5px;
+  color: white;
+  background: lightseagreen;
+}
+
+.form-link-text {
+  color: darkgray;
+  font-size: 12px;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.form-link-text .form-link {
+  color: lightseagreen;
+  font-size: 12px;
+}
+
+.form-link a:visited {
+  color: lightseagreen;
+}
+
 .wrapper-container {
   display: flex;
   flex-direction: column;
@@ -44,13 +96,28 @@
 .header-container {
   height: 100px;
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-bottom: 25px;
+  border-bottom: 1px solid white;
+  box-sizing: border-box;
 }
 
 .header-link {
-  font-size: 20px;
-  margin: 0 20px 0 20px;
+  font-size: 15px;
+  margin-left: 20px;
+  font-weight: 100;
+}
+
+.app-name-link-container .header-link {
+  font-size: 40px;
+  font-weight: 200;
+  margin: 0;
+}
+
+.login-register-links-container {
+  display: flex;
+  flex-direction: row;
 }
 
 .landing-page-body {

@@ -5,12 +5,19 @@ import '../App.css';
 const LandingPage = () => (
   <div className="wrapper-container">
     <div className="header-container">
-      <Link to="/register" className="header-link">
-        Sign up
-      </Link>
-      <Link to="/login" className="header-link">
-        Sign in
-      </Link>
+      <div className="app-name-link-container">
+        <Link to="/" className="header-link">
+          Seriously
+        </Link>
+      </div>
+      <div className="login-register-links-container">
+        <Link to="/register" className="header-link">
+          Sign up
+        </Link>
+        <Link to="/login" className="header-link">
+          Sign in
+        </Link>
+      </div>
     </div>
     <div className="landing-page-body">
       <div className="landing-page-text">
