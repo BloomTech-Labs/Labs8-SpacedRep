@@ -5,6 +5,7 @@ module.exports = {
   find,
   findById,
   findByAuthor,
+  findByJct,
   add,
   update,
   remove
@@ -23,6 +24,12 @@ function findById(id) {
 function findByAuthor(id) {
   return db(table)
     .where('author', id)
+}
+
+function findByJct(id) {
+  return db(table)
+    .innerJoin('userDeck', 'decks.id', 'userDeck.deck_id')
+    .where('userDeck.user_id', id)
 }
 
 function add(entry) {

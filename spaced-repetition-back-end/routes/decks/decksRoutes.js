@@ -34,6 +34,15 @@ router.get('/author/:id', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+router.get('/jct/:id', (req, res) => {
+  decks
+    .findByJct(req.params.id)
+    .then(decks => {
+      res.status(200).json(decks);
+    })
+    .catch(err => res.status(500).json(err));
+});
+
 router.post('/', (req, res) => {
   const user = req.body;
 
