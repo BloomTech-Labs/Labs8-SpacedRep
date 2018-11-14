@@ -4,6 +4,7 @@ import Wrapper from './components/Wrapper';
 import LandingPage from './components/LandingPage';
 import DeckList from './components/DeckList';
 import CardList from './components/CardList';
+import Billing from './components/Billing';
 import data from './dummyData';
 import './App.css';
 import styled from 'styled-components';
@@ -44,6 +45,14 @@ class App extends Component {
             render={props => (
               <Wrapper {...props}>
                 <CardList cards={cards} />
+              </Wrapper>
+            )}
+          />
+          <Route
+            path="/dashboard/billing"
+            render={props => (
+              <Wrapper {...props}>
+                <Billing {...props} />
               </Wrapper>
             )}
           />
