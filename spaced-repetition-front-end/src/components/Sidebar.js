@@ -5,12 +5,14 @@ import styled from 'styled-components';
 
 const Sidebar = () => (
   <Container>
-    <SidebarItem>
-      <Link to="/dashboard/decks">Decks</Link>
+    <SidebarItem to="/dashboard/decks">
+      <Logo src={require('../images/DECKS.PNG')} />
+      <ItemName>Decks</ItemName>
     </SidebarItem>
     <Divider />
-    <SidebarItem>
-      <StyledLink to="/dashboard/cards">Cards</StyledLink>
+    <SidebarItem to="/dashboard/cards">
+      <Logo src={require('../images/CARD.PNG')} />
+      <ItemName>Cards</ItemName>
     </SidebarItem>
   </Container>
 );
@@ -29,10 +31,11 @@ const Container = styled.div`
   background: ${props => props.theme.dark.sidebar};
 `;
 
-const SidebarItem = styled.div`
+const SidebarItem = styled(Link)`
   display: flex;
   justify-content: center;
-  padding-top: 13px;
+  align-items: center;
+  padding: 5px;
   width: 100%;
 `;
 
@@ -40,6 +43,20 @@ const Divider = styled.hr`
   width: 100%;
 `;
 
-const StyledLink = styled(Link)`
+const ItemName = styled.div`
   color: white;
+  font-size: 25px;
+  padding-left: 20px;
+`;
+
+const AppName = styled(Link)`
+  font-size: 40px;
+  font-weight: 200;
+  padding-bottom: 0px;
+  width: 25%;
+`;
+
+const Logo = styled.img`
+  height: 25%;
+  width: 25%;
 `;
