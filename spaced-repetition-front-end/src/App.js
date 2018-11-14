@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Route, withRouter, Switch } from 'react-router-dom';
+import Header from './components/Header';
+import Callback from './auth/Callback';
 import Wrapper from './components/Wrapper';
 import LandingPage from './components/LandingPage';
 import DeckList from './components/DeckList';
@@ -28,8 +30,16 @@ class App extends Component {
     return (
       <div className="container">
         <Switch>
-          <Route exact path="/" component={LandingPage} />
-          <Route exact path="/dashboard" component={Wrapper} />
+          <Route exact path="/" render={props => <LandingPage {...props} />} />
+          <Route path="/" render={props => <Header {...props} />} />
+          <Route
+            path="/callback"
+            render={(props) => {
+              // handleAuthentication(props);
+              return <Callback {...props} />;
+            }}
+          />
+          <Route exact path="/dashboard" render={props => <Wrapper {...props} />} />
           <Route
             path="/dashboard/decks"
             render={props => (
