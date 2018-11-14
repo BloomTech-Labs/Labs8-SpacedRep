@@ -5,12 +5,17 @@ import styled from 'styled-components';
 
 const Sidebar = () => (
   <Container>
-    <Link to="/dashboard/decks" className="sidebar-link">
-      Decks
-    </Link>
-    <Link to="/dashboard/cards" className="sidebar-link">
-      Cards
-    </Link>
+    <SidebarItem>
+      <Link to="/dashboard/decks" className="sidebar-link">
+        Decks
+      </Link>
+    </SidebarItem>
+    <Divider />
+    <SidebarItem>
+      <Link to="/dashboard/cards" className="sidebar-link">
+        Cards
+      </Link>
+    </SidebarItem>
   </Container>
 );
 
@@ -26,4 +31,15 @@ const Container = styled.div`
   height: 100%;
   padding: 20px;
   background: ${props => props.theme.dark.sidebar};
+`;
+
+const SidebarItem = styled.div`
+  display: flex;
+  justify-content: center;
+  padding-top: 13px;
+  width: 100%;
+`;
+
+const Divider = styled.hr`
+  width: 100%;
 `;

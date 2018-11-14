@@ -4,15 +4,18 @@ import '../App.css';
 import styled from 'styled-components';
 
 const LandingPage = () => (
-  <Wrapper_Container>
-    <Header_Container>
-      <AppName to="/">Seriously</AppName>
+  <WrapperContainer>
+    <HeaderContainer>
+      {/* <AppName to="/">Seriously</AppName> */}
+      <AppName to="/">
+        <Logo src={require('../images/SPACEREPS.PNG')} />
+      </AppName>
 
       <LoginRegisterContainer>
-        <Link_Styled to="/register">Sign up</Link_Styled>
-        <Link_Styled to="/login">Sign in</Link_Styled>
+        <LinkStyled to="/register">Sign up</LinkStyled>
+        <LinkStyled to="/login">Sign in</LinkStyled>
       </LoginRegisterContainer>
-    </Header_Container>
+    </HeaderContainer>
     <Body>
       <LandingText>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
@@ -22,46 +25,54 @@ const LandingPage = () => (
         cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
       </LandingText>
     </Body>
-  </Wrapper_Container>
+  </WrapperContainer>
 );
 
 export default LandingPage;
 
 // styles
 
-const Wrapper_Container = styled.div`
+const WrapperContainer = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  color: ${props => props.theme.bodyBackground};
+  background: ${props => props.theme.dark.sidebar};
 `;
 
-const Header_Container = styled.div`
+const HeaderContainer = styled.div`
   height: 100px;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  padding-bottom: 25px;
+  padding-bottom: 10px;
   border-bottom: 1px solid white;
   box-sizing: border-box;
-  color: ${props => props.theme.bodyBackground};
 `;
 
 const AppName = styled(Link)`
   font-size: 40px;
   font-weight: 200;
-  margin: 0;
+  padding-bottom: 0px;
+  width: 25%;
+`;
+
+const Logo = styled.img`
+  height: 100%;
+  width: 100%;
 `;
 
 const LoginRegisterContainer = styled.div`
   display: flex;
   flex-direction: row;
+  padding-bottom: 14px;
 `;
 
-const Link_Styled = styled(Link)`
+const LinkStyled = styled(Link)`
   font-size: 20px;
+  margin: 0px;
   margin-left: 20px;
   font-weight: 100;
+  padding: 0px;
 `;
 
 const Body = styled.div`

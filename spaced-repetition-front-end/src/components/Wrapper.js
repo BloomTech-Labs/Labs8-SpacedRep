@@ -5,7 +5,7 @@ import Sidebar from './Sidebar';
 import '../App.css';
 import styled from 'styled-components';
 
-const Wrapper_Container = styled.div`
+const WrapperContainer = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -21,13 +21,13 @@ const BodyContainer = styled.div`
 const Wrapper = (props) => {
   const { children } = props;
   return (
-    <Wrapper_Container>
+    <WrapperContainer>
       <Header />
       <BodyContainer>
         <Sidebar />
         {children}
       </BodyContainer>
-    </Wrapper_Container>
+    </WrapperContainer>
   );
 };
 

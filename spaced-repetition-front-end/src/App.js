@@ -27,7 +27,7 @@ class App extends Component {
   render() {
     const { decks, cards } = this.state;
     return (
-      <App_Wrapper>
+      <AppWrapper>
         <Switch>
           <Route exact path="/" component={LandingPage} />
           <Route exact path="/dashboard" component={Wrapper} />
@@ -48,7 +48,7 @@ class App extends Component {
             )}
           />
         </Switch>
-      </App_Wrapper>
+      </AppWrapper>
     );
   }
 }
@@ -56,9 +56,10 @@ class App extends Component {
 export default withRouter(App);
 
 // styles
-const App_Wrapper = styled.div`
+const AppWrapper = styled.div`
   width: 1000px;
   height: 600px;
   margin: 0 auto;
   background: ${props => props.theme.dark.bodyBackground};
+  color: white;
 `;
