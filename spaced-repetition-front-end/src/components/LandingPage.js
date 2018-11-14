@@ -12,8 +12,10 @@ const LandingPage = () => (
       </AppName>
 
       <LoginRegisterContainer>
-        <LinkStyled to="/register">Sign up</LinkStyled>
-        <LinkStyled to="/login">Sign in</LinkStyled>
+        {/* <LinkStyled to="/register">Sign up</LinkStyled> */}
+        <LinkStyled to="/dashboard">Sign up</LinkStyled>
+        {/* <LinkStyled to="/login">Sign in</LinkStyled> */}
+        <LinkStyled to="/dashboard">Sign in</LinkStyled>
       </LoginRegisterContainer>
     </HeaderContainer>
     <Body>
