@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import axios from 'axios';
 import styled from 'styled-components';
 import Auth from './auth/Auth';
 import Callback from './auth/Callback';
@@ -40,10 +41,20 @@ class App extends Component {
   }
 
   handleData = () => {
-    this.setState({
-      cards: data.cards,
-      decks: data.decks,
-    });
+    // this.setState({
+    //   cards: data.cards,
+    //   decks: data.decks,
+    // });
+    // const { getAccessToken } = this.props.auth;
+    const AccessToken = localStorage.getItem('id_token');
+    const API_URL = 'http://localhost:4242';
+    const headers = { 'Authorization': `Bearer ${AccessToken}` }
+    const user = 3;
+    axios.get(`${API_URL}/api/decks/3`, { headers })
+      .then(response => {
+        console.log('response', response.data)
+      })
+      .catch(error => this.setState({ message: error.message }));
   }
 
   render() {

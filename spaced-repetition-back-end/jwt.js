@@ -16,7 +16,7 @@ const checkJwt = jwt({
   }),
 
   // Validate the audience and the issuer.
-  audience: 'https://srs-ly.herokuapp.com/',
+  aud: 'https://srs-ly.herokuapp.com/',
   issuer: `https://srsly.auth0.com/`,
   algorithms: ['RS256']
 });

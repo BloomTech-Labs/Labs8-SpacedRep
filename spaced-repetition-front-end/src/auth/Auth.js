@@ -13,6 +13,7 @@ class Auth {
     clientID: process.env.REACT_APP_CLIENT_ID,
     redirectUri: process.env.REACT_APP_REDIRECT,
     responseType: 'token id_token',
+    audience: process.env.REACT_APP_AUDIENCE,
     scope: 'openid',
   });
 

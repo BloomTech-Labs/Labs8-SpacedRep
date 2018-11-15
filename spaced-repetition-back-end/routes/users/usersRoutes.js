@@ -12,7 +12,7 @@ router.use(checkJwt);
 
 // ----- NOTICE: For testing purposes only ----- //
 // ----- remove in production ------ // 
-router.get('/', jwtAuthz(['read:data']), (req, res) => {
+router.get('/', (req, res) => {
   users
     .find()
     .then(users => {
