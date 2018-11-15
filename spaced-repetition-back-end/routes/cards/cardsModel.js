@@ -1,9 +1,10 @@
-const db = require('../knex.js');
-const table = 'users';
+const db = require('../../knex.js');
+const table = 'cards';
 
 module.exports = {
   find,
   findById,
+  findByDeck,
   add,
   update,
   remove
@@ -19,8 +20,14 @@ function findById(id) {
     .first();
 }
 
+function findByDeck(id) {
+  return db(table)
+    .where('deck_id', id)
+}
+
 function add(entry) {
   return db(table)
+    .returning('id')
     .insert(entry)
     .into(table);
 }
