@@ -10,12 +10,13 @@ class Billing extends React.Component {
   }
 
   render() {
+    const { email } = this.props;
     return (
       <StripeProvider apiKey="pk_test_KoWcK14l0HlLnKEAFc9icsPa">
         <div className="example">
           <h1>React Stripe Elements Example</h1>
           <Elements>
-            <CheckoutForm />
+            <CheckoutForm userEmail={email} />
           </Elements>
         </div>
       </StripeProvider>

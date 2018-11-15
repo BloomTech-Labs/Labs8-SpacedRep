@@ -11,13 +11,15 @@ class CheckoutForm extends Component {
   submit = async (e) => {
     e.preventDefault();
     const { stripe } = this.props;
+    const { email } = this.props;
     const { token } = await stripe.createToken();
     if (!token) { return; }
-    console.log(token);
-    // axios.get("http://localhost:4242/api/purchases")
-    //   .then(success => console.log(success))
-    //   .catch(error => console.log(error));
-    axios.post("http://localhost:4242/api/purchases", token)
+    const purchase = {
+      token: token,
+      email: email,
+    };
+    console.log(purchase);
+    axios.post('http://localhost:4242/api/purchases', purchase)
       .then(success => console.log(success))
       .catch(error => console.log(error));
   };
