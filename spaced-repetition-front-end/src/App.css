@@ -1,9 +1,3 @@
-.container {
-  width: 1000px;
-  height: 600px;
-  margin: 0 auto;
-}
-
 .form-container {
   height: 100%;
   display: flex;
@@ -54,79 +48,4 @@ button {
 
 .form-link a:visited {
   color: lightseagreen;
-}
-
-.wrapper-container {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.sidebar-and-deck-list-container {
-  display: flex;
-  flex-direction: row;
-  height: 100%;
-}
-
-.sidebar-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  width: 200px;
-  height: 100%;
-  padding: 20px;
-}
-
-.sidebar-link {
-  font-size: 20px;
-  margin: 0 0 20px 0;
-}
-
-.deck-list-container {
-  width: 800px;
-  height: 100%;
-}
-
-.card-list-container {
-  width: 800px;
-  height: 100%;
-}
-
-.header-container {
-  height: 100px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  padding-bottom: 25px;
-  border-bottom: 1px solid white;
-  box-sizing: border-box;
-}
-
-.header-link {
-  font-size: 15px;
-  margin-left: 20px;
-  font-weight: 100;
-}
-
-.app-name-link-container .header-link {
-  font-size: 40px;
-  font-weight: 200;
-  margin: 0;
-}
-
-.login-register-links-container {
-  display: flex;
-  flex-direction: row;
-}
-
-.landing-page-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-}
-
-.landing-page-text {
-  width: 400px;
 }
