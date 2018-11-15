@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import styled from 'styled-components';
-import Header from './components/Header';
-import Callback from './auth/Callback';
-import DeckList from './components/DeckList';
-import CardList from './components/CardList';
-import Wrapper from './components/Wrapper';
-import LandingPage from './components/LandingPage';
 import Auth from './auth/Auth';
+import Callback from './auth/Callback';
+import Header from './components/Header';
+import LandingPage from './components/LandingPage';
+import DeckList from './components/DeckList';
+import Wrapper from './components/Wrapper';
+import CardList from './components/CardList';
 import data from './dummyData';
 import './App.css';
 
@@ -36,6 +36,7 @@ class makeMainRoutes extends Component {
   }
 
   render() {
+    const { decks, cards } = this.state;
     return (
       <AppWrapper>
         <Route path="/" render={props => <Header auth={auth} {...props} />} />
@@ -53,7 +54,7 @@ class makeMainRoutes extends Component {
             path="/dashboard/decks"
             render={props => (
               <Wrapper {...props} auth={auth} handleData={this.handleData}>
-                <DeckList decks={this.state.decks} />
+                <DeckList decks={decks} />
               </Wrapper>
             )}
           />
@@ -61,7 +62,7 @@ class makeMainRoutes extends Component {
             path="/dashboard/cards"
             render={props => (
               <Wrapper auth={auth} handleData={this.handleData} {...props}>
-                <CardList cards={this.state.cards} />
+                <CardList cards={cards} />
               </Wrapper>
             )}
           />
@@ -69,8 +70,7 @@ class makeMainRoutes extends Component {
       </AppWrapper>
     );
   }
-
-};
+}
 
 export default makeMainRoutes;
 

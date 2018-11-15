@@ -3,15 +3,18 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import '../App.css';
 
+const decksIcon = require('../images/DECKS.PNG');
+const cardsIcon = require('../images/CARD.PNG');
+
 const Sidebar = () => (
   <Container>
     <SidebarItem to="/dashboard/decks">
-      <Logo src={require('../images/DECKS.PNG')} />
+      <Logo src={decksIcon} />
       <ItemName>Decks</ItemName>
     </SidebarItem>
     <Divider />
     <SidebarItem to="/dashboard/cards">
-      <Logo src={require('../images/CARD.PNG')} />
+      <Logo src={cardsIcon} />
       <ItemName>Cards</ItemName>
     </SidebarItem>
   </Container>

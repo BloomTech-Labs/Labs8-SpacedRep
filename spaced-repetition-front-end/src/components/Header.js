@@ -1,51 +1,55 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-class Header extends Component {
-  goTo(route) {
-    this.props.history.replace(`/${route}`);
+const logo = require('../images/SPACEREPS.PNG');
+
+const Header = ({ auth }) => {
+  function login() {
+    auth.login();
   }
 
-  login() {
-    this.props.auth.login();
+  function logout() {
+    auth.logout();
   }
 
-  logout() {
-    this.props.auth.logout();
-  }
-
-  render() {
-    const { isAuthenticated } = this.props.auth;
-    return (
-      <Container>
-        <AppName to="/">
-          <Logo src={require('../images/SPACEREPS.PNG')} />
-        </AppName>
-        <LoginRegisterContainer>
-          <LinkStyled type="button" className="header-link">
-            Sign up
-          </LinkStyled>
-          {!isAuthenticated()
-            ? (
-              <LinkStyled type="button" onClick={this.login.bind(this)}>
-                Sign in
-              </LinkStyled>
-            )
-            : (
-              <LinkStyled type="button" onClick={this.logout.bind(this)}>
-                Sign out
-              </LinkStyled>
-            )
-          }
-        </LoginRegisterContainer>
-      </Container>
-    );
-  }
-}
+  const { isAuthenticated } = auth;
+  return (
+    <Container>
+      <AppName to="/">
+        <Logo src={logo} />
+      </AppName>
+      <LoginRegisterContainer>
+        <LinkStyled type="button" className="header-link">
+          Sign up
+        </LinkStyled>
+        {!isAuthenticated()
+          ? (
+            <LinkStyled type="button" onClick={login}>
+              Sign in
+            </LinkStyled>
+          )
+          : (
+            <LinkStyled type="button" onClick={logout}>
+              Sign out
+            </LinkStyled>
+          )
+        }
+      </LoginRegisterContainer>
+    </Container>
+  );
+};
 
 export default Header;
 
+Header.propTypes = {
+  auth: PropTypes.shape({
+    isAuthenticated: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+// styles
 const Container = styled.div`
   height: 100px;
   display: flex;

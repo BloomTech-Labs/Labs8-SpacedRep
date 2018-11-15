@@ -1,22 +1,24 @@
 import React from 'react';
 import styled from 'styled-components';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import Deck from './Deck';
 import '../App.css';
 
-const DeckList = props => {
-  const { decks } = props;
-  return (
-    <Container>
-      {decks.map((deck, i) => (
-        <Deck key={i} deck={deck} />
-      ))}
-    </Container>
-  );
-};
+const DeckList = ({ decks }) => (
+  <Container>
+    {decks.map(deck => (
+      <Deck key={deck.deckName} deck={deck} />
+    ))}
+  </Container>
+);
 
 export default DeckList;
 
+DeckList.propTypes = {
+  decks: PropTypes.instanceOf(Array).isRequired,
+};
+
+// styles
 const Container = styled.div`
   width: 800px;
   height: 100%;
@@ -25,7 +27,3 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-
-// Wrapper.propTypes = {
-//   decks: PropTypes.array.isRequired
-// };

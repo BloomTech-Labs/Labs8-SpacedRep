@@ -3,9 +3,8 @@ import ReactDOM from 'react-dom';
 import { ThemeProvider } from 'styled-components';
 import { Router } from 'react-router-dom';
 import App from './App';
-import './index.css';
 import history from './history';
-// import MakeMainRoutes from './routes';
+import './index.css';
 
 const theme = {
   dark: {
