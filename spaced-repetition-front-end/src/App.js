@@ -19,7 +19,7 @@ const handleAuthentication = ({ location }) => {
   }
 };
 
-class makeMainRoutes extends Component {
+class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -72,7 +72,7 @@ class makeMainRoutes extends Component {
   }
 }
 
-export default makeMainRoutes;
+export default App;
 
 // styles
 const AppWrapper = styled.div`
