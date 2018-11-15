@@ -1,14 +1,23 @@
 import React, { Component } from 'react';
-import { Route, withRouter, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import styled from 'styled-components';
-import Wrapper from './components/Wrapper';
+import Auth from './auth/Auth';
+import Callback from './auth/Callback';
+import Header from './components/Header';
 import LandingPage from './components/LandingPage';
 import DeckList from './components/DeckList';
+import Wrapper from './components/Wrapper';
 import CardList from './components/CardList';
-import Billing from './components/Billing';
 import data from './dummyData';
 import './App.css';
 
+const auth = new Auth();
+
+const handleAuthentication = ({ location }) => {
+  if (/access_token|id_token|error/.test(location.hash)) {
+    auth.handleAuthentication();
+  }
+};
 
 class App extends Component {
   constructor(props) {
@@ -19,7 +28,7 @@ class App extends Component {
     };
   }
 
-  componentDidMount() {
+  handleData = () => {
     this.setState({
       cards: data.cards,
       decks: data.decks,
@@ -30,13 +39,21 @@ class App extends Component {
     const { decks, cards } = this.state;
     return (
       <AppWrapper>
+        <Route path="/" render={props => <Header auth={auth} {...props} />} />
         <Switch>
-          <Route exact path="/" component={LandingPage} />
-          <Route exact path="/dashboard" component={Wrapper} />
+          <Route exact path="/" render={props => <LandingPage auth={auth} {...props} />} />
+          <Route exact path="/dashboard" render={props => <Wrapper auth={auth} handleData={this.handleData} {...props} />} />
+          <Route
+            path="/callback"
+            render={(props) => {
+              handleAuthentication(props);
+              return <Callback {...props} />;
+            }}
+          />
           <Route
             path="/dashboard/decks"
             render={props => (
-              <Wrapper {...props}>
+              <Wrapper {...props} auth={auth} handleData={this.handleData}>
                 <DeckList decks={decks} />
               </Wrapper>
             )}
@@ -44,16 +61,8 @@ class App extends Component {
           <Route
             path="/dashboard/cards"
             render={props => (
-              <Wrapper {...props}>
+              <Wrapper auth={auth} handleData={this.handleData} {...props}>
                 <CardList cards={cards} />
-              </Wrapper>
-            )}
-          />
-          <Route
-            path="/dashboard/billing"
-            render={props => (
-              <Wrapper {...props}>
-                <Billing {...props} />
               </Wrapper>
             )}
           />
@@ -63,7 +72,7 @@ class App extends Component {
   }
 }
 
-export default withRouter(App);
+export default App;
 
 // styles
 const AppWrapper = styled.div`

@@ -1,23 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import '../App.css';
 
 const LandingPage = () => (
   <WrapperContainer>
-    <HeaderContainer>
-      {/* <AppName to="/">Seriously</AppName> */}
-      <AppName to="/">
-        <Logo src={require('../images/SPACEREPS.PNG')} />
-      </AppName>
-
-      <LoginRegisterContainer>
-        {/* <LinkStyled to="/register">Sign up</LinkStyled> */}
-        <LinkStyled to="/dashboard">Sign up</LinkStyled>
-        {/* <LinkStyled to="/login">Sign in</LinkStyled> */}
-        <LinkStyled to="/dashboard">Sign in</LinkStyled>
-      </LoginRegisterContainer>
-    </HeaderContainer>
     <Body>
       <LandingText>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
@@ -35,49 +21,11 @@ const LandingPage = () => (
 export default LandingPage;
 
 // styles
-
 const WrapperContainer = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
   background: ${props => props.theme.dark.sidebar};
-`;
-
-const HeaderContainer = styled.div`
-  height: 100px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  padding-bottom: 10px;
-  border-bottom: 1px solid white;
-  box-sizing: border-box;
-`;
-
-const AppName = styled(Link)`
-  font-size: 40px;
-  font-weight: 200;
-  padding-bottom: 0px;
-  width: 25%;
-`;
-
-const Logo = styled.img`
-  height: 100%;
-  width: 100%;
-`;
-
-const LoginRegisterContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  padding-bottom: 14px;
-`;
-
-const LinkStyled = styled(Link)`
-  font-size: 20px;
-  margin: 0px;
-  margin-left: 20px;
-  font-weight: 100;
-  padding: 0px;
-  color: white;
 `;
 
 const Body = styled.div`
