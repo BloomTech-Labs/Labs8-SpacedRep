@@ -86,12 +86,6 @@ router.get('/test/:id', (req, res) => {
   decks
     .cardsArrTest(req.params.id)
     .then(decks => {
-      // let decksArr = [];
-      // decks.forEach((x, i) => {
-      //   x.cards = ['test', 'yeah'];
-      // })
-      // // decks['cards'] = decksArr;
-      // console.log(decks)
       res.status(200).json(format(decks));
     })
     .catch(err => res.status(500).json(err));
