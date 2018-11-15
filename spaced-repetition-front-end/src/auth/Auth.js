@@ -87,7 +87,6 @@ class Auth {
     this.auth0.client.userInfo(accessToken, (err, profile) => {
       if (profile) {
         this.userProfile = profile;
-        console.log('prof', this.userProfile);
       }
       cb(err, profile);
     });

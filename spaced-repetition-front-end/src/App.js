@@ -10,7 +10,7 @@ import DeckList from './components/DeckList';
 import Wrapper from './components/Wrapper';
 import CardList from './components/CardList';
 import Profile from './components/Profile';
-import data from './dummyData';
+// import data from './dummyData';
 import './App.css';
 
 /**
@@ -38,18 +38,31 @@ class App extends Component {
     this.state = {
       cards: [],
       decks: [],
+      profile: null,
+      errorMessage: '',
     };
   }
 
+  setProfile = (err, userProfile) => {
+    if (err) {
+      throw new Error(err);
+    } else if (userProfile) {
+      this.setState({
+        profile: { ...userProfile },
+      });
+    }
+  }
+
+  // Calls auth's getProfile and responds with the profile associated with the identity provider
+  // used (e.g. The username/password profile response will be somewhat different than Google's)
+  handleProfile = () => {
+    auth.getProfile(this.setProfile);
+  }
+
   handleData = () => {
-    // this.setState({
-    //   cards: data.cards,
-    //   decks: data.decks,
-    // });
-    // const { getAccessToken } = this.props.auth;
-    const AccessToken = localStorage.getItem('id_token');
+    const token = localStorage.getItem('id_token');
     const API_URL = 'http://localhost:4242';
-    const headers = { Authorization: `Bearer ${AccessToken}` };
+    const headers = { Authorization: `Bearer ${token}` };
     const user = 3;
     const { decks } = this.state;
     axios.get(`${API_URL}/api/decks/${user}`, { headers })
@@ -58,17 +71,23 @@ class App extends Component {
           decks: [...decks, response.data],
         })
       ))
-      .catch(error => console.log({ Error: error }));
+      .catch(error => (
+        this.setState({
+          errorMessage: error,
+        })
+      ));
   }
 
   render() {
-    const { decks, cards } = this.state;
+    const {
+      decks, cards, profile, errorMessage,
+    } = this.state;
     return (
       <AppWrapper>
         <Route path="/" render={props => <Header auth={auth} {...props} />} />
         <Switch>
           <Route exact path="/" render={props => <LandingPage auth={auth} {...props} />} />
-          <Route exact path="/dashboard" render={props => <Wrapper auth={auth} handleData={this.handleData} {...props} />} />
+          <Route exact path="/dashboard" render={props => <Wrapper errorMsg={errorMessage} profile={profile} auth={auth} handleProfile={this.handleProfile} handleData={this.handleData} {...props} />} />
           <Route exact path="/dashboard/profile" render={props => <Profile auth={auth} {...props} />} />
           <Route
             path="/callback"
@@ -77,10 +96,19 @@ class App extends Component {
               return <Callback {...props} />;
             }}
           />
+          {/* `/dashboard`, /dasbhoard/decks`, and `/dashboard/cards` need refactoring
+          Each Wrapper route needs the same props to compile. There is probably a better way */}
           <Route
             path="/dashboard/decks"
             render={props => (
-              <Wrapper {...props} auth={auth} handleData={this.handleData}>
+              <Wrapper
+                errorMsg={errorMessage}
+                profile={profile}
+                auth={auth}
+                handleProfile={this.handleProfile}
+                handleData={this.handleData}
+                {...props}
+              >
                 <DeckList decks={decks} />
               </Wrapper>
             )}
@@ -88,7 +116,14 @@ class App extends Component {
           <Route
             path="/dashboard/cards"
             render={props => (
-              <Wrapper auth={auth} handleData={this.handleData} {...props}>
+              <Wrapper
+                errorMsg={errorMessage}
+                profile={profile}
+                auth={auth}
+                handleProfile={this.handleProfile}
+                handleData={this.handleData}
+                {...props}
+              >
                 <CardList cards={cards} />
               </Wrapper>
             )}

@@ -10,8 +10,9 @@ class Wrapper extends React.Component {
    * user's data and pass it to the relevant components.
    */
   componentDidMount() {
-    const { handleData } = this.props;
+    const { handleData, handleProfile } = this.props;
     handleData();
+    handleProfile();
   }
 
   render() {
@@ -43,6 +44,7 @@ Wrapper.defaultProps = {
 
 Wrapper.propTypes = {
   handleData: PropTypes.func.isRequired,
+  handleProfile: PropTypes.func.isRequired,
   children: PropTypes.node,
   auth: PropTypes.shape({
     isAuthenticated: PropTypes.func.isRequired,

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class Profile extends Component {
   componentWillMount() {
@@ -35,3 +36,10 @@ class Profile extends Component {
 }
 
 export default Profile;
+
+Profile.propTypes = {
+  auth: PropTypes.shape({
+    userProfile: PropTypes.func.isRequired,
+    getProfile: PropTypes.func.isRequired,
+  }).isRequired,
+};
