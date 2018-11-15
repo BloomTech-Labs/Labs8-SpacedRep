@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 // import PropTypes from 'prop-types';
 // import Header from './Header';
 import Sidebar from './Sidebar';
@@ -12,62 +13,32 @@ class Wrapper extends React.Component {
   render() {
     const { children, auth } = this.props;
     return (
-      <div className="wrapper-container">
+      <WrapperContainer>
         {auth.isAuthenticated() && (
-          <div className="sidebar-and-deck-list-container">
+          <BodyContainer>
             <Sidebar />
             {children}
-          </div>
+          </BodyContainer>
         )}
         {!auth.isAuthenticated() && (
           <h1>You are not logged in!</h1>
         )}
-      </div>
+      </WrapperContainer>
     );
   }
-};
+}
 
 export default Wrapper;
 
-// // Wrapper.propTypes = {
-// //   children: PropTypes.object.isRequired
-// // };
+const WrapperContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: ${props => props.theme.dark.bodyBackground};
+`;
 
-// import React, { Component } from 'react';
-// // import { withRouter } from 'react-router';
-
-// class Wrapper extends Component {
-//   login() {
-//     this.props.auth.login();
-//   }
-//   render() {
-//     const { isAuthenticated } = this.props.auth;
-//     return (
-//       <div className="container">
-//         {
-//           isAuthenticated() && (
-//             <h4>
-//               You are logged in!
-//               </h4>
-//           )
-//         }
-//         {
-//           !isAuthenticated() && (
-//             <h4>
-//               You are not logged in! Please{' '}
-//               <button
-//                 style={{ cursor: 'pointer' }}
-//                 onClick={this.login.bind(this)}
-//               >
-//                 Log In
-//                 </button>
-//               {' '}to continue.
-//               </h4>
-//           )
-//         }
-//       </div>
-//     );
-//   }
-// }
-
-// export default Wrapper;
+const BodyContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+`;

@@ -1,11 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { ThemeProvider } from 'styled-components';
+import { Router } from 'react-router-dom';
+import App from './App';
 import './index.css';
-import MakeMainRoutes from './routes';
+import history from './history';
+// import MakeMainRoutes from './routes';
 
-// const routes = makeMainRoutes();
+const theme = {
+  dark: {
+    bodyBackground: '#43525c',
+    cardBackground: '#56656f',
+    sidebar: '#2c3d48',
+    logo: '#48e6ae',
+    TEST: 'blue',
+  },
+};
 
 ReactDOM.render(
-  <MakeMainRoutes />,
+  <ThemeProvider theme={theme}>
+    <Router history={history}>
+      <App />
+    </Router>
+  </ThemeProvider>,
   document.getElementById('root'),
 );

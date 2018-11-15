@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
+import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-class Header extends React.Component {
+class Header extends Component {
   goTo(route) {
     this.props.history.replace(`/${route}`);
   }
@@ -17,86 +18,67 @@ class Header extends React.Component {
   render() {
     const { isAuthenticated } = this.props.auth;
     return (
-      <div className="header-container">
-        <div className="app-name-link-container">
-          <Link to="/" className="header-link">
-            Seriously
-          </Link>
-        </div>
-        <div className="login-register-links-container">
-          <button type="button" className="header-link">
+      <Container>
+        <AppName to="/">
+          <Logo src={require('../images/SPACEREPS.PNG')} />
+        </AppName>
+        <LoginRegisterContainer>
+          <LinkStyled type="button" className="header-link">
             Sign up
-          </button>
+          </LinkStyled>
           {!isAuthenticated()
             ? (
-              <button type="button" onClick={this.login.bind(this)} className="header-link">
+              <LinkStyled type="button" onClick={this.login.bind(this)}>
                 Sign in
-              </button>
+              </LinkStyled>
             )
             : (
-              <button type="button" onClick={this.logout.bind(this)} className="header-link">
+              <LinkStyled type="button" onClick={this.logout.bind(this)}>
                 Sign out
-              </button>
+              </LinkStyled>
             )
           }
-        </div>
-      </div>
+        </LoginRegisterContainer>
+      </Container>
     );
   }
 }
 
 export default Header;
 
+const Container = styled.div`
+  height: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-bottom: 5px;
+  border-bottom: 1px solid white;
+  box-sizing: border-box;
+  background: ${props => props.theme.dark.sidebar};
+`;
 
-// class Header extends React.Component {
-//   goTo(route) {
-//     this.props.history.replace(`/${route}`);
-//   }
+const AppName = styled(Link)`
+  font-size: 40px;
+  font-weight: 200;
+  padding-bottom: 0px;
+  width: 25%;
+`;
 
-//   login() {
-//     this.props.auth.login();
-//   }
+const Logo = styled.img`
+  height: 100%;
+  width: 100%;
+`;
 
-//   logout() {
-//     this.props.auth.logout();
-//   }
+const LinkStyled = styled.button`
+  font-size: 20px;
+  margin: 0px;
+  margin-left: 20px;
+  font-weight: 100;
+  padding-bottom: 15px;
+`;
 
-//   render() {
-//     const { isAuthenticated } = this.props.auth;
-
-//     return (
-//       <div>
-//         <button
-//           className="btn-margin"
-//           onClick={this.goTo.bind(this, 'home')}
-//         >
-//           Home
-//             </button>
-//         {
-//           !isAuthenticated() && (
-//             <button
-//               id="qsLoginBtn"
-//               className="btn-margin"
-//               onClick={this.login.bind(this)}
-//             >
-//               Log In
-//                   </button>
-//           )
-//         }
-//         {
-//           isAuthenticated() && (
-//             <button
-//               id="qsLogoutBtn"
-//               className="btn-margin"
-//               onClick={this.logout.bind(this)}
-//             >
-//               Log Out
-//             </button>
-//           )
-//         }
-//       </div>
-//     );
-//   }
-// }
-
-// export default Header;
+const LoginRegisterContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 14px;
+`;
