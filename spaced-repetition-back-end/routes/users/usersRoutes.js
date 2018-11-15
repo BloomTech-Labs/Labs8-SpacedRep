@@ -1,7 +1,9 @@
 const express = require('express');
 const users = require('./usersModel.js');
+const checkJwt = require('../../jwt');
 
 const router = express.Router();
+router.use(checkJwt);
 
 // ----- NOTICE: For testing purposes only ----- //
 // ----- remove in production ------ // 
