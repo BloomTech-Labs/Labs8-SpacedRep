@@ -16,6 +16,12 @@ const theme = {
   },
 };
 
+/**
+ * The history prop on Router provides the Auth module a means of redirection.
+ * The Auth component does not recieve props.
+ *
+ * Router is used instead of BrowserRouter since it will not use the history prop.
+ */
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <Router history={history}>

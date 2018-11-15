@@ -3,11 +3,11 @@
 
 import auth0 from 'auth0-js';
 import history from '../history';
-// import { withRouter } from 'react-router-dom';
 
 require('dotenv').config();
 
 class Auth {
+  // Universal Login configuration
   auth0 = new auth0.WebAuth({
     domain: process.env.REACT_APP_DOMAIN,
     clientID: process.env.REACT_APP_CLIENT_ID,
@@ -24,18 +24,22 @@ class Auth {
   }
 
   login() {
+    // authorize() connects to Auth0 and triggers Universal Login
     this.auth0.authorize();
   }
 
   handleAuthentication() {
+    /**
+     * parseHash() parses the URI for an access token and id token response from Auth0. If present,
+     * a new session is set with the tokens from the URI and the user is redirected to the
+     * dashboard view. Otherwise, redirection is set to the landing page.
+     */
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
         history.replace('/dashboard');
-        // this.props.history.replace('/dashboard');
       } else if (err) {
         history.replace('/');
-        // this.props.history.replace('/');
         console.log(err);
         alert(`Error: ${err.error}. Check the console for further details.`);
       }
@@ -48,9 +52,8 @@ class Auth {
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
-    // navigate to the home route
+    // navigate to the dashboard route
     history.replace('/dashboard');
-    // this.props.history.replace('/dashboard');
   }
 
   logout() {
@@ -60,7 +63,6 @@ class Auth {
     localStorage.removeItem('expires_at');
     // navigate to the home route
     history.replace('/');
-    // this.props.history.replace('/');
   }
 
   isAuthenticated() {
@@ -72,32 +74,3 @@ class Auth {
 }
 
 export default Auth;
-
-// import auth0 from 'auth0-js';
-
-// require('dotenv').config();
-
-// class Auth {
-//   constructor() {
-//     this.auth0 = new auth0.WebAuth({
-//       domain: process.env.REACT_APP_DOMAIN,
-//       //       audience: `${process.env.REACT_APP_DOMAIN}/userinfo`,
-//       clientID: process.env.REACT_APP_CLIENT_ID,
-//       redirectUri: 'http://localhost:3000/callback',
-//       responseType: 'token id_token',
-//       scope: 'openid profile',
-//       audience: `https://${process.env.REACT_APP_DOMAIN}/userinfo`,
-//     });
-
-//     this.getProfile = this.getProfile.bind(this);
-//     this.handleAuthentication = this.handleAuthentication.bind(this);
-//     this.isAuthenticated = this.isAuthenticated.bind(this);
-//     // this.login = this.login.bind(this);
-//     this.logout = this.logout.bind(this);
-//     // this.setSession = this.setSession.bind(this);
-//   }
-// }
-
-// const auth = new Auth();
-
-// export default auth;

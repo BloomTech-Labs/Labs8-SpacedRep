@@ -11,8 +11,19 @@ import CardList from './components/CardList';
 import data from './dummyData';
 import './App.css';
 
+/**
+ * Creates a new instance of the Auth module.
+ * Gives components access to all Auth methods needed for authentication.
+ */
 const auth = new Auth();
 
+/**
+ * Called when an authentication event is triggered. Auth0 responds with an access token, id token,
+ * and token expiration upon success. handleAuthentication() in App.js parses the URI for the
+ * access token and id token, then calls handleAuthentication() of the auth instance if present.
+ *
+ * @param {location} * Current URI
+ */
 const handleAuthentication = ({ location }) => {
   if (/access_token|id_token|error/.test(location.hash)) {
     auth.handleAuthentication();

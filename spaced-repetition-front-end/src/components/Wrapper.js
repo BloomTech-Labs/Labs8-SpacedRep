@@ -5,6 +5,10 @@ import Sidebar from './Sidebar';
 import '../App.css';
 
 class Wrapper extends React.Component {
+  /**
+   * handleData() initiates a call to the same function in App.js to fetch the authenticated
+   * user's data and pass it to the relevant components.
+   */
   componentDidMount() {
     const { handleData } = this.props;
     handleData();
@@ -15,12 +19,14 @@ class Wrapper extends React.Component {
     const { isAuthenticated } = auth;
     return (
       <WrapperContainer>
-        {auth.isAuthenticated() && (
+        {/* If the user is authenticated, render: */}
+        {isAuthenticated() && (
           <BodyContainer>
             <Sidebar />
             {children}
           </BodyContainer>
         )}
+        {/* If the user is not authenticated, render: */}
         {!isAuthenticated() && (
           <h1>You are not logged in!</h1>
         )}
