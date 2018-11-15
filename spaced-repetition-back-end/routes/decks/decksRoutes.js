@@ -45,8 +45,6 @@ router.get('/jct/:id', (req, res) => {
 });
 
 router.get('/test/:id', (req, res) => {
-  // do the findByJct to get all user's decks
-  // then, get the deck_id from each
   function format(arr) {
     let deckNames = {};
     let formattedData = [];
