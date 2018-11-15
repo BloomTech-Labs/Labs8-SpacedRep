@@ -1,5 +1,5 @@
 /* eslint class-methods-use-this: ["error",
-{ 'exceptMethods': ['setSession', 'isAuthenticated', 'logout'] }] */
+{ 'exceptMethods': ['setSession', 'isAuthenticated', 'logout', 'getAccessToken'] }] */
 
 import auth0 from 'auth0-js';
 import history from '../history';
@@ -14,7 +14,7 @@ class Auth {
     redirectUri: process.env.REACT_APP_REDIRECT,
     responseType: 'token id_token',
     audience: process.env.REACT_APP_AUDIENCE,
-    scope: 'openid',
+    scope: 'openid profile email',
   });
 
   constructor() {
@@ -22,6 +22,7 @@ class Auth {
     this.logout = this.logout.bind(this);
     this.handleAuthentication = this.handleAuthentication.bind(this);
     this.isAuthenticated = this.isAuthenticated.bind(this);
+    this.getProfile = this.getProfile.bind(this);
   }
 
   login() {
@@ -71,6 +72,25 @@ class Auth {
     // access token's expiry time
     const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     return new Date().getTime() < expiresAt;
+  }
+
+  getAccessToken() {
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      throw new Error('No Access Token found');
+    }
+    return accessToken;
+  }
+
+  getProfile(cb) {
+    const accessToken = this.getAccessToken();
+    this.auth0.client.userInfo(accessToken, (err, profile) => {
+      if (profile) {
+        this.userProfile = profile;
+        console.log('prof', this.userProfile);
+      }
+      cb(err, profile);
+    });
   }
 }
 

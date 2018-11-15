@@ -9,6 +9,7 @@ import LandingPage from './components/LandingPage';
 import DeckList from './components/DeckList';
 import Wrapper from './components/Wrapper';
 import CardList from './components/CardList';
+import Profile from './components/Profile';
 import data from './dummyData';
 import './App.css';
 
@@ -48,13 +49,16 @@ class App extends Component {
     // const { getAccessToken } = this.props.auth;
     const AccessToken = localStorage.getItem('id_token');
     const API_URL = 'http://localhost:4242';
-    const headers = { 'Authorization': `Bearer ${AccessToken}` }
+    const headers = { Authorization: `Bearer ${AccessToken}` };
     const user = 3;
-    axios.get(`${API_URL}/api/decks/3`, { headers })
-      .then(response => {
-        console.log('response', response.data)
-      })
-      .catch(error => this.setState({ message: error.message }));
+    const { decks } = this.state;
+    axios.get(`${API_URL}/api/decks/${user}`, { headers })
+      .then(response => (
+        this.setState({
+          decks: [...decks, response.data],
+        })
+      ))
+      .catch(error => console.log({ Error: error }));
   }
 
   render() {
@@ -65,6 +69,7 @@ class App extends Component {
         <Switch>
           <Route exact path="/" render={props => <LandingPage auth={auth} {...props} />} />
           <Route exact path="/dashboard" render={props => <Wrapper auth={auth} handleData={this.handleData} {...props} />} />
+          <Route exact path="/dashboard/profile" render={props => <Profile auth={auth} {...props} />} />
           <Route
             path="/callback"
             render={(props) => {
