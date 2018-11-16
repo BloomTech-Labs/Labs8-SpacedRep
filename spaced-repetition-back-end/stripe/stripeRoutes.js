@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const stripe = require('stripe')(); // <- secret key from heroku
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY); // <- secret key from heroku
 
 router.post('/', async (req, res) => {
 
