@@ -6,14 +6,14 @@ const jwtAuthz = require('express-jwt-authz');
 const router = express.Router();
 router.use(checkJwt);
 
-// router.get('/', (req, res) => {
-//   cards
-//     .find()
-//     .then(cards => {
-//       res.status(200).json(cards);
-//     })
-//     .catch(err => res.status(500).json(err));
-// });
+router.get('/', (req, res) => {
+  cards
+    .find()
+    .then(cards => {
+      res.status(200).json(cards);
+    })
+    .catch(err => res.status(500).json(err));
+});
 
 router.post('/', (req, res) => {
   const card = req.body;
@@ -22,6 +22,19 @@ router.post('/', (req, res) => {
     .add(card)
     .then(ids => {
       res.status(201).json(ids[0]);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
+});
+
+router.post('/batch', (req, res) => {
+  const batch = req.body;
+
+  cards
+    .batchAdd(batch)
+    .then(response => {
+      res.status(201).json('entries added successfully');
     })
     .catch(err => {
       res.status(500).json(err);

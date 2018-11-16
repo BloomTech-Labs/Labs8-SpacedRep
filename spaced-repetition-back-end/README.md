@@ -50,12 +50,41 @@ Backend repo for the Lambda Labs Spaced Repetition app
 - deck_id, int, required, references id in Decks
 
 ## Routes
-| Method | Endpoint        | Purpose                                      |
-|--------|-----------------|----------------------------------------------|
-| GET    | `api/decks`     | Retrieve decks and cards for associated user |
-| POST   | `api/decks`     | Add a deck to the deck table                 |
-| PUT    | `api/decks/:id` | Update deck information                      |
-| DELETE | `api/decks/:id` | Delete a deck                                |
-| POST   | `api/cards`     | Post a new card                              |
-| PUT    | `api/cards/:id` | Update card information                      |
-| DELETE | `api/cards/:id` | Delete a card                                |
+| Method | Endpoint         | Purpose                                      |
+|--------|------------------|----------------------------------------------|
+| GET    | `api/decks`      | Retrieve decks and cards for associated user |
+| POST   | `api/decks`      | Add a deck to the deck table                 |
+| PUT    | `api/decks/:id`  | Update deck information                      |
+| DELETE | `api/decks/:id`  | Delete a deck                                |
+| POST   | `api/cards`      | Post a new card                              |
+| POST   | `api/cards/batch`| Post an array of cards                       |
+| PUT    | `api/cards/:id`  | Update card information                      |
+| DELETE | `api/cards/:id`  | Delete a card                                |
+
+### Notes
+When batch posting, you can format the JSON exactly like this:
+```
+[
+    {
+        "title": "Batch test7",
+        "question": "What is SQL?",
+        "answer": "structured query language",
+        "language": "Plain Text",
+        "deck_id": 1
+    },
+    {
+        "title": "Batch test8",
+        "question": "What is React?",
+        "answer": "JS library",
+        "language": "JavaScript",
+        "deck_id": 2
+    },
+    {
+        "title": "Batch test9",
+        "question": "Is React declarative?",
+        "answer": "Yes",
+        "language": "JavaScript",
+        "deck_id": 2
+    }
+]
+```

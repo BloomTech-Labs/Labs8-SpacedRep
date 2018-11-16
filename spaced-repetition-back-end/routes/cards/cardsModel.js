@@ -5,6 +5,7 @@ module.exports = {
   find,
   findByDeck,
   add,
+  batchAdd,
   update,
   remove
 };
@@ -23,6 +24,12 @@ function add(entry) {
     .returning('id')
     .insert(entry)
     .into(table);
+}
+
+function batchAdd(arr) {
+  return db(table)
+    .insert(arr)
+    .into(table)
 }
 
 function update(id, changes) {
