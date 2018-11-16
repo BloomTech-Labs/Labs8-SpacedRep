@@ -1,7 +1,14 @@
 const express = require('express');
 const users = require('./usersModel.js');
+const checkJwt = require('../../jwt');
+const jwtAuthz = require('express-jwt-authz');
 
 const router = express.Router();
+
+// Router-level middleware that validates the client's access token
+router.use(checkJwt);
+
+// jwtAuthz(['read:data']) => endpoint only allows read access
 
 // ----- NOTICE: For testing purposes only ----- //
 // ----- remove in production ------ // 
