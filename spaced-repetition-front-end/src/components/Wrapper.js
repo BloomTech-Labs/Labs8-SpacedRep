@@ -11,11 +11,12 @@ class Wrapper extends React.Component {
    */
   componentDidMount() {
     const { handleData, handleProfile } = this.props;
+    handleProfile(3);
     handleData();
-    handleProfile();
   }
 
   render() {
+    console.log('props', this.props);
     const { children, auth } = this.props;
     const { isAuthenticated } = auth;
     return (
