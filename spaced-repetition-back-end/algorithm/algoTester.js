@@ -19,7 +19,7 @@ const cards = [
     answer: 'structured query language',
     deck_id: 1,
     language: 'Plain Text',
-    cardId: 0001
+    cardID: '0001'
   },
   {
     title: 'React card test a',
@@ -27,7 +27,7 @@ const cards = [
     answer: 'JS library',
     deck_id: 2,
     language: 'JavaScript',
-    cardId: 0002
+    cardID: '0002'
   },
   {
     title: 'React card test b',
@@ -35,7 +35,7 @@ const cards = [
     answer: 'Yes',
     deck_id: 2,
     language: 'JavaScript',
-    cardId: 0003
+    cardID: '0003'
   }
 ];
 
@@ -64,16 +64,16 @@ const decks = [
 
 const users = [
   {
+    uuid: 001,
     firstName: 'Drew',
     lastName: 'Smith',
     email: 'drew@drew.com',
     tier: 'free',
     progressData: {
-      0001: { dueDate: 17848, progress: 0 },
-      0002: { dueDate: 17848, progress: 1 },
-      0003: { dueDate: 17848, progress: 0 }
-    },
-    uuid: 01
+      '0001': { dueDate: 17848, progress: 0 },
+      '0002': { dueDate: 17848, progress: 3 },
+      '0003': { dueDate: 17848, progress: 1 }
+    }
   },
   {
     firstName: 'Gabe',
@@ -113,27 +113,30 @@ for (let i = 0; i < users.length; i++) {
     break;
   }
 }
-console.log(user);
+// console.log(user);
 
-//begin algorithm
-
-//removing these and moving time calls to inside algorithm.js (but outside the class)
-// const DAY_IN_MILLISECONDS = 24 * 60 * 60 * 1000;
-// const today = Math.round(new Date().getTime() / DAY_IN_MILLISECONDS);
+//test algorithm
 
 //set the amount of days between study sessions
 const intervals = [1, 2, 3, 8, 17];
 
-//
+//card answer difficulty selector, 1 means correct answer
 const scoreToProgressChange = [-3, -1, 1];
 
-const ms = new SRS(intervals, scoreToProgressChange);
+const srs = new SRS(intervals, scoreToProgressChange);
 
-//use this
-// const record = ms.getInitialRecord();
-// const updatedRecord = ms.calculate(1, record);
-const updatedRecord = ms.calculate(1);
+const Drew = users[0];
+console.log('\nBefore algorithm test');
+console.log(Drew.progressData); //read progress before change
+console.log(
+  '\nscore all 3 cards as correct will increment to \nthe next testing interval and increase progress by 1 correct answer\n'
+);
+Object.keys(Drew.progressData).forEach(cardID => {
+  for (let i = 0; i < cards.length; i++) {
+    if (cardID == cards[i].cardID) {
+      Drew.progressData[cardID] = srs.calculate(2, Drew.progressData[cardID]);
+    }
+  }
+});
 
-console.log(updatedRecord);
-
-console.log(ms.getToday());
+console.log(Drew.progressData);

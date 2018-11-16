@@ -48,7 +48,6 @@ module.exports = class SRS {
       : this.getInitialRecord().progress;
 
     // int s | difficulty score, correlates to an element of this.difficultyToNextTestDate array
-    console.log('today', today);
     //check to see if answer is correct
     const correct = s === this.difficultyToNextTestDate.length - 1;
 
