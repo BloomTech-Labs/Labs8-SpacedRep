@@ -2,7 +2,6 @@ const express = require('express');
 const helmet = require('helmet');
 const PORT = process.env.PORT || 4242;
 const cors = require('cors');
-const usersRoutes = require('./routes/users/usersRoutes');
 const decksRoutes = require('./routes/decks/decksRoutes');
 const cardsRoutes = require('./routes/cards/cardsRoutes');
 
@@ -22,7 +21,6 @@ server.get('/', (req, res) => {
   res.send('Hello friend');
 });
 
-server.use('/api/users', usersRoutes);
 server.use('/api/decks', decksRoutes);
 server.use('/api/cards', cardsRoutes);
 

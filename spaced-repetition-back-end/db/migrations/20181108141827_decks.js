@@ -4,7 +4,8 @@ exports.up = function(knex, Promise) {
     tbl.increments('id').primary();
     tbl.string('name', 255).notNullable();
     tbl.boolean('public').defaultTo(false);
-    tbl.integer('author').notNullable().references('id').inTable('users').onDelete('cascade');
+    tbl.string('author').notNullable();
+    tbl.string('tags', 255);
   });
 };
 

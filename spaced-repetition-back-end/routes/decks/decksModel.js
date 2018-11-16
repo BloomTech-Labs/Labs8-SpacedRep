@@ -2,42 +2,17 @@ const db = require('../../knex.js');
 const table = 'decks';
 
 module.exports = {
-  find,
-  findById,
   findByAuthor,
-  findByJct,
-  cardsArrTest,
   add,
   update,
   remove
 };
 
-function find() {
-  return db(table);
-}
-
-function findById(id) {
-  return db(table)
-    .where({ id })
-    .first();
-}
-
 function findByAuthor(id) {
-  return db(table)
-    .where('author', id)
-}
-
-function findByJct(id) {
-  return db(table)
-    .innerJoin('userDeck', 'decks.id', 'userDeck.deck_id')
-    .where('userDeck.user_id', id)
-}
-
-function cardsArrTest(id) {
-  return db(table)
-  .innerJoin('userDeck', 'decks.id', 'userDeck.deck_id')
-  .innerJoin('cards', 'decks.id', 'cards.deck_id')
-  .where('userDeck.user_id', id)
+  return db('cards')
+    .select('cards.*', 'decks.name', 'decks.public', 'decks.tags')
+    .innerJoin('decks', 'cards.deck_id', 'decks.id')
+    .where('decks.author', id)
 }
 
 function add(entry) {

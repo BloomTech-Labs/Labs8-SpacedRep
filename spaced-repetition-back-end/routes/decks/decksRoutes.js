@@ -1,50 +1,17 @@
 const express = require('express');
 const decks = require('./decksModel.js');
+const checkJwt = require('../../jwt');
+const jwtAuthz = require('express-jwt-authz');
 
 const router = express.Router();
+router.use(checkJwt);
 
-// --- FOR TESTING PURPOSES ONLY --- //
+// Should retrieve array of all the user's decks
+// decks should have property cards which is array of all cards
+// omit the user's userid from the response (?)
 router.get('/', (req, res) => {
-  decks
-    .find()
-    .then(decks => {
-      res.status(200).json(decks);
-    })
-    .catch(err => res.status(500).json(err));
-});
+  let user_id = req.user.sub
 
-router.get('/:id', (req, res) => {
-  decks
-    .findById(req.params.id)
-    .then(decks => {
-      res.status(200).json(decks);
-    })
-    .catch(err => res.status(500).json(err));
-});
-// --- END FOR TESTING PURPOSES ONLY --- //
-
-// THIS SHOULD BE AT THE /api/users/:id/decks ENDPOINT
-// This endpoint should also include any matches from the userdeck junction table
-
-router.get('/author/:id', (req, res) => {
-  decks
-    .findByAuthor(req.params.id)
-    .then(decks => {
-      res.status(200).json(decks);
-    })
-    .catch(err => res.status(500).json(err));
-});
-
-router.get('/jct/:id', (req, res) => {
-  decks
-    .findByJct(req.params.id)
-    .then(decks => {
-      res.status(200).json(decks);
-    })
-    .catch(err => res.status(500).json(err));
-});
-
-router.get('/test/:id', (req, res) => {
   function format(arr) {
     let deckNames = {};
     let formattedData = [];
@@ -57,7 +24,8 @@ router.get('/test/:id', (req, res) => {
             "title": arr[i].title,
             "question": arr[i].question,
             "answer": arr[i].answer,
-            "language": arr[i].language
+            "language": arr[i].language,
+            "deck_id": arr[i].deck_id
           })
       } else {
         // if deck does not exist, push the deck to formattedData array
@@ -67,22 +35,23 @@ router.get('/test/:id', (req, res) => {
           "id": arr[i].deck_id,
           "name": arr[i].name,
           "public": arr[i].public,
-          "author": arr[i].author,
-          "user_id": arr[i].user_id,
+          "tags": arr[i].tags,
           "cards": [{
             "id": arr[i].id,
             "title": arr[i].title,
             "question": arr[i].question,
             "answer": arr[i].answer,
-            "language": arr[i].language
+            "language": arr[i].language,
+            "deck_id": arr[i].deck_id
           }] 
         })
       }
     }
     return formattedData;
   }
+
   decks
-    .cardsArrTest(req.params.id)
+    .findByAuthor(user_id)
     .then(decks => {
       res.status(200).json(format(decks));
     })
@@ -90,14 +59,16 @@ router.get('/test/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  const user = req.body;
+  const deck = req.body;
+  deck.author = req.user.sub;
 
   decks
-    .add(user)
+    .add(deck)
     .then(ids => {
       res.status(201).json(ids[0]);
     })
     .catch(err => {
+      console.log(err.message);
       res.status(500).json(err);
     });
 });

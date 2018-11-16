@@ -7,7 +7,7 @@ const should = chai.should();
 const sinon = require('sinon');
 
 const server = require('../index');
-const User = require('../routes/users/usersModel');
+// const User = require('../routes/users/usersModel');
 
 chai.use(chaiHTTP);
 
