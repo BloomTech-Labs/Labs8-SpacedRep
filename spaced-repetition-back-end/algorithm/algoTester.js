@@ -72,7 +72,8 @@ const users = [
       0001: { dueDate: 17848, progress: 0 },
       0002: { dueDate: 17848, progress: 1 },
       0003: { dueDate: 17848, progress: 0 }
-    }
+    },
+    uuid: 01
   },
   {
     firstName: 'Gabe',
@@ -104,13 +105,21 @@ const userDecks = [
   { user_id: 4, deck_id: 5 } // testing public/shared decks
 ];
 
-const DAY_IN_MILLISECONDS = 24 * 60 * 60 * 1000;
+//get user to test
+let user = {};
+for (let i = 0; i < users.length; i++) {
+  if (users[i].uuid == 001) {
+    user = users[i];
+    break;
+  }
+}
+console.log(user);
 
-const today = Math.round(new Date().getTime() / DAY_IN_MILLISECONDS);
+//begin algorithm
 
-const yesterday = today - 1;
-
-console.log(today);
+//removing these and moving time calls to inside algorithm.js (but outside the class)
+// const DAY_IN_MILLISECONDS = 24 * 60 * 60 * 1000;
+// const today = Math.round(new Date().getTime() / DAY_IN_MILLISECONDS);
 
 //set the amount of days between study sessions
 const intervals = [1, 2, 3, 8, 17];
@@ -120,8 +129,11 @@ const scoreToProgressChange = [-3, -1, 1];
 
 const ms = new SRS(intervals, scoreToProgressChange);
 
-const record = ms.getInitialRecord(yesterday);
-const updatedRecord = ms.calculate(1, record, today);
+//use this
+// const record = ms.getInitialRecord();
+// const updatedRecord = ms.calculate(1, record);
+const updatedRecord = ms.calculate(1);
 
-console.log(record);
 console.log(updatedRecord);
+
+console.log(ms.getToday());
