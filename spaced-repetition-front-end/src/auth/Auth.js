@@ -4,8 +4,6 @@
 import auth0 from 'auth0-js';
 import history from '../history';
 
-require('dotenv').config();
-
 class Auth {
   // Universal Login configuration
   auth0 = new auth0.WebAuth({

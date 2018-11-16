@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').load();
+}
+
 const express = require('express');
 const helmet = require('helmet');
 const PORT = process.env.PORT || 4242;

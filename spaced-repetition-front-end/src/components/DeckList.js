@@ -7,7 +7,7 @@ import '../App.css';
 const DeckList = ({ decks }) => (
   <Container>
     {decks.map(deck => (
-      <Deck key={deck.deckName} deck={deck} />
+      <Deck key={deck.name} deck={deck} />
     ))}
   </Container>
 );
