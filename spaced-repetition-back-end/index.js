@@ -1,8 +1,11 @@
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').load();
+}
+
 const express = require('express');
 const helmet = require('helmet');
 const PORT = process.env.PORT || 4242;
 const cors = require('cors');
-const usersRoutes = require('./users/usersRoutes');
 const stripeRoutes = require('./stripe/stripeRoutes');
 const usersRoutes = require('./routes/users/usersRoutes');
 const decksRoutes = require('./routes/decks/decksRoutes');

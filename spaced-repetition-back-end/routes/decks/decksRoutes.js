@@ -1,7 +1,9 @@
 const express = require('express');
 const decks = require('./decksModel.js');
+const checkJwt = require('../../jwt');
 
 const router = express.Router();
+router.use(checkJwt);
 
 // --- FOR TESTING PURPOSES ONLY --- //
 router.get('/', (req, res) => {
@@ -53,12 +55,12 @@ router.get('/test/:id', (req, res) => {
       // if deck exists, push just the card to the object's card array
       if (deckNames[arr[i].name]) {
         formattedData[deckNames[arr[i].name]].cards.push({
-            "id": arr[i].id,
-            "title": arr[i].title,
-            "question": arr[i].question,
-            "answer": arr[i].answer,
-            "language": arr[i].language
-          })
+          "id": arr[i].id,
+          "title": arr[i].title,
+          "question": arr[i].question,
+          "answer": arr[i].answer,
+          "language": arr[i].language
+        })
       } else {
         // if deck does not exist, push the deck to formattedData array
         // add property to deckname objects and assign value of count (for referencing in the array)
@@ -75,7 +77,7 @@ router.get('/test/:id', (req, res) => {
             "question": arr[i].question,
             "answer": arr[i].answer,
             "language": arr[i].language
-          }] 
+          }]
         })
       }
     }
@@ -102,7 +104,18 @@ router.post('/', (req, res) => {
     });
 });
 
+// get the payload from the jwt
+// compare that to the deck author
+
+test = (token, secret) => {
+  jwt.verify(token, process.env.SECRET, function (err, decoded) {
+    console.log(decoded.foo) // bar
+  });
+
+}
+
 router.put('/:id', (req, res) => {
+  console.log('===== REQ', req);
   const { id } = req.params;
   const changes = req.body;
 

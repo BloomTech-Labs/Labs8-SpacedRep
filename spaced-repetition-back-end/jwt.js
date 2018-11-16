@@ -8,17 +8,19 @@ const checkJwt = jwt({
   // Dynamically provide a signing key
   // based on the kid in the header and 
   // the signing keys provided by the JWKS endpoint.
+
+
   secret: jwksRsa.expressJwtSecret({
     cache: true,
     rateLimit: true,
     jwksRequestsPerMinute: 5,
-    jwksUri: `https://srsly.auth0.com/.well-known/jwks.json`
+    jwksUri: process.env.JWKSURI
   }),
 
   // Validate the audience and the issuer.
-  aud: 'https://srs-ly.herokuapp.com/',
-  issuer: `https://srsly.auth0.com/`,
-  algorithms: ['RS256']
+  aud: process.env.AUD,
+  issuer: process.env.ISSUER,
+  algorithms: [...process.env.ALGO]
 });
 
 module.exports = checkJwt;
