@@ -17,7 +17,7 @@ class DeckList extends React.Component {
     const newDeckObject = {
       name: 'testdeck',
       public: false,
-      tags: 'tag1,tag2,tag3',
+      tags: ['tag1', 'tag2', 'tag3'],
     };
     axios.post(`${API_URL}/api/decks`, newDeckObject)
       .then(response => console.log(response))
