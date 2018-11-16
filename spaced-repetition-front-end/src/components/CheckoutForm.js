@@ -12,30 +12,18 @@ class CheckoutForm extends Component {
   submit = async e => {
     e.preventDefault();
     const { stripe } = this.props;
-    const { email } = this.props;
+    const { profile } = this.props;
     const { token } = await stripe.createToken();
 
     if (!token) { return; }
     const purchase = {
       token: token,
-      email: email,
+      email: profile.email,
     };
     console.log(purchase);
     axios.post('http://localhost:4242/api/purchases', purchase)
       .then(success => console.log(success))
       .catch(error => console.log(error));
-
-    console.log(token);
-    if (!token) {
-      return;
-    }
-    const response = await fetch('/charge', {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain' },
-      body: token.id
-    });
-    if (response.ok) console.log('Purchase Complete!');
-
   };
 
   render() {

@@ -1,6 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY); // <- secret key from heroku
+require('dotenv').config();
+
+const secretKey = process.env.STRIPE_SECRET_KEY || process.env.SECRET_KEY;
+
+console.log(secretKey);
+
+const stripe = require('stripe')(secretKey); // <- secret key from heroku
 
 router.post('/', async (req, res) => {
 
@@ -11,7 +17,7 @@ router.post('/', async (req, res) => {
   // }
 
   // Jameson's code^
-
+  console.log(process.env.STRIPE_SECRET_KEY);
   console.log("token: ", req.body.token.id);
   console.log("email: ", req.body.email);
   const customer = stripe.customers
