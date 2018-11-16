@@ -1,44 +1,16 @@
 const express = require('express');
 const cards = require('./cardsModel.js');
+const checkJwt = require('../../jwt');
+const jwtAuthz = require('express-jwt-authz');
 
 const router = express.Router();
-
-// --- FOR TESTING PURPOSES ONLY --- //
-router.get('/', (req, res) => {
-  cards
-    .find()
-    .then(cards => {
-      res.status(200).json(cards);
-    })
-    .catch(err => res.status(500).json(err));
-});
-
-router.get('/:id', (req, res) => {
-  cards
-    .findById(req.params.id)
-    .then(cards => {
-      res.status(200).json(cards);
-    })
-    .catch(err => res.status(500).json(err));
-});
-// --- END FOR TESTING PURPOSES ONLY --- //
-
-// THIS SHOULD BE AT THE /api/users/:id/cards ENDPOINT
-// This endpoint should also include any matches from the userdeck junction table
-router.get('/deck/:id', (req, res) => {
-  cards
-    .findByDeck(req.params.id)
-    .then(cards => {
-      res.status(200).json(cards);
-    })
-    .catch(err => res.status(500).json(err));
-});
+router.use(checkJwt);
 
 router.post('/', (req, res) => {
-  const user = req.body;
+  const card = req.body;
 
   cards
-    .add(user)
+    .add(card)
     .then(ids => {
       res.status(201).json(ids[0]);
     })
@@ -77,5 +49,34 @@ router.delete('/:id', (req, res) => {
     })
     .catch(err => res.status(500).json(err));
 });
+
+// router.get('/', (req, res) => {
+//   cards
+//     .find()
+//     .then(cards => {
+//       res.status(200).json(cards);
+//     })
+//     .catch(err => res.status(500).json(err));
+// });
+
+// router.get('/:id', (req, res) => {
+//   cards
+//     .findById(req.params.id)
+//     .then(cards => {
+//       res.status(200).json(cards);
+//     })
+//     .catch(err => res.status(500).json(err));
+// });
+
+// // THIS SHOULD BE AT THE /api/users/:id/cards ENDPOINT
+// // This endpoint should also include any matches from the userdeck junction table
+// router.get('/deck/:id', (req, res) => {
+//   cards
+//     .findByDeck(req.params.id)
+//     .then(cards => {
+//       res.status(200).json(cards);
+//     })
+//     .catch(err => res.status(500).json(err));
+// });
 
 module.exports = router;
