@@ -11,10 +11,49 @@ router.use(checkJwt);
 // omit the user's userid from the response (?)
 router.get('/', (req, res) => {
   let user_id = req.user.sub
+
+  function format(arr) {
+    let deckNames = {};
+    let formattedData = [];
+    let count = 0;
+    for (let i = 0; i < arr.length; i++) {
+      // if deck exists, push just the card to the object's card array
+      if (deckNames[arr[i].name]) {
+        formattedData[deckNames[arr[i].name]].cards.push({
+            "id": arr[i].id,
+            "title": arr[i].title,
+            "question": arr[i].question,
+            "answer": arr[i].answer,
+            "language": arr[i].language,
+            "deck_id": arr[i].deck_id
+          })
+      } else {
+        // if deck does not exist, push the deck to formattedData array
+        // add property to deckname objects and assign value of count (for referencing in the array)
+        deckNames[arr[i].name] = count++;
+        formattedData.push({
+          "id": arr[i].deck_id,
+          "name": arr[i].name,
+          "public": arr[i].public,
+          "tags": arr[i].tags,
+          "cards": [{
+            "id": arr[i].id,
+            "title": arr[i].title,
+            "question": arr[i].question,
+            "answer": arr[i].answer,
+            "language": arr[i].language,
+            "deck_id": arr[i].deck_id
+          }] 
+        })
+      }
+    }
+    return formattedData;
+  }
+
   decks
     .findByAuthor(user_id)
     .then(decks => {
-      res.status(200).json(decks);
+      res.status(200).json(format(decks));
     })
     .catch(err => res.status(500).json(err));
 });
@@ -64,24 +103,5 @@ router.delete('/:id', (req, res) => {
     })
     .catch(err => res.status(500).json(err));
 });
-
-// ----- Broken after refactor, but planning to fix ------ //
-// router.get('/jct/:id', (req, res) => {
-//   decks
-//     .findByJct(req.params.id)
-//     .then(decks => {
-//       res.status(200).json(decks);
-//     })
-//     .catch(err => res.status(500).json(err));
-// });
-
-// router.get('/test/:id', (req, res) => {
-//   decks
-//     .cardsArrTest(req.params.id)
-//     .then(decks => {
-//       res.status(200).json(format(decks));
-//     })
-//     .catch(err => res.status(500).json(err));
-// });
 
 module.exports = router;

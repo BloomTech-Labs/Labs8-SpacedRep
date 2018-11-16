@@ -6,6 +6,15 @@ const jwtAuthz = require('express-jwt-authz');
 const router = express.Router();
 router.use(checkJwt);
 
+// router.get('/', (req, res) => {
+//   cards
+//     .find()
+//     .then(cards => {
+//       res.status(200).json(cards);
+//     })
+//     .catch(err => res.status(500).json(err));
+// });
+
 router.post('/', (req, res) => {
   const card = req.body;
 
@@ -49,34 +58,5 @@ router.delete('/:id', (req, res) => {
     })
     .catch(err => res.status(500).json(err));
 });
-
-// router.get('/', (req, res) => {
-//   cards
-//     .find()
-//     .then(cards => {
-//       res.status(200).json(cards);
-//     })
-//     .catch(err => res.status(500).json(err));
-// });
-
-// router.get('/:id', (req, res) => {
-//   cards
-//     .findById(req.params.id)
-//     .then(cards => {
-//       res.status(200).json(cards);
-//     })
-//     .catch(err => res.status(500).json(err));
-// });
-
-// // THIS SHOULD BE AT THE /api/users/:id/cards ENDPOINT
-// // This endpoint should also include any matches from the userdeck junction table
-// router.get('/deck/:id', (req, res) => {
-//   cards
-//     .findByDeck(req.params.id)
-//     .then(cards => {
-//       res.status(200).json(cards);
-//     })
-//     .catch(err => res.status(500).json(err));
-// });
 
 module.exports = router;

@@ -3,7 +3,6 @@ const table = 'cards';
 
 module.exports = {
   find,
-  findById,
   findByDeck,
   add,
   update,
@@ -11,13 +10,7 @@ module.exports = {
 };
 
 function find() {
-  return db(table);
-}
-
-function findById(id) {
   return db(table)
-    .where({ id })
-    .first();
 }
 
 function findByDeck(id) {
