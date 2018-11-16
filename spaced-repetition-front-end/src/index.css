@@ -4,8 +4,8 @@
 
 body {
   font-family: Helvetica;
-  background: lightsteelblue;
-  color: white;
+  /*  background: lightsteelblue; */
+  background: #2c3d48;
 }
 
 a {
@@ -14,9 +14,11 @@ a {
 }
 
 a:hover {
+  color:white;
   text-decoration: underline;
 }
 
 a:visited {
   color: white;
 }
+
