@@ -10,6 +10,7 @@ import DeckList from './components/DeckList';
 import Wrapper from './components/Wrapper';
 import CardList from './components/CardList';
 import Profile from './components/Profile';
+import Billing from './components/Billing';
 // import data from './dummyData';
 import './App.css';
 
@@ -88,6 +89,7 @@ class App extends Component {
     const {
       decks, cards, profile, errorMessage,
     } = this.state;
+    console.log(profile);
     return (
       <AppWrapper>
         <Route path="/" render={props => <Header auth={auth} {...props} />} />
@@ -131,6 +133,24 @@ class App extends Component {
                 {...props}
               >
                 <CardList cards={cards} />
+              </Wrapper>
+            )}
+          />
+          <Route
+            path="/dashboard/billing"
+            render={props => (
+              <Wrapper
+                errorMsg={errorMessage}
+                profile={profile}
+                auth={auth}
+                handleProfile={this.handleProfile}
+                handleData={this.handleData}
+                {...props}
+              >
+                <Billing
+                  cards={cards}
+                  profile={profile}
+                />
               </Wrapper>
             )}
           />
