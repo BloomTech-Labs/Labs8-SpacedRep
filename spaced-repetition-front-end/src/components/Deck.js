@@ -8,7 +8,7 @@ const Deck = props => {
   return (
     <Container className="deck-container">
       <DeckHeader>
-        <Title>{deck.deckName}</Title>
+        <Title>{deck.name}</Title>
 
         <NumCards> 42 </NumCards>
       </DeckHeader>

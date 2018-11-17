@@ -61,11 +61,17 @@ class App extends Component {
 
   handleData = () => {
     const token = localStorage.getItem('id_token');
-    const API_URL = 'http://localhost:4242';
     const headers = { Authorization: `Bearer ${token}` };
-    const user = 3;
+    // Thinking sub should be sent by post request instead of as param in get request for security
+    // const body = { sub: this.state.profile.sub };
     const { decks } = this.state;
-    axios.get(`${API_URL}/api/decks/${user}`, { headers })
+    const id = 1;
+    const body = {
+      name: 'SQL',
+      public: false,
+      author: 2,
+    };
+    axios.put(`${process.env.REACT_APP_URL}/api/decks/${id}`, body, { headers })
       .then(response => (
         this.setState({
           decks: [...decks, response.data],

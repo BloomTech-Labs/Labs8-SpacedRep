@@ -4,8 +4,6 @@
 import auth0 from 'auth0-js';
 import history from '../history';
 
-require('dotenv').config();
-
 class Auth {
   // Universal Login configuration
   auth0 = new auth0.WebAuth({
@@ -13,7 +11,6 @@ class Auth {
     clientID: process.env.REACT_APP_CLIENT_ID,
     redirectUri: process.env.REACT_APP_REDIRECT,
     responseType: 'token id_token',
-    audience: process.env.REACT_APP_AUDIENCE,
     scope: 'openid profile email',
   });
 

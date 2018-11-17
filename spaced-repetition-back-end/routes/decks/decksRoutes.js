@@ -73,7 +73,18 @@ router.post('/', (req, res) => {
     });
 });
 
+// get the payload from the jwt
+// compare that to the deck author
+
+test = (token, secret) => {
+  jwt.verify(token, process.env.SECRET, function (err, decoded) {
+    console.log(decoded.foo) // bar
+  });
+
+}
+
 router.put('/:id', (req, res) => {
+  console.log('===== REQ', req);
   const { id } = req.params;
   const changes = req.body;
 

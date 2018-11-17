@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { CardElement, injectStripe } from 'react-stripe-elements';
+import axios from 'axios';
 
 class CheckoutForm extends Component {
   constructor(props) {
@@ -11,8 +12,19 @@ class CheckoutForm extends Component {
   submit = async e => {
     e.preventDefault();
     const { stripe } = this.props;
-    console.log(stripe);
+    const { email } = this.props;
     const { token } = await stripe.createToken();
+
+    if (!token) { return; }
+    const purchase = {
+      token: token,
+      email: email,
+    };
+    console.log(purchase);
+    axios.post('http://localhost:4242/api/purchases', purchase)
+      .then(success => console.log(success))
+      .catch(error => console.log(error));
+
     console.log(token);
     if (!token) {
       return;
@@ -23,6 +35,7 @@ class CheckoutForm extends Component {
       body: token.id
     });
     if (response.ok) console.log('Purchase Complete!');
+
   };
 
   render() {
