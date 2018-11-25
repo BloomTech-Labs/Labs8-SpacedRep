@@ -44,39 +44,13 @@ class App extends Component {
     };
   }
 
-  setProfile = (err, userProfile) => {
-    if (err) {
-      throw new Error(err);
-    } else if (userProfile) {
-      this.setState({
-        profile: { ...userProfile },
-      });
-    }
-  }
-
-  // Calls auth's getProfile and responds with the profile associated with the identity provider
-  // used (e.g. The username/password profile response will be somewhat different than Google's)
-  handleProfile = () => {
-    auth.getProfile(this.setProfile);
-  }
-
   handleData = () => {
+    console.log('handleData');
     const token = localStorage.getItem('id_token');
     const headers = { Authorization: `Bearer ${token}` };
-    // Thinking sub should be sent by post request instead of as param in get request for security
-    // const body = { sub: this.state.profile.sub };
-    const { decks } = this.state;
-    const id = 1;
-    const body = {
-      name: 'SQL',
-      public: false,
-      author: 2,
-    };
-    axios.put(`${process.env.REACT_APP_URL}/api/decks/${id}`, body, { headers })
+    axios.get(`${process.env.REACT_APP_URL}/api/decks/`, { headers })
       .then(response => (
-        this.setState({
-          decks: [...decks, response.data],
-        })
+        this.setState({ decks: response.data })
       ))
       .catch(error => (
         this.setState({
@@ -85,11 +59,25 @@ class App extends Component {
       ));
   }
 
+  // Calls auth's getProfile and responds with the profile associated with the identity provider
+  // used (e.g. The username/password profile response will be somewhat different than Google's)
+  handleProfile = async () => {
+    try {
+      console.log('handleProfile');
+      await auth.getProfile();
+      this.setState({
+        profile: auth.userProfile,
+      });
+    } catch (error) {
+      console.log('handleProfile failed: ', error);
+    }
+  }
+
   render() {
+    console.log('render App');
     const {
       decks, cards, profile, errorMessage,
     } = this.state;
-    console.log(profile);
     return (
       <AppWrapper>
         <Route path="/" render={props => <Header auth={auth} {...props} />} />

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Card from './Card';
 import '../App.css';
 
-const CardList = props => {
+const CardList = (props) => {
   const { cards } = props;
   return (
     <Container className="card-list-container">

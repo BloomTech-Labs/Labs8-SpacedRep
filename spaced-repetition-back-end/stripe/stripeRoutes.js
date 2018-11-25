@@ -2,40 +2,23 @@ const express = require('express');
 const router = express.Router();
 require('dotenv').config();
 
-const secretKey = process.env.STRIPE_SECRET_KEY;
-
-const stripe = require('stripe')(secretKey); // <- secret key from heroku
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 router.post('/', async (req, res) => {
-
-  // Find the current user
-  // const user = await User.findOne({ email: req.body.token.email });
-  // if (!user) {
-  //   return res.send("User Not Found");
-  // }
-
-  // Jameson's code^
-  console.log("token: ", req.body.token.id);
-  console.log("email: ", req.body.email);
-  const customer = stripe.customers
+  stripe.customers
     .create({
-      email: req.body.email, // email originates in App.js
+      email: req.body.email,
       source: req.body.token.id,
-      plan: "plan_DynouB6dXG4IcA" // should be stored in config file along with premium plan
+      plan: "plan_DynouB6dXG4IcA" // should probably be stored in a config file
     })
-    .catch(err => console.log(err));
+    .then(customer => {
+      res.status(200).json(customer);
+    })
+    .catch(err => res.status(500).json(err));
+});
 
-  // Add the stripeID and premium status to user
-  // await User.findOneAndUpdate(
-  //   { email: req.body.token.email },
-  //   { premium: true }
-  // );
-
-  // Jameson's code^
-  // basically, we need to update user's plan tier once subscribed
-
-  console.log(customer);
-  res.send(customer);
+router.delete('/', async (req, res) => {
+  // cancel subscription
 });
 
 module.exports = router;
