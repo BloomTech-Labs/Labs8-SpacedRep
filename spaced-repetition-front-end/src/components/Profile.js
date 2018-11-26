@@ -1,23 +1,10 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
+// import PropTypes from 'prop-types';
 
-class Profile extends Component {
-  componentWillMount() {
-    this.setState({ profile: {} });
-    const { auth } = this.props;
-    const { userProfile, getProfile } = auth;
-    if (!userProfile) {
-      getProfile((err, profile) => {
-        this.setState({ profile });
-      });
-    } else {
-      this.setState({ profile: userProfile });
-    }
-  }
-
-  render() {
-    const { profile } = this.state;
-    return (
+const Profile = (props) => {
+  const { profile } = props;
+  return profile
+    ? (
       <div className="container">
         <div className="profile-area">
           <h1>{profile.name}</h1>
@@ -31,15 +18,18 @@ class Profile extends Component {
           </div>
         </div>
       </div>
+    )
+    : (
+      <div className="container">
+        <div className="profile-area">
+          Loading...
+        </div>
+      </div>
     );
-  }
-}
+};
 
 export default Profile;
 
-Profile.propTypes = {
-  auth: PropTypes.shape({
-    userProfile: PropTypes.func.isRequired,
-    getProfile: PropTypes.func.isRequired,
-  }).isRequired,
-};
+// Profile.propTypes = {
+//   profile: PropTypes.object,
+// };

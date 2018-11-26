@@ -10,26 +10,26 @@ class Wrapper extends React.Component {
    * user's data and pass it to the relevant components.
    */
   componentDidMount() {
-    const { handleData, handleProfile } = this.props;
-    handleProfile(3);
-    handleData();
+    const { auth, handleData, handleProfile } = this.props;
+    if (auth.isAuthenticated()) {
+      handleProfile();
+      handleData();
+    }
   }
 
   render() {
-    console.log('props', this.props);
     const { children, auth } = this.props;
-    const { isAuthenticated } = auth;
     return (
       <WrapperContainer>
         {/* If the user is authenticated, render: */}
-        {isAuthenticated() && (
+        {auth.isAuthenticated() && (
           <BodyContainer>
             <Sidebar />
             {children}
           </BodyContainer>
         )}
         {/* If the user is not authenticated, render: */}
-        {!isAuthenticated() && (
+        {!auth.isAuthenticated() && (
           <h1>You are not logged in!</h1>
         )}
       </WrapperContainer>

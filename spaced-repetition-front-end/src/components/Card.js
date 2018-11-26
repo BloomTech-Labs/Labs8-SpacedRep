@@ -3,29 +3,30 @@ import styled from 'styled-components';
 // import PropTypes from 'prop-types';
 import '../App.css';
 
-const Card = props => {
+const Card = (props) => {
   const { card } = props;
+  console.log('card: ', card);
   return (
     <Container>
       <div>
         name:
-        {card.cardName}
+        {card.title}
       </div>
       <div>
         question:
-        {card.questionText}
+        {card.question}
       </div>
       <div>
         answer:
-        {card.answerText}
+        {card.answer}
       </div>
       <div>
-        code:
-        {card.codeSnippet}
+        language:
+        {card.language}
       </div>
       <div>
         tags:
-        {card.tags.join(', ')}
+        {card.tags}
       </div>
     </Container>
   );

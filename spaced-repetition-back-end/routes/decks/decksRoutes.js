@@ -1,16 +1,14 @@
 const express = require('express');
 const decks = require('./decksModel.js');
 const checkJwt = require('../../jwt');
-const jwtAuthz = require('express-jwt-authz');
+// const jwtAuthz = require('express-jwt-authz'); <- only needed if we use scopes
 
 const router = express.Router();
+
 router.use(checkJwt);
 
-// Should retrieve array of all the user's decks
-// decks should have property cards which is array of all cards
-// omit the user's userid from the response (?)
 router.get('/', (req, res) => {
-  let user_id = req.user.sub
+  let user_id = req.user.sub;
 
   function format(arr) {
     let deckNames = {};
@@ -18,15 +16,15 @@ router.get('/', (req, res) => {
     let count = 0;
     for (let i = 0; i < arr.length; i++) {
       // if deck exists, push just the card to the object's card array
-      if (deckNames[arr[i].name]) {
+      if (deckNames[arr[i].name] !== undefined) {
         formattedData[deckNames[arr[i].name]].cards.push({
-            "id": arr[i].id,
-            "title": arr[i].title,
-            "question": arr[i].question,
-            "answer": arr[i].answer,
-            "language": arr[i].language,
-            "deck_id": arr[i].deck_id
-          })
+          "id": arr[i].id,
+          "title": arr[i].title,
+          "question": arr[i].question,
+          "answer": arr[i].answer,
+          "language": arr[i].language,
+          "deck_id": arr[i].deck_id
+        });
       } else {
         // if deck does not exist, push the deck to formattedData array
         // add property to deckname objects and assign value of count (for referencing in the array)
@@ -43,8 +41,8 @@ router.get('/', (req, res) => {
             "answer": arr[i].answer,
             "language": arr[i].language,
             "deck_id": arr[i].deck_id
-          }] 
-        })
+          }]
+        });
       }
     }
     return formattedData;
@@ -53,6 +51,7 @@ router.get('/', (req, res) => {
   decks
     .findByAuthor(user_id)
     .then(decks => {
+      console.log(format(decks));
       res.status(200).json(format(decks));
     })
     .catch(err => res.status(500).json(err));
@@ -73,18 +72,8 @@ router.post('/', (req, res) => {
     });
 });
 
-// get the payload from the jwt
-// compare that to the deck author
-
-test = (token, secret) => {
-  jwt.verify(token, process.env.SECRET, function (err, decoded) {
-    console.log(decoded.foo) // bar
-  });
-
-}
-
 router.put('/:id', (req, res) => {
-  console.log('===== REQ', req);
+  // console.log('===== REQ', req);
   const { id } = req.params;
   const changes = req.body;
 

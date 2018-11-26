@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import '../App.css';
 
 const decksIcon = require('../images/DECKS.PNG');
-const cardsIcon = require('../images/CARD.PNG');
 
 const Sidebar = () => (
   <Container>
@@ -13,10 +12,6 @@ const Sidebar = () => (
       <ItemName>Decks</ItemName>
     </SidebarItem>
     <Divider />
-    <SidebarItem to="/dashboard/cards">
-      <Logo src={cardsIcon} />
-      <ItemName>Cards</ItemName>
-    </SidebarItem>
   </Container>
 );
 

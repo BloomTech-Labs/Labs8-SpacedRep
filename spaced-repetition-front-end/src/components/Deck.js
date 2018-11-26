@@ -3,7 +3,7 @@ import styled from 'styled-components';
 // import PropTypes from 'prop-types';
 import '../App.css';
 
-const Deck = props => {
+const Deck = (props) => {
   const { deck } = props;
   return (
     <Container className="deck-container">
