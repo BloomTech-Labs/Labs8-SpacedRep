@@ -101,7 +101,7 @@ class App extends Component {
               path="/dashboard/decks/:deckId/train"
               render={(props) => {
                 const deckToTrain = this.handleTrainDeck(props);
-                return <TrainDeck deck={deckToTrain} {...props} />;
+                return <TrainDeck deck={deckToTrain[0]} {...props} />;
               }}
             />
             <Route exact path="/dashboard/billing" render={props => <Billing profile={profile} {...props} />} />
