@@ -43,6 +43,19 @@ class App extends Component {
     };
   }
 
+  // Calls auth's getProfile and responds with the profile associated with the identity provider
+  // used (e.g. The username/password profile response will be somewhat different than Google's)
+  handleProfile = async () => {
+    try {
+      await auth.getProfile();
+      this.setState({
+        profile: auth.userProfile,
+      });
+    } catch (error) {
+      console.log('handleProfile failed: ', error);
+    }
+  }
+
   handleData = () => {
     this.getDecks();
     this.getCards();
@@ -74,19 +87,6 @@ class App extends Component {
           errorMessage: error,
         })
       ));
-  }
-
-  // Calls auth's getProfile and responds with the profile associated with the identity provider
-  // used (e.g. The username/password profile response will be somewhat different than Google's)
-  handleProfile = async () => {
-    try {
-      await auth.getProfile();
-      this.setState({
-        profile: auth.userProfile,
-      });
-    } catch (error) {
-      console.log('handleProfile failed: ', error);
-    }
   }
 
   render() {
