@@ -34,7 +34,6 @@ class Auth {
      * dashboard view. Otherwise, redirection is set to the landing page.
      */
     this.auth0.parseHash((err, authResult) => {
-      console.log(authResult);
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
         history.replace('/dashboard');
