@@ -9,27 +9,27 @@ class Wrapper extends React.Component {
    * handleData() initiates a call to the same function in App.js to fetch the authenticated
    * user's data and pass it to the relevant components.
    */
-  componentDidMount = async () => {
-    const { handleData, handleProfile } = this.props;
-    await handleProfile();
-    handleData();
+  componentDidMount() {
+    const { auth, handleData, handleProfile } = this.props;
+    if (auth.isAuthenticated()) {
+      handleProfile();
+      handleData();
+    }
   }
 
   render() {
-    console.log('render Wrapper');
     const { children, auth } = this.props;
-    const { isAuthenticated } = auth;
     return (
       <WrapperContainer>
         {/* If the user is authenticated, render: */}
-        {isAuthenticated() && (
+        {auth.isAuthenticated() && (
           <BodyContainer>
             <Sidebar />
             {children}
           </BodyContainer>
         )}
         {/* If the user is not authenticated, render: */}
-        {!isAuthenticated() && (
+        {!auth.isAuthenticated() && (
           <h1>You are not logged in!</h1>
         )}
       </WrapperContainer>

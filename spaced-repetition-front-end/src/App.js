@@ -11,7 +11,6 @@ import Wrapper from './components/Wrapper';
 import CardList from './components/CardList';
 import Profile from './components/Profile';
 import Billing from './components/Billing';
-// import data from './dummyData';
 import './App.css';
 
 /**
@@ -40,12 +39,16 @@ class App extends Component {
       cards: [],
       decks: [],
       profile: null,
-      errorMessage: '',
+      errorMessage: '', // better to add redux or pass the same error props everywhere?
     };
   }
 
   handleData = () => {
-    console.log('handleData');
+    this.getDecks();
+    this.getCards();
+  }
+
+  getDecks = () => {
     const token = localStorage.getItem('id_token');
     const headers = { Authorization: `Bearer ${token}` };
     axios.get(`${process.env.REACT_APP_URL}/api/decks/`, { headers })
@@ -59,11 +62,24 @@ class App extends Component {
       ));
   }
 
+  getCards = () => {
+    const token = localStorage.getItem('id_token');
+    const headers = { Authorization: `Bearer ${token}` };
+    axios.get(`${process.env.REACT_APP_URL}/api/cards/`, { headers })
+      .then(response => (
+        this.setState({ cards: response.data })
+      ))
+      .catch(error => (
+        this.setState({
+          errorMessage: error,
+        })
+      ));
+  }
+
   // Calls auth's getProfile and responds with the profile associated with the identity provider
   // used (e.g. The username/password profile response will be somewhat different than Google's)
   handleProfile = async () => {
     try {
-      console.log('handleProfile');
       await auth.getProfile();
       this.setState({
         profile: auth.userProfile,
@@ -74,17 +90,15 @@ class App extends Component {
   }
 
   render() {
-    console.log('render App');
-    const {
-      decks, cards, profile, errorMessage,
-    } = this.state;
+    const { decks, cards, profile } = this.state;
     return (
       <AppWrapper>
         <Route path="/" render={props => <Header auth={auth} {...props} />} />
+
         <Switch>
+
           <Route exact path="/" render={props => <LandingPage auth={auth} {...props} />} />
-          <Route exact path="/dashboard" render={props => <Wrapper errorMsg={errorMessage} profile={profile} auth={auth} handleProfile={this.handleProfile} handleData={this.handleData} {...props} />} />
-          <Route exact path="/dashboard/profile" render={props => <Profile auth={auth} {...props} />} />
+
           <Route
             path="/callback"
             render={(props) => {
@@ -92,57 +106,17 @@ class App extends Component {
               return <Callback {...props} />;
             }}
           />
-          {/* `/dashboard`, /dasbhoard/decks`, and `/dashboard/cards` need refactoring
-          Each Wrapper route needs the same props to compile. There is probably a better way */}
-          <Route
-            path="/dashboard/decks"
-            render={props => (
-              <Wrapper
-                errorMsg={errorMessage}
-                profile={profile}
-                auth={auth}
-                handleProfile={this.handleProfile}
-                handleData={this.handleData}
-                {...props}
-              >
-                <DeckList decks={decks} />
-              </Wrapper>
-            )}
-          />
-          <Route
-            path="/dashboard/cards"
-            render={props => (
-              <Wrapper
-                errorMsg={errorMessage}
-                profile={profile}
-                auth={auth}
-                handleProfile={this.handleProfile}
-                handleData={this.handleData}
-                {...props}
-              >
-                <CardList cards={cards} />
-              </Wrapper>
-            )}
-          />
-          <Route
-            path="/dashboard/billing"
-            render={props => (
-              <Wrapper
-                errorMsg={errorMessage}
-                profile={profile}
-                auth={auth}
-                handleProfile={this.handleProfile}
-                handleData={this.handleData}
-                {...props}
-              >
-                <Billing
-                  cards={cards}
-                  profile={profile}
-                />
-              </Wrapper>
-            )}
-          />
+
+          <Wrapper auth={auth} handleProfile={this.handleProfile} handleData={this.handleData}>
+            <Route exact path="/dashboard" />
+            <Route exact path="/dashboard/profile" render={props => <Profile profile={profile} {...props} />} />
+            <Route exact path="/dashboard/decks" render={props => <DeckList decks={decks} {...props} />} />
+            <Route exact path="/dashboard/cards" render={props => <CardList cards={cards} {...props} />} />
+            <Route exact path="/dashboard/billing" render={props => <Billing profile={profile} {...props} />} />
+          </Wrapper>
+
         </Switch>
+
       </AppWrapper>
     );
   }

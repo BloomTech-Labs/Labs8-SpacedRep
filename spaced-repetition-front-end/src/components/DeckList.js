@@ -28,7 +28,6 @@ class DeckList extends React.Component {
 
   render() {
     const { decks } = this.props;
-    console.log('decks: ', decks);
     return (
       <Container>
         <button onClick={this.handleCreateNewDeck} type="submit">New deck</button>

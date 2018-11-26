@@ -28,5 +28,5 @@ const Container = styled.div`
 `;
 
 // Wrapper.propTypes = {
-//   decks: PropTypes.array.isRequired
+//   cards: PropTypes.array.isRequired
 // };
