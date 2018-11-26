@@ -8,7 +8,6 @@ import Header from './components/Header';
 import LandingPage from './components/LandingPage';
 import DeckList from './components/DeckList';
 import Wrapper from './components/Wrapper';
-import CardList from './components/CardList';
 import Profile from './components/Profile';
 import Billing from './components/Billing';
 import './App.css';
@@ -36,7 +35,6 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cards: [],
       decks: [],
       profile: null,
       errorMessage: '', // better to add redux or pass the same error props everywhere?
@@ -57,11 +55,6 @@ class App extends Component {
   }
 
   handleData = () => {
-    this.getDecks();
-    this.getCards();
-  }
-
-  getDecks = () => {
     const token = localStorage.getItem('id_token');
     const headers = { Authorization: `Bearer ${token}` };
     axios.get(`${process.env.REACT_APP_URL}/api/decks/`, { headers })
@@ -75,22 +68,8 @@ class App extends Component {
       ));
   }
 
-  getCards = () => {
-    const token = localStorage.getItem('id_token');
-    const headers = { Authorization: `Bearer ${token}` };
-    axios.get(`${process.env.REACT_APP_URL}/api/cards/`, { headers })
-      .then(response => (
-        this.setState({ cards: response.data })
-      ))
-      .catch(error => (
-        this.setState({
-          errorMessage: error,
-        })
-      ));
-  }
-
   render() {
-    const { decks, cards, profile } = this.state;
+    const { decks, profile } = this.state;
     return (
       <AppWrapper>
         <Route path="/" render={props => <Header auth={auth} {...props} />} />
@@ -111,7 +90,6 @@ class App extends Component {
             <Route exact path="/dashboard" />
             <Route exact path="/dashboard/profile" render={props => <Profile profile={profile} {...props} />} />
             <Route exact path="/dashboard/decks" render={props => <DeckList decks={decks} {...props} />} />
-            <Route exact path="/dashboard/cards" render={props => <CardList cards={cards} {...props} />} />
             <Route exact path="/dashboard/billing" render={props => <Billing profile={profile} {...props} />} />
           </Wrapper>
 

@@ -12,7 +12,6 @@ class Billing extends React.Component {
 
   render() {
     const { profile } = this.props;
-    console.log('billing: ', profile);
     return (
       <StripeProvider apiKey="pk_test_KoWcK14l0HlLnKEAFc9icsPa">
         <BillingContainer>
