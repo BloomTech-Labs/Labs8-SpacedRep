@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 class Card extends React.Component {
   state = { trained: false };
 
-  toggleAnswer = () => {
+  showAnswer = () => {
     this.setState({ trained: true });
   }
 
@@ -14,67 +14,46 @@ class Card extends React.Component {
     const { trained } = this.state;
     return (
       data ? (
-        <div className="card">
-          <div className="card-data">
-            <h2>{data.cards[0].title}</h2>
-            <p>{data.cards[0].question}</p>
-          </div>
+        <CardContainer>
+          <CardData>
+            <CardTitle>{data.cards[0].title}</CardTitle>
+            <CardText>{data.cards[0].question}</CardText>
+          </CardData>
           {trained && (
-            <div className="card-interactions">
-              <p>{data.cards[0].answer}</p>
-              <button type="button">Missed It</button>
-              <button type="button">Got It</button>
-            </div>
+            <CardInteractions>
+              <CardText>{data.cards[0].answer}</CardText>
+              <CardButton type="button">Missed It</CardButton>
+              <CardButton type="button">Got It</CardButton>
+            </CardInteractions>
           )}
-          {!trained && <button type="button" onClick={this.toggleAnswer}>Show Answer</button>}
-        </div>
+          {!trained && <button type="button" onClick={this.showAnswer}>Show Answer</button>}
+        </CardContainer>
       ) : null
     );
   }
 }
 
-// import '../App.css';
-
-// const Card = (props) => {
-//   const { card } = props;
-//   console.log('card: ', card);
-//   return (
-//     <Container>
-//       <div>
-//         name:
-//         {card.title}
-//       </div>
-//       <div>
-//         question:
-//         {card.question}
-//       </div>
-//       <div>
-//         answer:
-//         {card.answer}
-//       </div>
-//       <div>
-//         language:
-//         {card.language}
-//       </div>
-//       <div>
-//         tags:
-//         {card.tags}
-//       </div>
-//     </Container>
-//   );
-// };
-
 export default Card;
 
-// const Container = styled.div`
-//   padding: 20px;
-//   margin: 5px;
-//   width: 50%;
-//   border: 1px solid ${props => props.theme.dark.sidebar};
-//   background: ${props => props.theme.dark.cardBackground};
-//   border-radius: 4px;
-// `;
+// styles
+const CardContainer = styled.div`
+`;
 
-// // Wrapper.propTypes = {
-// //   card: PropTypes.object.isRequired
-// // };
+const CardData = styled.div`
+`;
+
+const CardTitle = styled.h2`
+`;
+
+const CardText = styled.p`
+`;
+
+const CardInteractions = styled.div`
+`;
+
+const CardButton = styled.button`
+`;
+
+Card.propTypes = {
+  data: PropTypes.shape().isRequired,
+};
