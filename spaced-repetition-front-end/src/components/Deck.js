@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 // import PropTypes from 'prop-types';
 import '../App.css';
 
-const Deck = (props) => {
-  const { deck } = props;
+const Deck = ({ deck }) => {
   return (
     <Container className="deck-container">
       <DeckHeader>
@@ -14,6 +14,7 @@ const Deck = (props) => {
       </DeckHeader>
 
       <DeckBody>
+        <Link to={`/dashboard/decks/${deck.id}/train`}>Train Deck</Link>
         <DueDate> 11/19/2018 </DueDate>
       </DeckBody>
     </Container>
