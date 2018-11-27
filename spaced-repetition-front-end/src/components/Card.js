@@ -32,11 +32,19 @@ class Card extends React.Component {
         <CardContainer>
           <CardData>
             <CardTitle>{data.cards[currentCard].title}</CardTitle>
-            <CardText>{data.cards[currentCard].question}</CardText>
+            <CardText>
+              Question:
+              {' '}
+              {data.cards[currentCard].question}
+            </CardText>
           </CardData>
           {trained && (
             <CardInteractions>
-              <CardText>{data.cards[currentCard].answer}</CardText>
+              <CardText>
+                Answer:
+                {' '}
+                {data.cards[currentCard].answer}
+              </CardText>
               {/* Missed It and Got It buttons should connect to the SRS algorithm */}
               <CardButton type="button">Missed It</CardButton>
               <CardButton type="button">Got It</CardButton>
