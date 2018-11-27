@@ -34,5 +34,25 @@ router.post('/', (req, res) => {
         });
 });
 
+router.post('/tier', (req, res) => {
+    const user_id = req.user.sub;
+    const { tier } = req.body;
+    console.log(user_id);
+
+    users
+        .upsertTier({ user_id, tier })
+        .then(success => {
+            console.log(success)
+            if (!success || success < 1) {
+                res.status(404).json({ message: 'No records found to update' });
+            } else {
+                res.status(200).json(success);
+            }
+        })
+        .catch(err => res.status(500).json(err));
+});
+
+
+
 
 module.exports = router;
