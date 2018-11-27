@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import PropTypes from 'prop-types';
 
 class Card extends React.Component {
@@ -68,25 +68,27 @@ class Card extends React.Component {
           </CardData>
           {trained && (
             <CardInteractions>
-              <CardText>
-                Answer:
-                {' '}
-                {data.cards[currentCard].answer}
-              </CardText>
-              {/* Missed It and Got It buttons should connect to the SRS algorithm */}
-              <CardButton type="button" onClick={this.handleMissed}>Missed It</CardButton>
-              <CardButton type="button" onClick={this.handleGot}>Got It</CardButton>
-              {(currentCard + 1) !== data.cards.length
-                ? (
-                  <NextCardButton type="button" onClick={this.nextCard} showNext={showNext}>Next</NextCardButton>
-                )
-                : (
-                  // Routing users back to deckl ist for now. Could add intermediary
-                  // modal with further options (e.g. train again, deck list, dashboard, etc)
-                  // showNext to string is recommended fix to console warning
-                  <NextCardLink to="/dashboard/decks" shownext={showNext.toString()}>End Training Session</NextCardLink>
-                )
-              }
+              <AnimateOnReveal>
+                <CardText>
+                  Answer:
+                  {' '}
+                  {data.cards[currentCard].answer}
+                </CardText>
+                {/* Missed It and Got It buttons should connect to the SRS algorithm */}
+                <CardButton type="button" onClick={this.handleMissed}>Missed It</CardButton>
+                <CardButton type="button" onClick={this.handleGot}>Got It</CardButton>
+                {(currentCard + 1) !== data.cards.length
+                  ? (
+                    <NextCardButton type="button" onClick={this.nextCard} showNext={showNext}>Next</NextCardButton>
+                  )
+                  : (
+                    // Routing users back to deckl ist for now. Could add intermediary
+                    // modal with further options (e.g. train again, deck list, dashboard, etc)
+                    // showNext to string is recommended fix to console warning
+                    <NextCardLink to="/dashboard/decks" shownext={showNext.toString()}>End Training Session</NextCardLink>
+                  )
+                }
+              </AnimateOnReveal>
               <NextCardProgressText hidePrompt={showNext}>
                 How did you do? Select to see the next card.
               </NextCardProgressText>
@@ -177,6 +179,20 @@ const OptionItem = styled.p`
   &:hover {
     color: turquoise;
   }
+`;
+
+const FadeIn = keyframes`
+  0% {
+    opacity: 0;
+  }
+
+  75% {
+    opacity: 1;
+  }
+`;
+
+const AnimateOnReveal = styled.div`
+  animation: ${FadeIn} 2s;
 `;
 
 Card.defaultProps = {
