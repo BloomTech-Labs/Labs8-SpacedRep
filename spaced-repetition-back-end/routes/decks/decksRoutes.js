@@ -51,6 +51,7 @@ router.get('/', (req, res) => {
   decks
     .findByAuthor(user_id)
     .then(decks => {
+      // console.log(user_id);
       console.log(format(decks));
       res.status(200).json(format(decks));
     })
@@ -70,6 +71,12 @@ router.post('/', (req, res) => {
       console.log(err.message);
       res.status(500).json(err);
     });
+});
+
+router.post('/progress', (req, res) => {
+  //cardsToUpdate = [{difficulty: '', cardID: ''},{..etc}, ..etc]
+  const cardsToUpdate = req.body;
+  // console.log(cardsToUpdate)
 });
 
 router.put('/:id', (req, res) => {

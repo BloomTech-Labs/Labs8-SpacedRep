@@ -1,24 +1,25 @@
 import React from 'react';
 import styled from 'styled-components';
-// import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import '../App.css';
 
-const Deck = (props) => {
-  const { deck } = props;
-  return (
-    <Container className="deck-container">
-      <DeckHeader>
-        <Title>{deck.name}</Title>
+const Deck = ({ deck }) => (
+  <Container>
+    <DeckHeader>
+      <Title>{deck.name}</Title>
 
-        <NumCards> 42 </NumCards>
-      </DeckHeader>
+      <NumCards>{deck.cards.length}</NumCards>
+    </DeckHeader>
 
-      <DeckBody>
-        <DueDate> 11/19/2018 </DueDate>
-      </DeckBody>
-    </Container>
-  );
-};
+    <DeckBody>
+      {/* Routes user to deck training component which handles all
+      of the training logic and flow. */}
+      <TrainDeckLink to={`/dashboard/decks/${deck.id}/train`}>Train Deck</TrainDeckLink>
+      <DueDate> 11/19/2018 </DueDate>
+    </DeckBody>
+  </Container>
+);
 
 export default Deck;
 
@@ -47,13 +48,17 @@ const NumCards = styled.div`
 
 const DeckBody = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+`;
+
+const TrainDeckLink = styled(Link)`
+font-size: 16px;
 `;
 
 const DueDate = styled.div`
   color: lightgreen;
 `;
 
-// Wrapper.propTypes = {
-//   deck: PropTypes.object.isRequired
-// };
+Deck.propTypes = {
+  deck: PropTypes.shape().isRequired,
+};

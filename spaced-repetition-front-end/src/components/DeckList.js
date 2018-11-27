@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import Deck from './Deck';
 import '../App.css';
 
-
 class DeckList extends React.Component {
   constructor(props) {
     super(props);
