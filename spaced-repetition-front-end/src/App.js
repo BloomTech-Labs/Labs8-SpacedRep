@@ -51,6 +51,7 @@ class App extends Component {
   handleProfile = async () => {
     try {
       await auth.getProfile();
+      console.log(auth)
       this.setState({
         profile: auth.userProfile,
       });

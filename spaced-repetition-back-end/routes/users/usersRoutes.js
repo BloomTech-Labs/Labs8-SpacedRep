@@ -9,9 +9,13 @@ router.get('/', (req, res) => {
     users
         .find()
         .then(users => {
+            console.log('users', users)
             res.status(200).json(users);
         })
-        .catch(err => res.status(500).json(err));
+        .catch(err => {
+            console.log(err.message)
+            res.status(500).json(err)
+        });
 });
 
 router.post('/', (req, res) => {
@@ -21,7 +25,7 @@ router.post('/', (req, res) => {
     users
         .createUser(user_id)
         .then(ids => {
-            console.log('then');
+            console.log('ids: ', ids[0]);
             res.status(201).json(ids[0]);
         })
         .catch(err => {

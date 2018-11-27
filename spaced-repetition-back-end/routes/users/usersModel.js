@@ -27,7 +27,13 @@ function upsert(id) {
 }
 
 function createUser(id) {
-    console.log(findByUser(id));
+    return findByUser(id).then(user => {
+        if (user[0]) return user[0]
+        else {
+            console.log('user not found, creating user')
+            return db(table).returning('id').insert({ user_id: id })
+        }
+    })
 
 }
 
