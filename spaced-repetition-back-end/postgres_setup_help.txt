@@ -35,3 +35,15 @@ knex seed:run
 SELECT * from users;
 
 you should now see all the seeded data in the users table
+
+
+
+
+___________________________________________________________
+to reset local postgres for new knex migrations, seeding:
+
+login to #srsly
+
+drop table users;
+drop table knex_migrations;
+drop table knex_migrations_lock;

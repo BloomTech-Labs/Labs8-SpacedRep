@@ -16,6 +16,15 @@ class Card extends React.Component {
     this.setState({ trained: true });
   }
 
+  handleAnswer(difficulty) {
+    // object to send to server: {difficulty: '', cardID: ''};
+    const cardID = this.props.data.cards[this.state.currentCard].id;
+    const progress = { cardID, difficulty };
+
+    this.setState({ showNext: true })
+    this.props.updateProgress(progress);
+  }
+
   nextCard = () => {
     const { currentCard } = this.state;
     this.setState({
@@ -39,15 +48,6 @@ class Card extends React.Component {
     this.setState({ redirect: true });
   }
 
-  handleMissed = () => {
-    this.setState({ showNext: true });
-    // send update to SRS algorithm
-  };
-
-  handleGot = () => {
-    this.setState({ showNext: true });
-    // send update to SRS algorithm
-  };
 
   render() {
     const { data } = this.props;
@@ -63,7 +63,7 @@ class Card extends React.Component {
               <CardTitle>{data.cards[currentCard].title}</CardTitle>
               <CardText>
                 Question:
-                {' '}
+
                 {data.cards[currentCard].question}
               </CardText>
             </CardContainer>
@@ -72,13 +72,13 @@ class Card extends React.Component {
                 <AnimateOnReveal>
                   <CardText>
                     Answer:
-                    {' '}
+
                     {data.cards[currentCard].answer}
                   </CardText>
                   {/* Missed It and Got It buttons should connect to the SRS algorithm */}
                   <ButtonContainer>
-                    <CardButton type="button" onClick={this.handleMissed}>Missed It</CardButton>
-                    <CardButton type="button" onClick={this.handleGot}>Got It</CardButton>
+                    <CardButton type="button" onClick={() => this.handleAnswer(0)} >Missed It</CardButton>
+                    <CardButton type="button" onClick={() => this.handleAnswer(1)}>Got It</CardButton>
                     {(currentCard + 1) !== data.cards.length
                       ? (
                         <NextCardButton type="button" onClick={this.nextCard} showNext={showNext}>Next</NextCardButton>

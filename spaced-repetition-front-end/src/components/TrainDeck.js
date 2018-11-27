@@ -5,14 +5,14 @@ import Card from './Card';
 
 // "Deckname" should be replaced with the dynamic name of the deck.
 // Not priority or urgent at this time.
-const TrainDeck = ({ deck }) => (
+const TrainDeck = ({ deck, updateProgress }) => (
   <TrainingContainer>
     <TrainingHeader>
       Currently training:
       {' '}
       {deck ? deck.name : 'Loading...'}
     </TrainingHeader>
-    <Card data={deck} />
+    <Card data={deck} updateProgress={updateProgress} />
   </TrainingContainer>
 );
 

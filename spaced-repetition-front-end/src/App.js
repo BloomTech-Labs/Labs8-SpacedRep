@@ -32,12 +32,16 @@ const handleAuthentication = ({ location }) => {
   }
 };
 
+const WAIT_INTERVAL = 5000;
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       decks: [],
       profile: null,
+      cardsToUpdate: [],
+      serverUpdateTimer: null,
       errorMessage: '', // better to add redux or pass the same error props everywhere?
     };
   }
@@ -58,6 +62,7 @@ class App extends Component {
   handleData = () => {
     const token = localStorage.getItem('id_token');
     const headers = { Authorization: `Bearer ${token}` };
+
     axios.get(`${process.env.REACT_APP_URL}/api/decks/`, { headers })
       .then(response => (
         this.setState({ decks: response.data })
@@ -68,6 +73,39 @@ class App extends Component {
         })
       ));
   }
+
+  addCardToUpdate = (cardProgressObject) => {
+    console.log(cardProgressObject)
+    // cardProgressObject = {difficulty: '', cardID: ''}
+    this.setState({
+      cardsToUpdate: [cardProgressObject, ...this.state.cardsToUpdate],
+      serverUpdateTimer: setTimeout(this.updateServer, WAIT_INTERVAL),
+    });
+  };
+
+  updateServer = () => {
+    // wait is done, send a POST to server to update card progress in case user does not save manually
+    console.log('updating')
+
+    const cards = this.state.cardsToUpdate;
+    if (cards.length > 0) {
+      // update server
+      const headers = { Authorization: `Bearer ${localStorage.getItem('id_token')}` };
+
+      // axios post not formatted correctly yet
+      axios
+        .post(`${process.env.REACT_APP_URL}/api/decks/progress`, { cards }, { headers })
+        .then((response) => {
+          this.setState({ decks: response.data });
+        })
+        .catch(error => this.setState({
+          errorMessage: error,
+        }));
+    }
+
+    // reset timer and updateQueue
+    this.setState({ cardsToUpdate: [], serverUpdateTimer: null });
+  };
 
   handleTrainDeck = (props) => {
     const { decks } = this.state;
@@ -81,7 +119,6 @@ class App extends Component {
         <Route path="/" render={props => <Header auth={auth} {...props} />} />
 
         <Switch>
-
           <Route exact path="/" render={props => <LandingPage auth={auth} {...props} />} />
 
           <Route
@@ -101,14 +138,12 @@ class App extends Component {
               path="/dashboard/decks/:deckId/train"
               render={(props) => {
                 const deckToTrain = this.handleTrainDeck(props);
-                return <TrainDeck deck={deckToTrain[0]} {...props} />;
+                return <TrainDeck deck={deckToTrain[0]} updateProgress={this.addCardToUpdate} {...props} />;
               }}
             />
             <Route exact path="/dashboard/billing" render={props => <Billing profile={profile} {...props} />} />
           </Wrapper>
-
         </Switch>
-
       </AppWrapper>
     );
   }
