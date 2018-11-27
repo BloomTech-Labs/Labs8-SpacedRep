@@ -15,7 +15,7 @@ const Deck = ({ deck }) => (
     <DeckBody>
       {/* Routes user to deck training component which handles all
       of the training logic and flow. */}
-      <Link to={`/dashboard/decks/${deck.id}/train`}>Train Deck</Link>
+      <TrainDeckLink to={`/dashboard/decks/${deck.id}/train`}>Train Deck</TrainDeckLink>
       <DueDate> 11/19/2018 </DueDate>
     </DeckBody>
   </Container>
@@ -48,7 +48,11 @@ const NumCards = styled.div`
 
 const DeckBody = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+`;
+
+const TrainDeckLink = styled(Link)`
+font-size: 16px;
 `;
 
 const DueDate = styled.div`
