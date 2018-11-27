@@ -10,6 +10,8 @@ import DeckList from './components/DeckList';
 import Wrapper from './components/Wrapper';
 import Profile from './components/Profile';
 import Billing from './components/Billing';
+import AddDeck from './components/AddDeck';
+
 import './App.css';
 
 /**
@@ -91,6 +93,7 @@ class App extends Component {
             <Route exact path="/dashboard/profile" render={props => <Profile profile={profile} {...props} />} />
             <Route exact path="/dashboard/decks" render={props => <DeckList decks={decks} {...props} />} />
             <Route exact path="/dashboard/billing" render={props => <Billing profile={profile} {...props} />} />
+            <Route exact path="/dashboard/add-deck" render={props => <AddDeck profile={profile} {...props} />} />
           </Wrapper>
 
         </Switch>
