@@ -58,6 +58,7 @@ class Card extends React.Component {
     if (redirect) {
       return <Redirect to="/dashboard/decks" />;
     }
+    console.log('state', this.state)
     return (
       data ? (
         <CardContainer>
@@ -86,6 +87,7 @@ class Card extends React.Component {
                 : (
                   // Routing users back to deckl ist for now. Could add intermediary
                   // modal with further options (e.g. train again, deck list, dashboard, etc)
+                  // showNext to string is recommended fix to console warning
                   <NextCardLink to="/dashboard/decks" shownext={showNext.toString()}>End Training Session</NextCardLink>
                 )
               }
@@ -144,8 +146,9 @@ const NextCardButton = styled.button`
   display: ${props => (props.showNext ? 'inline-block' : 'none')};
 `;
 
-const NextCardLink = styled(Link)`
-  display: ${props => (props.shownext ? 'inline-block' : 'none')};
+// because prop value is cast to a string, the condition will evaluate to true when value is false
+const NextCardLink = styled(Link)` 
+  display: ${props => (props.shownext === 'true' ? 'inline-block' : 'none')};
   font-size: 16px;
   `;
 
