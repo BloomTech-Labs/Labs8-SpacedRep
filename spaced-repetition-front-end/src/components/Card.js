@@ -8,6 +8,7 @@ class Card extends React.Component {
     trained: false,
     currentCard: 0, // deck training begins with the first card in the array
     showOptions: false, // show/hide menu for quitting session, editing card, etc
+    showNext: false, // shows next/end training session buttons after missed it/got it is selected
   };
 
   showAnswer = () => {
@@ -17,8 +18,10 @@ class Card extends React.Component {
   nextCard = () => {
     const { currentCard } = this.state;
     this.setState({
-      currentCard: currentCard + 1,
       trained: false,
+      currentCard: currentCard + 1,
+      showOptions: false,
+      showNext: false,
     });
   }
 
@@ -34,9 +37,21 @@ class Card extends React.Component {
     // Route back to deck list
   }
 
+  handleMissed = () => {
+    this.setState({ showNext: true });
+    // send update to SRS algorithm
+  };
+
+  handleGot = () => {
+    this.setState({ showNext: true });
+    // send update to SRS algorithm
+  };
+
   render() {
     const { data } = this.props;
-    const { trained, currentCard, showOptions } = this.state;
+    const {
+      trained, currentCard, showOptions, showNext,
+    } = this.state;
     return (
       data ? (
         <CardContainer>
@@ -56,18 +71,19 @@ class Card extends React.Component {
                 {data.cards[currentCard].answer}
               </CardText>
               {/* Missed It and Got It buttons should connect to the SRS algorithm */}
-              <CardButton type="button">Missed It</CardButton>
-              <CardButton type="button">Got It</CardButton>
+              <CardButton type="button" onClick={this.handleMissed}>Missed It</CardButton>
+              <CardButton type="button" onClick={this.handleGot}>Got It</CardButton>
               {(currentCard + 1) !== data.cards.length
                 ? (
-                  <CardButton type="button" onClick={this.nextCard}>Next</CardButton>
+                  <NextCardButton type="button" onClick={this.nextCard} showNext={showNext}>Next</NextCardButton>
                 )
                 : (
                   // Routing users back to deckl ist for now. Could add intermediary
                   // modal with further options (e.g. train again, deck list, dashboard, etc)
-                  <CardLink to="/dashboard/decks">End Training Session</CardLink>
+                  <NextCardLink to="/dashboard/decks" shownext={showNext.toString()}>End Training Session</NextCardLink>
                 )
               }
+              <NextCardProgressText hidePrompt={showNext}>How did you do? Select to see the next card.</NextCardProgressText>
             </CardInteractions>
           )}
           {!trained && (
@@ -101,34 +117,44 @@ export default Card;
 
 // styles
 const CardContainer = styled.div`
-`;
+    `;
 
 const CardData = styled.div`
-`;
+    `;
 
 const CardTitle = styled.h2`
-`;
+    `;
 
 const CardText = styled.p`
-`;
+    `;
 
 const CardInteractions = styled.div`
-`;
+    `;
 
 const CardButton = styled.button`
+    `;
+
+const NextCardButton = styled.button`
+  display: ${props => (props.showNext ? 'inline-block' : 'none')};
 `;
 
-const CardLink = styled(Link)`
+const NextCardLink = styled(Link)`
+  display: ${props => (props.shownext ? 'inline-block' : 'none')};
   font-size: 16px;
-`;
+  `;
 
 const ProgressText = styled.p`
+  font-size: 12px;
+  `;
+
+const NextCardProgressText = styled(ProgressText)`
+  visibility: ${props => (props.hidePrompt ? 'hidden' : 'visible')};
   font-size: 12px;
 `;
 
 const OptionsButton = styled.div`
   cursor: pointer;
-
+          
   &:hover {
     color: turquoise;
   }
@@ -140,7 +166,7 @@ const OptionsMenu = styled.div`
 
 const OptionItem = styled.p`
   cursor: pointer;
-
+        
   &:hover {
     color: turquoise;
   }
