@@ -23,7 +23,10 @@ const TrainingContainer = styled.div`
 
 const TrainingHeader = styled.h2`
 `;
+TrainDeck.defaultProps = {
+  deck: null,
+};
 
 TrainDeck.propTypes = {
-  deck: PropTypes.shape().isRequired,
+  deck: PropTypes.shape(),
 };

@@ -94,7 +94,10 @@ const ProgressContainer = styled.div`
 const ProgressText = styled.p`
 font-size: 12px;
 `;
+Card.defaultProps = {
+  data: null,
+};
 
 Card.propTypes = {
-  data: PropTypes.shape().isRequired,
+  data: PropTypes.shape(),
 };
