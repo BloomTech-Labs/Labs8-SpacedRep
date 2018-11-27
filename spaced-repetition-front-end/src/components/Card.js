@@ -1,48 +1,59 @@
 import React from 'react';
 import styled from 'styled-components';
-// import PropTypes from 'prop-types';
-import '../App.css';
+import PropTypes from 'prop-types';
 
-const Card = (props) => {
-  const { card } = props;
-  console.log('card: ', card);
-  return (
-    <Container>
-      <div>
-        name:
-        {card.title}
-      </div>
-      <div>
-        question:
-        {card.question}
-      </div>
-      <div>
-        answer:
-        {card.answer}
-      </div>
-      <div>
-        language:
-        {card.language}
-      </div>
-      <div>
-        tags:
-        {card.tags}
-      </div>
-    </Container>
-  );
-};
+class Card extends React.Component {
+  state = { trained: false };
+
+  showAnswer = () => {
+    this.setState({ trained: true });
+  }
+
+  render() {
+    const { data } = this.props;
+    const { trained } = this.state;
+    return (
+      data ? (
+        <CardContainer>
+          <CardData>
+            <CardTitle>{data.cards[0].title}</CardTitle>
+            <CardText>{data.cards[0].question}</CardText>
+          </CardData>
+          {trained && (
+            <CardInteractions>
+              <CardText>{data.cards[0].answer}</CardText>
+              <CardButton type="button">Missed It</CardButton>
+              <CardButton type="button">Got It</CardButton>
+            </CardInteractions>
+          )}
+          {!trained && <button type="button" onClick={this.showAnswer}>Show Answer</button>}
+        </CardContainer>
+      ) : null
+    );
+  }
+}
 
 export default Card;
 
-const Container = styled.div`
-  padding: 20px;
-  margin: 5px;
-  width: 50%;
-  border: 1px solid ${props => props.theme.dark.sidebar};
-  background: ${props => props.theme.dark.cardBackground};
-  border-radius: 4px;
+// styles
+const CardContainer = styled.div`
 `;
 
-// Wrapper.propTypes = {
-//   card: PropTypes.object.isRequired
-// };
+const CardData = styled.div`
+`;
+
+const CardTitle = styled.h2`
+`;
+
+const CardText = styled.p`
+`;
+
+const CardInteractions = styled.div`
+`;
+
+const CardButton = styled.button`
+`;
+
+Card.propTypes = {
+  data: PropTypes.shape().isRequired,
+};

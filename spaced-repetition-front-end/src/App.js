@@ -10,6 +10,7 @@ import DeckList from './components/DeckList';
 import Wrapper from './components/Wrapper';
 import Profile from './components/Profile';
 import Billing from './components/Billing';
+import TrainDeck from './components/TrainDeck';
 import './App.css';
 
 /**
@@ -104,6 +105,11 @@ class App extends Component {
     this.setState({ cardsToUpdate: [], serverUpdateTimer: null });
   };
 
+  handleTrainDeck = (props) => {
+    const { decks } = this.state;
+    return decks.filter(deck => Number(deck.id) === Number(props.match.params.deckId));
+  }
+
   render() {
     const { decks, profile } = this.state;
     return (
@@ -122,9 +128,17 @@ class App extends Component {
           />
 
           <Wrapper auth={auth} handleProfile={this.handleProfile} handleData={this.handleData}>
-            <Route exact path="/dashboard" />
+            <Route exact path="/dashboard" decks={decks} />
             <Route exact path="/dashboard/profile" render={props => <Profile profile={profile} {...props} />} />
             <Route exact path="/dashboard/decks" render={props => <DeckList decks={decks} {...props} />} />
+            <Route
+              exact
+              path="/dashboard/decks/:deckId/train"
+              render={(props) => {
+                const deckToTrain = this.handleTrainDeck(props);
+                return <TrainDeck deck={deckToTrain[0]} {...props} />;
+              }}
+            />
             <Route exact path="/dashboard/billing" render={props => <Billing profile={profile} {...props} />} />
           </Wrapper>
         </Switch>
