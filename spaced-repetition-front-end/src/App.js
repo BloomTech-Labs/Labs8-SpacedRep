@@ -61,15 +61,16 @@ class App extends Component {
   handleData = () => {
     const token = localStorage.getItem('id_token');
     const headers = { Authorization: `Bearer ${token}` };
-    axios
-      .get(`${process.env.REACT_APP_URL}/api/decks/`, { headers })
-      .then((response) => {
-        this.setState({ decks: response.data });
-      })
-      .catch(error => this.setState({
-        errorMessage: error,
-      }));
-  };
+    axios.get(`${process.env.REACT_APP_URL}/api/decks/`, { headers })
+      .then(response => (
+        this.setState({ decks: response.data })
+      ))
+      .catch(error => (
+        this.setState({
+          errorMessage: error,
+        })
+      ));
+  }
 
   addCardToUpdate = (cardProgressObject) => {
     // cardProgressObject = {difficulty: '', cardID: ''}
@@ -89,14 +90,14 @@ class App extends Component {
       const headers = { Authorization: `Bearer ${token}` };
 
       // axios post not formatted correctly yet
-      // axios
-      //   .post(`${process.env.REACT_APP_URL}/api/decks/progress`, { headers })
-      //   .then((response) => {
-      //     this.setState({ decks: response.data });
-      //   })
-      //   .catch(error => this.setState({
-      //     errorMessage: error,
-      //   }));
+      axios
+        .post(`${process.env.REACT_APP_URL}/api/decks/progress`, { headers })
+        .then((response) => {
+          this.setState({ decks: response.data });
+        })
+        .catch(error => this.setState({
+          errorMessage: error,
+        }));
     }
 
     // reset timer and updateQueue
@@ -122,21 +123,9 @@ class App extends Component {
 
           <Wrapper auth={auth} handleProfile={this.handleProfile} handleData={this.handleData}>
             <Route exact path="/dashboard" />
-            <Route
-              exact
-              path="/dashboard/profile"
-              render={props => <Profile profile={profile} {...props} />}
-            />
-            <Route
-              exact
-              path="/dashboard/decks"
-              render={props => <DeckList decks={decks} {...props} />}
-            />
-            <Route
-              exact
-              path="/dashboard/billing"
-              render={props => <Billing profile={profile} {...props} />}
-            />
+            <Route exact path="/dashboard/profile" render={props => <Profile profile={profile} {...props} />} />
+            <Route exact path="/dashboard/decks" render={props => <DeckList decks={decks} {...props} />} />
+            <Route exact path="/dashboard/billing" render={props => <Billing profile={profile} {...props} />} />
           </Wrapper>
         </Switch>
       </AppWrapper>
