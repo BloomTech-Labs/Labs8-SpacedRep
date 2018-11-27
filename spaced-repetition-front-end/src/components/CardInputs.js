@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
-// cards need title, question, answer, deckId, language
+// cards need title, question, answer, deck_id, language
 // for deckId, will have to post the deck first, then use the response
-// to set the deckId of each card before entering into the db
+// to set the deck_id of each card before entering into the db
 
 class CardInputs extends React.Component {
   constructor(props) {
@@ -14,7 +14,7 @@ class CardInputs extends React.Component {
       title: '',
       question: '',
       answer: '',
-      deckId: 0,
+      deck_id: 0,
       language: '',
     };
   }
@@ -41,7 +41,7 @@ class CardInputs extends React.Component {
       title: card.title,
       question: card.question,
       answer: card.answer,
-      deckId: Number(card.deckId),
+      deck_id: card.deck_id,
       language: card.language,
     };
     const token = localStorage.getItem('id_token');
@@ -62,7 +62,7 @@ class CardInputs extends React.Component {
       title: '',
       question: '',
       answer: '',
-      deckId: '',
+      deck_id: '',
       language: '',
     });
   }
@@ -76,7 +76,7 @@ class CardInputs extends React.Component {
           <input type="text" value={state.title} name="title" onChange={this.handleChange} placeholder="Title" required />
           <input type="text" value={state.question} name="question" onChange={this.handleChange} placeholder="Question" required />
           <input type="text" value={state.answer} name="answer" onChange={this.handleChange} placeholder="Answer" required />
-          <input type="number" value={state.deckId} name="deckId" onChange={this.handleChange} placeholder="deckId" required />
+          <input type="number" value={state.deck_id} name="deck_id" onChange={this.handleChange} placeholder="deck_id" required />
           <input type="text" value={state.language} name="language" onChange={this.handleChange} placeholder="Language" required />
           <button type="submit">Save</button>
         </form>
