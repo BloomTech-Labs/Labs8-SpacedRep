@@ -74,6 +74,7 @@ class App extends Component {
   }
 
   addCardToUpdate = (cardProgressObject) => {
+    console.log(cardProgressObject)
     // cardProgressObject = {difficulty: '', cardID: ''}
     this.setState({
       cardsToUpdate: [cardProgressObject, ...this.state.cardsToUpdate],
@@ -136,7 +137,7 @@ class App extends Component {
               path="/dashboard/decks/:deckId/train"
               render={(props) => {
                 const deckToTrain = this.handleTrainDeck(props);
-                return <TrainDeck deck={deckToTrain[0]} {...props} />;
+                return <TrainDeck deck={deckToTrain[0]} updateProgress={this.addCardToUpdate} {...props} />;
               }}
             />
             <Route exact path="/dashboard/billing" render={props => <Billing profile={profile} {...props} />} />
