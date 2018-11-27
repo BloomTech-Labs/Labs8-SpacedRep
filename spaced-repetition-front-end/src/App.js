@@ -51,9 +51,18 @@ class App extends Component {
   handleProfile = async () => {
     try {
       await auth.getProfile();
+
+
+      console.log(auth)
       this.setState({
         profile: auth.userProfile,
       });
+
+      const token = localStorage.getItem('id_token');
+      const headers = { Authorization: `Bearer ${token}` };
+
+      axios.post(`${process.env.REACT_APP_URL}/api/users/`, { id: auth.userProfile.sub }, { headers })
+
     } catch (error) {
       console.log('handleProfile failed: ', error);
     }

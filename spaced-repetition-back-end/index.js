@@ -10,6 +10,7 @@ const cors = require('cors');
 const stripeRoutes = require('./stripe/stripeRoutes');
 const decksRoutes = require('./routes/decks/decksRoutes');
 const cardsRoutes = require('./routes/cards/cardsRoutes');
+const usersRoutes = require('./routes/users/usersRoutes');
 
 //knex-postgres cheatsheet: https://gist.github.com/laurenfazah/e0b0033cdc40a313d4710cc04e654556
 
@@ -30,6 +31,7 @@ server.get('/', (req, res) => {
 server.use('/api/purchases', stripeRoutes);
 server.use('/api/decks', decksRoutes);
 server.use('/api/cards', cardsRoutes);
+server.use('/api/users', usersRoutes);
 
 module.exports = server.listen(PORT, () =>
   console.log(`API running on ${PORT}`)
