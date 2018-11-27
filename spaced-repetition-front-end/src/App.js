@@ -56,7 +56,7 @@ class App extends Component {
     } catch (error) {
       console.log('handleProfile failed: ', error);
     }
-  };
+  }
 
   handleData = () => {
     const token = localStorage.getItem('id_token');
