@@ -51,8 +51,6 @@ class CardInputs extends React.Component {
         console.log(response)
       ))
       .catch((error) => {
-        console.log(error)
-        console.log(error.message)
         this.setState({
           errorMessage: error,
         });
@@ -72,7 +70,7 @@ class CardInputs extends React.Component {
     return (
       <div>
         <h2>Add New Card:</h2>
-        <form onSubmit={this.addDeck}>
+        <form onSubmit={this.addCard}>
           <input type="text" value={state.title} name="title" onChange={this.handleChange} placeholder="Title" required />
           <input type="text" value={state.question} name="question" onChange={this.handleChange} placeholder="Question" required />
           <input type="text" value={state.answer} name="answer" onChange={this.handleChange} placeholder="Answer" required />
