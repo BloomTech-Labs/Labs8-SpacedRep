@@ -62,6 +62,7 @@ class App extends Component {
   handleData = () => {
     const token = localStorage.getItem('id_token');
     const headers = { Authorization: `Bearer ${token}` };
+
     axios.get(`${process.env.REACT_APP_URL}/api/decks/`, { headers })
       .then(response => (
         this.setState({ decks: response.data })
@@ -83,17 +84,17 @@ class App extends Component {
   };
 
   updateServer = () => {
-    // wait period is up, send a POST to server to update card progress in case user does not save manually
+    // wait is done, send a POST to server to update card progress in case user does not save manually
+    console.log('updating')
 
     const cards = this.state.cardsToUpdate;
     if (cards.length > 0) {
       // update server
-      const token = localStorage.getItem('id_token');
-      const headers = { Authorization: `Bearer ${token}` };
+      const headers = { Authorization: `Bearer ${localStorage.getItem('id_token')}` };
 
       // axios post not formatted correctly yet
       axios
-        .post(`${process.env.REACT_APP_URL}/api/decks/progress`, { headers })
+        .post(`${process.env.REACT_APP_URL}/api/decks/progress`, { cards }, { headers })
         .then((response) => {
           this.setState({ decks: response.data });
         })

@@ -76,6 +76,7 @@ router.post('/', (req, res) => {
 router.post('/progress', (req, res) => {
   //cardsToUpdate = [{difficulty: '', cardID: ''},{..etc}, ..etc]
   const cardsToUpdate = req.body;
+  // console.log(cardsToUpdate)
 });
 
 router.put('/:id', (req, res) => {

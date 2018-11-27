@@ -12,18 +12,12 @@ class Card extends React.Component {
     this.setState({ trained: true });
   }
 
-  componentDidMount() {
-
-  }
-
   handleAnswer(difficulty) {
-    // object to send to server: {difficulty: '', cardID: ''}
-    const progressUpdate = { cardID: this.state.currentCardID, difficulty }
+    // object to send to server: {difficulty: '', cardID: ''};
+    const cardID = this.props.data.cards[this.state.currentCard].id;
+    const progress = { cardID, difficulty };
 
-    //current difficulty only has 2 options, not using boolean
-    // so that we can easily implement more difficulties
-
-    this.props.updateProgress(progressUpdate)
+    this.props.updateProgress(progress);
   }
 
   nextCard = () => {
