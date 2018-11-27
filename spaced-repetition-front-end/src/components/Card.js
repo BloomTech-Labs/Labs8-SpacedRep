@@ -153,7 +153,7 @@ const CardModal = styled.div`
   padding: 2%;
 
   @media (max-width: 700px) {
-    width: 90%;
+    width: 90%; /* gives margin to left/right when screen gets smaller */
   }
 `;
 
