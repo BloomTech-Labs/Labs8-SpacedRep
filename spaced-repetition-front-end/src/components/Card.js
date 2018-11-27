@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -22,6 +23,7 @@ class Card extends React.Component {
       currentCard: currentCard + 1,
       showOptions: false,
       showNext: false,
+      // redirect: false,
     });
   }
 
@@ -35,6 +37,7 @@ class Card extends React.Component {
     // needs to send latest training data to algorithm/db
     // "Are you sure you want to quit this session?"
     // Route back to deck list
+    this.setState({ redirect: true });
   }
 
   handleMissed = () => {
@@ -50,8 +53,11 @@ class Card extends React.Component {
   render() {
     const { data } = this.props;
     const {
-      trained, currentCard, showOptions, showNext,
+      trained, currentCard, showOptions, showNext, redirect,
     } = this.state;
+    if (redirect) {
+      return <Redirect to="/dashboard/decks" />;
+    }
     return (
       data ? (
         <CardContainer>
