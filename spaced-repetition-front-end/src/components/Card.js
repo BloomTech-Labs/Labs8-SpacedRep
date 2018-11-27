@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -6,6 +7,7 @@ class Card extends React.Component {
   state = {
     trained: false,
     currentCard: 0, // deck training begins with the first card in the array
+    showOptions: false, // show/hide menu for quitting session, editing card, etc
   };
 
   showAnswer = () => {
@@ -20,13 +22,21 @@ class Card extends React.Component {
     });
   }
 
-  endTrainingSession = () => {
-    alert("Training session complete!");
+  toggleOption = () => {
+    const { showOptions } = this.state;
+    this.setState({ showOptions: !showOptions });
+  }
+
+  quitTrainingSession = () => {
+    alert('quitting current training session!');
+    // needs to send latest training data to algorithm/db
+    // "Are you sure you want to quit this session?"
+    // Route back to deck list
   }
 
   render() {
     const { data } = this.props;
-    const { trained, currentCard } = this.state;
+    const { trained, currentCard, showOptions } = this.state;
     return (
       data ? (
         <CardContainer>
@@ -53,7 +63,9 @@ class Card extends React.Component {
                   <CardButton type="button" onClick={this.nextCard}>Next</CardButton>
                 )
                 : (
-                  <CardButton type="button" onClick={this.endTrainingSession}>End Training Session</CardButton>
+                  // Routing users back to deckl ist for now. Could add intermediary
+                  // modal with further options (e.g. train again, deck list, dashboard, etc)
+                  <CardLink to="/dashboard/decks">End Training Session</CardLink>
                 )
               }
             </CardInteractions>
@@ -63,14 +75,22 @@ class Card extends React.Component {
               <CardButton type="button" onClick={this.showAnswer}>Show Answer</CardButton>
             </CardInteractions>
           )}
-          <ProgressContainer>
-            <ProgressText>
-              Progress:
-              {currentCard}
-              /
-              {data.cards.length}
-            </ProgressText>
-          </ProgressContainer>
+          <ProgressText>
+            Progress:
+            {currentCard}
+            /
+            {data.cards.length}
+          </ProgressText>
+          {/* Toggles more options for UX: edit card, quit current training, etc */}
+          {/* Could be modal? */}
+          <OptionsButton type="button" onClick={this.toggleOption}>...</OptionsButton>
+          <OptionsMenu status={showOptions}>
+            <OptionItem
+              onClick={this.quitTrainingSession}
+            >
+              Quit current training session.
+            </OptionItem>
+          </OptionsMenu>
         </CardContainer>
       ) : null
     );
@@ -97,11 +117,35 @@ const CardInteractions = styled.div`
 
 const CardButton = styled.button`
 `;
-const ProgressContainer = styled.div`
+
+const CardLink = styled(Link)`
+  font-size: 16px;
 `;
+
 const ProgressText = styled.p`
-font-size: 12px;
+  font-size: 12px;
 `;
+
+const OptionsButton = styled.div`
+  cursor: pointer;
+
+  &:hover {
+    color: turquoise;
+  }
+`;
+
+const OptionsMenu = styled.div`
+  display: ${props => (props.status ? 'block' : 'none')};
+`;
+
+const OptionItem = styled.p`
+  cursor: pointer;
+
+  &:hover {
+    color: turquoise;
+  }
+`;
+
 Card.defaultProps = {
   data: null,
 };
