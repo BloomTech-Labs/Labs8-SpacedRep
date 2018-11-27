@@ -47,3 +47,8 @@ login to #srsly
 drop table users;
 drop table knex_migrations;
 drop table knex_migrations_lock;
+
+
+____________________________________________________________
+To reset tables on heroku, Login to heroku >> Overview >> Installed Add-ons (click postgres) >> Settings >> Reset Database (DO NOT DELETE).
+Then from command line type heroku run knex migrate:latest -a srs-ly
