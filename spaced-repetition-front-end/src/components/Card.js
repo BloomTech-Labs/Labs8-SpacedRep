@@ -23,7 +23,6 @@ class Card extends React.Component {
       currentCard: currentCard + 1,
       showOptions: false,
       showNext: false,
-      // redirect: false,
     });
   }
 
@@ -55,10 +54,7 @@ class Card extends React.Component {
     const {
       trained, currentCard, showOptions, showNext, redirect,
     } = this.state;
-    if (redirect) {
-      return <Redirect to="/dashboard/decks" />;
-    }
-    console.log('state', this.state)
+    if (redirect) return <Redirect to="/dashboard/decks" />;
     return (
       data ? (
         <CardContainer>
@@ -91,7 +87,9 @@ class Card extends React.Component {
                   <NextCardLink to="/dashboard/decks" shownext={showNext.toString()}>End Training Session</NextCardLink>
                 )
               }
-              <NextCardProgressText hidePrompt={showNext}>How did you do? Select to see the next card.</NextCardProgressText>
+              <NextCardProgressText hidePrompt={showNext}>
+                How did you do? Select to see the next card.
+              </NextCardProgressText>
             </CardInteractions>
           )}
           {!trained && (
@@ -125,22 +123,22 @@ export default Card;
 
 // styles
 const CardContainer = styled.div`
-    `;
+`;
 
 const CardData = styled.div`
-    `;
+`;
 
 const CardTitle = styled.h2`
-    `;
+`;
 
 const CardText = styled.p`
-    `;
+`;
 
 const CardInteractions = styled.div`
-    `;
+`;
 
 const CardButton = styled.button`
-    `;
+`;
 
 const NextCardButton = styled.button`
   display: ${props => (props.showNext ? 'inline-block' : 'none')};
@@ -150,11 +148,11 @@ const NextCardButton = styled.button`
 const NextCardLink = styled(Link)` 
   display: ${props => (props.shownext === 'true' ? 'inline-block' : 'none')};
   font-size: 16px;
-  `;
+`;
 
 const ProgressText = styled.p`
   font-size: 12px;
-  `;
+`;
 
 const NextCardProgressText = styled(ProgressText)`
   visibility: ${props => (props.hidePrompt ? 'hidden' : 'visible')};
