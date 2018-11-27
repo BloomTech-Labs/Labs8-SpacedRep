@@ -28,7 +28,7 @@ server.get('/', (req, res) => {
   res.send('Hello friend');
 });
 
-server.use('/api/purchases', stripeRoutes);
+server.use('/api/stripe', stripeRoutes);
 server.use('/api/decks', decksRoutes);
 server.use('/api/cards', cardsRoutes);
 server.use('/api/users', usersRoutes);
