@@ -8,8 +8,9 @@ import Card from './Card';
 const TrainDeck = ({ deck }) => (
   <TrainingContainer>
     <TrainingHeader>
-      Training Deck:
-      Deckname
+      Currently training:
+      {' '}
+      {deck ? deck.name : 'Loading...'}
     </TrainingHeader>
     <Card data={deck} />
   </TrainingContainer>
