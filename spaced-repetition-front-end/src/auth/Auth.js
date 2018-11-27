@@ -79,13 +79,17 @@ class Auth {
     return accessToken;
   }
 
-  getProfile(cb) {
-    const accessToken = this.getAccessToken();
-    this.auth0.client.userInfo(accessToken, (err, profile) => {
-      if (profile) {
-        this.userProfile = profile;
-      }
-      cb(err, profile);
+  async getProfile() {
+    return new Promise((resolve, reject) => {
+      const accessToken = this.getAccessToken();
+      this.auth0.client.userInfo(accessToken, (err, profile) => {
+        if (err) {
+          reject(err);
+        } else {
+          this.userProfile = profile;
+          resolve(profile);
+        }
+      });
     });
   }
 }

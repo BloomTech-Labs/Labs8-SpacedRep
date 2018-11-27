@@ -9,7 +9,7 @@ class CheckoutForm extends Component {
     this.state = {};
   }
 
-  submit = async e => {
+  submit = async (e) => {
     e.preventDefault();
     const { stripe } = this.props;
     const { profile } = this.props;
@@ -17,7 +17,7 @@ class CheckoutForm extends Component {
 
     if (!token) { return; }
     const purchase = {
-      token: token,
+      token,
       email: profile.email,
     };
     console.log(purchase);
@@ -28,15 +28,19 @@ class CheckoutForm extends Component {
 
   render() {
     return (
-      <div className="checkout">
-        <p>Would you like to complete the purchase?</p>
-        <CardElement />
+      <CheckoutFormContainer>
+        <CardElement style={{ base: { fontSize: '18px', color: 'white' } }} />
         <button onClick={this.submit} type="submit">
-          Send
+          Buy now
         </button>
-      </div>
+      </CheckoutFormContainer>
     );
   }
 }
 
 export default injectStripe(CheckoutForm);
+
+// Don't want to dwell on customizing the look just yet
+const CheckoutFormContainer = styled.div`
+
+`;

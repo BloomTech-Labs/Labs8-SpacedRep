@@ -14,17 +14,30 @@ class Billing extends React.Component {
     const { profile } = this.props;
     return (
       <StripeProvider apiKey="pk_test_KoWcK14l0HlLnKEAFc9icsPa">
-        <div className="example">
-          <h1>React Stripe Elements Example</h1>
+        <BillingContainer>
+          <h1>Billing</h1>
+          <p>Free tier users are limited to 3 decks and a maximum of 150 cards.</p>
+          <p>No limit for paid.</p>
+          <p>Would you like to complete the purchase?</p>
           <Elements>
             <CheckoutForm
               profile={profile}
             />
           </Elements>
-        </div>
+        </BillingContainer>
       </StripeProvider>
     );
   }
 }
 
 export default Billing;
+
+// styles
+const BillingContainer = styled.div`
+  width: 800px;
+  height: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+`;

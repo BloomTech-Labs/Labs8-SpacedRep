@@ -8,10 +8,9 @@ import Header from './components/Header';
 import LandingPage from './components/LandingPage';
 import DeckList from './components/DeckList';
 import Wrapper from './components/Wrapper';
-import CardList from './components/CardList';
 import Profile from './components/Profile';
 import Billing from './components/Billing';
-// import data from './dummyData';
+import TrainDeck from './components/TrainDeck';
 import './App.css';
 
 /**
@@ -33,50 +32,40 @@ const handleAuthentication = ({ location }) => {
   }
 };
 
+const WAIT_INTERVAL = 5000;
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cards: [],
       decks: [],
       profile: null,
-      errorMessage: '',
+      cardsToUpdate: [],
+      serverUpdateTimer: null,
+      errorMessage: '', // better to add redux or pass the same error props everywhere?
     };
-  }
-
-  setProfile = (err, userProfile) => {
-    if (err) {
-      throw new Error(err);
-    } else if (userProfile) {
-      this.setState({
-        profile: { ...userProfile },
-      });
-    }
   }
 
   // Calls auth's getProfile and responds with the profile associated with the identity provider
   // used (e.g. The username/password profile response will be somewhat different than Google's)
-  handleProfile = () => {
-    auth.getProfile(this.setProfile);
+  handleProfile = async () => {
+    try {
+      await auth.getProfile();
+      this.setState({
+        profile: auth.userProfile,
+      });
+    } catch (error) {
+      console.log('handleProfile failed: ', error);
+    }
   }
 
   handleData = () => {
     const token = localStorage.getItem('id_token');
     const headers = { Authorization: `Bearer ${token}` };
-    // Thinking sub should be sent by post request instead of as param in get request for security
-    // const body = { sub: this.state.profile.sub };
-    const { decks } = this.state;
-    const id = 1;
-    const body = {
-      name: 'SQL',
-      public: false,
-      author: 2,
-    };
-    axios.put(`${process.env.REACT_APP_URL}/api/decks/${id}`, body, { headers })
+
+    axios.get(`${process.env.REACT_APP_URL}/api/decks/`, { headers })
       .then(response => (
-        this.setState({
-          decks: [...decks, response.data],
-        })
+        this.setState({ decks: response.data })
       ))
       .catch(error => (
         this.setState({
@@ -85,18 +74,53 @@ class App extends Component {
       ));
   }
 
+  addCardToUpdate = (cardProgressObject) => {
+    console.log(cardProgressObject)
+    // cardProgressObject = {difficulty: '', cardID: ''}
+    this.setState({
+      cardsToUpdate: [cardProgressObject, ...this.state.cardsToUpdate],
+      serverUpdateTimer: setTimeout(this.updateServer, WAIT_INTERVAL),
+    });
+  };
+
+  updateServer = () => {
+    // wait is done, send a POST to server to update card progress in case user does not save manually
+    console.log('updating')
+
+    const cards = this.state.cardsToUpdate;
+    if (cards.length > 0) {
+      // update server
+      const headers = { Authorization: `Bearer ${localStorage.getItem('id_token')}` };
+
+      // axios post not formatted correctly yet
+      axios
+        .post(`${process.env.REACT_APP_URL}/api/decks/progress`, { cards }, { headers })
+        .then((response) => {
+          this.setState({ decks: response.data });
+        })
+        .catch(error => this.setState({
+          errorMessage: error,
+        }));
+    }
+
+    // reset timer and updateQueue
+    this.setState({ cardsToUpdate: [], serverUpdateTimer: null });
+  };
+
+  handleTrainDeck = (props) => {
+    const { decks } = this.state;
+    return decks.filter(deck => Number(deck.id) === Number(props.match.params.deckId));
+  }
+
   render() {
-    const {
-      decks, cards, profile, errorMessage,
-    } = this.state;
-    console.log(profile);
+    const { decks, profile } = this.state;
     return (
       <AppWrapper>
         <Route path="/" render={props => <Header auth={auth} {...props} />} />
+
         <Switch>
           <Route exact path="/" render={props => <LandingPage auth={auth} {...props} />} />
-          <Route exact path="/dashboard" render={props => <Wrapper errorMsg={errorMessage} profile={profile} auth={auth} handleProfile={this.handleProfile} handleData={this.handleData} {...props} />} />
-          <Route exact path="/dashboard/profile" render={props => <Profile auth={auth} {...props} />} />
+
           <Route
             path="/callback"
             render={(props) => {
@@ -104,56 +128,21 @@ class App extends Component {
               return <Callback {...props} />;
             }}
           />
-          {/* `/dashboard`, /dasbhoard/decks`, and `/dashboard/cards` need refactoring
-          Each Wrapper route needs the same props to compile. There is probably a better way */}
-          <Route
-            path="/dashboard/decks"
-            render={props => (
-              <Wrapper
-                errorMsg={errorMessage}
-                profile={profile}
-                auth={auth}
-                handleProfile={this.handleProfile}
-                handleData={this.handleData}
-                {...props}
-              >
-                <DeckList decks={decks} />
-              </Wrapper>
-            )}
-          />
-          <Route
-            path="/dashboard/cards"
-            render={props => (
-              <Wrapper
-                errorMsg={errorMessage}
-                profile={profile}
-                auth={auth}
-                handleProfile={this.handleProfile}
-                handleData={this.handleData}
-                {...props}
-              >
-                <CardList cards={cards} />
-              </Wrapper>
-            )}
-          />
-          <Route
-            path="/dashboard/billing"
-            render={props => (
-              <Wrapper
-                errorMsg={errorMessage}
-                profile={profile}
-                auth={auth}
-                handleProfile={this.handleProfile}
-                handleData={this.handleData}
-                {...props}
-              >
-                <Billing
-                  cards={cards}
-                  profile={profile}
-                />
-              </Wrapper>
-            )}
-          />
+
+          <Wrapper auth={auth} handleProfile={this.handleProfile} handleData={this.handleData}>
+            <Route exact path="/dashboard" decks={decks} />
+            <Route exact path="/dashboard/profile" render={props => <Profile profile={profile} {...props} />} />
+            <Route exact path="/dashboard/decks" render={props => <DeckList decks={decks} {...props} />} />
+            <Route
+              exact
+              path="/dashboard/decks/:deckId/train"
+              render={(props) => {
+                const deckToTrain = this.handleTrainDeck(props);
+                return <TrainDeck deck={deckToTrain[0]} updateProgress={this.addCardToUpdate} {...props} />;
+              }}
+            />
+            <Route exact path="/dashboard/billing" render={props => <Billing profile={profile} {...props} />} />
+          </Wrapper>
         </Switch>
       </AppWrapper>
     );

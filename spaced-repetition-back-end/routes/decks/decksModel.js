@@ -12,7 +12,7 @@ function findByAuthor(id) {
   return db('cards')
     .select('cards.*', 'decks.name', 'decks.public', 'decks.tags')
     .innerJoin('decks', 'cards.deck_id', 'decks.id')
-    .where('decks.author', id)
+    .where('decks.author', id);
 }
 
 function add(entry) {
