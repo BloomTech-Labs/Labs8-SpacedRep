@@ -147,9 +147,14 @@ const MainCardContainer = styled(CardContainer)`
 
 const CardModal = styled.div`
   background-color: #43525c;
-  width: 600px;
+  max-width: 600px;
+  width: 100%;
   margin: 232px auto;
   padding: 2%;
+
+  @media (max-width: 700px) {
+    width: 90%; /* gives margin to left/right when screen gets smaller */
+  }
 `;
 
 
@@ -170,6 +175,11 @@ const ButtonContainer = styled(CardContainer)`
   justify-content: space-between;
   width: 65%;
   margin: 0 auto;
+
+  @media (max-width: 700px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const CardButton = styled.button`
