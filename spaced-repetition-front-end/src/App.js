@@ -31,12 +31,16 @@ const handleAuthentication = ({ location }) => {
   }
 };
 
+const WAIT_INTERVAL = 5000;
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       decks: [],
       profile: null,
+      cardsToUpdate: [],
+      serverUpdateTimer: null,
       errorMessage: '', // better to add redux or pass the same error props everywhere?
     };
   }
@@ -52,21 +56,52 @@ class App extends Component {
     } catch (error) {
       console.log('handleProfile failed: ', error);
     }
-  }
+  };
 
   handleData = () => {
     const token = localStorage.getItem('id_token');
     const headers = { Authorization: `Bearer ${token}` };
-    axios.get(`${process.env.REACT_APP_URL}/api/decks/`, { headers })
-      .then(response => (
-        this.setState({ decks: response.data })
-      ))
-      .catch(error => (
-        this.setState({
-          errorMessage: error,
-        })
-      ));
-  }
+    axios
+      .get(`${process.env.REACT_APP_URL}/api/decks/`, { headers })
+      .then((response) => {
+        this.setState({ decks: response.data });
+      })
+      .catch(error => this.setState({
+        errorMessage: error,
+      }));
+  };
+
+  addCardToUpdate = (cardProgressObject) => {
+    // cardProgressObject = {difficulty: '', cardID: ''}
+    this.setState({
+      cardsToUpdate: [cardProgressObject, ...this.state.cardsToUpdate],
+      serverUpdateTimer: setTimeout(this.updateServer, WAIT_INTERVAL),
+    });
+  };
+
+  updateServer = () => {
+    // wait period is up, send a POST to server to update card progress in case user does not save manually
+
+    const cards = this.state.cardsToUpdate;
+    if (cards.length > 0) {
+      // update server
+      const token = localStorage.getItem('id_token');
+      const headers = { Authorization: `Bearer ${token}` };
+
+      // axios post not formatted correctly yet
+      // axios
+      //   .post(`${process.env.REACT_APP_URL}/api/decks/progress`, { headers })
+      //   .then((response) => {
+      //     this.setState({ decks: response.data });
+      //   })
+      //   .catch(error => this.setState({
+      //     errorMessage: error,
+      //   }));
+    }
+
+    // reset timer and updateQueue
+    this.setState({ cardsToUpdate: [], serverUpdateTimer: null });
+  };
 
   render() {
     const { decks, profile } = this.state;
@@ -75,7 +110,6 @@ class App extends Component {
         <Route path="/" render={props => <Header auth={auth} {...props} />} />
 
         <Switch>
-
           <Route exact path="/" render={props => <LandingPage auth={auth} {...props} />} />
 
           <Route
@@ -88,13 +122,23 @@ class App extends Component {
 
           <Wrapper auth={auth} handleProfile={this.handleProfile} handleData={this.handleData}>
             <Route exact path="/dashboard" />
-            <Route exact path="/dashboard/profile" render={props => <Profile profile={profile} {...props} />} />
-            <Route exact path="/dashboard/decks" render={props => <DeckList decks={decks} {...props} />} />
-            <Route exact path="/dashboard/billing" render={props => <Billing profile={profile} {...props} />} />
+            <Route
+              exact
+              path="/dashboard/profile"
+              render={props => <Profile profile={profile} {...props} />}
+            />
+            <Route
+              exact
+              path="/dashboard/decks"
+              render={props => <DeckList decks={decks} {...props} />}
+            />
+            <Route
+              exact
+              path="/dashboard/billing"
+              render={props => <Billing profile={profile} {...props} />}
+            />
           </Wrapper>
-
         </Switch>
-
       </AppWrapper>
     );
   }

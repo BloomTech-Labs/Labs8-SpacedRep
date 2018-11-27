@@ -18,30 +18,32 @@ router.get('/', (req, res) => {
       // if deck exists, push just the card to the object's card array
       if (deckNames[arr[i].name] !== undefined) {
         formattedData[deckNames[arr[i].name]].cards.push({
-          "id": arr[i].id,
-          "title": arr[i].title,
-          "question": arr[i].question,
-          "answer": arr[i].answer,
-          "language": arr[i].language,
-          "deck_id": arr[i].deck_id
+          id: arr[i].id,
+          title: arr[i].title,
+          question: arr[i].question,
+          answer: arr[i].answer,
+          language: arr[i].language,
+          deck_id: arr[i].deck_id
         });
       } else {
         // if deck does not exist, push the deck to formattedData array
         // add property to deckname objects and assign value of count (for referencing in the array)
         deckNames[arr[i].name] = count++;
         formattedData.push({
-          "id": arr[i].deck_id,
-          "name": arr[i].name,
-          "public": arr[i].public,
-          "tags": arr[i].tags,
-          "cards": [{
-            "id": arr[i].id,
-            "title": arr[i].title,
-            "question": arr[i].question,
-            "answer": arr[i].answer,
-            "language": arr[i].language,
-            "deck_id": arr[i].deck_id
-          }]
+          id: arr[i].deck_id,
+          name: arr[i].name,
+          public: arr[i].public,
+          tags: arr[i].tags,
+          cards: [
+            {
+              id: arr[i].id,
+              title: arr[i].title,
+              question: arr[i].question,
+              answer: arr[i].answer,
+              language: arr[i].language,
+              deck_id: arr[i].deck_id
+            }
+          ]
         });
       }
     }
@@ -51,6 +53,7 @@ router.get('/', (req, res) => {
   decks
     .findByAuthor(user_id)
     .then(decks => {
+      console.log(user_id);
       console.log(format(decks));
       res.status(200).json(format(decks));
     })
@@ -70,6 +73,11 @@ router.post('/', (req, res) => {
       console.log(err.message);
       res.status(500).json(err);
     });
+});
+
+router.post('/progress', (req, res) => {
+  //cardsToUpdate = [{difficulty: '', cardID: ''},{..etc}, ..etc]
+  const cardsToUpdate = req.body;
 });
 
 router.put('/:id', (req, res) => {
