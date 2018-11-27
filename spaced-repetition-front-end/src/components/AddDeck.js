@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 
 // cards need title, question, answer, deckId, language
 // for deckId, will have to post the deck first, then use the response
@@ -42,6 +43,17 @@ class AddDeck extends React.Component {
     };
     const deckCards = [...deck.cards];
     // post request to decks with newDeck
+    const token = localStorage.getItem('id_token');
+    const headers = { Authorization: `Bearer ${token}` };
+    axios.post(`${process.env.REACT_APP_URL}/api/decks/`, newDeck, { headers })
+      .then(response => (
+        console.log(response)
+      ))
+      .catch(error => (
+        this.setState({
+          errorMessage: error,
+        })
+      ));
     // post request to cards with deckCards
     this.setState({
       name: '',
@@ -59,7 +71,7 @@ class AddDeck extends React.Component {
         <form onSubmit={this.addDeck}>
           <input type="text" value={state.name} name="name" onChange={this.handleChange} placeholder="Name" required />
           <p style={{ color: 'black' }}>Public?</p>
-          <input type="checkbox" name="public" onChange={this.handleChange} required />
+          <input type="checkbox" name="public" onChange={this.handleChange} />
           <input type="text" value={state.tags} name="tags" onChange={this.handleChange} placeholder="Enter a list of tags separated by comma (no spaces)" required />
           <button type="submit">Save</button>
         </form>
