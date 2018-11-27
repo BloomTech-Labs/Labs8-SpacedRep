@@ -19,7 +19,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    const user_id = req.user.sub;
+    const user_id = req.body.id;
     console.log(user_id);
 
     users
