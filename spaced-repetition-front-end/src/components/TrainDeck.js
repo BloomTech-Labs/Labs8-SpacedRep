@@ -8,8 +8,9 @@ import Card from './Card';
 const TrainDeck = ({ deck, updateProgress }) => (
   <TrainingContainer>
     <TrainingHeader>
-      Training Deck:
-      Deckname
+      Currently training:
+      {' '}
+      {deck ? deck.name : 'Loading...'}
     </TrainingHeader>
     <Card data={deck} updateProgress={updateProgress} />
   </TrainingContainer>
@@ -23,7 +24,10 @@ const TrainingContainer = styled.div`
 
 const TrainingHeader = styled.h2`
 `;
+TrainDeck.defaultProps = {
+  deck: null,
+};
 
 TrainDeck.propTypes = {
-  deck: PropTypes.shape().isRequired,
+  deck: PropTypes.shape(),
 };
