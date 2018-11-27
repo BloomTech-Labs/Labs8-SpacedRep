@@ -12,7 +12,7 @@ import Profile from './components/Profile';
 import Billing from './components/Billing';
 import AddDeck from './components/AddDeck';
 import CardInputs from './components/CardInputs';
-
+import TrainDeck from './components/TrainDeck';
 import './App.css';
 
 /**
@@ -34,12 +34,16 @@ const handleAuthentication = ({ location }) => {
   }
 };
 
+const WAIT_INTERVAL = 5000;
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       decks: [],
       profile: null,
+      cardsToUpdate: [],
+      serverUpdateTimer: null,
       errorMessage: '', // better to add redux or pass the same error props everywhere?
     };
   }
@@ -49,9 +53,18 @@ class App extends Component {
   handleProfile = async () => {
     try {
       await auth.getProfile();
+
+
+      console.log(auth)
       this.setState({
         profile: auth.userProfile,
       });
+
+      const token = localStorage.getItem('id_token');
+      const headers = { Authorization: `Bearer ${token}` };
+
+      axios.post(`${process.env.REACT_APP_URL}/api/users/`, { id: auth.userProfile.sub }, { headers })
+
     } catch (error) {
       console.log('handleProfile failed: ', error);
     }
@@ -60,6 +73,7 @@ class App extends Component {
   handleData = () => {
     const token = localStorage.getItem('id_token');
     const headers = { Authorization: `Bearer ${token}` };
+
     axios.get(`${process.env.REACT_APP_URL}/api/decks/`, { headers })
       .then(response => (
         this.setState({ decks: response.data })
@@ -71,6 +85,44 @@ class App extends Component {
       ));
   }
 
+  addCardToUpdate = (cardProgressObject) => {
+    console.log(cardProgressObject)
+    // cardProgressObject = {difficulty: '', cardID: ''}
+    this.setState({
+      cardsToUpdate: [cardProgressObject, ...this.state.cardsToUpdate],
+      serverUpdateTimer: setTimeout(this.updateServer, WAIT_INTERVAL),
+    });
+  };
+
+  updateServer = () => {
+    // wait is done, send a POST to server to update card progress in case user does not save manually
+    console.log('updating')
+
+    const cards = this.state.cardsToUpdate;
+    if (cards.length > 0) {
+      // update server
+      const headers = { Authorization: `Bearer ${localStorage.getItem('id_token')}` };
+
+      // axios post not formatted correctly yet
+      axios
+        .post(`${process.env.REACT_APP_URL}/api/decks/progress`, { cards }, { headers })
+        .then((response) => {
+          this.setState({ decks: response.data });
+        })
+        .catch(error => this.setState({
+          errorMessage: error,
+        }));
+    }
+
+    // reset timer and updateQueue
+    this.setState({ cardsToUpdate: [], serverUpdateTimer: null });
+  };
+
+  handleTrainDeck = (props) => {
+    const { decks } = this.state;
+    return decks.filter(deck => Number(deck.id) === Number(props.match.params.deckId));
+  }
+
   render() {
     const { decks, profile } = this.state;
     return (
@@ -78,7 +130,6 @@ class App extends Component {
         <Route path="/" render={props => <Header auth={auth} {...props} />} />
 
         <Switch>
-
           <Route exact path="/" render={props => <LandingPage auth={auth} {...props} />} />
 
           <Route
@@ -90,16 +141,22 @@ class App extends Component {
           />
 
           <Wrapper auth={auth} handleProfile={this.handleProfile} handleData={this.handleData}>
-            <Route exact path="/dashboard" />
+            <Route exact path="/dashboard" decks={decks} />
             <Route exact path="/dashboard/profile" render={props => <Profile profile={profile} {...props} />} />
             <Route exact path="/dashboard/decks" render={props => <DeckList decks={decks} {...props} />} />
+            <Route
+              exact
+              path="/dashboard/decks/:deckId/train"
+              render={(props) => {
+                const deckToTrain = this.handleTrainDeck(props);
+                return <TrainDeck deck={deckToTrain[0]} updateProgress={this.addCardToUpdate} {...props} />;
+              }}
+            />
             <Route exact path="/dashboard/billing" render={props => <Billing profile={profile} {...props} />} />
             <Route exact path="/dashboard/add-deck" render={props => <AddDeck profile={profile} {...props} />} />
             <Route exact path="/dashboard/add-card" render={props => <CardInputs profile={profile} {...props} />} />
           </Wrapper>
-
         </Switch>
-
       </AppWrapper>
     );
   }

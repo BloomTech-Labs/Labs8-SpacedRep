@@ -21,7 +21,7 @@ class CheckoutForm extends Component {
       email: profile.email,
     };
     console.log(purchase);
-    axios.post('http://localhost:4242/api/purchases', purchase)
+    axios.post('http://localhost:4242/api/stripe', purchase)
       .then(success => console.log(success))
       .catch(error => console.log(error));
   };
