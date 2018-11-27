@@ -9,7 +9,7 @@ const Deck = ({ deck }) => (
     <DeckHeader>
       <Title>{deck.name}</Title>
 
-      <NumCards> 42 </NumCards>
+      <NumCards>{deck.cards.length}</NumCards>
     </DeckHeader>
 
     <DeckBody>
