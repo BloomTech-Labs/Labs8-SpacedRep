@@ -28,6 +28,8 @@ const Sidebar = () => (
 export default Sidebar;
 
 // styles
+// No idea what is causing it, but without min-width, container shrinks to
+// 192px when decks is selected, but stays at 200px when on add decks or add cards
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -37,6 +39,7 @@ const Container = styled.div`
   height: 100%;
   padding: 5px 20px 0;
   background: ${props => props.theme.dark.sidebar};
+  min-width: 200px;
 `;
 
 const SidebarItem = styled(Link)`
