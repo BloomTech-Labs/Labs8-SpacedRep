@@ -33,7 +33,6 @@ router.get('/user', (req, res) => {
 
 router.post('/', (req, res) => {
     const user_id = req.body.id;
-    console.log(user_id);
 
     users
         .createUser(user_id)

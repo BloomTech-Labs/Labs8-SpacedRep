@@ -38,7 +38,7 @@ class CheckoutForm extends Component {
 
     console.log(idToken);
 
-    axios.delete(`${process.env.REACT_APP_URL}/api/stripe`, { sub: profile.sub }, { headers })
+    axios.put(`${process.env.REACT_APP_URL}/api/stripe`, { sub: profile.sub }, { headers })
       .then(success => console.log(success))
       .catch(error => console.log(error));
   };
