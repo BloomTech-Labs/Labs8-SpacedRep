@@ -18,8 +18,7 @@ router.post('/', async (req, res) => {
         plan: "plan_DynouB6dXG4IcA"
       })
     const user = await users.freeToPaid(user_id, customer.id)
-    console.log('returned from successful subscription: ', user);
-    return res.status(200).json(user);
+    return res.status(200).json(user[0]);
   } catch (error) {
     return res.status(500).json({ message: "Subscription failed.", error: error.message });
   }
@@ -36,8 +35,7 @@ router.put('/', async (req, res) => {
         console.log('stripe deletion confirmation: ', confirmation);
       });
     const user = await users.paidToFree(req.body.sub)
-    console.log('returned from successful deletion: ', user);
-    return res.status(200).json(user);
+    return res.status(200).json(user[0]);
   } catch (error) {
     return res.status(500).json({ message: "Failed to cancel subscription.", error: error.message });
   }

@@ -56,7 +56,6 @@ class App extends Component {
       const headers = { Authorization: `Bearer ${token}` };
 
       const response = await axios.post(`${process.env.REACT_APP_URL}/api/users/`, { id: auth.userProfile.sub }, { headers });
-      console.log('user after handleProfile: ', response.data);
       profile.tier = response.data.tier;
       this.setState({ profile });
     } catch (error) {
@@ -117,9 +116,14 @@ class App extends Component {
     return decks.filter(deck => Number(deck.id) === Number(props.match.params.deckId));
   }
 
+  handleUpdateTier = (tier) => {
+    const { profile } = this.state;
+    profile.tier = tier;
+    this.setState({ profile });
+  }
+
   render() {
     const { decks, profile } = this.state;
-    if (profile) { console.log(profile); }
     return (
       <AppWrapper>
         <Route path="/" render={props => <Header auth={auth} {...props} />} />
@@ -147,7 +151,7 @@ class App extends Component {
                 return <TrainDeck deck={deckToTrain[0]} updateProgress={this.addCardToUpdate} {...props} />;
               }}
             />
-            <Route exact path="/dashboard/billing" render={props => <Billing profile={profile} {...props} />} />
+            <Route exact path="/dashboard/billing" render={props => <Billing profile={profile} handleUpdateTier={this.handleUpdateTier} {...props} />} />
           </Wrapper>
         </Switch>
       </AppWrapper>

@@ -21,7 +21,6 @@ function findByUser(id) {
 
 function createUser(id) {
     return findByUser(id).then(user => {
-        console.log('returned from createUser: ', user);
         if (user[0]) return user[0];
         else {
             console.log('user not found, creating user');
@@ -34,12 +33,14 @@ function freeToPaid(user_id, customerId) {
     const changes = { 'tier': 'paid', 'stripe_customer_id': customerId };
     return db(table)
         .where({ user_id })
-        .update(changes);
+        .update(changes)
+        .returning('tier');
 }
 
 function paidToFree(user_id) {
     const changes = { 'tier': 'free', 'stripe_customer_id': null };
     return db(table)
         .where({ user_id })
-        .update(changes);
+        .update(changes)
+        .returning('tier');
 }

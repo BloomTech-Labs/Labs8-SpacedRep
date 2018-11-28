@@ -14,8 +14,7 @@ class CheckoutForm extends Component {
 
   handleSubscribe = async (e) => {
     e.preventDefault();
-    const { stripe } = this.props;
-    const { profile } = this.props;
+    const { stripe, profile, handleUpdateTier } = this.props;
     const { token } = await stripe.createToken();
 
     if (!token) { return; }
@@ -29,26 +28,34 @@ class CheckoutForm extends Component {
     };
 
     axios.post(`${process.env.REACT_APP_URL}/api/stripe`, purchaseObj, { headers })
-      .then(success => console.log(success))
+      .then(response => handleUpdateTier(response.data))
       .catch(error => console.log(error));
   };
 
   cancelSubscription = async (e) => {
     e.preventDefault();
-    const { profile } = this.props;
+    const { profile, handleUpdateTier } = this.props;
 
     axios.put(`${process.env.REACT_APP_URL}/api/stripe`, { sub: profile.sub }, { headers })
-      .then(success => console.log(success))
+      .then(response => handleUpdateTier(response.data))
       .catch(error => console.log(error));
   };
 
   render() {
+    const { profile } = this.props;
+    if (profile && profile.tier === 'free') {
+      return (
+        <CheckoutFormContainer>
+          <CardElement style={{ base: { fontSize: '18px', color: 'white' } }} />
+          <button onClick={this.handleSubscribe} type="submit">
+            Buy now
+          </button>
+        </CheckoutFormContainer>
+      );
+    }
     return (
       <CheckoutFormContainer>
         <CardElement style={{ base: { fontSize: '18px', color: 'white' } }} />
-        <button onClick={this.handleSubscribe} type="submit">
-          Buy now
-        </button>
         <button onClick={this.cancelSubscription} type="submit">
           cancel
         </button>
