@@ -61,14 +61,35 @@ router.get('/progress', (req, res) => {
     // trainingData looks like { difficulty: -1, cardID: 7 }
     const user_id = req.user.sub;
 
-    // const trainingData = req.body.trainingData
-    const trainingData = { difficulty: 1, cardID: 7 } //FIX: remove line, its test data
-
     console.log(user_id)
-    users.updateProgress(user_id, trainingData).then(progressObj => {
-        console.log(progressObj)
-    })
+    users.getAllProgress(user_id).then(user => {
+        if (user[0]) {
+            res.status(201).json(user[0].card_progress);
+            console.log(user[0].card_progress)
+        } else {
+            res.status(404).json({ message: 'No records found' })
+        }
 
+    }).catch(err => {
+        console.log(err.message)
+        res.status(500).json(err)
+    });
+
+})
+
+router.post('/progress', (req, res) => {
+    // trainingData is an array, looks like [{ difficulty: 0, cardID: 7 }, { difficulty: 1, cardID: 6 }]
+    const user_id = req.user.sub;
+
+    const trainingData = req.body.trainingData
+    // const trainingData = [{ difficulty: 0, cardID: 7 }, { difficulty: 1, cardID: 6 }] //FIX: test data
+
+    users.updateProgress(user_id, trainingData).then(userProgress => {
+        if (userProgress) {
+            res.status(201).json(userProgress);
+        } else res.status(404).json({ message: 'failed to update' });
+
+    }).catch(err => res.status(500).json(err));
 })
 
 module.exports = router;

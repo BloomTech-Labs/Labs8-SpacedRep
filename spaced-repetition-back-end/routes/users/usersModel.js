@@ -36,31 +36,28 @@ function createUser(id) {
 }
 
 function updateProgress(id, trainingData) {
-    // trainingData is {difficulty: '', cardID: ''}
-
-    //FIX THIS: still need to run algorithm here
+    // trainingData is an array, looks like [{ difficulty: 0, cardID: 7 }, { difficulty: 1, cardID: 6 }]
     console.log('trainingData', trainingData)
 
     return findByUser(id).then(userArr => {
         const user = userArr[0]
 
+        //instantiate algorithm
         const alg = new SRS();
 
-        if (user.card_progress) {
-            // progress exists already, now look for card key
+        if (!user.card_progress) user.card_progress = {}
 
-            //instantiate algorithm
+        trainingData.forEach(card => {
 
+            if (user.card_progress[card.cardID]) {
+                // if previous training data exists, use it
+                user.card_progress[card.cardID] = alg.calculate(card.difficulty, user.card_progress[card.cardID]);
+            } else {
+                //if no previous data, initialize it in the algorithm
+                user.card_progress[card.cardID] = alg.calculate(card.difficulty)
+            }
+        })
 
-            console.log('allProgress not null')
-            updatedAllCardProgress = user.card_progress;
-            updatedAllCardProgress[trainingData.cardID] = alg.calculate(trainingData.difficulty, updatedAllCardProgress[trainingData.cardID]); //FIX- run alg first
-        } else {
-            //create progress json, add current card and insert it
-            console.log('allProgress is null')
-            user.card_progress = {}
-            user.card_progress[trainingData.cardID] = alg.calculate(trainingData.difficulty)
-        }
 
         //update database and return all card progress for this user "card_progress": JSON.stringify(user.card_progress) }
         return db(table).where({ user_id: user.user_id }).update({ "card_progress": JSON.stringify(user.card_progress) })
@@ -72,7 +69,6 @@ function updateProgress(id, trainingData) {
                     return user.card_progress;
                 }
             })
-
     })
 }
 
