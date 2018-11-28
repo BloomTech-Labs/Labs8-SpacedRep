@@ -87,7 +87,7 @@ class App extends Component {
 
   addCardToUpdate = (cardProgressObject) => {
     console.log(cardProgressObject)
-    // cardProgressObject = {difficulty: '', cardID: ''}
+    // cardProgressObject is {difficulty: '', cardID: ''}. difficulty is an array index (0, 1, ..etc) which correlates to difficultyToNextTestDate in algorithm.js
     this.setState({
       cardsToUpdate: [cardProgressObject, ...this.state.cardsToUpdate],
       serverUpdateTimer: setTimeout(this.updateServer, WAIT_INTERVAL),
@@ -105,7 +105,7 @@ class App extends Component {
 
       // axios post not formatted correctly yet
       axios
-        .post(`${process.env.REACT_APP_URL}/api/decks/progress`, { cards }, { headers })
+        .post(`${process.env.REACT_APP_URL}/api/users/progress`, { cards }, { headers })
         .then((response) => {
           this.setState({ decks: response.data });
         })
