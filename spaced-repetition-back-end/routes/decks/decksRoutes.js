@@ -52,7 +52,7 @@ router.get('/', (req, res) => {
     .findByAuthor(user_id)
     .then(decks => {
       // console.log(user_id);
-      console.log(format(decks));
+      // console.log(format(decks));
       res.status(200).json(format(decks));
     })
     .catch(err => res.status(500).json(err));

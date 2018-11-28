@@ -7,7 +7,7 @@ const helmet = require('helmet');
 const PORT = process.env.PORT || 4242;
 const cors = require('cors');
 
-const stripeRoutes = require('./stripe/stripeRoutes');
+const stripeRoutes = require('./routes/stripe/stripeRoutes');
 const decksRoutes = require('./routes/decks/decksRoutes');
 const cardsRoutes = require('./routes/cards/cardsRoutes');
 const usersRoutes = require('./routes/users/usersRoutes');
