@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router';
 import styled, { keyframes } from 'styled-components';
+import Highlight from 'react-highlight.js';
 import PropTypes from 'prop-types';
 
 class Card extends React.Component {
@@ -10,6 +11,12 @@ class Card extends React.Component {
     currentCard: 0, // deck training begins with the first card in the array
     showOptions: false, // show/hide menu for quitting session, editing card, etc
     showNext: false, // shows next/end training session buttons after missed it/got it is selected
+    // each card's question and answer has text and possibly code snippets
+    questionSnippet: '',
+    questionText: '',
+    answerSnippet: '',
+    answerText: '',
+
   };
 
   showAnswer = () => {
@@ -32,6 +39,18 @@ class Card extends React.Component {
     this.setState({ showOptions: !showOptions });
   }
 
+  // determines if question and answer on each card has code snippet and abstracts it out
+  // separation avoids console warning: <Highlight> can't nest inside <p>
+  handleSnippets = ({ question, answer }) => {
+    console.log('snippets', question, answer);
+    this.setState({
+      questionSnippet: question,
+      questionText: question,
+      answerSnippet: 'This is a hard-coded test.',
+      answerText: answer,
+    });
+  }
+
   quitTrainingSession = () => {
     alert('quitting current training session!');
     // needs to send latest training data to algorithm/db
@@ -47,16 +66,18 @@ class Card extends React.Component {
     const cardID = data.cards[currentCard].id;
     const progress = { cardID, difficulty };
 
-    this.setState({ showNext: true })
+    this.setState({ showNext: true });
+
     updateProgress(progress);
   }
-
 
   render() {
     const { data } = this.props;
     const {
-      trained, currentCard, showOptions, showNext, redirect,
+      trained, currentCard, showOptions, showNext, redirect, answerSnippet, questionText,
     } = this.state;
+    // handleSnippet should not execute if it has already been called
+    if (data && answerSnippet === null) this.handleSnippets(data.cards[currentCard]);
     if (redirect) return <Redirect to="/dashboard/decks" />;
     return (
       data ? (
@@ -64,30 +85,27 @@ class Card extends React.Component {
           <CardModal>
             <CardContainer>
               <CardTitle>{data.cards[currentCard].title}</CardTitle>
-              <CardText>
-                Question:
-
-                {data.cards[currentCard].question}
-              </CardText>
+              <h3>Question</h3>
+              <CardText>{questionText}</CardText>
             </CardContainer>
             {trained && (
               <CardContainer>
                 <AnimateOnReveal>
-                  <CardText>
-                    Answer:
-
-                    {data.cards[currentCard].answer}
-                  </CardText>
-                  {/* Missed It and Got It buttons should connect to the SRS algorithm */}
+                  <h3>Answer</h3>
+                  <CardText>{data.cards[currentCard].answer}</CardText>
+                  <Highlight language={data.cards[currentCard].language}>
+                    {answerSnippet}
+                    This is a test
+                  </Highlight>
                   <ButtonContainer>
-                    <CardButton type="button" onClick={() => this.handleAnswer(0)} >Missed It</CardButton>
+                    <CardButton type="button" onClick={() => this.handleAnswer(0)}>Missed It</CardButton>
                     <CardButton type="button" onClick={() => this.handleAnswer(1)}>Got It</CardButton>
                     {(currentCard + 1) !== data.cards.length
                       ? (
                         <NextCardButton type="button" onClick={this.nextCard} showNext={showNext}>Next</NextCardButton>
                       )
                       : (
-                        // Routing users back to deckl ist for now. Could add intermediary
+                        // Routing users back to decklist for now. Could add intermediary
                         // modal with further options (e.g. train again, deck list, dashboard, etc)
                         // showNext to string is recommended fix to console warning
                         <NextCardLink to="/dashboard/decks" shownext={showNext.toString()}>End Session</NextCardLink>
