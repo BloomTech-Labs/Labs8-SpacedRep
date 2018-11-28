@@ -65,12 +65,18 @@ class CardInputs extends React.Component {
     });
   }
 
+  saveCard = (e) => {
+    e.preventDefault();
+    const { state, props } = this;
+    props.onCardSave(state);
+  }
+
   render() {
-    const { state } = this;
+    const { state, props } = this;
     return (
       <div>
         <h2>Add New Card:</h2>
-        <form onSubmit={this.addCard}>
+        <form onSubmit={this.saveCard}>
           <input type="text" value={state.title} name="title" onChange={this.handleChange} placeholder="Title" required />
           <input type="text" value={state.question} name="question" onChange={this.handleChange} placeholder="Question" required />
           <input type="text" value={state.answer} name="answer" onChange={this.handleChange} placeholder="Answer" required />
