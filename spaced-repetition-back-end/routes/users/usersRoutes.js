@@ -19,14 +19,19 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    const user_id = req.body.id;
+    const user_id = req.user.sub;
     console.log(user_id);
 
     users
         .createUser(user_id)
         .then(ids => {
-            console.log('ids: ', ids[0]);
-            res.status(201).json(ids[0]);
+            if (ids[0]) {
+                console.log('ids: ', ids[0]);
+                res.status(201).json(ids[0]);
+            } else {
+                console.log(ids)
+                res.status(201).json(ids);
+            }
         })
         .catch(err => {
             console.log('err: ', err.message);
@@ -52,7 +57,15 @@ router.post('/tier', (req, res) => {
         .catch(err => res.status(500).json(err));
 });
 
+router.get('/progress', (req, res) => {
+    const user_id = req.user.sub;
+    // const trainingData = req.body.trainingData
+    const trainingData = { difficulty: -1, cardID: 7 } //test data
+    console.log(user_id)
+    users.updateProgress(user_id, trainingData).then(progressObj => {
+        console.log(progressObj)
+    })
 
-
+})
 
 module.exports = router;

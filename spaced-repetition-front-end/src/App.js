@@ -54,8 +54,8 @@ class App extends Component {
     try {
       await auth.getProfile();
 
-
       console.log(auth)
+
       this.setState({
         profile: auth.userProfile,
       });

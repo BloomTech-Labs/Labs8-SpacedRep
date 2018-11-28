@@ -7,6 +7,8 @@ module.exports = {
     findByUser,
     createUser,
     upsertTier,
+    updateProgress,
+    getAllProgress,
 };
 
 function find() {
@@ -30,4 +32,37 @@ function createUser(id) {
             return db(table).returning('id').insert({ user_id: id })
         }
     })
+}
+
+function updateProgress(id, trainingData) {
+    // trainingData is {difficulty: '', cardID: ''}
+
+    //FIX THIS: still need to run algorithm here
+    console.log('trainingData', trainingData)
+
+    return findByUser(id).then(userArr => {
+        const user = userArr[0]
+
+        if (user.card_progress) {
+            // progress exists already, now look for card key
+            console.log('allProgress not null')
+            updatedAllCardProgress = user.card_progress
+            updatedAllCardProgress[trainingData.cardID] = trainingData //FIX- run alg first
+
+            return db(table).where({ user_id: user.user_id }).update({ "card_progress": JSON.stringify(user.card_progress) })
+        } else {
+            //create progress json, add current card and insert it
+            console.log('allProgress is null')
+            user.card_progress = {}
+            user.card_progress[trainingData.cardID] = trainingData
+
+            return db(table).where({ user_id: user.user_id }).update({ "card_progress": JSON.stringify(user.card_progress) })
+        }
+    })
+}
+
+function getAllProgress(id) {
+    console.log('getAllProgress')
+    return db(table).select('card_progress').where({ user_id: id })
+    // return findByUser(id)
 }
