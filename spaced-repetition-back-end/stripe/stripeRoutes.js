@@ -25,7 +25,16 @@ router.post('/', async (req, res) => {
 });
 
 router.delete('/', async (req, res) => {
-  // cancel subscription
+  console.log('req body: ', req.body);
+  try {
+    const stripeId = await users.findByUser(req.body.sub);
+    console.log('user: ', stripeId);
+    await stripe.customers.del(stripeId);
+    const user = await users.paidToFree(req.body.sub)
+    return res.status(200).json(user);
+  } catch (error) {
+    return res.status(500).json({ message: "Failed to cancel subscription.", error: error.message });
+  }
 });
 
 module.exports = router;

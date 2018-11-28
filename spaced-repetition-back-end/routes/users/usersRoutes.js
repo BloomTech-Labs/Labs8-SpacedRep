@@ -9,7 +9,6 @@ router.get('/', (req, res) => {
     users
         .find()
         .then(users => {
-            console.log('users', users);
             res.status(200).json(users);
         })
         .catch(err => {
@@ -39,7 +38,6 @@ router.post('/', (req, res) => {
     users
         .createUser(user_id)
         .then(ids => {
-            console.log('ids: ', ids[0]);
             res.status(201).json(ids[0]);
         })
         .catch(err => {

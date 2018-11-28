@@ -3,20 +3,20 @@ import styled from 'styled-components';
 import { CardElement, injectStripe } from 'react-stripe-elements';
 import axios from 'axios';
 
+const idToken = localStorage.getItem('id_token');
+const headers = { Authorization: `Bearer ${idToken}` };
+
 class CheckoutForm extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
 
-  submit = async (e) => {
+  handleSubscribe = async (e) => {
     e.preventDefault();
     const { stripe } = this.props;
     const { profile } = this.props;
     const { token } = await stripe.createToken();
-
-    const idToken = localStorage.getItem('id_token');
-    const headers = { Authorization: `Bearer ${idToken}` };
 
     if (!token) { return; }
     const purchaseObj = {
@@ -27,7 +27,18 @@ class CheckoutForm extends Component {
       sub: profile.sub,
     };
     console.log(purchaseObj);
-    axios.post('http://localhost:4242/api/stripe', purchaseObj, { headers })
+    axios.post(`${process.env.REACT_APP_URL}/api/stripe`, purchaseObj, { headers })
+      .then(success => console.log(success))
+      .catch(error => console.log(error));
+  };
+
+  cancelSubscription = async (e) => {
+    e.preventDefault();
+    const { profile } = this.props;
+
+    console.log(idToken);
+
+    axios.delete(`${process.env.REACT_APP_URL}/api/stripe`, { sub: profile.sub }, { headers })
       .then(success => console.log(success))
       .catch(error => console.log(error));
   };
@@ -36,8 +47,11 @@ class CheckoutForm extends Component {
     return (
       <CheckoutFormContainer>
         <CardElement style={{ base: { fontSize: '18px', color: 'white' } }} />
-        <button onClick={this.submit} type="submit">
+        <button onClick={this.handleSubscribe} type="submit">
           Buy now
+        </button>
+        <button onClick={this.cancelSubscription} type="submit">
+          cancel
         </button>
       </CheckoutFormContainer>
     );

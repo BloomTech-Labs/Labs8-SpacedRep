@@ -7,7 +7,8 @@ module.exports = {
     findByUser,
     createUser,
     upsertTier,
-    freeToPaid
+    freeToPaid,
+    paidToFree
 };
 
 function find() {
@@ -35,6 +36,13 @@ function createUser(id) {
 
 function freeToPaid(user_id, customerId) {
     const changes = { 'tier': 'paid', 'stripe_customer_id': customerId };
+    return db(table)
+        .where({ user_id })
+        .update(changes);
+}
+
+function paidToFree(user_id) {
+    const changes = { 'tier': 'free', 'stripe_customer_id': null };
     return db(table)
         .where({ user_id })
         .update(changes);
