@@ -24,7 +24,7 @@ module.exports = class SRS {
 
   constructor(
     testingIntervals = [1, 2, 3, 8, 17],
-    difficultyToNextTestDate = [-3, -1, 1]
+    difficultyToNextTestDate = [-1, 1]
   ) {
     this.testingIntervals = testingIntervals;
     this.difficultyToNextTestDate = difficultyToNextTestDate;

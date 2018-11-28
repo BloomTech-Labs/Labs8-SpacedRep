@@ -58,9 +58,12 @@ router.post('/tier', (req, res) => {
 });
 
 router.get('/progress', (req, res) => {
+    // trainingData looks like { difficulty: -1, cardID: 7 }
     const user_id = req.user.sub;
+
     // const trainingData = req.body.trainingData
-    const trainingData = { difficulty: -1, cardID: 7 } //test data
+    const trainingData = { difficulty: 1, cardID: 7 } //FIX: remove line, its test data
+
     console.log(user_id)
     users.updateProgress(user_id, trainingData).then(progressObj => {
         console.log(progressObj)

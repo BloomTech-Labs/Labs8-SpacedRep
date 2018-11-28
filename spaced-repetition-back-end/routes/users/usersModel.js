@@ -1,6 +1,7 @@
 const db = require('../../knex.js');
 const util = require('util');
 const table = 'users';
+const SRS = require('../../algorithm/algorithm');
 
 module.exports = {
     find,
@@ -43,26 +44,38 @@ function updateProgress(id, trainingData) {
     return findByUser(id).then(userArr => {
         const user = userArr[0]
 
+        const alg = new SRS();
+
         if (user.card_progress) {
             // progress exists already, now look for card key
-            console.log('allProgress not null')
-            updatedAllCardProgress = user.card_progress
-            updatedAllCardProgress[trainingData.cardID] = trainingData //FIX- run alg first
 
-            return db(table).where({ user_id: user.user_id }).update({ "card_progress": JSON.stringify(user.card_progress) })
+            //instantiate algorithm
+
+
+            console.log('allProgress not null')
+            updatedAllCardProgress = user.card_progress;
+            updatedAllCardProgress[trainingData.cardID] = alg.calculate(trainingData.difficulty, updatedAllCardProgress[trainingData.cardID]); //FIX- run alg first
         } else {
             //create progress json, add current card and insert it
             console.log('allProgress is null')
             user.card_progress = {}
-            user.card_progress[trainingData.cardID] = trainingData
-
-            return db(table).where({ user_id: user.user_id }).update({ "card_progress": JSON.stringify(user.card_progress) })
+            user.card_progress[trainingData.cardID] = alg.calculate(trainingData.difficulty)
         }
+
+        //update database and return all card progress for this user "card_progress": JSON.stringify(user.card_progress) }
+        return db(table).where({ user_id: user.user_id }).update({ "card_progress": JSON.stringify(user.card_progress) })
+            .then(success => {
+                if (!success || success < 1) {
+                    console.log('failure to update, record not found')
+                    return false
+                } else {
+                    return user.card_progress;
+                }
+            })
+
     })
 }
 
 function getAllProgress(id) {
-    console.log('getAllProgress')
     return db(table).select('card_progress').where({ user_id: id })
-    // return findByUser(id)
 }
