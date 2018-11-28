@@ -9,12 +9,26 @@ router.get('/', (req, res) => {
     users
         .find()
         .then(users => {
-            console.log('users', users)
+            console.log('users', users);
             res.status(200).json(users);
         })
         .catch(err => {
-            console.log(err.message)
-            res.status(500).json(err)
+            console.log(err.message);
+            res.status(500).json(err);
+        });
+});
+
+router.get('/user', (req, res) => {
+    const user_id = req.body.sub;
+
+    users
+        .findByUser(user_id)
+        .then(user => {
+            res.status(200).json(user);
+        })
+        .catch(err => {
+            console.log(err.message);
+            res.status(500).json(err);
         });
 });
 
@@ -42,7 +56,7 @@ router.post('/tier', (req, res) => {
     users
         .upsertTier({ user_id, tier })
         .then(success => {
-            console.log(success)
+            console.log(success);
             if (!success || success < 1) {
                 res.status(404).json({ message: 'No records found to update' });
             } else {
@@ -51,7 +65,6 @@ router.post('/tier', (req, res) => {
         })
         .catch(err => res.status(500).json(err));
 });
-
 
 
 

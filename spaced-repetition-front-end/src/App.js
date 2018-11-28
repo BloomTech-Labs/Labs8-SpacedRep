@@ -51,9 +51,6 @@ class App extends Component {
   handleProfile = async () => {
     try {
       await auth.getProfile();
-
-
-      console.log(auth)
       this.setState({
         profile: auth.userProfile,
       });
@@ -61,8 +58,7 @@ class App extends Component {
       const token = localStorage.getItem('id_token');
       const headers = { Authorization: `Bearer ${token}` };
 
-      axios.post(`${process.env.REACT_APP_URL}/api/users/`, { id: auth.userProfile.sub }, { headers })
-
+      axios.post(`${process.env.REACT_APP_URL}/api/users/`, { id: auth.userProfile.sub }, { headers });
     } catch (error) {
       console.log('handleProfile failed: ', error);
     }
@@ -84,7 +80,7 @@ class App extends Component {
   }
 
   addCardToUpdate = (cardProgressObject) => {
-    console.log(cardProgressObject)
+    console.log(cardProgressObject);
     // cardProgressObject = {difficulty: '', cardID: ''}
     this.setState({
       cardsToUpdate: [cardProgressObject, ...this.state.cardsToUpdate],
@@ -94,7 +90,7 @@ class App extends Component {
 
   updateServer = () => {
     // wait is done, send a POST to server to update card progress in case user does not save manually
-    console.log('updating')
+    console.log('updating');
 
     const cards = this.state.cardsToUpdate;
     if (cards.length > 0) {

@@ -15,13 +15,19 @@ class CheckoutForm extends Component {
     const { profile } = this.props;
     const { token } = await stripe.createToken();
 
+    const idToken = localStorage.getItem('id_token');
+    const headers = { Authorization: `Bearer ${idToken}` };
+
     if (!token) { return; }
-    const purchase = {
-      token,
-      email: profile.email,
+    const purchaseObj = {
+      purchase: {
+        token,
+        email: profile.email,
+      },
+      sub: profile.sub,
     };
-    console.log(purchase);
-    axios.post('http://localhost:4242/api/stripe', purchase)
+    console.log(purchaseObj);
+    axios.post('http://localhost:4242/api/stripe', purchaseObj, { headers })
       .then(success => console.log(success))
       .catch(error => console.log(error));
   };
