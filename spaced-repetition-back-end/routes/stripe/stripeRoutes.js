@@ -18,6 +18,7 @@ router.post('/', async (req, res) => {
         plan: "plan_DynouB6dXG4IcA"
       })
     const user = await users.freeToPaid(user_id, customer.id)
+    console.log('returned from successful subscription: ', user);
     return res.status(200).json(user);
   } catch (error) {
     return res.status(500).json({ message: "Subscription failed.", error: error.message });
@@ -32,10 +33,11 @@ router.put('/', async (req, res) => {
     await stripe.customers.del(subscriptionToCancel[0].stripe_customer_id,
       function (err, confirmation) {
         if (err) { console.log(err) }
-        console.log(confirmation);
+        console.log('stripe deletion confirmation: ', confirmation);
       });
-    const cancelledSubscription = await users.paidToFree(req.body.sub)
-    return res.status(200).json(cancelledSubscription);
+    const user = await users.paidToFree(req.body.sub)
+    console.log('returned from successful deletion: ', user);
+    return res.status(200).json(user);
   } catch (error) {
     return res.status(500).json({ message: "Failed to cancel subscription.", error: error.message });
   }

@@ -51,14 +51,14 @@ class App extends Component {
   handleProfile = async () => {
     try {
       await auth.getProfile();
-      this.setState({
-        profile: auth.userProfile,
-      });
-
+      const profile = auth.userProfile;
       const token = localStorage.getItem('id_token');
       const headers = { Authorization: `Bearer ${token}` };
 
-      axios.post(`${process.env.REACT_APP_URL}/api/users/`, { id: auth.userProfile.sub }, { headers });
+      const response = await axios.post(`${process.env.REACT_APP_URL}/api/users/`, { id: auth.userProfile.sub }, { headers });
+      console.log('user after handleProfile: ', response.data);
+      profile.tier = response.data.tier;
+      this.setState({ profile });
     } catch (error) {
       console.log('handleProfile failed: ', error);
     }
@@ -119,6 +119,7 @@ class App extends Component {
 
   render() {
     const { decks, profile } = this.state;
+    if (profile) { console.log(profile); }
     return (
       <AppWrapper>
         <Route path="/" render={props => <Header auth={auth} {...props} />} />

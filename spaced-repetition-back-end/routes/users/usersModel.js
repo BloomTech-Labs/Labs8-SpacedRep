@@ -6,7 +6,6 @@ module.exports = {
     find,
     findByUser,
     createUser,
-    upsertTier,
     freeToPaid,
     paidToFree
 };
@@ -19,13 +18,10 @@ function findByUser(id) {
     return db(table)
         .where('user_id', id);
 }
-// onExists return tier else insert return tier
-function upsertTier({ user_id, tier }) {
-    return db(table).where({ user_id }).update({ tier });
-}
 
 function createUser(id) {
     return findByUser(id).then(user => {
+        console.log('returned from createUser: ', user);
         if (user[0]) return user[0];
         else {
             console.log('user not found, creating user');
