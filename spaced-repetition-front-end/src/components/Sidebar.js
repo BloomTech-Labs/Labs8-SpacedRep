@@ -12,6 +12,16 @@ const Sidebar = () => (
       <ItemName>Decks</ItemName>
     </SidebarItem>
     <Divider />
+    <SidebarItem to="/dashboard/add-deck">
+      <Logo src={decksIcon} />
+      <ItemName>Add Deck</ItemName>
+    </SidebarItem>
+    <Divider />
+    <SidebarItem to="/dashboard/add-card">
+      <Logo src={decksIcon} />
+      <ItemName>Add Card</ItemName>
+    </SidebarItem>
+    <Divider />
   </Container>
 );
 
@@ -25,13 +35,13 @@ const Container = styled.div`
   align-items: center;
   width: 200px;
   height: 100%;
-  padding: 20px;
+  padding: 5px 20px 0;
   background: ${props => props.theme.dark.sidebar};
 `;
 
 const SidebarItem = styled(Link)`
   display: flex;
-  justify-content: center;
+  justify-content: end;
   align-items: center;
   padding: 5px;
   width: 100%;
