@@ -16,14 +16,6 @@ class Card extends React.Component {
     this.setState({ trained: true });
   }
 
-  handleAnswer(difficulty) {
-    // object to send to server: {difficulty: '', cardID: ''};
-    const cardID = this.props.data.cards[this.state.currentCard].id;
-    const progress = { cardID, difficulty };
-
-    this.setState({ showNext: true })
-    this.props.updateProgress(progress);
-  }
 
   nextCard = () => {
     const { currentCard } = this.state;
@@ -46,6 +38,17 @@ class Card extends React.Component {
     // "Are you sure you want to quit this session?"
     // Route back to deck list
     this.setState({ redirect: true });
+  }
+
+  handleAnswer(difficulty) {
+    const { data, updateProgress } = this.props;
+    const { currentCard } = this.state;
+    // object to send to server: {difficulty: '', cardID: ''};
+    const cardID = data.cards[currentCard].id;
+    const progress = { cardID, difficulty };
+
+    this.setState({ showNext: true })
+    updateProgress(progress);
   }
 
 
@@ -267,4 +270,5 @@ Card.defaultProps = {
 
 Card.propTypes = {
   data: PropTypes.shape(),
+  updateProgress: PropTypes.func.isRequired,
 };
