@@ -19,6 +19,7 @@ class CheckoutForm extends Component {
     const { token } = await stripe.createToken();
 
     if (!token) { return; }
+
     const purchaseObj = {
       purchase: {
         token,
@@ -26,7 +27,7 @@ class CheckoutForm extends Component {
       },
       sub: profile.sub,
     };
-    console.log(purchaseObj);
+
     axios.post(`${process.env.REACT_APP_URL}/api/stripe`, purchaseObj, { headers })
       .then(success => console.log(success))
       .catch(error => console.log(error));
@@ -35,8 +36,6 @@ class CheckoutForm extends Component {
   cancelSubscription = async (e) => {
     e.preventDefault();
     const { profile } = this.props;
-
-    console.log(idToken);
 
     axios.put(`${process.env.REACT_APP_URL}/api/stripe`, { sub: profile.sub }, { headers })
       .then(success => console.log(success))
