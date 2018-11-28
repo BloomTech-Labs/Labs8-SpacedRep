@@ -12,17 +12,24 @@ class Card extends React.Component {
     showOptions: false, // show/hide menu for quitting session, editing card, etc
     showNext: false, // shows next/end training session buttons after missed it/got it is selected
     // each card's question and answer has text and possibly code snippets
-    questionSnippet: '',
-    questionText: '',
-    answerSnippet: '',
-    answerText: '',
+    questionSnippet: 'WIP',
+    questionText: 'WIP',
+    answerSnippet: 'WIP',
+    answerText: 'WIP',
 
   };
 
-  showAnswer = () => {
-    this.setState({ trained: true });
+  componentDidUpdate(prevProps) {
+    const { data } = this.props;
+    const { currentCard } = this.state;
+    if (data !== prevProps.data) {
+      // must call handleSnippets in CDU; otherwise, data.cards will be undefined
+      this.handleSnippets(
+        data.cards[currentCard].question,
+        data.cards[currentCard].answer,
+      );
+    }
   }
-
 
   nextCard = () => {
     const { currentCard } = this.state;
@@ -41,7 +48,7 @@ class Card extends React.Component {
 
   // determines if question and answer on each card has code snippet and abstracts it out
   // separation avoids console warning: <Highlight> can't nest inside <p>
-  handleSnippets = ({ question, answer }) => {
+  handleSnippets = (question, answer) => {
     console.log('snippets', question, answer);
     this.setState({
       questionSnippet: question,
@@ -49,6 +56,10 @@ class Card extends React.Component {
       answerSnippet: 'This is a hard-coded test.',
       answerText: answer,
     });
+  }
+
+  showAnswer = () => {
+    this.setState({ trained: true });
   }
 
   quitTrainingSession = () => {
@@ -74,10 +85,8 @@ class Card extends React.Component {
   render() {
     const { data } = this.props;
     const {
-      trained, currentCard, showOptions, showNext, redirect, answerSnippet, questionText,
+      trained, currentCard, showOptions, showNext, redirect, answerSnippet, questionText, questionSnippet,
     } = this.state;
-    // handleSnippet should not execute if it has already been called
-    if (data && answerSnippet === null) this.handleSnippets(data.cards[currentCard]);
     if (redirect) return <Redirect to="/dashboard/decks" />;
     return (
       data ? (
