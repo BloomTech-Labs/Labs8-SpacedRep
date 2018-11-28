@@ -10,6 +10,8 @@ import DeckList from './components/DeckList';
 import Wrapper from './components/Wrapper';
 import Profile from './components/Profile';
 import Billing from './components/Billing';
+import AddDeck from './components/AddDeck';
+import CardInputs from './components/CardInputs';
 import TrainDeck from './components/TrainDeck';
 import './App.css';
 
@@ -143,6 +145,7 @@ class App extends Component {
             <Route exact path="/dashboard" decks={decks} />
             <Route exact path="/dashboard/profile" render={props => <Profile profile={profile} {...props} />} />
             <Route exact path="/dashboard/decks" render={props => <DeckList decks={decks} {...props} />} />
+            <Route exact path="/dashboard/billing" render={props => <Billing profile={profile} handleUpdateTier={this.handleUpdateTier} {...props} />} />
             <Route
               exact
               path="/dashboard/decks/:deckId/train"
@@ -151,7 +154,6 @@ class App extends Component {
                 return <TrainDeck deck={deckToTrain[0]} updateProgress={this.addCardToUpdate} {...props} />;
               }}
             />
-            <Route exact path="/dashboard/billing" render={props => <Billing profile={profile} handleUpdateTier={this.handleUpdateTier} {...props} />} />
           </Wrapper>
         </Switch>
       </AppWrapper>
