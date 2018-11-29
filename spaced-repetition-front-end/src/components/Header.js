@@ -21,11 +21,6 @@ const Header = ({ auth }) => {
         <Logo src={logo} />
       </AppName>
       <LoginRegisterContainer>
-        {/* WIP: Registration is currently coupled with the login widget and does not render
-        conditionally */}
-        <LinkStyled type="button" className="header-link">
-          Sign up
-        </LinkStyled>
         {/* Conditionally renders "Sign in" or "Sign out" depending on authentication status. */}
         {!isAuthenticated()
           ? (
