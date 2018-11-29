@@ -235,7 +235,8 @@ export default App;
 
 // styles
 const AppWrapper = styled.div`
-  width: 1000px;
+  max-width: 1000px;
+  width: 100%;
   height: 600px;
   margin: 0 auto;
   background: ${props => props.theme.dark.bodyBackground};
