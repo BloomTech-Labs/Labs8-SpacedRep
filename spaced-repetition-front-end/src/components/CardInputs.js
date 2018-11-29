@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 
 class CardInputs extends React.Component {
   constructor(props) {
@@ -25,7 +24,7 @@ class CardInputs extends React.Component {
     const { name } = target;
     this.setState({
       [name]: val,
-    }, () => console.log(this.state));
+    });
   }
 
   saveCard = (e) => {
@@ -41,8 +40,9 @@ class CardInputs extends React.Component {
         <h2>Add New Card:</h2>
         <form onSubmit={this.saveCard}>
           <input type="text" value={state.title} name="title" onChange={this.handleChange} placeholder="Title" required />
-          <input type="text" value={state.question} name="question" onChange={this.handleChange} placeholder="Question" required />
-          <input type="text" value={state.answer} name="answer" onChange={this.handleChange} placeholder="Answer" required />
+          <textarea type="text" value={state.question} name="question" onChange={this.handleChange} placeholder="Question" required />
+          <textarea type="text" value={state.answer} name="answer" onChange={this.handleChange} placeholder="Answer" required />
+          <input type="number" value={state.deck_id} name="deck_id" onChange={this.handleChange} placeholder="deck_id" required />
           <input type="text" value={state.language} name="language" onChange={this.handleChange} placeholder="Language" required />
           <button type="submit">Save</button>
         </form>

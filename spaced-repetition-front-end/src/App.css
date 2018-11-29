@@ -23,6 +23,14 @@ input {
   background: lightgray;
   border: none;
 }
+textarea {
+  height: 100px;
+  margin-bottom: 10px;
+  border-radius: 3px;
+  padding: 0 15px 0 15px;
+  background: lightgray;
+  border: none;
+}
 
 button {
   height: 50px;
