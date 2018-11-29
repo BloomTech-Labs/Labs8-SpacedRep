@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Card from './Card';
 
-// "Deckname" should be replaced with the dynamic name of the deck.
-// Not priority or urgent at this time.
 const TrainDeck = ({ deck, updateProgress }) => (
   <TrainingContainer>
     <TrainingHeader>
@@ -30,4 +28,5 @@ TrainDeck.defaultProps = {
 
 TrainDeck.propTypes = {
   deck: PropTypes.shape(),
+  updateProgress: PropTypes.func.isRequired,
 };

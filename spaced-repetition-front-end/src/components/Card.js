@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router';
 import styled, { keyframes } from 'styled-components';
+import Highlight from 'react-highlight.js';
 import PropTypes from 'prop-types';
 
 class Card extends React.Component {
@@ -10,34 +11,99 @@ class Card extends React.Component {
     currentCard: 0, // deck training begins with the first card in the array
     showOptions: false, // show/hide menu for quitting session, editing card, etc
     showNext: false, // shows next/end training session buttons after missed it/got it is selected
+    // each card's question and answer has text and possibly code snippets
+    // would like to narrow this down to questionData and answerData objects
+    // - avoiding prop issues atm
+    qFilteredContent: [],
+    aFilteredContent: [],
+    qContentType: [],
+    aContentType: [],
   };
 
   showAnswer = () => {
     this.setState({ trained: true });
   }
 
-  handleAnswer(difficulty) {
-    // object to send to server: {difficulty: '', cardID: ''};
-    const card = this.props.data.cards[this.state.currentCard]
-    const progress = { cardID: card.id, deckID: card.deck_id, difficulty };
-
-    this.setState({ showNext: true })
-    this.props.updateProgress(progress);
-  }
-
   nextCard = () => {
     const { currentCard } = this.state;
+    const { data } = this.props;
     this.setState({
       trained: false,
       currentCard: currentCard + 1,
       showOptions: false,
       showNext: false,
-    });
+      // this may not be the best place to call handleSnippets
+      // ran into problems with props - will fix
+    }, () => this.handleSnippets(
+      // do not destructure yet as it introduces a bug
+      data.cards[this.state.currentCard].question,
+      data.cards[this.state.currentCard].answer,
+    ));
   }
 
   toggleOption = () => {
     const { showOptions } = this.state;
     this.setState({ showOptions: !showOptions });
+  }
+
+  // determines if question and answer on each card has code snippet and abstracts it out
+  // separation avoids console warning: <Highlight> can't nest inside <p>
+  handleSnippets = (question, answer) => {
+    const abstractSnippet = (type, data) => {
+      let cache = [];
+      const contentType = [];
+      const trigger = '```';
+      const content = data.split(trigger);
+
+      const filteredContent = [];
+      content.forEach((element) => {
+        if (element !== '') filteredContent.push(element);
+      });
+
+      //   // if data starts with text
+      if (data.substring(0, 3) !== trigger) {
+        contentType.push('txt');
+        cache.push('txt');
+      }
+
+      for (let i = 0; i < data.length; i += 1) {
+        const substr = data.substring(i, i + 3);
+
+        // if the current index + next 2 chars are ```, add to cache
+        if (substr === trigger) {
+          // if cache has matching ```, push code type and clear cache
+          // end of code snippet
+          if (cache.includes('code')) {
+            contentType.push('code');
+            cache = [];
+          } else {
+            // beginning of code snippet
+            cache.push('code');
+          }
+          // if cache is empty, the next 3 chars aren't ```, and current char isn't ' ',
+          // current content is txt
+          if (cache.length === 0 && substr !== trigger && data[i] !== ' ') {
+            cache.push('txt');
+            contentType.push('txt');
+          }
+        }
+      }
+      return { filteredContent, contentType, type };
+    };
+
+    const questionData = abstractSnippet('question', question);
+    const answerData = abstractSnippet('answer', answer);
+
+    this.setState({
+      qFilteredContent: questionData.filteredContent,
+      aFilteredContent: answerData.filteredContent,
+      qContentType: questionData.contentType,
+      aContentType: answerData.contentType,
+    });
+  }
+
+  showAnswer = () => {
+    this.setState({ trained: true });
   }
 
   quitTrainingSession = () => {
@@ -48,11 +114,22 @@ class Card extends React.Component {
     this.setState({ redirect: true });
   }
 
+  handleAnswer(difficulty) {
+    // object to send to server: {difficulty: '', cardID: ''};
+    const { data, updateProgress } = this.props;
+    const { currentCard } = this.state;
+    const card = data.cards[currentCard];
+    const progress = { cardID: card.id, deckID: card.deck_id, difficulty };
+
+    this.setState({ showNext: true });
+    updateProgress(progress);
+  }
 
   render() {
     const { data } = this.props;
     const {
-      trained, currentCard, showOptions, showNext, redirect,
+      trained, currentCard, showOptions, showNext, redirect, qContentType, aContentType,
+      qFilteredContent, aFilteredContent, updateProgress,
     } = this.state;
     if (redirect) return <Redirect to="/dashboard/decks" />;
     return (
@@ -61,33 +138,44 @@ class Card extends React.Component {
           <CardModal>
             <CardContainer>
               <CardTitle>{data.cards[currentCard].title}</CardTitle>
-              <CardText>
-                Question:
-
-                {data.cards[currentCard].question}
-              </CardText>
+              <h3>Question</h3>
+              {qFilteredContent.map((content, i) => {
+                if (qContentType[i] === 'txt') {
+                  return <CardText key={`${i + qContentType[i]}`}>{content}</CardText>;
+                }
+                return (
+                  <Highlight key={`${i + qContentType[i]}`} language={data.cards[currentCard].language}>
+                    {content}
+                  </Highlight>
+                );
+              })}
             </CardContainer>
             {trained && (
               <CardContainer>
                 <AnimateOnReveal>
-                  <CardText>
-                    Answer:
-
-                    {data.cards[currentCard].answer}
-                  </CardText>
-                  {/* Missed It and Got It buttons should connect to the SRS algorithm */}
+                  <h3>Answer</h3>
+                  {aFilteredContent.map((content, i) => {
+                    if (aContentType[i] === 'txt') {
+                      return <CardText key={`${i + qContentType[i]}`}>{content}</CardText>;
+                    }
+                    return (
+                      <Highlight key={`${i + qContentType[i]}`} language={data.cards[currentCard].language}>
+                        {content}
+                      </Highlight>
+                    );
+                  })}
                   <ButtonContainer>
-                    <CardButton type="button" onClick={() => this.handleAnswer(0)} >Missed It</CardButton>
+                    <CardButton type="button" onClick={() => this.handleAnswer(0)}>Missed It</CardButton>
                     <CardButton type="button" onClick={() => this.handleAnswer(1)}>Got It</CardButton>
                     {(currentCard + 1) !== data.cards.length
                       ? (
                         <NextCardButton type="button" onClick={this.nextCard} showNext={showNext}>Next</NextCardButton>
                       )
                       : (
-                        // Routing users back to deckl ist for now. Could add intermediary
+                        // Routing users back to decklist for now. Could add intermediary
                         // modal with further options (e.g. train again, deck list, dashboard, etc)
                         // showNext to string is recommended fix to console warning
-                        <NextCardLink to="/dashboard/decks" shownext={showNext.toString()} onClick={() => this.props.updateProgress()} >End Session</NextCardLink>
+                        <NextCardLink to="/dashboard/decks" shownext={showNext.toString()} onClick={() => updateProgress()}>End Session</NextCardLink>
                       )
                     }
                   </ButtonContainer>
@@ -104,7 +192,7 @@ class Card extends React.Component {
             )}
             <ProgressText>
               Progress:
-              {currentCard}
+              {currentCard + 1}
               /
               {data.cards.length}
             </ProgressText>
@@ -262,9 +350,12 @@ const AnimateOnReveal = styled(CardContainer)`
 
 // prop checking
 Card.defaultProps = {
-  data: null,
+  data: {
+    cards: [],
+  },
 };
 
 Card.propTypes = {
   data: PropTypes.shape(),
+  updateProgress: PropTypes.func.isRequired,
 };
