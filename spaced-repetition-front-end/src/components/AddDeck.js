@@ -3,18 +3,10 @@ import styled from 'styled-components';
 import axios from 'axios';
 import CardInputs from './CardInputs';
 
-// cards need title, question, answer, deckId, language
-// for deckId, will have to post the deck first, then use the response
-// to set the deckId of each card before entering into the db
-
-// onSave of card, it concats the card to the cards array
-
-// need to auto set the deck_id of each card to the
-// response from creating the deck, then send the arr
 // need to limit it so users can only hit save on a card once,
 // otherwise they're able to repeatedly duplicate the card on save
 
-// NOTE: cardCount 
+// NOTE: cardCount is there to be able to iterate with JSX
 
 class AddDeck extends React.Component {
   constructor(props) {
@@ -25,7 +17,7 @@ class AddDeck extends React.Component {
       public: false,
       tags: '',
       cards: [],
-      cardCount: [], // this is done so we can iterate with jsx 
+      cardCount: [],
     };
   }
 
