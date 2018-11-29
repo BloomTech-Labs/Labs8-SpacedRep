@@ -24,7 +24,7 @@ module.exports = class SRS {
 
   constructor(
     testingIntervals = [1, 2, 3, 8, 17],
-    difficultyToNextTestDate = [-3, -1, 1]
+    difficultyToNextTestDate = [-1, 1]
   ) {
     this.testingIntervals = testingIntervals;
     this.difficultyToNextTestDate = difficultyToNextTestDate;
@@ -61,6 +61,10 @@ module.exports = class SRS {
     // then move to the next interval
     if (correct && progress < this.maxProgress) {
       dueDate = now + this.testingIntervals[progress];
+    } else if (correct) {
+      //if correct and already at maxInterval, show card at the maximum interval
+      // we can change this to any date if we want, or make it never show up again
+      dueDate = now + this.testingIntervals[this.testingIntervals.length - 1]
     }
 
     //return a new progressData object with an updated due date and tracking of current progress
