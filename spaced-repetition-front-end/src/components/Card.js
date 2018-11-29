@@ -12,33 +12,28 @@ class Card extends React.Component {
     showOptions: false, // show/hide menu for quitting session, editing card, etc
     showNext: false, // shows next/end training session buttons after missed it/got it is selected
     // each card's question and answer has text and possibly code snippets
-    questionSnippet: 'WIP',
-    questionText: 'WIP',
-    answerSnippet: 'WIP',
-    answerText: 'WIP',
-
+    // would like to narrow this down to questionData and answerData objects
+    // - avoiding prop issues atm
+    qFilteredContent: [],
+    aFilteredContent: [],
+    qContentType: [],
+    aContentType: [],
   };
-
-  componentDidUpdate(prevProps) {
-    const { data } = this.props;
-    const { currentCard } = this.state;
-    if (data !== prevProps.data) {
-      // must call handleSnippets in CDU; otherwise, data.cards will be undefined
-      this.handleSnippets(
-        data.cards[currentCard].question,
-        data.cards[currentCard].answer,
-      );
-    }
-  }
 
   nextCard = () => {
     const { currentCard } = this.state;
+    const { data } = this.props;
     this.setState({
       trained: false,
       currentCard: currentCard + 1,
       showOptions: false,
       showNext: false,
-    });
+      // this may not be the best place to call handleSnippets
+      // ran into problems with props - will fix
+    }, () => this.handleSnippets(
+      data.cards[this.state.currentCard].question,
+      data.cards[this.state.currentCard].answer,
+    ));
   }
 
   toggleOption = () => {
@@ -49,12 +44,56 @@ class Card extends React.Component {
   // determines if question and answer on each card has code snippet and abstracts it out
   // separation avoids console warning: <Highlight> can't nest inside <p>
   handleSnippets = (question, answer) => {
-    console.log('snippets', question, answer);
+    const abstractSnippet = (type, data) => {
+      let cache = [];
+      const contentType = [];
+      const trigger = '```';
+      const content = data.split(trigger);
+
+      const filteredContent = [];
+      content.forEach((element) => {
+        if (element !== '') filteredContent.push(element);
+      });
+
+      //   // if data starts with text
+      if (data.substring(0, 3) !== trigger) {
+        contentType.push('txt');
+        cache.push('txt');
+      }
+
+      for (let i = 0; i < data.length; i += 1) {
+        const substr = data.substring(i, i + 3);
+
+        // if the current index + next 2 chars are ```, add to cache
+        if (substr === trigger) {
+          // if cache has matching ```, push code type and clear cache
+          // end of code snippet
+          if (cache.includes('code')) {
+            contentType.push('code');
+            cache = [];
+          } else {
+            // beginning of code snippet
+            cache.push('code');
+          }
+          // if cache is empty, the next 3 chars aren't ```, and current char isn't ' ',
+          // current content is txt
+          if (cache.length === 0 && substr !== trigger && data[i] !== ' ') {
+            cache.push('txt');
+            contentType.push('txt');
+          }
+        }
+      }
+      return { filteredContent, contentType, type };
+    };
+
+    const questionData = abstractSnippet('question', question);
+    const answerData = abstractSnippet('answer', answer);
+
     this.setState({
-      questionSnippet: question,
-      questionText: question,
-      answerSnippet: 'This is a hard-coded test.',
-      answerText: answer,
+      qFilteredContent: questionData.filteredContent,
+      aFilteredContent: answerData.filteredContent,
+      qContentType: questionData.contentType,
+      aContentType: answerData.contentType,
     });
   }
 
@@ -85,7 +124,8 @@ class Card extends React.Component {
   render() {
     const { data } = this.props;
     const {
-      trained, currentCard, showOptions, showNext, redirect, answerSnippet, questionText, questionSnippet,
+      trained, currentCard, showOptions, showNext, redirect, qContentType, aContentType,
+      qFilteredContent, aFilteredContent,
     } = this.state;
     if (redirect) return <Redirect to="/dashboard/decks" />;
     return (
@@ -95,17 +135,31 @@ class Card extends React.Component {
             <CardContainer>
               <CardTitle>{data.cards[currentCard].title}</CardTitle>
               <h3>Question</h3>
-              <CardText>{questionText}</CardText>
+              {qFilteredContent.map((content, i) => {
+                if (qContentType[i] === 'txt') {
+                  return <CardText>{content}</CardText>;
+                }
+                return (
+                  <Highlight language={data.cards[currentCard].language}>
+                    {content}
+                  </Highlight>
+                );
+              })}
             </CardContainer>
             {trained && (
               <CardContainer>
                 <AnimateOnReveal>
                   <h3>Answer</h3>
-                  <CardText>{data.cards[currentCard].answer}</CardText>
-                  <Highlight language={data.cards[currentCard].language}>
-                    {answerSnippet}
-                    This is a test
-                  </Highlight>
+                  {aFilteredContent.map((content, i) => {
+                    if (aContentType[i] === 'txt') {
+                      return <CardText>{content}</CardText>;
+                    }
+                    return (
+                      <Highlight language={data.cards[currentCard].language}>
+                        {content}
+                      </Highlight>
+                    );
+                  })}
                   <ButtonContainer>
                     <CardButton type="button" onClick={() => this.handleAnswer(0)}>Missed It</CardButton>
                     <CardButton type="button" onClick={() => this.handleAnswer(1)}>Got It</CardButton>
@@ -134,7 +188,7 @@ class Card extends React.Component {
             )}
             <ProgressText>
               Progress:
-              {currentCard}
+              {currentCard + 1}
               /
               {data.cards.length}
             </ProgressText>
@@ -292,7 +346,9 @@ const AnimateOnReveal = styled(CardContainer)`
 
 // prop checking
 Card.defaultProps = {
-  data: null,
+  data: {
+    cards: [],
+  },
 };
 
 Card.propTypes = {
