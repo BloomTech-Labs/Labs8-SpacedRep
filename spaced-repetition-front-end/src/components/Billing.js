@@ -11,7 +11,7 @@ class Billing extends React.Component {
   }
 
   render() {
-    const { profile } = this.props;
+    const { profile, handleUpdateTier } = this.props;
     return (
       <StripeProvider apiKey="pk_test_KoWcK14l0HlLnKEAFc9icsPa">
         <BillingContainer>
@@ -21,6 +21,7 @@ class Billing extends React.Component {
           <p>Would you like to complete the purchase?</p>
           <Elements>
             <CheckoutForm
+              handleUpdateTier={handleUpdateTier}
               profile={profile}
             />
           </Elements>

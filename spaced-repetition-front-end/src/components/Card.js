@@ -20,6 +20,10 @@ class Card extends React.Component {
     aContentType: [],
   };
 
+  showAnswer = () => {
+    this.setState({ trained: true });
+  }
+
   nextCard = () => {
     const { currentCard } = this.state;
     const { data } = this.props;
@@ -31,6 +35,7 @@ class Card extends React.Component {
       // this may not be the best place to call handleSnippets
       // ran into problems with props - will fix
     }, () => this.handleSnippets(
+      // do not destructure yet as it introduces a bug
       data.cards[this.state.currentCard].question,
       data.cards[this.state.currentCard].answer,
     ));
@@ -110,14 +115,13 @@ class Card extends React.Component {
   }
 
   handleAnswer(difficulty) {
+    // object to send to server: {difficulty: '', cardID: ''};
     const { data, updateProgress } = this.props;
     const { currentCard } = this.state;
-    // object to send to server: {difficulty: '', cardID: ''};
-    const cardID = data.cards[currentCard].id;
-    const progress = { cardID, difficulty };
+    const card = data.cards[currentCard];
+    const progress = { cardID: card.id, deckID: card.deck_id, difficulty };
 
     this.setState({ showNext: true });
-
     updateProgress(progress);
   }
 
@@ -125,7 +129,7 @@ class Card extends React.Component {
     const { data } = this.props;
     const {
       trained, currentCard, showOptions, showNext, redirect, qContentType, aContentType,
-      qFilteredContent, aFilteredContent,
+      qFilteredContent, aFilteredContent, updateProgress,
     } = this.state;
     if (redirect) return <Redirect to="/dashboard/decks" />;
     return (
@@ -137,10 +141,10 @@ class Card extends React.Component {
               <h3>Question</h3>
               {qFilteredContent.map((content, i) => {
                 if (qContentType[i] === 'txt') {
-                  return <CardText>{content}</CardText>;
+                  return <CardText key={`${i + qContentType[i]}`}>{content}</CardText>;
                 }
                 return (
-                  <Highlight language={data.cards[currentCard].language}>
+                  <Highlight key={`${i + qContentType[i]}`} language={data.cards[currentCard].language}>
                     {content}
                   </Highlight>
                 );
@@ -152,10 +156,10 @@ class Card extends React.Component {
                   <h3>Answer</h3>
                   {aFilteredContent.map((content, i) => {
                     if (aContentType[i] === 'txt') {
-                      return <CardText>{content}</CardText>;
+                      return <CardText key={`${i + qContentType[i]}`}>{content}</CardText>;
                     }
                     return (
-                      <Highlight language={data.cards[currentCard].language}>
+                      <Highlight key={`${i + qContentType[i]}`} language={data.cards[currentCard].language}>
                         {content}
                       </Highlight>
                     );
@@ -171,7 +175,7 @@ class Card extends React.Component {
                         // Routing users back to decklist for now. Could add intermediary
                         // modal with further options (e.g. train again, deck list, dashboard, etc)
                         // showNext to string is recommended fix to console warning
-                        <NextCardLink to="/dashboard/decks" shownext={showNext.toString()}>End Session</NextCardLink>
+                        <NextCardLink to="/dashboard/decks" shownext={showNext.toString()} onClick={() => updateProgress()}>End Session</NextCardLink>
                       )
                     }
                   </ButtonContainer>

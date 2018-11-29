@@ -28,4 +28,5 @@ TrainDeck.defaultProps = {
 
 TrainDeck.propTypes = {
   deck: PropTypes.shape(),
+  updateProgress: PropTypes.func.isRequired,
 };
