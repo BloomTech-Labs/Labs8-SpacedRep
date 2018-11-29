@@ -8,6 +8,11 @@ import CardInputs from './CardInputs';
 
 // NOTE: cardCount is there to be able to iterate with JSX
 
+// Refactor idea: instead of using cardCount, just add object
+// to the cards array and make changes by targeting the index in
+// the array. For instance in a set state, cards[0].title = val. This would also elminate
+// the need for a save button when you finish writing a card!
+
 class AddDeck extends React.Component {
   constructor(props) {
     super(props);
