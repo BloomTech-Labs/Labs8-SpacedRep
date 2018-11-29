@@ -22,6 +22,11 @@ const Sidebar = () => (
       <ItemName>Add Card</ItemName>
     </SidebarItem>
     <Divider />
+    <SidebarItem to="/dashboard/profile">
+      <Logo src={decksIcon} />
+      <ItemName>Profile</ItemName>
+    </SidebarItem>
+    <Divider />
   </Container>
 );
 
