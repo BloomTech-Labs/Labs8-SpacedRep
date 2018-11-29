@@ -40,7 +40,7 @@ class AddDeck extends React.Component {
     const { name } = target;
     this.setState({
       [name]: val,
-    });
+    }, () => console.log(this.state));
   }
 
   onCardSave = (newCard) => {
@@ -96,59 +96,22 @@ class AddDeck extends React.Component {
   render() {
     const { state } = this;
     return (
-      <Container>
-        <Headline>Create New Deck:</Headline>
-        <AddDeckForm onSubmit={this.addDeck}>
+      <div>
+        <h2>Create New Deck:</h2>
+        <form onSubmit={this.addDeck}>
           <input type="text" value={state.name} name="name" onChange={this.handleChange} placeholder="Name" required />
-          <PublicDiv> <p style={{ color: 'white' }}>Public?</p>
-            <PublicBox type="checkbox" name="public" onChange={this.handleChange} />
-          </PublicDiv>
-
+          <p style={{ color: 'black' }}>Public?</p>
+          <input type="checkbox" name="public" onChange={this.handleChange} />
           <input type="text" value={state.tags} name="tags" onChange={this.handleChange} placeholder="Enter a list of tags separated by comma (no spaces)" required />
           <button type="button" onClick={this.newCard}>Add Card</button>
           <button type="submit">Save</button>
-        </AddDeckForm>
+        </form>
         {state.cardCount.map((x, i) => {
-          return <CardInputs key={i} onCardSave={this.onCardSave} cardNumber={i + 1} />;
+          return <CardInputs i={i} onCardSave={this.onCardSave} />;
         })}
-      </Container>
+      </div>
     );
   }
 }
 
 export default AddDeck;
-
-// styles
-const Container = styled.div`
-  display:flex;
-  flex-direction: column;
-  align-items: center;
-  /* justify-content: center; */
-  width: 100%;
-`
-
-const Headline = styled.h2`
-  width:50%;
-`
-
-const AddDeckForm = styled.form`
-  padding: 20px;
-  margin: 5px;
-  /* width: 50%; */
-  border: 1px solid ${props => props.theme.dark.sidebar};
-  background: ${props => props.theme.dark.cardBackground};
-  border-radius: 4px;
-  min-height: 325px;
-`;
-
-const PublicDiv = styled.div`
-  display: flex;
-  width: 40%;
-  justify-content: space-between;
-  align-items: center;
-`
-const PublicBox = styled.input`
-  width: 20px;
-  margin-top: 8px;
-  border-radius: 2px;
-`

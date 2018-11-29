@@ -126,11 +126,12 @@ class Card extends React.Component {
   }
 
   render() {
-    const { data } = this.props;
+    const { data, updateProgress } = this.props;
     const {
       trained, currentCard, showOptions, showNext, redirect, qContentType, aContentType,
-      qFilteredContent, aFilteredContent, updateProgress,
+      qFilteredContent, aFilteredContent,
     } = this.state;
+
     if (redirect) return <Redirect to="/dashboard/decks" />;
     return (
       data ? (
