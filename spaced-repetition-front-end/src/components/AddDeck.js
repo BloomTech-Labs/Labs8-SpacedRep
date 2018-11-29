@@ -14,6 +14,8 @@ import CardInputs from './CardInputs';
 // need to limit it so users can only hit save on a card once,
 // otherwise they're able to repeatedly duplicate the card on save
 
+// NOTE: cardCount 
+
 class AddDeck extends React.Component {
   constructor(props) {
     super(props);
@@ -23,7 +25,7 @@ class AddDeck extends React.Component {
       public: false,
       tags: '',
       cards: [],
-      tempArr: [],
+      cardCount: [], // this is done so we can iterate with jsx 
     };
   }
 
@@ -61,9 +63,17 @@ class AddDeck extends React.Component {
     const token = localStorage.getItem('id_token');
     const headers = { Authorization: `Bearer ${token}` };
     axios.post(`${process.env.REACT_APP_URL}/api/decks/`, newDeck, { headers })
-      .then(response => (
-        console.log(response)
-      ))
+      .then((response) => {
+        deckCards.forEach((x) => {
+          x.deck_id = response.data;
+        })
+        console.log(deckCards);
+        axios.post(`${process.env.REACT_APP_URL}/api/cards/batch`, deckCards, { headers })
+          .then((innerResponse) => {
+            console.log(innerResponse)
+          })
+          .catch(err => console.log(err.message));
+      })
       .catch(error => (
         this.setState({
           errorMessage: error,
@@ -80,7 +90,7 @@ class AddDeck extends React.Component {
 
   newCard = () => {
     this.setState((state) => {
-      return { tempArr: [...state.tempArr, 'another one'] };
+      return { cardCount: [...state.cardCount, 'another one'] };
     });
   }
 
@@ -97,7 +107,7 @@ class AddDeck extends React.Component {
           <button type="button" onClick={this.newCard}>Add Card</button>
           <button type="submit">Save</button>
         </form>
-        {state.tempArr.map((x, i) => {
+        {state.cardCount.map((x, i) => {
           return <CardInputs i={i} onCardSave={this.onCardSave} />;
         })}
       </div>
