@@ -18,8 +18,8 @@ class Card extends React.Component {
 
   handleAnswer(difficulty) {
     // object to send to server: {difficulty: '', cardID: ''};
-    const cardID = this.props.data.cards[this.state.currentCard].id;
-    const progress = { cardID, difficulty };
+    const card = this.props.data.cards[this.state.currentCard]
+    const progress = { cardID: card.id, deckID: card.deck_id, difficulty };
 
     this.setState({ showNext: true })
     this.props.updateProgress(progress);
@@ -87,7 +87,7 @@ class Card extends React.Component {
                         // Routing users back to deckl ist for now. Could add intermediary
                         // modal with further options (e.g. train again, deck list, dashboard, etc)
                         // showNext to string is recommended fix to console warning
-                        <NextCardLink to="/dashboard/decks" shownext={showNext.toString()}>End Session</NextCardLink>
+                        <NextCardLink to="/dashboard/decks" shownext={showNext.toString()} onClick={() => this.props.updateProgress()} >End Session</NextCardLink>
                       )
                     }
                   </ButtonContainer>

@@ -70,9 +70,9 @@ const users = [
     email: 'drew@drew.com',
     tier: 'free',
     progressData: {
-      '0001': { dueDate: 17848, progress: 0 },
-      '0002': { dueDate: 17848, progress: 3 },
-      '0003': { dueDate: 17848, progress: 1 }
+      '0001': { dueDate: 17863, progress: 0 },
+      '0002': { dueDate: 17863, progress: 3 },
+      '0003': { dueDate: 17863, progress: 1 }
     }
   },
   {
@@ -113,17 +113,10 @@ for (let i = 0; i < users.length; i++) {
     break;
   }
 }
-// console.log(user);
 
 //test algorithm
 
-//set the amount of days between study sessions
-const intervals = [1, 2, 3, 8, 17];
-
-//card answer difficulty selector, 1 means correct answer
-const scoreToProgressChange = [-3, -1, 1];
-
-const srs = new SRS(intervals, scoreToProgressChange);
+const srs = new SRS();
 
 const Drew = users[0];
 console.log('\nBefore algorithm test');
@@ -134,7 +127,7 @@ console.log(
 Object.keys(Drew.progressData).forEach(cardID => {
   for (let i = 0; i < cards.length; i++) {
     if (cardID == cards[i].cardID) {
-      Drew.progressData[cardID] = srs.calculate(2, Drew.progressData[cardID]);
+      Drew.progressData[cardID] = srs.calculate(1, Drew.progressData[cardID]);
     }
   }
 });
