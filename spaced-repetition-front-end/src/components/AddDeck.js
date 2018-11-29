@@ -10,7 +10,9 @@ import CardInputs from './CardInputs';
 
 // Refactor idea: instead of using cardCount, just add object
 // to the cards array and make changes by targeting the index in
-// the array. For instance in a set state, cards[0].title = val. This would also elminate
+// the array. For instance have the onCardSave fn work like handle change
+// but take index as param (it's passed to component on creation)
+// then you could set state like cards[i].title = val.title. This would also elminate
 // the need for a save button when you finish writing a card!
 
 class AddDeck extends React.Component {
