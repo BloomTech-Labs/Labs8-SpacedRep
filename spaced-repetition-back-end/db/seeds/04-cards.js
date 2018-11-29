@@ -6,5 +6,7 @@ exports.seed = function (knex, Promise) {
     { title: 'React card test a', question: 'What is React?', answer: 'JS library', deck_id: 7, language: 'JavaScript' },
     { title: 'React card test b', question: 'Is React declarative?', answer: 'Yes', deck_id: 7, language: 'JavaScript' },
     { title: 'SQL card test a', question: 'What is SQL?', answer: 'structured query language', deck_id: 6, language: 'Plain Text' },
+    { title: 'React card test b', question: 'Is React declarative?', answer: 'Yes', deck_id: 9, language: 'JavaScript' },
+    { title: 'SQL card test a', question: 'What is SQL?', answer: 'structured query language', deck_id: 8, language: 'Plain Text' },
   ]);
 };

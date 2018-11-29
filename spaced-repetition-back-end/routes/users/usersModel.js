@@ -37,7 +37,6 @@ function createUser(id) {
 
 function updateProgress(id, trainingData) {
     // trainingData is an array, looks like [{ difficulty: 0, cardID: 7 }, { difficulty: 1, cardID: 6 }]
-    console.log('trainingData', trainingData)
 
     return findByUser(id).then(userArr => {
         const user = userArr[0]
@@ -73,5 +72,6 @@ function updateProgress(id, trainingData) {
 }
 
 function getAllProgress(id) {
+    console.log('getAllProgress', id)
     return db(table).select('card_progress').where({ user_id: id })
 }

@@ -58,7 +58,6 @@ router.post('/tier', (req, res) => {
 });
 
 router.get('/progress', (req, res) => {
-    // trainingData looks like { difficulty: -1, cardID: 7 }
     const user_id = req.user.sub;
 
     console.log(user_id)
@@ -80,8 +79,8 @@ router.get('/progress', (req, res) => {
 router.post('/progress', (req, res) => {
     // trainingData is an array, looks like [{ difficulty: 0, cardID: 7 }, { difficulty: 1, cardID: 6 }]
     const user_id = req.user.sub;
-
-    const trainingData = req.body.trainingData
+    console.log(req.body)
+    const trainingData = req.body.cards
     // const trainingData = [{ difficulty: 0, cardID: 7 }, { difficulty: 1, cardID: 6 }] //FIX: test data
 
     users.updateProgress(user_id, trainingData).then(userProgress => {
@@ -89,7 +88,10 @@ router.post('/progress', (req, res) => {
             res.status(201).json(userProgress);
         } else res.status(404).json({ message: 'failed to update' });
 
-    }).catch(err => res.status(500).json(err));
+    }).catch(err => {
+        console.log(err.message)
+        res.status(500).json(err)
+    });
 })
 
 module.exports = router;
