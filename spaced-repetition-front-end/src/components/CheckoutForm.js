@@ -3,35 +3,61 @@ import styled from 'styled-components';
 import { CardElement, injectStripe } from 'react-stripe-elements';
 import axios from 'axios';
 
+const idToken = localStorage.getItem('id_token');
+const headers = { Authorization: `Bearer ${idToken}` };
+
 class CheckoutForm extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
 
-  submit = async (e) => {
+  handleSubscribe = async (e) => {
     e.preventDefault();
-    const { stripe } = this.props;
-    const { profile } = this.props;
+    const { stripe, profile, handleUpdateTier } = this.props;
     const { token } = await stripe.createToken();
 
     if (!token) { return; }
-    const purchase = {
-      token,
-      email: profile.email,
+
+    const purchaseObj = {
+      purchase: {
+        token,
+        email: profile.email,
+      },
+      sub: profile.sub,
     };
-    console.log(purchase);
-    axios.post('http://localhost:4242/api/stripe', purchase)
-      .then(success => console.log(success))
+
+    axios.post(`${process.env.REACT_APP_URL}/api/stripe`, purchaseObj, { headers })
+      .then(response => handleUpdateTier(response.data))
+      .catch(error => console.log(error));
+  };
+
+  cancelSubscription = async (e) => {
+    e.preventDefault();
+    const { profile, handleUpdateTier } = this.props;
+
+    axios.put(`${process.env.REACT_APP_URL}/api/stripe`, { sub: profile.sub }, { headers })
+      .then(response => handleUpdateTier(response.data))
       .catch(error => console.log(error));
   };
 
   render() {
+    const { profile } = this.props;
+    if (profile && profile.tier === 'free') {
+      return (
+        <CheckoutFormContainer>
+          <CardElement style={{ base: { fontSize: '18px', color: 'white' } }} />
+          <button onClick={this.handleSubscribe} type="submit">
+            Buy now
+          </button>
+        </CheckoutFormContainer>
+      );
+    }
     return (
       <CheckoutFormContainer>
         <CardElement style={{ base: { fontSize: '18px', color: 'white' } }} />
-        <button onClick={this.submit} type="submit">
-          Buy now
+        <button onClick={this.cancelSubscription} type="submit">
+          cancel
         </button>
       </CheckoutFormContainer>
     );

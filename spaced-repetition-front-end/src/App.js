@@ -59,15 +59,13 @@ class App extends Component {
   handleProfile = async () => {
     try {
       await auth.getProfile();
-
-      this.setState({
-        profile: auth.userProfile,
-      });
-
+      const profile = auth.userProfile;
       const token = localStorage.getItem('id_token');
       const headers = { Authorization: `Bearer ${token}` };
 
-      axios.post(`${process.env.REACT_APP_URL}/api/users/`, { id: auth.userProfile.sub }, { headers });
+      const response = await axios.post(`${process.env.REACT_APP_URL}/api/users/`, { id: auth.userProfile.sub }, { headers });
+      profile.tier = response.data.tier;
+      this.setState({ profile });
     } catch (error) {
       console.log('handleProfile failed: ', error);
     }
@@ -190,6 +188,12 @@ class App extends Component {
     return decks.filter(deck => Number(deck.id) === Number(props.match.params.deckId));
   }
 
+  handleUpdateTier = (tier) => {
+    const { profile } = this.state;
+    profile.tier = tier;
+    this.setState({ profile });
+  }
+
   render() {
     const { decks, profile } = this.state;
     return (
@@ -211,6 +215,7 @@ class App extends Component {
             <Route exact path="/dashboard" decks={decks} />
             <Route exact path="/dashboard/profile" render={props => <Profile profile={profile} {...props} />} />
             <Route exact path="/dashboard/decks" render={props => <DeckList decks={decks} {...props} />} />
+            <Route exact path="/dashboard/billing" render={props => <Billing profile={profile} handleUpdateTier={this.handleUpdateTier} {...props} />} />
             <Route
               exact
               path="/dashboard/decks/:deckId/train"
@@ -219,9 +224,6 @@ class App extends Component {
                 return <TrainDeck deck={deckToTrain[0]} updateProgress={this.addCardToUpdate} {...props} />;
               }}
             />
-            <Route exact path="/dashboard/billing" render={props => <Billing profile={profile} {...props} />} />
-            <Route exact path="/dashboard/add-deck" render={props => <AddDeck profile={profile} {...props} />} />
-            <Route exact path="/dashboard/add-card" render={props => <CardInputs profile={profile} {...props} />} />
           </Wrapper>
         </Switch>
       </AppWrapper>
