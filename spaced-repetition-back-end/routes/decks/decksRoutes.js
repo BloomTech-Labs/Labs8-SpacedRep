@@ -69,8 +69,10 @@ router.get('/', (req, res) => {
         console.log(format(decks, dueDates));
         res.status(200).json(format(decks, dueDates));
 
-      }).catch(err => res.status(500).json(err));
-
+      }).catch(err => {
+        console.log(err.message);
+        res.status(500).json(err);
+      });
     })
     .catch(err => res.status(500).json(err));
 });
