@@ -22,6 +22,11 @@ const Sidebar = () => (
       <ItemName>Add Card</ItemName>
     </SidebarItem>
     <Divider />
+    <SidebarItem to="/dashboard/profile">
+      <Logo src={decksIcon} />
+      <ItemName>Profile</ItemName>
+    </SidebarItem>
+    <Divider />
   </Container>
 );
 
@@ -36,10 +41,16 @@ const Container = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 200px;
-  height: 100%;
+  height: 100vh;
   padding: 5px 20px 0;
   background: ${props => props.theme.dark.sidebar};
   min-width: 200px;
+
+  @media (max-width: 700px) {
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const SidebarItem = styled(Link)`
@@ -52,6 +63,10 @@ const SidebarItem = styled(Link)`
 
 const Divider = styled.hr`
   width: 100%;
+
+  @media (max-width: 700px) {
+    display: none;
+  }
 `;
 
 const ItemName = styled.div`
@@ -63,4 +78,8 @@ const ItemName = styled.div`
 const Logo = styled.img`
   height: 25%;
   width: 25%;
+
+  @media (max-width: 700px) {
+    display: none;
+  }
 `;

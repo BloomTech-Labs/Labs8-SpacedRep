@@ -108,7 +108,7 @@ class App extends Component {
     // cardProgressObject is {difficulty: '', cardID: '', deckID: ''}. difficulty is an array index (0, 1, ..etc) which correlates to difficultyToNextTestDate in algorithm.js
     clearTimeout(this.state.serverUpdateTimer);
     if (!cardProgressObject) {
-      //instantly update the server with batch of cards waiting for timeout
+      // instantly update the server with batch of cards waiting for timeout
       // this is used by End Session or Save-like functions in TrainDeck.js
       this.updateServer();
       return;
@@ -124,8 +124,8 @@ class App extends Component {
     // wait is done, send a POST to server to update card progress in case user does not save manually
 
     const cards = this.state.cardsToUpdate;
-    //if server is told to update via End Session/Save in TrainDeck, only update the server if there
-    //are any cards in the queue
+    // if server is told to update via End Session/Save in TrainDeck, only update the server if there
+    // are any cards in the queue
     if (cards.length < 1) return;
 
     if (cards.length > 0) {
@@ -213,9 +213,9 @@ class App extends Component {
 
           <Wrapper auth={auth} handleProfile={this.handleProfile} handleData={this.handleData}>
             <Route exact path="/dashboard" decks={decks} />
-            <Route exact path="/dashboard/profile" render={props => <Profile profile={profile} {...props} />} />
+            <Route exact path="/dashboard/profile" render={props => <Profile profile={profile} handleUpdateTier={this.handleUpdateTier} {...props} />} />
             <Route exact path="/dashboard/decks" render={props => <DeckList decks={decks} {...props} />} />
-            <Route exact path="/dashboard/billing" render={props => <Billing profile={profile} handleUpdateTier={this.handleUpdateTier} {...props} />} />
+            <Route exact path="/dashboard/billing" render={props => <Billing profile={profile} {...props} />} />
             <Route
               exact
               path="/dashboard/decks/:deckId/train"
@@ -235,8 +235,9 @@ export default App;
 
 // styles
 const AppWrapper = styled.div`
-  width: 1000px;
-  height: 600px;
+  max-width: 1000px;
+  width: 100%;
+  height: 100%;
   margin: 0 auto;
   background: ${props => props.theme.dark.bodyBackground};
   color: white;
