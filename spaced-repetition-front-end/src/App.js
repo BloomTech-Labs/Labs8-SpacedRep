@@ -79,9 +79,7 @@ class App extends Component {
   }
 
   handleData = () => {
-    console.log('try handleData');
     const token = localStorage.getItem('id_token');
-    console.log('token fetched in handleData: ', token);
     const headers = { Authorization: `Bearer ${token}` };
 
     axios.get(`${process.env.REACT_APP_URL}/api/decks/`, { headers })
