@@ -8,20 +8,29 @@ const Billing = (props) => {
   const { profile, handleUpdateTier } = props;
   return (
     <StripeProvider apiKey="pk_test_KoWcK14l0HlLnKEAFc9icsPa">
-      <div>
-        <h1>Billing</h1>
-        <p>Free tier users are limited to 3 decks and a maximum of 150 cards.</p>
-        <p>No limit for paid.</p>
-        <p>Would you like to complete the purchase?</p>
+      <Container>
+        <Title>Billing</Title>
+        <Text>Free tier users are limited to 3 decks and a maximum of 150 cards.</Text>
+        <Text>No limit for paid.</Text>
+        <Text>Would you like to complete the purchase?</Text>
         <Elements>
           <CheckoutForm
             handleUpdateTier={handleUpdateTier}
             profile={profile}
           />
         </Elements>
-      </div>
+      </Container>
     </StripeProvider>
   );
 };
 
+// styles
+
+const Container = styled.div`
+`;
+
+const Title = styled.h2`
+`;
+const Text = styled.p`
+`;
 export default Billing;

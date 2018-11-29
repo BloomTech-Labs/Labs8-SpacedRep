@@ -43,7 +43,7 @@ export default Profile;
 // };
 
 const Container = styled.div`
-  width: 800px;
+  width: 100%;
   height: 100%;
   padding: 20px;
   display: flex;
