@@ -27,7 +27,7 @@ class Card extends React.Component {
       currentCard: currentCard + 1,
       showOptions: false,
       showNext: false,
-    })
+    });
   }
 
   toggleOption = () => {
@@ -65,86 +65,86 @@ class Card extends React.Component {
       trained, currentCard, showOptions, showNext, redirect,
     } = this.state;
 
-    if (!formattedDeck[currentCard]) return <div />
-    const { qContentType, aContentType, qFilteredContent, aFilteredContent, title, language } = formattedDeck[currentCard];
+    if (!formattedDeck[currentCard]) return <div />;
+    const {
+      qContentType, aContentType, qFilteredContent, aFilteredContent, title, language,
+    } = formattedDeck[currentCard];
     if (redirect) return <Redirect to="/dashboard/decks" />;
     return (
-      formattedDeck ? (
-        <MainCardContainer>
-          <CardModal>
+      <MainCardContainer>
+        <CardModal>
+          <CardContainer>
+            <CardTitle>{title}</CardTitle>
+            {/* <h3>Question</h3> */}
+            {qFilteredContent.map((content, i) => {
+              if (qContentType[i] === 'txt') {
+                return <CardText key={`${i + qContentType[i]}`}>{content}</CardText>;
+              }
+              return (
+                <Highlight key={`${i + qContentType[i]}`} language={language}>
+                  {content}
+                </Highlight>
+              );
+            })}
+          </CardContainer>
+          {trained && (
             <CardContainer>
-              <CardTitle>{formattedDeck[currentCard].title}</CardTitle>
-              {/* <h3>Question</h3> */}
-              {qFilteredContent.map((content, i) => {
-                if (qContentType[i] === 'txt') {
-                  return <CardText key={`${i + qContentType[i]}`}>{content}</CardText>;
-                }
-                return (
-                  <Highlight key={`${i + qContentType[i]}`} language={formattedDeck[currentCard].language}>
-                    {content}
-                  </Highlight>
-                );
-              })}
+              <AnimateOnReveal>
+                <h3>Answer</h3>
+                {aFilteredContent.map((content, i) => {
+                  if (aContentType[i] === 'txt') {
+                    return <CardText key={`${i + qContentType[i]}`}>{content}</CardText>;
+                  }
+                  return (
+                    <Highlight key={`${i + qContentType[i]}`} language={language}>
+                      {content}
+                    </Highlight>
+                  );
+                })}
+                <ButtonContainer>
+                  <CardButton type="button" onClick={() => this.handleAnswer(0)}>Missed It</CardButton>
+                  <CardButton type="button" onClick={() => this.handleAnswer(1)}>Got It</CardButton>
+                  {(currentCard + 1) !== formattedDeck.length
+                    ? (
+                      <NextCardButton type="button" onClick={this.nextCard} showNext={showNext}>Next</NextCardButton>
+                    )
+                    : (
+                      // Routing users back to decklist for now. Could add intermediary
+                      // modal with further options (e.g. train again, deck list, dashboard, etc)
+                      // showNext to string is recommended fix to console warning
+                      <NextCardLink to="/dashboard/decks" shownext={showNext.toString()} onClick={() => updateProgress()}>End Session</NextCardLink>
+                    )
+                  }
+                </ButtonContainer>
+              </AnimateOnReveal>
+              <NextCardProgressText hidePrompt={showNext}>
+                How did you do? Select to see the next card.
+              </NextCardProgressText>
             </CardContainer>
-            {trained && (
-              <CardContainer>
-                <AnimateOnReveal>
-                  <h3>Answer</h3>
-                  {aFilteredContent.map((content, i) => {
-                    if (aContentType[i] === 'txt') {
-                      return <CardText key={`${i + qContentType[i]}`}>{content}</CardText>;
-                    }
-                    return (
-                      <Highlight key={`${i + qContentType[i]}`} language={formattedDeck[currentCard].language}>
-                        {content}
-                      </Highlight>
-                    );
-                  })}
-                  <ButtonContainer>
-                    <CardButton type="button" onClick={() => this.handleAnswer(0)}>Missed It</CardButton>
-                    <CardButton type="button" onClick={() => this.handleAnswer(1)}>Got It</CardButton>
-                    {(currentCard + 1) !== formattedDeck.length
-                      ? (
-                        <NextCardButton type="button" onClick={this.nextCard} showNext={showNext}>Next</NextCardButton>
-                      )
-                      : (
-                        // Routing users back to decklist for now. Could add intermediary
-                        // modal with further options (e.g. train again, deck list, dashboard, etc)
-                        // showNext to string is recommended fix to console warning
-                        <NextCardLink to="/dashboard/decks" shownext={showNext.toString()} onClick={() => updateProgress()}>End Session</NextCardLink>
-                      )
-                    }
-                  </ButtonContainer>
-                </AnimateOnReveal>
-                <NextCardProgressText hidePrompt={showNext}>
-                  How did you do? Select to see the next card.
-                </NextCardProgressText>
-              </CardContainer>
-            )}
-            {!trained && (
-              <CardInteractionsAnswer>
-                <CardButton type="button" onClick={this.showAnswer}>Show Answer</CardButton>
-              </CardInteractionsAnswer>
-            )}
-            <ProgressText>
-              Progress:
-              {currentCard + 1}
-              /
-              {formattedDeck.length}
-            </ProgressText>
-            {/* Toggles more options for UX: edit card, quit current training, etc */}
-            {/* Could be modal? */}
-            <OptionsButton type="button" title="Options" onClick={this.toggleOption}>...</OptionsButton>
-            <OptionsMenu status={showOptions}>
-              <OptionItem
-                onClick={this.quitTrainingSession}
-              >
-                Quit current training session.
-              </OptionItem>
-            </OptionsMenu>
-          </CardModal>
-        </MainCardContainer>
-      ) : null
+          )}
+          {!trained && (
+            <CardInteractionsAnswer>
+              <CardButton type="button" onClick={this.showAnswer}>Show Answer</CardButton>
+            </CardInteractionsAnswer>
+          )}
+          <ProgressText>
+            Progress:
+            {currentCard + 1}
+            /
+            {formattedDeck.length}
+          </ProgressText>
+          {/* Toggles more options for UX: edit card, quit current training, etc */}
+          {/* Could be modal? */}
+          <OptionsButton type="button" title="Options" onClick={this.toggleOption}>...</OptionsButton>
+          <OptionsMenu status={showOptions}>
+            <OptionItem
+              onClick={this.quitTrainingSession}
+            >
+              Quit current training session.
+            </OptionItem>
+          </OptionsMenu>
+        </CardModal>
+      </MainCardContainer>
     );
   }
 }
@@ -286,12 +286,17 @@ const AnimateOnReveal = styled(CardContainer)`
 
 // prop checking
 Card.defaultProps = {
-  data: {
-    cards: [],
-  },
+  formattedDeck: [],
 };
 
 Card.propTypes = {
-  data: PropTypes.shape(),
+  formattedDeck: PropTypes.arrayOf(PropTypes.shape({
+    qContentType: PropTypes.arrayOf(PropTypes.string),
+    aContentType: PropTypes.arrayOf(PropTypes.string),
+    qFilteredContent: PropTypes.arrayOf(PropTypes.string),
+    aFilteredContent: PropTypes.arrayOf(PropTypes.string),
+    title: PropTypes.string,
+    language: PropTypes.string,
+  })),
   updateProgress: PropTypes.func.isRequired,
 };
