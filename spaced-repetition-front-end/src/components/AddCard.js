@@ -26,7 +26,8 @@ class AddDeck extends React.Component {
       dropDownOpenLangs: false,
       languages: ['JavaScript', 'CSS', 'none'],
       deckNames: [],
-      selected: 'none',
+      selectedLang: 'none',
+      selectedDeck: 'none',
       deckId: 0,
       title: '',
       question: '',
@@ -43,7 +44,7 @@ class AddDeck extends React.Component {
   }
 
   onClickOutside = (event) => {
-    if (event.target.closest('#dropdown')) return;
+    if (event.target.closest('#langDropdown') || event.target.closest('#deckDropdown')) return;
     this.setState({ dropDownOpenDecks: false, dropDownOpenLangs: false });
   }
 
@@ -126,18 +127,35 @@ class AddDeck extends React.Component {
   }
   toggleListLangs = () => {
     this.setState(prevState => ({
-      dropDownOpenLangs: !prevState.dropDownOpenlangs,
+      dropDownOpenLangs: !prevState.dropDownOpenLangs,
     }));
   }
 
-  toggleSelected = (event) => {
+  toggleSelectedDecks = (event) => {
     console.log('event', event.target);
     const name = event.target.getAttribute('name'); //'HOME'
     // change language selected to true
     // const selected = this.state.languages.filter(lang => lang === name);
 
     this.setState({
-      selected: name,
+      selectedDeck: name,
+    });
+    // console.log('id', id, 'key', key);
+    // const temp = this.state.languages[key];
+
+    // temp[id].selected = !temp[id].selected;
+    // this.setState({
+    //   [key]: temp,
+    // });
+  }
+  toggleSelectedLangs = (event) => {
+    console.log('event', event.target);
+    const name = event.target.getAttribute('name'); //'HOME'
+    // change language selected to true
+    // const selected = this.state.languages.filter(lang => lang === name);
+
+    this.setState({
+      selectedLang: name,
     });
     // console.log('id', id, 'key', key);
     // const temp = this.state.languages[key];
@@ -159,7 +177,7 @@ class AddDeck extends React.Component {
           <form onSubmit={this.addDeck}>
             <h2>Add New Card:</h2>
             <input type="text" value={title} name="title" onChange={this.handleChange} placeholder="Title" required />
-            <DDWrapper id="decksDrop">
+            <DDWrapper id="deckDropdown">
               <DDTitleBox onClick={this.toggleListDecks}>
                 <div>{`Deck: ${selectedDeck}`}</div>
                 {dropDownOpenDecks
@@ -169,21 +187,20 @@ class AddDeck extends React.Component {
               </DDTitleBox>
               {dropDownOpenDecks && (
                 <DDlist>
-                  {deckNames.map(lang => (
-                    // <li className="dd-list-item" key={lang.id}>{lang.title}</li>
+                  {deckNames.map(deck => (
+                    // <li className="dd-list-item" key={deck.id}>{deck.title}</li>
                     <li
-                      key={lang}
-                      onClick={this.toggleSelected}
-                      name={lang}
+                      key={deck.name}
+                      onClick={this.toggleSelectedDecks}
+                      name={deck.name}
                     >
-                      {lang}
-                      {/* {lang === selected && 'check'} */}
+                      {deck.name}
                     </li>
                   ))}
                 </DDlist>
               )}
             </DDWrapper>
-            <DDWrapper id="dropdown">
+            <DDWrapper id="langDropdown">
               <DDTitleBox onClick={this.toggleListLangs}>
                 <div>{`Snippet Language: ${selectedLang}`}</div>
                 {dropDownOpenLangs
@@ -197,7 +214,7 @@ class AddDeck extends React.Component {
                     // <li className="dd-list-item" key={lang.id}>{lang.title}</li>
                     <li
                       key={lang}
-                      onClick={this.toggleSelected}
+                      onClick={this.toggleSelectedLangs}
                       name={lang}
                     >
                       {lang}
