@@ -48,14 +48,6 @@ class AddDeck extends React.Component {
   }
 
   handleChange = (e) => {
-    // const { target } = e;
-    // let val;
-    // if (target.type === 'checkbox') {
-    //   val = target.checked;
-    // } else {
-    //   e.preventDefault();
-    //   val = target.value;
-    // }
     const { name, value } = e.target;
     this.setState({
       [name]: value,
@@ -72,17 +64,6 @@ class AddDeck extends React.Component {
       title, question, answer, language, deck_id
     };
 
-
-    // addDeck = (e) => {
-    //   e.preventDefault();
-    //   const deck = this.state;
-    //   const newDeck = {
-    //     name: deck.name,
-    //     public: deck.public,
-    //     tags: deck.tags,
-    //   };
-    //   const deckCards = [...deck.cards];
-    //   // post request to decks with newDeck
     const token = localStorage.getItem('id_token');
     const headers = { Authorization: `Bearer ${token}` };
     axios.post(`${process.env.REACT_APP_URL}/api/cards/`, body, { headers })
@@ -92,36 +73,8 @@ class AddDeck extends React.Component {
         //         x.deck_id = response.data;
       })
       .catch(err => console.log(err.message));
-    //       console.log(deckCards);
-    //       axios.post(`${process.env.REACT_APP_URL}/api/cards/batch`, deckCards, { headers })
-    //         .then((innerResponse) => {
-    //           console.log(innerResponse)
-    //         })
-    //     })
-    //     .catch(error => (
-    //       this.setState({
-    //         errorMessage: error,
-    //       })
-    //     ));
-    //   // post request to cards with deckCards
-    //   this.setState({
-    //     name: '',
-    //     public: '',
-    //     tags: '',
-    //     cards: [],
-    //   });
-  };
 
-  // newCard = () => {
-  //   this.setState((state) => {
-  //     return { cardCount: [...state.cardCount, 'another one'] };
-  //   });
-  // }
-  // handleClickOutside = () => {
-  //   this.setState({
-  //     dropDownOpen: false,
-  //   });
-  // }
+  };
 
   toggleListDecks = () => {
     this.setState(prevState => ({
