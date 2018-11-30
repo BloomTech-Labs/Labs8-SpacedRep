@@ -4,6 +4,7 @@ import { Redirect } from 'react-router';
 import styled, { keyframes } from 'styled-components';
 import Highlight from 'react-highlight.js';
 import PropTypes from 'prop-types';
+import { format } from 'path';
 
 class Card extends React.Component {
   state = {
@@ -14,6 +15,7 @@ class Card extends React.Component {
     // each card's question and answer has text and possibly code snippets
     // would like to narrow this down to questionData and answerData objects
     // - avoiding prop issues atm
+    showModal: false,
   };
 
   showAnswer = () => {
@@ -40,11 +42,9 @@ class Card extends React.Component {
   }
 
   quitTrainingSession = () => {
-    alert('quitting current training session!');
-    // needs to send latest training data to algorithm/db
-    // "Are you sure you want to quit this session?"
-    // Route back to deck list
+    const { updateProgress } = this.props;
     this.setState({ redirect: true });
+    updateProgress();
   }
 
   handleAnswer(difficulty) {
@@ -67,7 +67,7 @@ class Card extends React.Component {
 
     if (!formattedDeck[currentCard]) return <div />;
     const {
-      qContentType, aContentType, qFilteredContent, aFilteredContent, title, language,
+      qContentType, aContentType, qFilteredContent, aFilteredContent, title, language, id,
     } = formattedDeck[currentCard];
     if (redirect) return <Redirect to="/dashboard/decks" />;
     return (
@@ -142,6 +142,9 @@ class Card extends React.Component {
             >
               Quit current training session.
             </OptionItem>
+            <OptionItemLink to={`/dashboard/decks/${formattedDeck.id}/train/${id}/delete`}>
+              Delete this card.
+            </OptionItemLink>
           </OptionsMenu>
         </CardModal>
       </MainCardContainer>
@@ -261,6 +264,15 @@ const OptionsMenu = styled(CardContainer)`
 `;
 
 const OptionItem = styled(CardText)`
+  text-align: end;
+  cursor: pointer;
+        
+  &:hover {
+    color: turquoise;
+  }
+`;
+
+const OptionItemLink = styled(Link)`
   text-align: end;
   cursor: pointer;
         
