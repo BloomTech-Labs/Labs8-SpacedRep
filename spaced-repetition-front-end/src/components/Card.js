@@ -14,10 +14,6 @@ class Card extends React.Component {
     // each card's question and answer has text and possibly code snippets
     // would like to narrow this down to questionData and answerData objects
     // - avoiding prop issues atm
-    qFilteredContent: [],
-    aFilteredContent: [],
-    qContentType: [],
-    aContentType: [],
   };
 
   showAnswer = () => {
@@ -26,80 +22,17 @@ class Card extends React.Component {
 
   nextCard = () => {
     const { currentCard } = this.state;
-    const { data } = this.props;
     this.setState({
       trained: false,
       currentCard: currentCard + 1,
       showOptions: false,
       showNext: false,
-      // this may not be the best place to call handleSnippets
-      // ran into problems with props - will fix
-    }, () => this.handleSnippets(
-      // do not destructure yet as it introduces a bug
-      data.cards[this.state.currentCard].question,
-      data.cards[this.state.currentCard].answer,
-    ));
+    })
   }
 
   toggleOption = () => {
     const { showOptions } = this.state;
     this.setState({ showOptions: !showOptions });
-  }
-
-  // determines if question and answer on each card has code snippet and abstracts it out
-  // separation avoids console warning: <Highlight> can't nest inside <p>
-  handleSnippets = (question, answer) => {
-    const abstractSnippet = (type, data) => {
-      let cache = [];
-      const contentType = [];
-      const trigger = '```';
-      const content = data.split(trigger);
-
-      const filteredContent = [];
-      content.forEach((element) => {
-        if (element !== '') filteredContent.push(element);
-      });
-
-      //   // if data starts with text
-      if (data.substring(0, 3) !== trigger) {
-        contentType.push('txt');
-        cache.push('txt');
-      }
-
-      for (let i = 0; i < data.length; i += 1) {
-        const substr = data.substring(i, i + 3);
-
-        // if the current index + next 2 chars are ```, add to cache
-        if (substr === trigger) {
-          // if cache has matching ```, push code type and clear cache
-          // end of code snippet
-          if (cache.includes('code')) {
-            contentType.push('code');
-            cache = [];
-          } else {
-            // beginning of code snippet
-            cache.push('code');
-          }
-          // if cache is empty, the next 3 chars aren't ```, and current char isn't ' ',
-          // current content is txt
-          if (cache.length === 0 && substr !== trigger && data[i] !== ' ') {
-            cache.push('txt');
-            contentType.push('txt');
-          }
-        }
-      }
-      return { filteredContent, contentType, type };
-    };
-
-    const questionData = abstractSnippet('question', question);
-    const answerData = abstractSnippet('answer', answer);
-
-    this.setState({
-      qFilteredContent: questionData.filteredContent,
-      aFilteredContent: answerData.filteredContent,
-      qContentType: questionData.contentType,
-      aContentType: answerData.contentType,
-    });
   }
 
   showAnswer = () => {
@@ -116,9 +49,9 @@ class Card extends React.Component {
 
   handleAnswer(difficulty) {
     // object to send to server: {difficulty: '', cardID: ''};
-    const { data, updateProgress } = this.props;
+    const { formattedDeck, updateProgress } = this.props;
     const { currentCard } = this.state;
-    const card = data.cards[currentCard];
+    const card = formattedDeck[currentCard];
     const progress = { cardID: card.id, deckID: card.deck_id, difficulty };
 
     this.setState({ showNext: true });
@@ -126,26 +59,28 @@ class Card extends React.Component {
   }
 
   render() {
-    const { data, updateProgress } = this.props;
+    const { formattedDeck, updateProgress } = this.props;
+
     const {
-      trained, currentCard, showOptions, showNext, redirect, qContentType, aContentType,
-      qFilteredContent, aFilteredContent,
+      trained, currentCard, showOptions, showNext, redirect,
     } = this.state;
 
+    if (!formattedDeck[currentCard]) return <div />
+    const { qContentType, aContentType, qFilteredContent, aFilteredContent, title, language } = formattedDeck[currentCard];
     if (redirect) return <Redirect to="/dashboard/decks" />;
     return (
-      data ? (
+      formattedDeck ? (
         <MainCardContainer>
           <CardModal>
             <CardContainer>
-              <CardTitle>{data.cards[currentCard].title}</CardTitle>
-              <h3>Question</h3>
+              <CardTitle>{formattedDeck[currentCard].title}</CardTitle>
+              {/* <h3>Question</h3> */}
               {qFilteredContent.map((content, i) => {
                 if (qContentType[i] === 'txt') {
                   return <CardText key={`${i + qContentType[i]}`}>{content}</CardText>;
                 }
                 return (
-                  <Highlight key={`${i + qContentType[i]}`} language={data.cards[currentCard].language}>
+                  <Highlight key={`${i + qContentType[i]}`} language={formattedDeck[currentCard].language}>
                     {content}
                   </Highlight>
                 );
@@ -160,7 +95,7 @@ class Card extends React.Component {
                       return <CardText key={`${i + qContentType[i]}`}>{content}</CardText>;
                     }
                     return (
-                      <Highlight key={`${i + qContentType[i]}`} language={data.cards[currentCard].language}>
+                      <Highlight key={`${i + qContentType[i]}`} language={formattedDeck[currentCard].language}>
                         {content}
                       </Highlight>
                     );
@@ -168,7 +103,7 @@ class Card extends React.Component {
                   <ButtonContainer>
                     <CardButton type="button" onClick={() => this.handleAnswer(0)}>Missed It</CardButton>
                     <CardButton type="button" onClick={() => this.handleAnswer(1)}>Got It</CardButton>
-                    {(currentCard + 1) !== data.cards.length
+                    {(currentCard + 1) !== formattedDeck.length
                       ? (
                         <NextCardButton type="button" onClick={this.nextCard} showNext={showNext}>Next</NextCardButton>
                       )
@@ -195,7 +130,7 @@ class Card extends React.Component {
               Progress:
               {currentCard + 1}
               /
-              {data.cards.length}
+              {formattedDeck.length}
             </ProgressText>
             {/* Toggles more options for UX: edit card, quit current training, etc */}
             {/* Could be modal? */}
