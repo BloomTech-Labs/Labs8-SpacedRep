@@ -14,7 +14,6 @@ class Sidebar extends React.Component {
   render() {
     const { props } = this;
     const { pathname } = props.location;
-    console.log(pathname);
     return (
       <Container>
         <SidebarItem path={pathname} thisroute="/dashboard/decks" to="/dashboard/decks">
@@ -55,6 +54,7 @@ const Container = styled.div`
   width: 200px;
   height: 100vh;
   /* padding-left: 20px; */
+  padding-right:20px;
   background: ${props => props.theme.dark.sidebar};
   min-width: 200px;
   
@@ -70,19 +70,21 @@ const SidebarItem = styled(Link)`
   justify-content: end;
   align-items: center;
   /* margin-right:30px; */
-  margin-left:12px;
-  padding:  15px 15px 15px 0px;
+  margin-left:50px;
+  padding:  10px 15px 15px 16px;
+  margin-right:20px;
   width: 100%;
   ${props => props.path === props.thisroute && css`
-    background: ${props => props.theme.dark.bodyBackground};
-     `
+    background: ${styleProps => styleProps.theme.dark.bodyBackground};
+    `
 }
 `;
 
 const Divider = styled.hr`
   width: 100%;
   margin: 0px;
-  padding: 0px;
+  padding: 0px 0px 0px 0px;
+  margin-left:25px;
   @media (max-width: 700px) {
     display: none;
   }
@@ -97,7 +99,7 @@ const ItemName = styled.div`
 const Logo = styled.img`
   height: 25%;
   width: 25%;
-
+  border-radius: 6px;
   @media (max-width: 700px) {
     display: none;
   }
