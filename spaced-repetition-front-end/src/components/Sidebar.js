@@ -21,6 +21,10 @@ const Sidebar = () => (
       <Logo src={decksIcon} />
       <ItemName>Add Card</ItemName>
     </SidebarItem>
+    <SidebarItem to="/dashboard/cards">
+      <Logo src={decksIcon} />
+      <ItemName>Cards</ItemName>
+    </SidebarItem>
     <Divider />
     <SidebarItem to="/dashboard/profile">
       <Logo src={decksIcon} />

@@ -7,6 +7,7 @@ import Callback from './auth/Callback';
 import Header from './components/Header';
 import LandingPage from './components/LandingPage';
 import DeckList from './components/DeckList';
+import CardList from './components/CardList';
 import Wrapper from './components/Wrapper';
 import Profile from './components/Profile';
 import Billing from './components/Billing';
@@ -244,6 +245,7 @@ class App extends Component {
             <Route exact path="/dashboard/add-card" render={props => <AddCard />} />
             <Route exact path="/dashboard/profile" render={props => <Profile profile={profile} handleUpdateTier={this.handleUpdateTier} {...props} />} />
             <Route exact path="/dashboard/decks" render={props => <DeckList decks={decks} {...props} />} />
+            <Route exact path="/dashboard/cards" render={props => <CardList decks={decks} {...props} />} />
             <Route exact path="/dashboard/billing" render={props => <Billing profile={profile} {...props} />} />
             <Route
               exact
