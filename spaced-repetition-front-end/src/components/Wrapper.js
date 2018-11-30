@@ -12,8 +12,8 @@ class Wrapper extends React.Component {
   componentDidMount() {
     const { auth, handleData, handleProfile } = this.props;
     if (auth.isAuthenticated()) {
-      handleProfile();
-      handleData();
+      handleProfile().then(profile => handleData());
+      // handleData();
     }
   }
 
@@ -58,10 +58,14 @@ const WrapperContainer = styled.div`
   flex-direction: column;
   height: 100%;
   background: ${props => props.theme.dark.bodyBackground};
-`;
+  `;
 
 const BodyContainer = styled.div`
   display: flex;
   flex-direction: row;
   height: 100%;
+
+  @media (max-width: 700px) {
+    flex-direction: column;
+  }
 `;

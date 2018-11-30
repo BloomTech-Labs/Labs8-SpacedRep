@@ -1,7 +1,13 @@
 const express = require('express');
 const decks = require('./decksModel.js');
 const checkJwt = require('../../jwt');
+const users = require('../users/usersModel.js');
 // const jwtAuthz = require('express-jwt-authz'); <- only needed if we use scopes
+
+//initialize date To int converter
+const DAY_IN_MILLISECONDS = 24 * 60 * 60 * 1000;
+const today = Math.round(new Date().getTime() / DAY_IN_MILLISECONDS);
+
 
 const router = express.Router();
 
@@ -10,7 +16,7 @@ router.use(checkJwt);
 router.get('/', (req, res) => {
   let user_id = req.user.sub;
 
-  function format(arr) {
+  function format(arr, dueDates) {
     let deckNames = {};
     let formattedData = [];
     let count = 0;
@@ -23,7 +29,8 @@ router.get('/', (req, res) => {
           "question": arr[i].question,
           "answer": arr[i].answer,
           "language": arr[i].language,
-          "deck_id": arr[i].deck_id
+          "deck_id": arr[i].deck_id,
+          "dueDate": dueDates[arr[i].id] ? dueDates[arr[i].id].dueDate : today - 1
         });
       } else {
         // if deck does not exist, push the deck to formattedData array
@@ -40,7 +47,8 @@ router.get('/', (req, res) => {
             "question": arr[i].question,
             "answer": arr[i].answer,
             "language": arr[i].language,
-            "deck_id": arr[i].deck_id
+            "deck_id": arr[i].deck_id,
+            "dueDate": dueDates[arr[i].id] ? dueDates[arr[i].id].dueDate : today - 1
           }]
         });
       }
@@ -51,9 +59,20 @@ router.get('/', (req, res) => {
   decks
     .findByAuthor(user_id)
     .then(decks => {
-      // console.log(user_id);
-      console.log(format(decks));
-      res.status(200).json(format(decks));
+      users.getAllProgress(user_id).then(dueDates => {
+        if (dueDates[0] && dueDates[0].card_progress) {
+          dueDates = dueDates[0].card_progress;
+        } else {
+          dueDates = {}
+        }
+
+        console.log(format(decks, dueDates));
+        res.status(200).json(format(decks, dueDates));
+
+      }).catch(err => {
+        console.log(err.message);
+        res.status(500).json(err);
+      });
     })
     .catch(err => res.status(500).json(err));
 });
@@ -71,12 +90,6 @@ router.post('/', (req, res) => {
       console.log(err.message);
       res.status(500).json(err);
     });
-});
-
-router.post('/progress', (req, res) => {
-  //cardsToUpdate = [{difficulty: '', cardID: ''},{..etc}, ..etc]
-  const cardsToUpdate = req.body;
-  // console.log(cardsToUpdate)
 });
 
 router.put('/:id', (req, res) => {

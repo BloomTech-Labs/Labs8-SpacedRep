@@ -10,6 +10,7 @@ class CardInputs extends React.Component {
       question: '',
       answer: '',
       language: 'Plain Text',
+      saved: false,
     };
   }
 
@@ -25,17 +26,21 @@ class CardInputs extends React.Component {
     const { name } = target;
     this.setState({
       [name]: val,
-    }, () => console.log(this.state));
+    });
   }
 
   saveCard = (e) => {
     e.preventDefault();
     const { state, props } = this;
-    props.onCardSave(state);
+    const { title, question, answer, language } = state;
+    props.onCardSave({ title, question, answer, language });
+
+    //disable save button to stop resubmission of card. FIX: should change this to be editable 
+    this.setState({ saved: true })
   }
 
   render() {
-    const { state } = this;
+    const { state, props } = this;
     return (
       <div>
         <CardInfo onSubmit={this.saveCard}>
@@ -48,7 +53,7 @@ class CardInputs extends React.Component {
               <option value="Python">Python</option>
               <option value="C++">C++</option>
             </Dropdown>
-            <button type="submit">Save</button>
+            {!state.saved && <button type="submit">Save</button>}
           </TopRow>
           <input type="text" value={state.question} name="question" onChange={this.handleChange} placeholder="Question" required />
           <input type="text" value={state.answer} name="answer" onChange={this.handleChange} placeholder="Answer" required />
@@ -65,7 +70,7 @@ const CardInfo = styled.form`
   flex-direction: column;
   width: 100%;
   padding: 10px;
-  background: #5e707b;
+  background: ${props => props.theme.dark.cardBackground};
   border-radius: 3px;
   align-items: baseline;
   justify-content: space-between;

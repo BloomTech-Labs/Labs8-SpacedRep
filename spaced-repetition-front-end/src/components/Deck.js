@@ -4,22 +4,37 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import '../App.css';
 
-const Deck = ({ deck }) => (
-  <Container>
-    <DeckHeader>
-      <Title>{deck.name}</Title>
+// use to convert int date to actual date
+const DAY_IN_MILLISECONDS = 24 * 60 * 60 * 1000;
 
-      <NumCards>{deck.cards.length}</NumCards>
-    </DeckHeader>
+class Deck extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
-    <DeckBody>
-      {/* Routes user to deck training component which handles all
-      of the training logic and flow. */}
-      <TrainDeckLink to={`/dashboard/decks/${deck.id}/train`}>Train Deck</TrainDeckLink>
-      <DueDate> 11/19/2018 </DueDate>
-    </DeckBody>
-  </Container>
-);
+  render() {
+    const { deck } = this.props;
+    return (
+      <Container>
+        <DeckHeader>
+          <Title>{deck.name}</Title>
+
+          <NumCards>{deck.cards.length}</NumCards>
+        </DeckHeader>
+
+        <DeckBody>
+          {/* Routes user to deck training component which handles all
+        of the training logic and flow. */}
+          <TrainDeckLink to={`/dashboard/decks/${deck.id}/train`}>Train Deck</TrainDeckLink>
+          <DueDate>
+            {new Date(deck.dueDate * DAY_IN_MILLISECONDS).toLocaleDateString()}
+          </DueDate>
+        </DeckBody>
+      </Container>
+    );
+  }
+}
 
 export default Deck;
 
