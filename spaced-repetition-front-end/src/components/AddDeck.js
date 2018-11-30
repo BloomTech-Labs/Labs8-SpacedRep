@@ -3,17 +3,9 @@ import styled from 'styled-components';
 import axios from 'axios';
 import CardInputs from './CardInputs';
 
-// need to limit it so users can only hit save on a card once,
-// otherwise they're able to repeatedly duplicate the card on save
-
-// NOTE: cardCount is there to be able to iterate with JSX
-
-// Refactor idea: instead of using cardCount, just add object
-// to the cards array and make changes by targeting the index in
-// the array. For instance have the onCardSave fn work like handle change
-// but take index as param (it's passed to component on creation)
-// then you could set state like cards[i].title = val.title. This would also elminate
-// the need for a save button when you finish writing a card!
+// Need to make sure all card inputs are completed before submitting
+// iterate through all the properties exist on each object
+// check to make sure value.length of each is greater than 0
 
 class AddDeck extends React.Component {
   constructor(props) {
@@ -23,8 +15,7 @@ class AddDeck extends React.Component {
       name: '',
       public: false,
       tags: '',
-      cards: [],
-      cardCount: [{ language: 'Plain Text' }],
+      cards: [{ language: 'Plain Text' }],
     };
   }
 
@@ -45,17 +36,11 @@ class AddDeck extends React.Component {
 
   handleCardChange = (i, name, val) => {
     const { state } = this;
-    const cardCount = [...state.cardCount];
-    cardCount[i][name] = val;
+    const cards = [...state.cards];
+    cards[i][name] = val;
     this.setState({
-      cardCount,
+      cards,
     }, () => console.log(state));
-  }
-  
-  onCardSave = (newCard) => {
-    this.setState((state) => {
-      return { cards: [...state.cards, newCard] };
-    });
   }
 
   addDeck = (e) => {
@@ -91,13 +76,13 @@ class AddDeck extends React.Component {
       name: '',
       public: '',
       tags: '',
-      cards: [],
+      cards: [{ language: 'Plain Text' }],
     });
   }
 
   newCard = () => {
     this.setState((state) => {
-      return { cardCount: [...state.cardCount, { language: 'Plain Text' }] };
+      return { cards: [...state.cards, { language: 'Plain Text' }] };
     });
   }
 
@@ -109,14 +94,14 @@ class AddDeck extends React.Component {
         <DeckForm onSubmit={this.addDeck}>
           <DeckInfo>
             <input type="text" value={state.name} name="name" onChange={this.handleChange} placeholder="Name" required />
+            <input type="text" value={state.tags} name="tags" onChange={this.handleChange} placeholder="Enter a list of tags separated by comma (no spaces)" required />
             <p style={{ color: 'black' }}>Public?</p>
             <Checkbox type="checkbox" name="public" onChange={this.handleChange} />
-            <input type="text" value={state.tags} name="tags" onChange={this.handleChange} placeholder="Enter a list of tags separated by comma (no spaces)" required />
             <button type="submit">Save</button>
           </DeckInfo>
         </DeckForm>
-        {state.cardCount.map((x, i) => {
-          return <CardInputs i={i} onCardSave={this.onCardSave} key={i} handleCardChange={this.handleCardChange} />;
+        {state.cards.map((x, i) => {
+          return <CardInputs i={i} key={i} handleCardChange={this.handleCardChange} />;
         })}
         <button type="button" onClick={this.newCard}>Add Card</button>
       </DeckContainer>

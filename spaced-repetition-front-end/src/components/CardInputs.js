@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
+// save button no longer needed (it updates dynamically)
+// should implement a delete button to remove a card
+
 class CardInputs extends React.Component {
   constructor(props) {
     super(props);
@@ -10,7 +13,6 @@ class CardInputs extends React.Component {
       question: '',
       answer: '',
       language: 'Plain Text',
-      saved: false,
     };
   }
 
@@ -24,46 +26,19 @@ class CardInputs extends React.Component {
     }, () => props.handleCardChange(props.i, [name], value));
   }
 
-  // handleChange = (e) => {
-  //   const { target } = e;
-  //   let val;
-  //   if (target.type === 'checkbox') {
-  //     val = target.checked;
-  //   } else {
-  //     e.preventDefault();
-  //     val = target.value;
-  //   }
-  //   const { name } = target;
-  //   this.setState({
-  //     [name]: val,
-  //   });
-  // }
-
-  saveCard = (e) => {
-    e.preventDefault();
-    const { state, props } = this;
-    const { title, question, answer, language } = state;
-    props.onCardSave({ title, question, answer, language });
-
-    // disable save button to stop resubmission of card. FIX: should change this to be editable 
-    this.setState({ saved: true });
-  }
-
   render() {
-    const { state, props } = this;
+    const { state } = this;
     return (
       <div>
-        <CardInfo onSubmit={this.saveCard}>
+        <CardInfo>
           <TopRow>
             <input type="text" value={state.title} name="title" onChange={this.handleChange} placeholder="Title" required />
-            {/* <input type="text" value={state.language} name="language" onChange={this.handleChange} placeholder="Language" required /> */}
             <Dropdown name="language" onChange={this.handleChange}>
               <option value="Plain Text">Plain Text</option>
               <option value="JavaScript">JavaScript</option>
               <option value="Python">Python</option>
               <option value="C++">C++</option>
             </Dropdown>
-            {!state.saved && <button type="submit">Save</button>}
           </TopRow>
           <textarea type="text" value={state.question} name="question" onChange={this.handleChange} placeholder="Question" required />
           <textarea type="text" value={state.answer} name="answer" onChange={this.handleChange} placeholder="Answer" required />
