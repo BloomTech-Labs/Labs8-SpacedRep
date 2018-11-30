@@ -95,6 +95,7 @@ class AddDeck extends React.Component {
 
   render() {
     const { state } = this;
+    return (
       <div>
         <h2>Create New Deck:</h2>
         <DeckForm onSubmit={this.addDeck}>
