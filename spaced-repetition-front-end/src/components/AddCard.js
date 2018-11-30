@@ -128,6 +128,7 @@ class AddDeck extends React.Component {
       dropDownOpenDecks: !prevState.dropDownOpenDecks,
     }));
   }
+
   toggleListLangs = () => {
     this.setState(prevState => ({
       dropDownOpenLangs: !prevState.dropDownOpenLangs,
@@ -153,9 +154,10 @@ class AddDeck extends React.Component {
     //   [key]: temp,
     // });
   }
+
   toggleSelectedLangs = (event) => {
     console.log('event', event.target);
-    const name = event.target.getAttribute('name'); //'HOME'
+    const name = event.target.getAttribute('name'); // 'HOME'
     // change language selected to true
     // const selected = this.state.languages.filter(lang => lang === name);
 
@@ -241,7 +243,7 @@ class AddDeck extends React.Component {
           <div>
             <h3>Oops!</h3>
             <p>You need to make at least 1 deck before you can make cards.</p>
-            <Link to='/dashboard/add-deck'>Click here to make your first deck!</Link>
+            <Link to="/dashboard/add-deck">Click here to make your first deck!</Link>
           </div>
         )}
       </div>

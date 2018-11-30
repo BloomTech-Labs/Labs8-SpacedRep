@@ -12,7 +12,7 @@ class Wrapper extends React.Component {
   componentDidMount() {
     const { auth, handleData, handleProfile } = this.props;
     if (auth.isAuthenticated()) {
-      handleProfile().then(profile => handleData())
+      handleProfile().then(profile => handleData());
       // handleData();
     }
   }
