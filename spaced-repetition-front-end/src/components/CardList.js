@@ -5,15 +5,12 @@ import CardView from './CardView';
 import CardListTools from './CardListTools';
 
 const CardList = ({ decks }) => {
-  let cards = [];
-  decks.map((deck) => {
-    cards = cards.concat(deck.cards);
-  });
-
   return (
     <CardContainer>
       <CardListTools />
-      {cards.map(card => <CardView key={card.id} card={card} />)}
+      {decks.map((deck) => {
+        return deck.cards.map(card => <CardView key={card.id} card={card} deckName={deck.name} />);
+      })}
     </CardContainer>
   );
 };
