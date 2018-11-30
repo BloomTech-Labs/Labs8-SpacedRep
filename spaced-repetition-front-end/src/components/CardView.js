@@ -212,10 +212,11 @@ export default CardView;
 // styles
 
 const Card = styled.div`
-  border: 1px solid black;
   width: 315px;
   margin: 2%;
   padding 2%;
+  border: 1px solid ${props => props.theme.dark.sidebar};
+  background: ${props => props.theme.dark.cardBackground};
 `;
 
 const CardInteractions = styled.div`
@@ -236,8 +237,8 @@ const TagsContainer = styled.div`
 
 //////////////edit
 const EditCard = styled.form`
-/* padding-top:0px;
-margin-top:0px; */
+  /* padding-top:0px;
+  margin-top:0px; */
 `
 
 const DDWrapper = styled.div`
