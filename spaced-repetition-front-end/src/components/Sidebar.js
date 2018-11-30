@@ -1,36 +1,48 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { css } from 'styled-components';
+import { Link, withRouter } from 'react-router-dom';
 import '../App.css';
 
 const decksIcon = require('../images/DECKS.PNG');
 
-const Sidebar = () => (
-  <Container>
-    <SidebarItem to="/dashboard/decks">
-      <Logo src={decksIcon} />
-      <ItemName>Decks</ItemName>
-    </SidebarItem>
-    <Divider />
-    <SidebarItem to="/dashboard/add-deck">
-      <Logo src={decksIcon} />
-      <ItemName>Add Deck</ItemName>
-    </SidebarItem>
-    <Divider />
-    <SidebarItem to="/dashboard/add-card">
-      <Logo src={decksIcon} />
-      <ItemName>Add Card</ItemName>
-    </SidebarItem>
-    <Divider />
-    <SidebarItem to="/dashboard/profile">
-      <Logo src={decksIcon} />
-      <ItemName>Profile</ItemName>
-    </SidebarItem>
-    <Divider />
-  </Container>
-);
+class Sidebar extends React.Component {
+  componentDidMount() {
 
-export default Sidebar;
+  }
+
+  render() {
+    const { props } = this;
+    const { pathname } = props.location;
+    console.log(pathname);
+    return (
+      <Container>
+        <SidebarItem path={pathname} thisroute="/dashboard/decks" to="/dashboard/decks">
+          <Logo src={decksIcon} />
+          <ItemName>Decks</ItemName>
+        </SidebarItem>
+        <Divider />
+        <SidebarItem path={pathname} thisroute="/dashboard/add-deck" to="/dashboard/add-deck">
+          <Logo src={decksIcon} />
+          <ItemName>Add Deck</ItemName>
+        </SidebarItem>
+        <Divider />
+        <SidebarItem path={pathname} thisroute="/dashboard/add-card" to="/dashboard/add-card">
+          <Logo src={decksIcon} />
+          <ItemName>Add Card</ItemName>
+        </SidebarItem>
+        <Divider />
+        <SidebarItem path={pathname} thisroute="/dashboard/profile" to="/dashboard/profile">
+          <Logo src={decksIcon} />
+          <ItemName>Profile</ItemName>
+        </SidebarItem>
+        <Divider />
+      </Container>
+    );
+  }
+}
+
+export default withRouter(Sidebar);
 
 // styles
 // No idea what is causing it, but without min-width, container shrinks to
@@ -42,10 +54,10 @@ const Container = styled.div`
   align-items: center;
   width: 200px;
   height: 100vh;
-  padding: 5px 20px 0;
+  /* padding-left: 20px; */
   background: ${props => props.theme.dark.sidebar};
   min-width: 200px;
-
+  
   @media (max-width: 700px) {
     flex-direction: column;
     width: 100%;
@@ -57,13 +69,20 @@ const SidebarItem = styled(Link)`
   display: flex;
   justify-content: end;
   align-items: center;
-  padding: 5px;
+  /* margin-right:30px; */
+  margin-left:12px;
+  padding:  15px 15px 15px 0px;
   width: 100%;
+  ${props => props.path === props.thisroute && css`
+    background: ${props => props.theme.dark.bodyBackground};
+     `
+}
 `;
 
 const Divider = styled.hr`
   width: 100%;
-
+  margin: 0px;
+  padding: 0px;
   @media (max-width: 700px) {
     display: none;
   }

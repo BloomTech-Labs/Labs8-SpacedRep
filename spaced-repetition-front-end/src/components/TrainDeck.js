@@ -10,6 +10,7 @@ class TrainDeck extends React.Component {
   };
 
   componentDidMount() {
+    console.log(this.props);
     const { deck, history } = this.props;
     if (!deck) {
       // redirect if props did not load (happens on refresh at trainDeck page)
