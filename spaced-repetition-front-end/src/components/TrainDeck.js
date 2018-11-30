@@ -1,45 +1,37 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import Highlight from 'react-highlight.js';
-import { withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom';
 import Card from './Card';
 
 class TrainDeck extends React.Component {
   state = {
-    trained: false,
-    currentCard: 0, // deck training begins with the first card in the array
-    showOptions: false, // show/hide menu for quitting session, editing card, etc
-    showNext: false, // shows next/end training session buttons after missed it/got it is selected
-    // each card's question and answer has text and possibly code snippets
-    // would like to narrow this down to questionData and answerData objects
-    // - avoiding prop issues atm
-
     formattedDeck: [],
   };
 
   componentDidMount() {
-    if (!this.props.deck) {
-      //redirect if props did not load (happens on refresh at trainDeck page)
-      this.props.history.push('/dashboard/decks')
-      return
+    const { deck, history } = this.props;
+    if (!deck) {
+      // redirect if props did not load (happens on refresh at trainDeck page)
+      history.push('/dashboard/decks');
+      return;
     }
 
-    //check all cards to train for code snippets and format them for the Card child component
-    const { cards } = this.props.deck;
+    // check all cards to train for code snippets and format them for the Card child component
+    const { cards } = deck;
 
-    const formattedDeck = []
+    const formattedDeck = [];
 
-    cards.forEach(card => {
+    cards.forEach((card) => {
       const formattedCard = this.handleCardSnippets(card);
-      formattedDeck.push(formattedCard)
-    })
+      formattedDeck.push(formattedCard);
+    });
 
-    this.setState({ formattedDeck })
+    this.setState({ formattedDeck });
   }
 
   handleCardSnippets = (card) => {
-    const { question, answer } = card
+    const { question, answer } = card;
     const abstractSnippet = (type, data) => {
       let cache = [];
       const contentType = [];
@@ -85,13 +77,14 @@ class TrainDeck extends React.Component {
     const questionData = abstractSnippet('question', question);
     const answerData = abstractSnippet('answer', answer);
 
-    //assign formatted data to card for passing as prop
-    card.qFilteredContent = questionData.filteredContent
-    card.aFilteredContent = answerData.filteredContent
-    card.qContentType = questionData.contentType
-    card.aContentType = answerData.contentType
+    // assign formatted data to card for passing as prop
+    const formattedCard = card; // eslint fix...
+    formattedCard.qFilteredContent = questionData.filteredContent;
+    formattedCard.aFilteredContent = answerData.filteredContent;
+    formattedCard.qContentType = questionData.contentType;
+    formattedCard.aContentType = answerData.contentType;
 
-    return card
+    return formattedCard;
   }
 
   render() {
@@ -101,13 +94,13 @@ class TrainDeck extends React.Component {
       <TrainingContainer>
         <TrainingHeader>
           Currently training:
-                      {' '}
+          {' '}
           {deck ? deck.name : 'Loading...'}
         </TrainingHeader>
         {/* <Card data={deck} updateProgress={updateProgress} /> */}
         <Card formattedDeck={formattedDeck} updateProgress={updateProgress} />
       </TrainingContainer>
-    )
+    );
   }
 }
 
@@ -125,5 +118,6 @@ TrainDeck.defaultProps = {
 
 TrainDeck.propTypes = {
   deck: PropTypes.shape(),
+  history: PropTypes.shape().isRequired,
   updateProgress: PropTypes.func.isRequired,
 };
