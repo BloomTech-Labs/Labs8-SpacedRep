@@ -15,19 +15,29 @@ class CardInputs extends React.Component {
   }
 
   handleChange = (e) => {
+    e.preventDefault();
     const { target } = e;
-    let val;
-    if (target.type === 'checkbox') {
-      val = target.checked;
-    } else {
-      e.preventDefault();
-      val = target.value;
-    }
-    const { name } = target;
+    const { props } = this;
+    const { name, value } = target;
     this.setState({
-      [name]: val,
-    });
+      [name]: value,
+    }, () => props.handleCardChange(props.i, [name], value));
   }
+
+  // handleChange = (e) => {
+  //   const { target } = e;
+  //   let val;
+  //   if (target.type === 'checkbox') {
+  //     val = target.checked;
+  //   } else {
+  //     e.preventDefault();
+  //     val = target.value;
+  //   }
+  //   const { name } = target;
+  //   this.setState({
+  //     [name]: val,
+  //   });
+  // }
 
   saveCard = (e) => {
     e.preventDefault();

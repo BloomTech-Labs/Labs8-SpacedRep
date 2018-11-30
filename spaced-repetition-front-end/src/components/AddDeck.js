@@ -24,7 +24,7 @@ class AddDeck extends React.Component {
       public: false,
       tags: '',
       cards: [],
-      cardCount: [1],
+      cardCount: [{ language: 'Plain Text' }],
     };
   }
 
@@ -43,6 +43,15 @@ class AddDeck extends React.Component {
     });
   }
 
+  handleCardChange = (i, name, val) => {
+    const { state } = this;
+    const cardCount = [...state.cardCount];
+    cardCount[i][name] = val;
+    this.setState({
+      cardCount,
+    }, () => console.log(state));
+  }
+  
   onCardSave = (newCard) => {
     this.setState((state) => {
       return { cards: [...state.cards, newCard] };
@@ -58,7 +67,6 @@ class AddDeck extends React.Component {
       tags: deck.tags,
     };
     const deckCards = [...deck.cards];
-    // post request to decks with newDeck
     const token = localStorage.getItem('id_token');
     const headers = { Authorization: `Bearer ${token}` };
     axios.post(`${process.env.REACT_APP_URL}/api/decks/`, newDeck, { headers })
@@ -89,7 +97,7 @@ class AddDeck extends React.Component {
 
   newCard = () => {
     this.setState((state) => {
-      return { cardCount: [...state.cardCount, 1] };
+      return { cardCount: [...state.cardCount, { language: 'Plain Text' }] };
     });
   }
 
@@ -108,7 +116,7 @@ class AddDeck extends React.Component {
           </DeckInfo>
         </DeckForm>
         {state.cardCount.map((x, i) => {
-          return <CardInputs i={i} onCardSave={this.onCardSave} key={i} />;
+          return <CardInputs i={i} onCardSave={this.onCardSave} key={i} handleCardChange={this.handleCardChange} />;
         })}
         <button type="button" onClick={this.newCard}>Add Card</button>
       </DeckContainer>
