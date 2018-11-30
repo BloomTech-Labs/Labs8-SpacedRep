@@ -24,7 +24,7 @@ class AddDeck extends React.Component {
       public: false,
       tags: '',
       cards: [],
-      cardCount: [],
+      cardCount: [1],
     };
   }
 
@@ -89,7 +89,7 @@ class AddDeck extends React.Component {
 
   newCard = () => {
     this.setState((state) => {
-      return { cardCount: [...state.cardCount, 'another one'] };
+      return { cardCount: [...state.cardCount, 1] };
     });
   }
 
@@ -98,20 +98,66 @@ class AddDeck extends React.Component {
     return (
       <div>
         <h2>Create New Deck:</h2>
-        <form onSubmit={this.addDeck}>
-          <input type="text" value={state.name} name="name" onChange={this.handleChange} placeholder="Name" required />
-          <p style={{ color: 'black' }}>Public?</p>
-          <input type="checkbox" name="public" onChange={this.handleChange} />
-          <input type="text" value={state.tags} name="tags" onChange={this.handleChange} placeholder="Enter a list of tags separated by comma (no spaces)" required />
-          <button type="button" onClick={this.newCard}>Add Card</button>
-          <button type="submit">Save</button>
-        </form>
+        <DeckForm onSubmit={this.addDeck}>
+          <DeckInfo>
+            <input type="text" value={state.name} name="name" onChange={this.handleChange} placeholder="Name" required />
+            <p style={{ color: 'black' }}>Public?</p>
+            <Checkbox type="checkbox" name="public" onChange={this.handleChange} />
+            <input type="text" value={state.tags} name="tags" onChange={this.handleChange} placeholder="Enter a list of tags separated by comma (no spaces)" required />
+            <button type="submit">Save</button>
+          </DeckInfo>
+        </DeckForm>
         {state.cardCount.map((x, i) => {
-          return <CardInputs i={i} onCardSave={this.onCardSave} />;
+          return <CardInputs i={i} onCardSave={this.onCardSave} key={i} />;
         })}
+        <button type="button" onClick={this.newCard}>Add Card</button>
       </div>
     );
   }
 }
 
 export default AddDeck;
+
+const DeckForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 10px;
+  background: #5e707b;
+  border-radius: 3px;
+  align-items: baseline;
+  justify-content: space-between;
+  box-shadow: none;
+`;
+
+const DeckInfo = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding: 10px 0;
+  background: #5e707b;
+  border-radius: 3px;
+  align-items: baseline;
+  justify-content: space-between;
+  box-shadow: none;
+
+  input[type="text"] {
+    flex-grow: 1;
+  }
+
+  button {
+    flex-grow: 0.5;
+  }
+
+  * {
+    margin-left: 5px; 
+  }
+
+  input:first-child {
+    margin-left: 0;
+  }
+`;
+
+const Checkbox = styled.input`
+  align-self: center;
+`;

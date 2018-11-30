@@ -38,17 +38,67 @@ class CardInputs extends React.Component {
     const { state } = this;
     return (
       <div>
-        <h2>Add New Card:</h2>
-        <form onSubmit={this.saveCard}>
-          <input type="text" value={state.title} name="title" onChange={this.handleChange} placeholder="Title" required />
+        <CardInfo onSubmit={this.saveCard}>
+          <TopRow>
+            <input type="text" value={state.title} name="title" onChange={this.handleChange} placeholder="Title" required />
+            {/* <input type="text" value={state.language} name="language" onChange={this.handleChange} placeholder="Language" required /> */}
+            <Dropdown name="language" onChange={this.handleChange}>
+              <option value="Plain Text">Plain Text</option>
+              <option value="JavaScript">JavaScript</option>
+              <option value="Python">Python</option>
+              <option value="C++">C++</option>
+            </Dropdown>
+            <button type="submit">Save</button>
+          </TopRow>
           <input type="text" value={state.question} name="question" onChange={this.handleChange} placeholder="Question" required />
           <input type="text" value={state.answer} name="answer" onChange={this.handleChange} placeholder="Answer" required />
-          <input type="text" value={state.language} name="language" onChange={this.handleChange} placeholder="Language" required />
-          <button type="submit">Save</button>
-        </form>
+        </CardInfo>
       </div>
     );
   }
 }
 
 export default CardInputs;
+
+const CardInfo = styled.form`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 10px;
+  background: #5e707b;
+  border-radius: 3px;
+  align-items: baseline;
+  justify-content: space-between;
+  box-shadow: none;
+
+  input[type="text"] {
+    width: 100%;
+  }
+`;
+
+const TopRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  background: #5e707b;
+  border-radius: 3px;
+  align-items: baseline;
+  justify-content: space-between;
+  box-shadow: none;
+
+  input[name="title"] {
+    flex-grow:1;
+  }
+`;
+
+const Dropdown = styled.select`
+  background-color: lightgray;
+  border: none;
+  height: 50px;
+`;
+
+const QandA = styled.div`
+  display: flex;
+  flex-direction: column;
+
+`;
