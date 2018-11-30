@@ -1,6 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
-import { css } from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Link, withRouter } from 'react-router-dom';
 import '../App.css';
 
