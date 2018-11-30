@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import Auth from './auth/Auth';
@@ -106,8 +106,12 @@ class App extends Component {
   }
 
   addCardToUpdate = (cardProgressObject = false) => {
-    // cardProgressObject is {difficulty: '', cardID: '', deckID: ''}. difficulty is an array index (0, 1, ..etc) which correlates to difficultyToNextTestDate in algorithm.js
-    clearTimeout(this.state.serverUpdateTimer);
+    const { serverUpdateTimer, cardsToUpdate } = this.state;
+    // cardProgressObject is {difficulty: '', cardID: '', deckID: ''}.
+    // difficulty is an array index (0, 1, ..etc) which correlates to
+    // difficultyToNextTestDate in algorithm.js
+
+    clearTimeout(serverUpdateTimer);
     if (!cardProgressObject) {
       // instantly update the server with batch of cards waiting for timeout
       // this is used by End Session or Save-like functions in TrainDeck.js
@@ -116,15 +120,15 @@ class App extends Component {
     }
 
     this.setState({
-      cardsToUpdate: [cardProgressObject, ...this.state.cardsToUpdate],
+      cardsToUpdate: [cardProgressObject, ...cardsToUpdate],
       serverUpdateTimer: setTimeout(this.updateServer, WAIT_INTERVAL),
     });
   };
 
   updateServer = () => {
     // wait is done, send a POST to server to update card progress in case user does not save manually
-
-    const cards = this.state.cardsToUpdate;
+    const { decks, cardsToUpdate } = this.state;
+    const cards = cardsToUpdate;
     // if server is told to update via End Session/Save in TrainDeck, only update the server if there
     // are any cards in the queue
     if (cards.length < 1) return;
@@ -140,7 +144,6 @@ class App extends Component {
           // we can then use this to update the due dates of all the cards we just sent
           console.log(response);
           const newDates = response.data;
-          const decks = this.state.decks;
 
           cards.forEach((card) => {
             if (newDates[card.cardID]) {
@@ -221,6 +224,11 @@ class App extends Component {
       .catch(err => console.log(new Error(err)));
   }
 
+  importDeck = () => {
+    console.log(this.props);
+    console.log(this.props.match.params.id);
+  }
+
   render() {
     const { decks, profile } = this.state;
     return (
@@ -258,6 +266,9 @@ class App extends Component {
               path="/dashboard/decks/:deckId/train/:id/delete"
               render={props => <DeleteCardModal deleteCard={this.handleCardDeletion} {...props} />}
             />
+            <Route path="/share/deck/:id">
+              {this.importDeck()}
+            </Route>
           </Wrapper>
         </Switch>
       </AppWrapper>
@@ -265,7 +276,7 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);
 
 // styles
 const AppWrapper = styled.div`
