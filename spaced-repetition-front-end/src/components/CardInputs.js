@@ -9,7 +9,7 @@ class CardInputs extends React.Component {
       title: '',
       question: '',
       answer: '',
-      language: '',
+      language: 'Plain Text',
     };
   }
 
@@ -95,10 +95,4 @@ const Dropdown = styled.select`
   background-color: lightgray;
   border: none;
   height: 50px;
-`;
-
-const QandA = styled.div`
-  display: flex;
-  flex-direction: column;
-
 `;
