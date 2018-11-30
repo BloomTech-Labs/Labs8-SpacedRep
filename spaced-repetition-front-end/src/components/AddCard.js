@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import CardInputs from './CardInputs';
-import LanguageDropdown from './LanguageDropDown';
 
 // need to limit it so users can only hit save on a card once,
 // otherwise they're able to repeatedly duplicate the card on save
@@ -28,7 +27,7 @@ class AddDeck extends React.Component {
       deckNames: [],
       selectedLang: 'none',
       selectedDeck: 'none',
-      deckId: 0,
+      deck_id: 0,
       title: '',
       question: '',
       answer: '',
@@ -63,51 +62,55 @@ class AddDeck extends React.Component {
     }, () => console.log(this.state));
   }
 
-  onCardSave = () => {
+  onCardSave = (event) => {
+    event.preventDefault();
     const {
-      title, question, answer, tags, language, deckId,
+      title, question, answer, language, deck_id,
     } = this.state;
 
-    const body = { title, question, answer, tags, language, deckId };
-  }
+    const body = {
+      title, question, answer, language, deck_id
+    };
 
-  // addDeck = (e) => {
-  //   e.preventDefault();
-  //   const deck = this.state;
-  //   const newDeck = {
-  //     name: deck.name,
-  //     public: deck.public,
-  //     tags: deck.tags,
-  //   };
-  //   const deckCards = [...deck.cards];
-  //   // post request to decks with newDeck
-  //   const token = localStorage.getItem('id_token');
-  //   const headers = { Authorization: `Bearer ${token}` };
-  //   axios.post(`${process.env.REACT_APP_URL}/api/decks/`, newDeck, { headers })
-  //     .then((response) => {
-  //       deckCards.forEach((x) => {
-  //         x.deck_id = response.data;
-  //       })
-  //       console.log(deckCards);
-  //       axios.post(`${process.env.REACT_APP_URL}/api/cards/batch`, deckCards, { headers })
-  //         .then((innerResponse) => {
-  //           console.log(innerResponse)
-  //         })
-  //         .catch(err => console.log(err.message));
-  //     })
-  //     .catch(error => (
-  //       this.setState({
-  //         errorMessage: error,
-  //       })
-  //     ));
-  //   // post request to cards with deckCards
-  //   this.setState({
-  //     name: '',
-  //     public: '',
-  //     tags: '',
-  //     cards: [],
-  //   });
-  // }
+
+    // addDeck = (e) => {
+    //   e.preventDefault();
+    //   const deck = this.state;
+    //   const newDeck = {
+    //     name: deck.name,
+    //     public: deck.public,
+    //     tags: deck.tags,
+    //   };
+    //   const deckCards = [...deck.cards];
+    //   // post request to decks with newDeck
+    const token = localStorage.getItem('id_token');
+    const headers = { Authorization: `Bearer ${token}` };
+    axios.post(`${process.env.REACT_APP_URL}/api/cards/`, body, { headers })
+      .then((response) => {
+        console.log('===add card res', response)
+        //       deckCards.forEach((x) => {
+        //         x.deck_id = response.data;
+      })
+      .catch(err => console.log(err.message));
+    //       console.log(deckCards);
+    //       axios.post(`${process.env.REACT_APP_URL}/api/cards/batch`, deckCards, { headers })
+    //         .then((innerResponse) => {
+    //           console.log(innerResponse)
+    //         })
+    //     })
+    //     .catch(error => (
+    //       this.setState({
+    //         errorMessage: error,
+    //       })
+    //     ));
+    //   // post request to cards with deckCards
+    //   this.setState({
+    //     name: '',
+    //     public: '',
+    //     tags: '',
+    //     cards: [],
+    //   });
+  };
 
   // newCard = () => {
   //   this.setState((state) => {
@@ -134,12 +137,14 @@ class AddDeck extends React.Component {
   toggleSelectedDecks = (event) => {
     console.log('event', event.target);
     const name = event.target.getAttribute('name'); //'HOME'
+    const id = event.target.getAttribute('id'); //'HOME'
     // change language selected to true
     // const selected = this.state.languages.filter(lang => lang === name);
 
     this.setState({
       selectedDeck: name,
-    });
+      deck_id: id,
+    }, console.log('deck_id', this.state.deck_id));
     // console.log('id', id, 'key', key);
     // const temp = this.state.languages[key];
 
@@ -193,6 +198,7 @@ class AddDeck extends React.Component {
                       key={deck.name}
                       onClick={this.toggleSelectedDecks}
                       name={deck.name}
+                      id={deck.id}
                     >
                       {deck.name}
                     </li>
