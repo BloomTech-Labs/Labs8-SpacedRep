@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import CardList from './CardList';
+import axios from 'axios'
 
 class CardView extends React.Component {
   state = {
@@ -81,6 +82,31 @@ class CardView extends React.Component {
   toggleAddCard = () => {
     return
   }
+
+  onCardSave = (event) => {
+    event.preventDefault();
+    const { id } = this.props.card;
+    const {
+      title, question, answer, language, deck_id,
+    } = this.state;
+
+    const body = {
+      title, question, answer, language, deck_id
+    };
+
+    const token = localStorage.getItem('id_token');
+    const headers = { Authorization: `Bearer ${token}` };
+    axios.put(`${process.env.REACT_APP_URL}/api/cards/${id}`, body, { headers })
+      .then((response) => {
+        console.log('===add card res', response)
+        //       deckCards.forEach((x) => {
+        //         x.deck_id = response.data;
+        window.location.reload();
+      })
+      .catch(err => console.log(err.message));
+
+  };
+
   editCard = () => {
     const {
       title, tags, question, answer, dropDownOpenDecks, dropDownOpenLangs, languages, selectedLang, selectedDeck, deckNames,
@@ -139,7 +165,7 @@ class CardView extends React.Component {
         </DDWrapper>
         <textarea value={question} onChange={this.handleChange} placeholder="Question" name="question" />
         <textarea value={answer} onChange={this.handleChange} placeholder="Answer" name="answer" />
-        <input type="text" value={tags} name="tags" onChange={this.handleChange} placeholder="Enter a list of tags separated by comma (no spaces)" required />
+        {/* <input type="text" value={tags} name="tags" onChange={this.handleChange} placeholder="Enter a list of tags separated by comma (no spaces)" required /> */}
         <button type="button" onClick={toggleEdit}>Cancel</button>
         <button type="submit" onClick={this.onCardSave}>Save</button>
       </EditCard>
