@@ -25,9 +25,9 @@ class Sidebar extends React.Component {
           <ItemName>Add Deck</ItemName>
         </SidebarItem>
         <Divider />
-        <SidebarItem path={pathname} thisroute="/dashboard/add-card" to="/dashboard/add-card">
+        <SidebarItem path={pathname} thisroute="/dashboard/cards" to="/dashboard/cards">
           <Logo src={decksIcon} />
-          <ItemName>Add Card</ItemName>
+          <ItemName>Cards</ItemName>
         </SidebarItem>
         <Divider />
         <SidebarItem path={pathname} thisroute="/dashboard/profile" to="/dashboard/profile">
@@ -76,7 +76,7 @@ const SidebarItem = styled(Link)`
   ${props => props.path === props.thisroute && css`
     background: ${styleProps => styleProps.theme.dark.bodyBackground};
     `
-}
+  }
 `;
 
 const Divider = styled.hr`

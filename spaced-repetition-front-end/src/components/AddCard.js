@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import CardInputs from './CardInputs';
-import LanguageDropdown from './LanguageDropDown';
+// import LanguageDropdown from './LanguageDropDown';
 
 // need to limit it so users can only hit save on a card once,
 // otherwise they're able to repeatedly duplicate the card on save
@@ -68,7 +68,9 @@ class AddDeck extends React.Component {
       title, question, answer, tags, language, deckId,
     } = this.state;
 
-    const body = { title, question, answer, tags, language, deckId };
+    const body = {
+ title, question, answer, tags, language, deckId 
+};
   }
 
   // addDeck = (e) => {
@@ -125,6 +127,7 @@ class AddDeck extends React.Component {
       dropDownOpenDecks: !prevState.dropDownOpenDecks,
     }));
   }
+
   toggleListLangs = () => {
     this.setState(prevState => ({
       dropDownOpenLangs: !prevState.dropDownOpenLangs,
@@ -133,7 +136,7 @@ class AddDeck extends React.Component {
 
   toggleSelectedDecks = (event) => {
     console.log('event', event.target);
-    const name = event.target.getAttribute('name'); //'HOME'
+    const name = event.target.getAttribute('name'); // 'HOME'
     // change language selected to true
     // const selected = this.state.languages.filter(lang => lang === name);
 
@@ -148,9 +151,10 @@ class AddDeck extends React.Component {
     //   [key]: temp,
     // });
   }
+
   toggleSelectedLangs = (event) => {
     console.log('event', event.target);
-    const name = event.target.getAttribute('name'); //'HOME'
+    const name = event.target.getAttribute('name'); // 'HOME'
     // change language selected to true
     // const selected = this.state.languages.filter(lang => lang === name);
 
@@ -235,7 +239,7 @@ class AddDeck extends React.Component {
           <div>
             <h3>Oops!</h3>
             <p>You need to make at least 1 deck before you can make cards.</p>
-            <Link to='/dashboard/add-deck'>Click here to make your first deck!</Link>
+            <Link to="/dashboard/add-deck">Click here to make your first deck!</Link>
           </div>
         )}
       </div>
