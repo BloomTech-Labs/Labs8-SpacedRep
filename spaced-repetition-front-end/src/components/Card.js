@@ -206,7 +206,7 @@ class Card extends React.Component {
                 Quit current training session.
               </OptionItem>
               <OptionItemLink to={`/dashboard/decks/${data.id}/train/${data.cards[currentCard].id}/delete`}>
-                Delete thid card.
+                Delete this card.
               </OptionItemLink>
             </OptionsMenu>
           </CardModal>

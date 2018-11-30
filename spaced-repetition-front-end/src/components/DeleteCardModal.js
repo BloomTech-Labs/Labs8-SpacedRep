@@ -1,18 +1,32 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-const DeleteCardModal = ({ match, deleteCard }) => {
-  const handleDelete = () => {
-    deleteCard(match.params.id, match.params.deckId);
+class DeleteCardModal extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      wasDeleted: false,
+    };
   }
-  return (
-    <div>
-      <p>Are you sure you want to delete this card?</p>
-      <button type="button" onClick={handleDelete}>Delete</button>
-      <button type="button">Cancel</button>
-    </div>
-  );
-};
+
+  handleDelete = () => {
+    const { match, deleteCard } = this.props;
+    deleteCard(match.params.id, match.params.deckId);
+    this.setState({ wasDeleted: true });
+  }
+
+  render() {
+    const { wasDeleted } = this.state;
+    return (
+      <div>
+        {!wasDeleted && <p>Are you sure you want to delete this card?</p>}
+        {wasDeleted && <p>Your card was successfully deleted.</p>}
+        <button type="button" onClick={this.handleDelete}>Delete</button>
+        <button type="button">Cancel</button>
+      </div>
+    );
+  }
+}
 
 export default DeleteCardModal;
 
