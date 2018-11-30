@@ -2,6 +2,10 @@
   border: 1px solid black;
 } */
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: Helvetica;
   /*  background: lightsteelblue; */

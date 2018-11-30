@@ -34,7 +34,7 @@ class CardList extends Component {
         {addNewCard && <AddCard grabDeckInfo={this.handleDeckData} toggleAddCard={this.handleAddCard} />}
         {decks.length > 0 && decks.map((deck) => {
           return deck.cards.map((card) => {
-            return <CardView key={card.id} card={card} deckName={deck.name} />;
+            return <CardView key={card.id} card={card} deckName={deck.name} decks={decks} />;
           });
         })}
         {decks.length === 0 && !addNewCard && (
