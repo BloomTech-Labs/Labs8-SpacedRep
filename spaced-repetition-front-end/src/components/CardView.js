@@ -23,6 +23,7 @@ const Card = styled.div`
   border: 1px solid black;
   width: 320px;
   margin: 2%;
+  padding 2%;
 `;
 
 CardView.propTypes = {

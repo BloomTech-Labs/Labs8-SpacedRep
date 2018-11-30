@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import CardView from './CardView';
+import CardListTools from './CardListTools';
 
 const CardList = ({ decks }) => {
   let cards = [];
@@ -11,6 +12,7 @@ const CardList = ({ decks }) => {
 
   return (
     <CardContainer>
+      <CardListTools />
       {cards.map(card => <CardView key={card.id} card={card} />)}
     </CardContainer>
   );
