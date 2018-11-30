@@ -8,10 +8,10 @@ const CardView = ({ card, deckName }) => {
   // const tags = ['js', 'css', 'plaintext'];
   return (
     <Card>
-      <p>Title: {card.title}</p>
-      <p>Question: {card.question}</p>
-      <p>Answer: {card.answer}</p>
-      <p>Language: {card.language}</p>
+      <p>{`Title: ${card.title}`}</p>
+      <p>{`Question: ${card.question}`}</p>
+      <p>{`Answer: ${card.answer}`}</p>
+      <p>{`Language: ${card.language}`}</p>
       <p>Tags:</p>
       <TagsContainer>
         {tags && tags.map(tag => <p key={tag}>{tag}</p>)}
