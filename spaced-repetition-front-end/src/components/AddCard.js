@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import CardInputs from './CardInputs';
 import LanguageDropdown from './LanguageDropDown';
 
@@ -21,9 +22,12 @@ class AddDeck extends React.Component {
     super(props);
 
     this.state = {
-      dropDownOpen: false,
+      dropDownOpenDecks: false,
+      dropDownOpenLangs: false,
       languages: ['JavaScript', 'CSS', 'none'],
+      deckNames: [],
       selected: 'none',
+      deckId: 0,
       title: '',
       question: '',
       answer: '',
@@ -32,9 +36,15 @@ class AddDeck extends React.Component {
     };
   }
 
+  componentDidMount() {
+    const { grabDeckInfo } = this.props;
+    const deckNames = grabDeckInfo();
+    this.setState({ deckNames }, () => console.log('deckNames', deckNames));
+  }
+
   onClickOutside = (event) => {
     if (event.target.closest('#dropdown')) return;
-    this.setState({ dropDownOpen: false });
+    this.setState({ dropDownOpenDecks: false, dropDownOpenLangs: false });
   }
 
   handleChange = (e) => {
@@ -52,11 +62,13 @@ class AddDeck extends React.Component {
     }, () => console.log(this.state));
   }
 
-  // onCardSave = (newCard) => {
-  //   this.setState((state) => {
-  //     return { cards: [...state.cards, newCard] };
-  //   });
-  // }
+  onCardSave = () => {
+    const {
+      title, question, answer, tags, language, deckId,
+    } = this.state;
+
+    const body = { title, question, answer, tags, language, deckId };
+  }
 
   // addDeck = (e) => {
   //   e.preventDefault();
@@ -107,9 +119,14 @@ class AddDeck extends React.Component {
   //   });
   // }
 
-  toggleList = () => {
+  toggleListDecks = () => {
     this.setState(prevState => ({
-      dropDownOpen: !prevState.dropDownOpen,
+      dropDownOpenDecks: !prevState.dropDownOpenDecks,
+    }));
+  }
+  toggleListLangs = () => {
+    this.setState(prevState => ({
+      dropDownOpenLangs: !prevState.dropDownOpenlangs,
     }));
   }
 
@@ -133,50 +150,77 @@ class AddDeck extends React.Component {
 
   render() {
     const {
-      title, tags, question, answer, dropDownOpen, languages, selected,
+      title, tags, question, answer, dropDownOpenDecks, dropDownOpenLangs, languages, selectedLang, selectedDeck, deckNames,
     } = this.state;
     const { toggleAddCard } = this.props;
     return (
       <div onClick={this.onClickOutside}>
-        <form onSubmit={this.addDeck}>
-          <h2>Add New Card:</h2>
-          <input type="text" value={title} name="title" onChange={this.handleChange} placeholder="Title" required />
-          {/* <LanguageDropdown /> */}
-          <DDWrapper id="dropdown">
-            <DDTitleBox onClick={this.toggleList}>
-              <div>{`Snippet Language: ${selected}`}</div>
-              {dropDownOpen
-                ? 'X'
-                : 'open'
-              }
-            </DDTitleBox>
-            {dropDownOpen && (
-              <DDlist>
-                {languages.map(lang => (
-                  // <li className="dd-list-item" key={lang.id}>{lang.title}</li>
-                  <li
-                    key={lang}
-                    onClick={this.toggleSelected}
-                    name={lang}
-                  >
-                    {lang}
-                    {/* {lang === selected && 'check'} */}
-                  </li>
-                ))}
-              </DDlist>
-            )}
-          </DDWrapper>
-          {/* <p style={{ color: 'black' }}>Public?</p> */}
-          {/* <input type="checkbox" name="public" onChange={this.handleChange} /> */}
-          <textarea value={question} onChange={this.handleChange} placeholder="Question" name="question" />
-          <textarea value={answer} onChange={this.handleChange} placeholder="Answer" name="answer" />
-          <input type="text" value={tags} name="tags" onChange={this.handleChange} placeholder="Enter a list of tags separated by comma (no spaces)" required />
-          <button type="button" onClick={toggleAddCard}>Cancel</button>
-          <button type="submit" onClick={this.newCard}>Add Card</button>
-        </form>
-        {/* {cardCount.map((x, i) => {
-          return <CardInputs i={i} onCardSave={this.onCardSave} />;
-        })} */}
+        {deckNames.length > 0 && (
+          <form onSubmit={this.addDeck}>
+            <h2>Add New Card:</h2>
+            <input type="text" value={title} name="title" onChange={this.handleChange} placeholder="Title" required />
+            <DDWrapper id="decksDrop">
+              <DDTitleBox onClick={this.toggleListDecks}>
+                <div>{`Deck: ${selectedDeck}`}</div>
+                {dropDownOpenDecks
+                  ? 'X'
+                  : 'open'
+                }
+              </DDTitleBox>
+              {dropDownOpenDecks && (
+                <DDlist>
+                  {deckNames.map(lang => (
+                    // <li className="dd-list-item" key={lang.id}>{lang.title}</li>
+                    <li
+                      key={lang}
+                      onClick={this.toggleSelected}
+                      name={lang}
+                    >
+                      {lang}
+                      {/* {lang === selected && 'check'} */}
+                    </li>
+                  ))}
+                </DDlist>
+              )}
+            </DDWrapper>
+            <DDWrapper id="dropdown">
+              <DDTitleBox onClick={this.toggleListLangs}>
+                <div>{`Snippet Language: ${selectedLang}`}</div>
+                {dropDownOpenLangs
+                  ? 'X'
+                  : 'open'
+                }
+              </DDTitleBox>
+              {dropDownOpenLangs && (
+                <DDlist>
+                  {languages.map(lang => (
+                    // <li className="dd-list-item" key={lang.id}>{lang.title}</li>
+                    <li
+                      key={lang}
+                      onClick={this.toggleSelected}
+                      name={lang}
+                    >
+                      {lang}
+                      {/* {lang === selected && 'check'} */}
+                    </li>
+                  ))}
+                </DDlist>
+              )}
+            </DDWrapper>
+            <textarea value={question} onChange={this.handleChange} placeholder="Question" name="question" />
+            <textarea value={answer} onChange={this.handleChange} placeholder="Answer" name="answer" />
+            <input type="text" value={tags} name="tags" onChange={this.handleChange} placeholder="Enter a list of tags separated by comma (no spaces)" required />
+            <button type="button" onClick={toggleAddCard}>Cancel</button>
+            <button type="submit" onClick={this.onCardSave}>Add Card</button>
+          </form>
+        )}
+        {deckNames.length === 0 && (
+          <div>
+            <h3>Oops!</h3>
+            <p>You need to make at least 1 deck before you can make cards.</p>
+            <Link to='/dashboard/add-deck'>Click here to make your first deck!</Link>
+          </div>
+        )}
       </div>
     );
   }
