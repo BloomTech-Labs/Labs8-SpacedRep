@@ -23,12 +23,12 @@ class AddDeck extends React.Component {
     this.state = {
       dropDownOpen: false,
       languages: ['JavaScript', 'CSS', 'none'],
-      selected: null,
-      // name: '',
-      // public: false,
-      // tags: '',
-      // cards: [],
-      // cardCount: [],
+      selected: 'none',
+      title: '',
+      question: '',
+      answer: '',
+      language: '',
+      tags: '',
     };
   }
 
@@ -37,20 +37,20 @@ class AddDeck extends React.Component {
     this.setState({ dropDownOpen: false });
   }
 
-  // handleChange = (e) => {
-  //   const { target } = e;
-  //   let val;
-  //   if (target.type === 'checkbox') {
-  //     val = target.checked;
-  //   } else {
-  //     e.preventDefault();
-  //     val = target.value;
-  //   }
-  //   const { name } = target;
-  //   this.setState({
-  //     [name]: val,
-  //   }, () => console.log(this.state));
-  // }
+  handleChange = (e) => {
+    // const { target } = e;
+    // let val;
+    // if (target.type === 'checkbox') {
+    //   val = target.checked;
+    // } else {
+    //   e.preventDefault();
+    //   val = target.value;
+    // }
+    const { name, value } = e.target;
+    this.setState({
+      [name]: value,
+    }, () => console.log(this.state));
+  }
 
   // onCardSave = (newCard) => {
   //   this.setState((state) => {
@@ -101,11 +101,11 @@ class AddDeck extends React.Component {
   //     return { cardCount: [...state.cardCount, 'another one'] };
   //   });
   // }
-  handleClickOutside = () => {
-    this.setState({
-      dropDownOpen: false,
-    });
-  }
+  // handleClickOutside = () => {
+  //   this.setState({
+  //     dropDownOpen: false,
+  //   });
+  // }
 
   toggleList = () => {
     this.setState(prevState => ({
@@ -135,6 +135,7 @@ class AddDeck extends React.Component {
     const {
       title, tags, question, answer, dropDownOpen, languages, selected,
     } = this.state;
+    const { toggleAddCard } = this.props;
     return (
       <div onClick={this.onClickOutside}>
         <form onSubmit={this.addDeck}>
@@ -142,15 +143,15 @@ class AddDeck extends React.Component {
           <input type="text" value={title} name="title" onChange={this.handleChange} placeholder="Title" required />
           {/* <LanguageDropdown /> */}
           <DDWrapper id="dropdown">
-            <DDTitleBox className="dd-header" onClick={this.toggleList}>
-              <div className="dd-header-title">Snippet Language</div>
+            <DDTitleBox onClick={this.toggleList}>
+              <div>{`Snippet Language: ${selected}`}</div>
               {dropDownOpen
-                ? 'close'
+                ? 'X'
                 : 'open'
               }
             </DDTitleBox>
             {dropDownOpen && (
-              <DDlist className="dd-list">
+              <DDlist>
                 {languages.map(lang => (
                   // <li className="dd-list-item" key={lang.id}>{lang.title}</li>
                   <li
@@ -159,7 +160,7 @@ class AddDeck extends React.Component {
                     name={lang}
                   >
                     {lang}
-                    {lang === selected && 'check'}
+                    {/* {lang === selected && 'check'} */}
                   </li>
                 ))}
               </DDlist>
@@ -170,9 +171,8 @@ class AddDeck extends React.Component {
           <textarea value={question} onChange={this.handleChange} placeholder="Question" name="question" />
           <textarea value={answer} onChange={this.handleChange} placeholder="Answer" name="answer" />
           <input type="text" value={tags} name="tags" onChange={this.handleChange} placeholder="Enter a list of tags separated by comma (no spaces)" required />
-          <button type="button" onClick={this.newCard}>Add Card</button>
-          <button type="submit">Cancel</button>
-          <button type="submit">Save</button>
+          <button type="button" onClick={toggleAddCard}>Cancel</button>
+          <button type="submit" onClick={this.newCard}>Add Card</button>
         </form>
         {/* {cardCount.map((x, i) => {
           return <CardInputs i={i} onCardSave={this.onCardSave} />;

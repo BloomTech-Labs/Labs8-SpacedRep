@@ -19,7 +19,7 @@ class CardList extends Component {
     return (
       <CardContainer>
         <CardListTools addNewCard={this.handleAddCard} />
-        {addNewCard && <AddCard />}
+        {addNewCard && <AddCard toggleAddCard={this.handleAddCard} />}
         {decks.length > 0 && decks.map((deck) => {
           return deck.cards.map(card => <CardView key={card.id} card={card} deckName={deck.name} />);
         })}
