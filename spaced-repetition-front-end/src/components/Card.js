@@ -129,9 +129,8 @@ class Card extends React.Component {
     const { data, updateProgress } = this.props;
     const {
       trained, currentCard, showOptions, showNext, redirect, qContentType, aContentType,
-      qFilteredContent, aFilteredContent,
+      qFilteredContent, aFilteredContent, showModal,
     } = this.state;
-
     if (redirect) return <Redirect to="/dashboard/decks" />;
     return (
       data ? (
@@ -206,6 +205,9 @@ class Card extends React.Component {
               >
                 Quit current training session.
               </OptionItem>
+              <OptionItemLink to={`/dashboard/decks/${data.id}/train/${data.cards[currentCard].id}/delete`}>
+                Delete this card.
+              </OptionItemLink>
             </OptionsMenu>
           </CardModal>
         </MainCardContainer>
@@ -326,6 +328,15 @@ const OptionsMenu = styled(CardContainer)`
 `;
 
 const OptionItem = styled(CardText)`
+  text-align: end;
+  cursor: pointer;
+        
+  &:hover {
+    color: turquoise;
+  }
+`;
+
+const OptionItemLink = styled(Link)`
   text-align: end;
   cursor: pointer;
         

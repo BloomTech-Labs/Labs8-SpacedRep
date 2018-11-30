@@ -12,8 +12,8 @@ import Profile from './components/Profile';
 import Billing from './components/Billing';
 import AddDeck from './components/AddDeck';
 import AddCard from './components/AddCard';
-import CardInputs from './components/CardInputs';
 import TrainDeck from './components/TrainDeck';
+import DeleteCardModal from './components/DeleteCardModal';
 import './App.css';
 
 
@@ -195,6 +195,32 @@ class App extends Component {
     this.setState({ profile });
   }
 
+  handleCardDeletion = (cardId, deckId) => {
+    const token = localStorage.getItem('id_token');
+    const headers = { Authorization: `Bearer ${token}` };
+
+    axios.delete(`${process.env.REACT_APP_URL}/api/cards/${cardId}`, { headers })
+      .then(() => {
+        const { decks } = this.state;
+        // The db response is 1 for success, it does not return an updated array of decks.
+        // updatedDecks returns a new array of decks with the recently deleted deck removed.
+        const updatedDecks = decks.map((deck) => {
+          if (Number(deck.id) === Number(deckId)) {
+            deck.cards.map((card, i) => {
+              if (Number(card.id) === Number(cardId)) {
+                deck.cards.splice(i, 1);
+              }
+            });
+          }
+          return deck;
+        });
+        this.setState({
+          decks: updatedDecks,
+        });
+      })
+      .catch(err => console.log(new Error(err)));
+  }
+
   render() {
     const { decks, profile } = this.state;
     return (
@@ -226,6 +252,11 @@ class App extends Component {
                 const deckToTrain = this.handleTrainDeck(props);
                 return <TrainDeck deck={deckToTrain[0]} updateProgress={this.addCardToUpdate} {...props} />;
               }}
+            />
+            <Route
+              exact
+              path="/dashboard/decks/:deckId/train/:id/delete"
+              render={props => <DeleteCardModal deleteCard={this.handleCardDeletion} {...props} />}
             />
           </Wrapper>
         </Switch>
