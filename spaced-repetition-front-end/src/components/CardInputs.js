@@ -35,8 +35,8 @@ class CardInputs extends React.Component {
     const { title, question, answer, language } = state;
     props.onCardSave({ title, question, answer, language });
 
-    //disable save button to stop resubmission of card. FIX: should change this to be editable 
-    this.setState({ saved: true })
+    // disable save button to stop resubmission of card. FIX: should change this to be editable 
+    this.setState({ saved: true });
   }
 
   render() {
@@ -55,8 +55,8 @@ class CardInputs extends React.Component {
             </Dropdown>
             {!state.saved && <button type="submit">Save</button>}
           </TopRow>
-          <input type="text" value={state.question} name="question" onChange={this.handleChange} placeholder="Question" required />
-          <input type="text" value={state.answer} name="answer" onChange={this.handleChange} placeholder="Answer" required />
+          <textarea type="text" value={state.question} name="question" onChange={this.handleChange} placeholder="Question" required />
+          <textarea type="text" value={state.answer} name="answer" onChange={this.handleChange} placeholder="Answer" required />
         </CardInfo>
       </div>
     );
@@ -79,6 +79,13 @@ const CardInfo = styled.form`
   input[type="text"] {
     width: 100%;
   }
+
+  textarea {
+    height: 50px;
+    width: 100%;
+    padding: 15px;
+    resize: vertical;
+  }
 `;
 
 const TopRow = styled.div`
@@ -93,6 +100,10 @@ const TopRow = styled.div`
 
   input[name="title"] {
     flex-grow:1;
+  }
+
+  button, select {
+    margin-left: 5px;
   }
 `;
 

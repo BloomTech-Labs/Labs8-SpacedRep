@@ -96,7 +96,7 @@ class AddDeck extends React.Component {
   render() {
     const { state } = this;
     return (
-      <div>
+      <DeckContainer>
         <h2>Create New Deck:</h2>
         <DeckForm onSubmit={this.addDeck}>
           <DeckInfo>
@@ -111,12 +111,16 @@ class AddDeck extends React.Component {
           return <CardInputs i={i} onCardSave={this.onCardSave} key={i} />;
         })}
         <button type="button" onClick={this.newCard}>Add Card</button>
-      </div>
+      </DeckContainer>
     );
   }
 }
 
 export default AddDeck;
+
+const DeckContainer = styled.div`
+  width: 100%;
+`;
 
 const DeckForm = styled.form`
   display: flex;
