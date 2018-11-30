@@ -12,8 +12,8 @@ import Profile from './components/Profile';
 import Billing from './components/Billing';
 import AddDeck from './components/AddDeck';
 import AddCard from './components/AddCard';
-import CardInputs from './components/CardInputs';
 import TrainDeck from './components/TrainDeck';
+import DeleteCardModal from './components/DeleteCardModal';
 import './App.css';
 
 
@@ -250,8 +250,13 @@ class App extends Component {
               path="/dashboard/decks/:deckId/train"
               render={(props) => {
                 const deckToTrain = this.handleTrainDeck(props);
-                return <TrainDeck deck={deckToTrain[0]} deleteCard={this.handleCardDeletion} updateProgress={this.addCardToUpdate} {...props} />;
+                return <TrainDeck deck={deckToTrain[0]} updateProgress={this.addCardToUpdate} {...props} />;
               }}
+            />
+            <Route
+              exact
+              path="/dashboard/decks/:deckId/train/:id/delete"
+              render={props => <DeleteCardModal deleteCard={this.handleCardDeletion} {...props} />}
             />
           </Wrapper>
         </Switch>

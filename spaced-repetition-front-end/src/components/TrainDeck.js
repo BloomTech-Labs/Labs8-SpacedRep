@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Card from './Card';
 
-const TrainDeck = ({ deck, updateProgress, deleteCard }) => (
+const TrainDeck = ({ deck, updateProgress }) => (
   <TrainingContainer>
     <TrainingHeader>
       Currently training:
       {' '}
       {deck ? deck.name : 'Loading...'}
     </TrainingHeader>
-    <Card data={deck} updateProgress={updateProgress} deleteCard={deleteCard} />
+    <Card data={deck} updateProgress={updateProgress} />
   </TrainingContainer>
 );
 
@@ -29,5 +29,4 @@ TrainDeck.defaultProps = {
 TrainDeck.propTypes = {
   deck: PropTypes.shape(),
   updateProgress: PropTypes.func.isRequired,
-  deleteCard: PropTypes.func.isRequired,
 };

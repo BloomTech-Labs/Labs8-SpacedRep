@@ -114,13 +114,6 @@ class Card extends React.Component {
     this.setState({ redirect: true });
   }
 
-  handleDeleteCard = () => {
-    const { data, deleteCard } = this.props;
-    const { currentCard } = this.state;
-    const { id } = data.cards[currentCard];
-    deleteCard(id, data.id);
-  }
-
   handleAnswer(difficulty) {
     // object to send to server: {difficulty: '', cardID: ''};
     const { data, updateProgress } = this.props;
@@ -136,7 +129,7 @@ class Card extends React.Component {
     const { data, updateProgress } = this.props;
     const {
       trained, currentCard, showOptions, showNext, redirect, qContentType, aContentType,
-      qFilteredContent, aFilteredContent,
+      qFilteredContent, aFilteredContent, showModal,
     } = this.state;
     if (redirect) return <Redirect to="/dashboard/decks" />;
     return (
@@ -212,11 +205,9 @@ class Card extends React.Component {
               >
                 Quit current training session.
               </OptionItem>
-              <OptionItem
-                onClick={this.handleDeleteCard}
-              >
-                Delete card.
-              </OptionItem>
+              <OptionItemLink to={`/dashboard/decks/${data.id}/train/${data.cards[currentCard].id}/delete`}>
+                Delete thid card.
+              </OptionItemLink>
             </OptionsMenu>
           </CardModal>
         </MainCardContainer>
@@ -345,6 +336,15 @@ const OptionItem = styled(CardText)`
   }
 `;
 
+const OptionItemLink = styled(Link)`
+  text-align: end;
+  cursor: pointer;
+        
+  &:hover {
+    color: turquoise;
+  }
+`;
+
 // animation styling
 const FadeIn = keyframes`
   0% {
@@ -370,5 +370,4 @@ Card.defaultProps = {
 Card.propTypes = {
   data: PropTypes.shape(),
   updateProgress: PropTypes.func.isRequired,
-  deleteCard: PropTypes.func.isRequired,
 };
