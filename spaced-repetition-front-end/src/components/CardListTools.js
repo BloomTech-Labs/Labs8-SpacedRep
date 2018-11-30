@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const CardListTools = () => {
+const CardListTools = ({ addNewCard }) => {
   return (
     <ToolsContainer>
-      <ToolButton type="button"> + Add Card</ToolButton>
+      <ToolButton type="button" onClick={addNewCard}> + Add Card</ToolButton>
     </ToolsContainer>
   );
 };
