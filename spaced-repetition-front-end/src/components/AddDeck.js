@@ -2,18 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import CardInputs from './CardInputs';
+import { withRouter } from 'react-router-dom';
 
-// need to limit it so users can only hit save on a card once,
-// otherwise they're able to repeatedly duplicate the card on save
-
-// NOTE: cardCount is there to be able to iterate with JSX
-
-// Refactor idea: instead of using cardCount, just add object
-// to the cards array and make changes by targeting the index in
-// the array. For instance have the onCardSave fn work like handle change
-// but take index as param (it's passed to component on creation)
-// then you could set state like cards[i].title = val.title. This would also elminate
-// the need for a save button when you finish writing a card!
+// Need to make sure all card inputs are completed before submitting
+// iterate through all the properties exist on each object
+// check to make sure value.length of each is greater than 0
 
 class AddDeck extends React.Component {
   constructor(props) {
@@ -23,8 +16,7 @@ class AddDeck extends React.Component {
       name: '',
       public: false,
       tags: '',
-      cards: [],
-      cardCount: [],
+      cards: [{ language: 'Plain Text' }],
     };
   }
 
@@ -43,10 +35,13 @@ class AddDeck extends React.Component {
     });
   }
 
-  onCardSave = (newCard) => {
-    this.setState((state) => {
-      return { cards: [...state.cards, newCard] };
-    });
+  handleCardChange = (i, name, val) => {
+    const { state } = this;
+    const cards = [...state.cards];
+    cards[i][name] = val;
+    this.setState({
+      cards,
+    }, () => console.log(state));
   }
 
   addDeck = (e) => {
@@ -58,7 +53,6 @@ class AddDeck extends React.Component {
       tags: deck.tags,
     };
     const deckCards = [...deck.cards];
-    // post request to decks with newDeck
     const token = localStorage.getItem('id_token');
     const headers = { Authorization: `Bearer ${token}` };
     axios.post(`${process.env.REACT_APP_URL}/api/decks/`, newDeck, { headers })
@@ -72,6 +66,8 @@ class AddDeck extends React.Component {
             console.log(innerResponse)
           })
           .catch(err => console.log(err.message));
+        window.location.reload()
+        this.props.history.push('/dashboard/decks')
       })
       .catch(error => (
         this.setState({
@@ -83,72 +79,85 @@ class AddDeck extends React.Component {
       name: '',
       public: '',
       tags: '',
-      cards: [],
+      cards: [{ language: 'Plain Text' }],
     });
   }
 
   newCard = () => {
     this.setState((state) => {
-      return { cardCount: [...state.cardCount, 'another one'] };
+      return { cards: [...state.cards, { language: 'Plain Text' }] };
     });
   }
 
   render() {
     const { state } = this;
     return (
-      <Container>
-        <Headline>Create New Deck:</Headline>
-        <AddDeckForm onSubmit={this.addDeck}>
-          <input type="text" value={state.name} name="name" onChange={this.handleChange} placeholder="Name" required />
-          <PublicDiv> <p style={{ color: 'white' }}>Public?</p>
-            <PublicBox type="checkbox" name="public" onChange={this.handleChange} />
-          </PublicDiv>
-
-          <input type="text" value={state.tags} name="tags" onChange={this.handleChange} placeholder="Enter a list of tags separated by comma (no spaces)" required />
-          <button type="button" onClick={this.newCard}>Add Card</button>
-          <button type="submit">Save</button>
-        </AddDeckForm>
-        {state.cardCount.map((x, i) => {
-          return <CardInputs key={i} onCardSave={this.onCardSave} cardNumber={i + 1} />;
+      <DeckContainer>
+        <h2>Create New Deck:</h2>
+        <DeckForm onSubmit={this.addDeck}>
+          <DeckInfo>
+            <input type="text" value={state.name} name="name" onChange={this.handleChange} placeholder="Name" required />
+            <input type="text" value={state.tags} name="tags" onChange={this.handleChange} placeholder="Enter a list of tags separated by comma (no spaces)" required />
+            <p style={{ color: 'black' }}>Public?</p>
+            <Checkbox type="checkbox" name="public" onChange={this.handleChange} />
+            <button type="submit">Save</button>
+          </DeckInfo>
+        </DeckForm>
+        {state.cards.map((x, i) => {
+          return <CardInputs i={i} key={i} handleCardChange={this.handleCardChange} />;
         })}
-      </Container>
+        <button type="button" onClick={this.newCard}>Add Card</button>
+      </DeckContainer>
     );
   }
 }
 
-export default AddDeck;
+export default withRouter(AddDeck);
 
-// styles
-const Container = styled.div`
-  display:flex;
-  flex-direction: column;
-  align-items: center;
-  /* justify-content: center; */
+const DeckContainer = styled.div`
   width: 100%;
-`
-
-const Headline = styled.h2`
-  width:50%;
-`
-
-const AddDeckForm = styled.form`
-  padding: 20px;
-  margin: 5px;
-  /* width: 50%; */
-  border: 1px solid ${props => props.theme.dark.sidebar};
-  background: ${props => props.theme.dark.cardBackground};
-  border-radius: 4px;
-  min-height: 325px;
 `;
 
-const PublicDiv = styled.div`
+const DeckForm = styled.form`
   display: flex;
-  width: 40%;
+  flex-direction: column;
+  width: 100%;
+  padding: 10px;
+  background: ${props => props.theme.dark.cardBackground};
+  border-radius: 3px;
+  align-items: baseline;
   justify-content: space-between;
-  align-items: center;
-`
-const PublicBox = styled.input`
-  width: 20px;
-  margin-top: 8px;
-  border-radius: 2px;
-`
+  box-shadow: none;
+`;
+
+const DeckInfo = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding: 10px 0;
+  background: ${props => props.theme.dark.cardBackground};
+  border-radius: 3px;
+  align-items: baseline;
+  justify-content: space-between;
+  box-shadow: none;
+
+  input[type="text"] {
+    flex-grow: 1;
+  }
+
+  button {
+    flex-grow: 0.5;
+  }
+
+  * {
+    margin-left: 5px; 
+  }
+
+  input:first-child {
+    margin-left: 0;
+  }
+`;
+
+const Checkbox = styled.input`
+  align-self: center;
+`;

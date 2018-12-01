@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
+// save button no longer needed (it updates dynamically)
+// should implement a delete button to remove a card
+
 class CardInputs extends React.Component {
   constructor(props) {
     super(props);
@@ -9,80 +12,88 @@ class CardInputs extends React.Component {
       title: '',
       question: '',
       answer: '',
-      language: '',
-      deck_id: '',
-      saved: false,
+      language: 'Plain Text',
     };
   }
 
   handleChange = (e) => {
-    const { target } = e;
-    let val;
-    if (target.type === 'checkbox') {
-      val = target.checked;
-    } else {
-      e.preventDefault();
-      val = target.value;
-    }
-    const { name } = target;
-    this.setState({
-      [name]: val,
-    });
-  }
-
-  saveCard = (e) => {
     e.preventDefault();
-    const { state, props } = this;
-    const { title, question, answer, language } = state;
-    props.onCardSave({ title, question, answer, language });
-
-    //disable save button to stop resubmission of card. FIX: should change this to be editable 
-    this.setState({ saved: true })
+    const { target } = e;
+    const { props } = this;
+    const { name, value } = target;
+    this.setState({
+      [name]: value,
+    }, () => props.handleCardChange(props.i, [name], value));
   }
 
   render() {
-    const { state, props } = this;
+    const { state } = this;
     return (
-      <Container>
-        {this.props.cardNumber === 1 && <h2>Add New Card:</h2>}
-        <AddCardForm onSubmit={this.saveCard}>
-          <input type="text" value={state.title} name="title" onChange={this.handleChange} placeholder="Title" required />
+      <div>
+        <CardInfo>
+          <TopRow>
+            <input type="text" value={state.title} name="title" onChange={this.handleChange} placeholder="Title" required />
+            <Dropdown name="language" onChange={this.handleChange}>
+              <option value="Plain Text">Plain Text</option>
+              <option value="JavaScript">JavaScript</option>
+              <option value="Python">Python</option>
+              <option value="C++">C++</option>
+            </Dropdown>
+          </TopRow>
           <textarea type="text" value={state.question} name="question" onChange={this.handleChange} placeholder="Question" required />
           <textarea type="text" value={state.answer} name="answer" onChange={this.handleChange} placeholder="Answer" required />
-          {/* <input type="number" value={state.deck_id} name="deck_id" onChange={this.handleChange} placeholder="deck_id" required /> */}
-          <input type="text" value={state.language} name="language" onChange={this.handleChange} placeholder="Language" required />
-          {!state.saved && <button type="submit">Save</button>}
-        </AddCardForm>
-      </Container>
+        </CardInfo>
+      </div>
     );
   }
 }
 
 export default CardInputs;
 
-// styles
-const Container = styled.div`
-  padding-top: 20px;
-`
-
-const AddCardForm = styled.form`
-  padding: 40px;
-  margin: 5px;
-  /* width: 50%; */
-  border: 1px solid ${props => props.theme.dark.sidebar};
+const CardInfo = styled.form`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 10px;
   background: ${props => props.theme.dark.cardBackground};
-  border-radius: 4px;
-  height: 325px;
+  border-radius: 3px;
+  align-items: baseline;
+  justify-content: space-between;
+  box-shadow: none;
+
+  input[type="text"] {
+    width: 100%;
+  }
+
+  textarea {
+    height: 50px;
+    width: 100%;
+    padding: 15px;
+    resize: vertical;
+  }
 `;
 
-const PublicDiv = styled.div`
+const TopRow = styled.div`
   display: flex;
-  width: 40%;
+  flex-direction: row;
+  width: 100%;
+  background: #5e707b;
+  border-radius: 3px;
+  align-items: baseline;
   justify-content: space-between;
-  align-items: center;
-`
-const PublicBox = styled.input`
-  width: 20px;
-  margin-top: 8px;
-  border-radius: 2px;
-`
+  box-shadow: none;
+
+  input[name="title"] {
+    flex-grow:1;
+  }
+
+  button, select {
+    margin-left: 5px;
+  }
+`;
+
+const Dropdown = styled.select`
+  background-color: lightgray;
+  border: none;
+  height: 50px;
+`;

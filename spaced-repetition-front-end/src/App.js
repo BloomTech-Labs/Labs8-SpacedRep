@@ -7,12 +7,14 @@ import Callback from './auth/Callback';
 import Header from './components/Header';
 import LandingPage from './components/LandingPage';
 import DeckList from './components/DeckList';
+import CardList from './components/CardList';
 import Wrapper from './components/Wrapper';
 import Profile from './components/Profile';
 import Billing from './components/Billing';
 import AddDeck from './components/AddDeck';
 import AddCard from './components/AddCard';
 import TrainDeck from './components/TrainDeck';
+import DeckView from './components/DeckView';
 import DeleteCardModal from './components/DeleteCardModal';
 import './App.css';
 
@@ -249,9 +251,10 @@ class App extends Component {
           <Wrapper auth={auth} handleProfile={this.handleProfile} handleData={this.handleData}>
             <Route exact path="/dashboard" decks={decks} />
             <Route exact path="/dashboard/add-deck" render={props => <AddDeck />} />
-            <Route exact path="/dashboard/add-card" render={props => <AddCard />} />
             <Route exact path="/dashboard/profile" render={props => <Profile profile={profile} handleUpdateTier={this.handleUpdateTier} {...props} />} />
-            <Route exact path="/dashboard/decks" render={props => <DeckList decks={decks} {...props} />} />
+            <Route exact path="/dashboard/decks" render={props => <DeckList decks={decks} today={today} {...props} />} />
+            <Route exact path="/dashboard/decks/:deckId" render={props => <DeckView decks={decks} today={today} {...props} />} />
+            <Route exact path="/dashboard/cards" render={props => <CardList decks={decks} {...props} />} />
             <Route exact path="/dashboard/billing" render={props => <Billing profile={profile} {...props} />} />
             <Route
               exact

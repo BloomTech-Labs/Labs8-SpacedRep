@@ -25,9 +25,9 @@ class Sidebar extends React.Component {
           <ItemName>Add Deck</ItemName>
         </SidebarItem>
         <Divider />
-        <SidebarItem path={pathname} thisroute="/dashboard/add-card" to="/dashboard/add-card">
+        <SidebarItem path={pathname} thisroute="/dashboard/cards" to="/dashboard/cards">
           <Logo src={decksIcon} />
-          <ItemName>Add Card</ItemName>
+          <ItemName>Cards</ItemName>
         </SidebarItem>
         <Divider />
         <SidebarItem path={pathname} thisroute="/dashboard/profile" to="/dashboard/profile">
@@ -53,7 +53,7 @@ const Container = styled.div`
   width: 200px;
   height: 100vh;
   /* padding-left: 20px; */
-  padding-right:20px;
+  /* padding-right:20px; */
   background: ${props => props.theme.dark.sidebar};
   min-width: 200px;
   
@@ -68,22 +68,19 @@ const SidebarItem = styled(Link)`
   display: flex;
   justify-content: end;
   align-items: center;
-  /* margin-right:30px; */
-  margin-left:50px;
-  padding:  10px 15px 15px 16px;
-  margin-right:20px;
+  padding:  20px 15px 20px 10px;
   width: 100%;
   ${props => props.path === props.thisroute && css`
     background: ${styleProps => styleProps.theme.dark.bodyBackground};
     `
-}
+  }
 `;
 
 const Divider = styled.hr`
   width: 100%;
   margin: 0px;
-  padding: 0px 0px 0px 0px;
-  margin-left:25px;
+  /* padding: 0px 0px 0px 0px; */
+  /* margin-left:25px; */
   @media (max-width: 700px) {
     display: none;
   }
