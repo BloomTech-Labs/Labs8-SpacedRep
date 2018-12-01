@@ -15,25 +15,25 @@ class CardList extends Component {
     deck: {
       cards: [],
       dueDate: 0,
-      name: 'Default Deck'
-    }
+      name: 'Default Deck',
+    },
   };
 
   componentDidMount = () => {
-    const selectedDeckID = this.props.match.params.deckId
+    const selectedDeckID = this.props.match.params.deckId;
     const { decks, history } = this.props;
 
     let match = false;
     for (let i = 0; i < decks.length; i++) {
-      if (decks[i].id == selectedDeckID) {
-        console.log('match')
+      if (decks[i].id === Number(selectedDeckID)) {
+        console.log('match');
         match = decks[i];
       }
     }
 
-    if (!match) history.push('/dashboard/decks')
+    if (!match) history.push('/dashboard/decks');
 
-    this.setState({ deck: match })
+    this.setState({ deck: match });
   }
 
 
@@ -43,9 +43,7 @@ class CardList extends Component {
 
   handleDeckData = () => {
     const { decks } = this.props;
-    const deckData = decks.map(deck => {
-      return { id: deck.id, name: deck.name };
-    })
+    const deckData = decks.map(deck => ({ id: deck.id, name: deck.name }));
 
     return deckData;
   }
@@ -53,7 +51,7 @@ class CardList extends Component {
   render() {
     const { today, decks } = this.props;
     const { addNewCard, deck } = this.state;
-    const selectedDeckID = this.props.match.params.deckId
+    const selectedDeckID = this.props.match.params.deckId;
     return (
       <DeckViewContainer>
         <Header>
@@ -66,7 +64,7 @@ class CardList extends Component {
 
           {addNewCard && <AddCard grabDeckInfo={this.handleDeckData} toggleAddCard={this.handleAddCard} deckID={selectedDeckID} />}
 
-          {deck.cards.map((card) => (
+          {deck.cards.map(card => (
             <Card key={card.id} card={card} deckName={deck.name} decks={decks} />
           ))}
 
@@ -74,7 +72,7 @@ class CardList extends Component {
       </DeckViewContainer>
     );
   }
-};
+}
 
 export default withRouter(CardList);
 
@@ -82,7 +80,7 @@ export default withRouter(CardList);
 
 const DeckViewContainer = styled.div`
 width: 100%;
-`
+`;
 
 const Header = styled.div`
   display: flex;
@@ -90,8 +88,7 @@ const Header = styled.div`
   width: 100%;
   /* justify-content: center; */
   align-items: center;
-`
-
+`;
 
 
 const CardsContainer = styled.div`

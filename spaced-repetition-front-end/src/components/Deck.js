@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import '../App.css';
 
@@ -16,13 +16,13 @@ class Deck extends React.Component {
   handleTrain = (e) => {
     e.stopPropagation();
     const { history, deck } = this.props;
-    history.push(`/dashboard/decks/${deck.id}/train`)
+    history.push(`/dashboard/decks/${deck.id}/train`);
   }
 
   handleDeckClick = () => {
     const { history, deck } = this.props;
 
-    history.push(`/dashboard/decks/${deck.id}`)
+    history.push(`/dashboard/decks/${deck.id}`);
   }
 
   render() {
@@ -32,7 +32,11 @@ class Deck extends React.Component {
         <DeckHeader>
           <Title>{deck.name}</Title>
 
-          <NumCards> {deck.cards.length === 1 ? `${deck.cards.length} card` : `${deck.cards.length} cards`} </NumCards>
+          <NumCards>
+
+            {deck.cards.length === 1 ? `${deck.cards.length} card` : `${deck.cards.length} cards`}
+
+          </NumCards>
         </DeckHeader>
 
         <DeckBody>
@@ -114,7 +118,7 @@ const DueDateContainer = styled.div`
   flex-direction:column;
   align-items: flex-end;
   /* width: 100%; */
-`
+`;
 
 const DueDate = styled.div`
   color: lightgreen;
@@ -125,7 +129,7 @@ const DueDate = styled.div`
 
 const DateCaption = styled.div`
   color: lightgrey;
-`
+`;
 
 Deck.propTypes = {
   deck: PropTypes.shape().isRequired,
