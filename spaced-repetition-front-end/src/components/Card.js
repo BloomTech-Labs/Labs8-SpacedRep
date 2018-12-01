@@ -24,7 +24,7 @@ class Card extends React.Component {
   componentDidMount = () => {
     const { card, decks } = this.props
 
-    console.log(card)
+    // console.log(card)
     this.setState({
       title: card.title, question: card.question, answer: card.answer, language: card.language, selectedDeck: card.deck_id
     })

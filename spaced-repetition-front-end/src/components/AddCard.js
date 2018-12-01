@@ -33,13 +33,16 @@ class AddDeck extends React.Component {
       answer: '',
       language: '',
       tags: '',
+      singleDeckView: false,
     };
   }
 
   componentDidMount() {
-    const { grabDeckInfo } = this.props;
+    const { grabDeckInfo, deckID } = this.props;
     const deckNames = grabDeckInfo();
     this.setState({ deckNames }, () => console.log('deckNames', deckNames));
+
+    if (deckID) this.setState({ singleDeckView: deckID, deck_id: deckID })
   }
 
   onClickOutside = (event) => {
@@ -128,7 +131,7 @@ class AddDeck extends React.Component {
 
   render() {
     const {
-      title, tags, question, answer, dropDownOpenDecks, dropDownOpenLangs, languages, selectedLang, selectedDeck, deckNames,
+      title, tags, question, answer, dropDownOpenDecks, dropDownOpenLangs, languages, selectedLang, selectedDeck, deckNames, singleDeckView, deck_id
     } = this.state;
     const { toggleAddCard } = this.props;
     return (
@@ -140,30 +143,32 @@ class AddDeck extends React.Component {
               <Cancel type="button" onClick={toggleAddCard}>X</Cancel>
             </HeaderContainer>
             <input type="text" value={title} name="title" onChange={this.handleChange} placeholder="Title" required />
-            <DDWrapper id="deckDropdown">
-              <DDTitleBox onClick={this.toggleListDecks}>
-                <div>{`Deck: ${selectedDeck}`}</div>
-                {dropDownOpenDecks
-                  ? 'X'
-                  : 'open'
-                }
-              </DDTitleBox>
-              {dropDownOpenDecks && (
-                <DDlist>
-                  {deckNames.map(deck => (
-                    // <li className="dd-list-item" key={deck.id}>{deck.title}</li>
-                    <li
-                      key={deck.name}
-                      onClick={this.toggleSelectedDecks}
-                      name={deck.name}
-                      id={deck.id}
-                    >
-                      {deck.name}
-                    </li>
-                  ))}
-                </DDlist>
-              )}
-            </DDWrapper>
+            {singleDeckView ? null :
+              <DDWrapper id="deckDropdown">
+                <DDTitleBox onClick={this.toggleListDecks}>
+                  <div>{`Deck: ${selectedDeck}`}</div>
+                  {dropDownOpenDecks
+                    ? 'X'
+                    : 'open'
+                  }
+                </DDTitleBox>
+                {dropDownOpenDecks && (
+                  <DDlist>
+                    {deckNames.map(deck => (
+                      // <li className="dd-list-item" key={deck.id}>{deck.title}</li>
+                      <li
+                        key={deck.name}
+                        onClick={this.toggleSelectedDecks}
+                        name={deck.name}
+                        id={deck.id}
+                      >
+                        {deck.name}
+                      </li>
+                    ))}
+                  </DDlist>
+                )}
+              </DDWrapper>
+            }
             <DDWrapper id="langDropdown">
               <DDTitleBox onClick={this.toggleListLangs}>
                 <div>{`Code Language: ${selectedLang}`}</div>

@@ -8,16 +8,17 @@ import '../App.css';
 class DeckList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    //FIX: convert back to HOC
   }
 
+
   render() {
-    const { decks } = this.props;
+    const { decks, today } = this.props;
     return (
       <Container>
         {/* <button onClick={this.handleCreateNewDeck} type="submit">New deck</button> */}
         {decks.map(deck => (
-          <Deck key={deck.name} deck={deck} />
+          <Deck key={deck.name} deck={deck} today={today} />
         ))}
       </Container>
     );
