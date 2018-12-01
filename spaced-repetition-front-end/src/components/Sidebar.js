@@ -70,7 +70,7 @@ const SidebarItem = styled(Link)`
   align-items: center;
   /* margin-right:30px; */
   /* margin-left:50px; */
-  padding:  15px 0px 15px 10px;
+  padding:  20px 15px 20px 10px;
   /* margin-right:20px; */
   width: 100%;
   ${props => props.path === props.thisroute && css`
