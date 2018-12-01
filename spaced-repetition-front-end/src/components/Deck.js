@@ -20,13 +20,13 @@ class Deck extends React.Component {
   }
 
   handleDeckClick = () => {
-    const { history, deck } = this.props;
-
+    const { history, deck, disableView } = this.props;
+    if (disableView) return;
     history.push(`/dashboard/decks/${deck.id}`);
   }
 
   render() {
-    const { deck, today } = this.props;
+    const { deck, today, disableTraining } = this.props;
     return (
       <Container onClick={this.handleDeckClick}>
         <DeckHeader>
@@ -39,21 +39,24 @@ class Deck extends React.Component {
           </NumCards>
         </DeckHeader>
 
-        <DeckBody>
-          {/* Routes user to deck training component which handles all
+        {!disableTraining && (
+          <DeckBody>
+            {/* Routes user to deck training component which handles all
         of the training logic and flow. */}
-          <TrainDeck onClick={this.handleTrain}>Train Deck</TrainDeck>
+            <TrainDeck onClick={this.handleTrain}>Train Deck</TrainDeck>
 
-          <DueDateContainer>
-            <DueDate today={today} dueDate={deck.dueDate}>
-              {new Date(deck.dueDate * DAY_IN_MILLISECONDS).toLocaleDateString()}
-            </DueDate>
-            <DateCaption>
-              next training
-            </DateCaption>
-          </DueDateContainer>
+            <DueDateContainer>
+              <DueDate today={today} dueDate={deck.dueDate}>
+                {new Date(deck.dueDate * DAY_IN_MILLISECONDS).toLocaleDateString()}
+              </DueDate>
+              <DateCaption>
+                next training
+              </DateCaption>
+            </DueDateContainer>
 
-        </DeckBody>
+          </DeckBody>
+        )}
+
       </Container>
     );
   }
@@ -97,15 +100,7 @@ const DeckBody = styled.div`
 `;
 
 const TrainDeck = styled.button`
-  padding: 3px 20px 3px 20px;
-  margin: 0px;
-  /* font-weight: bold; */
-  /* color: #B6FCF4; */
-  color: rgba(255,255,255, .8);
-  background: #42BAAC;
-  border: 1px solid #707070;
-  border-radius: 6px;
-  /* background: none; */
+  ${props => props.theme.buttons.base}
   &:hover {
     background: ${props => props.theme.dark.logo};
     cursor: pointer;

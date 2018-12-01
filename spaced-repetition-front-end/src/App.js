@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import {
+  Route, Switch, withRouter, matchPath,
+} from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import Auth from './auth/Auth';
@@ -12,10 +14,10 @@ import Wrapper from './components/Wrapper';
 import Profile from './components/Profile';
 import Billing from './components/Billing';
 import AddDeck from './components/AddDeck';
-import AddCard from './components/AddCard';
 import TrainDeck from './components/TrainDeck';
 import DeckView from './components/DeckView';
 import DeleteCardModal from './components/DeleteCardModal';
+import ImportDeck from './components/ImportDeck';
 import './App.css';
 
 
@@ -227,8 +229,18 @@ class App extends Component {
   }
 
   importDeck = () => {
-    console.log(this.props);
-    console.log(this.props.match.params.id);
+    const { history } = this.props;
+
+    // get deck id from URL
+    const match = matchPath(history.location.pathname, '/share/deck/:id');
+    let deckID;
+    if (match && match.params.id) deckID = match.params.id;
+
+    // send request to server:
+    // lookup this deck, create a new deck and copy all its cards to my UserID
+    console.log(deckID);
+    console.log(match);
+    return (<div />);
   }
 
   render() {
@@ -269,9 +281,7 @@ class App extends Component {
               path="/dashboard/decks/:deckId/train/:id/delete"
               render={props => <DeleteCardModal deleteCard={this.handleCardDeletion} {...props} />}
             />
-            <Route path="/share/deck/:id">
-              {this.importDeck()}
-            </Route>
+            <Route exact path="/share/deck/:id" render={props => <ImportDeck {...props} />} />
           </Wrapper>
         </Switch>
       </AppWrapper>
