@@ -29,7 +29,7 @@ class CardList extends Component {
     const { decks } = this.props;
     const { addNewCard, deckArr } = this.state;
     return (
-      <CardContainer>
+      <CardListContainer>
         <CardListTools addNewCard={this.handleAddCard} />
         {addNewCard && <AddCard grabDeckInfo={this.handleDeckData} toggleAddCard={this.handleAddCard} />}
         {decks.length > 0 && decks.map((deck) => {
@@ -43,7 +43,7 @@ class CardList extends Component {
             <p>Click the Add Card button in the tool bar above to get started.</p>
           </div>
         )}
-      </CardContainer>
+      </CardListContainer>
     );
   }
 };
@@ -52,7 +52,7 @@ export default CardList;
 
 // styled
 
-const CardContainer = styled.div`
+const CardListContainer = styled.div`
   width: 100%;
   display: flex;
   flex-wrap: wrap;
