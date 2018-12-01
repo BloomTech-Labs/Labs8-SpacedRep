@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import CardView from './CardView';
+import Card from './Card';
 import CardListTools from './CardListTools';
 // import CardInputs from './CardInputs';
 import AddCard from './AddCard';
@@ -34,7 +34,7 @@ class CardList extends Component {
         {addNewCard && <AddCard grabDeckInfo={this.handleDeckData} toggleAddCard={this.handleAddCard} />}
         {decks.length > 0 && decks.map((deck) => {
           return deck.cards.map((card) => {
-            return <CardView key={card.id} card={card} deckName={deck.name} decks={decks} />;
+            return <Card key={card.id} card={card} deckName={deck.name} decks={decks} />;
           });
         })}
         {decks.length === 0 && !addNewCard && (
