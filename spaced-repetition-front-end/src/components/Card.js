@@ -74,7 +74,6 @@ class Card extends React.Component {
   }
 
   toggleEdit = () => {
-    console.log('edit')
     this.setState({ isEditing: !this.state.isEditing })
   }
 
@@ -113,6 +112,10 @@ class Card extends React.Component {
     const { toggleEdit } = this;
     return (
       <EditCard onSubmit={this.addDeck}>
+        <HeaderContainer>
+          <Instructions>Edit Card:</Instructions>
+          <Cancel type="button" onClick={toggleEdit}>X</Cancel>
+        </HeaderContainer>
         <input type="text" value={title} name="title" onChange={this.handleChange} placeholder="Title" required />
         <DDWrapper id="deckDropdown">
           <DDTitleBox onClick={this.toggleListDecks}>
@@ -140,7 +143,7 @@ class Card extends React.Component {
         </DDWrapper>
         <DDWrapper id="langDropdown">
           <DDTitleBox onClick={this.toggleListLangs}>
-            <div>{`Snippet Language: ${selectedLang}`}</div>
+            <div>{`Code Language: ${selectedLang}`}</div>
             {dropDownOpenLangs
               ? 'X'
               : 'open'
@@ -162,11 +165,10 @@ class Card extends React.Component {
             </DDlist>
           )}
         </DDWrapper>
-        <textarea value={question} onChange={this.handleChange} placeholder="Question" name="question" />
-        <textarea value={answer} onChange={this.handleChange} placeholder="Answer" name="answer" />
+        <TextArea value={question} onChange={this.handleChange} placeholder="Question" name="question" />
+        <TextArea value={answer} onChange={this.handleChange} placeholder="Answer" name="answer" />
         {/* <input type="text" value={tags} name="tags" onChange={this.handleChange} placeholder="Enter a list of tags separated by comma (no spaces)" required /> */}
-        <button type="button" onClick={toggleEdit} >Cancel</button>
-        <button type="submit" onClick={this.onCardSave} >Save</button>
+        <Save type="submit" onClick={this.onCardSave} >Save</Save>
       </EditCard>
     )
   }
@@ -221,6 +223,8 @@ const CardContainer = styled.div`
 const CardInteractions = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  width: 100%;
 `;
 
 const TagsContainer = styled.div`
@@ -236,12 +240,45 @@ const TagsContainer = styled.div`
 
 //////////////edit
 const EditCard = styled.form`
-  padding: 5px;
+  color: white;
+  padding: 10px;
+  margin: 10px;
+  border: 1px solid ${props => props.theme.dark.sidebar};
+  background: ${props => props.theme.dark.sidebar};
+`
+const HeaderContainer = styled.div`
+  display: flex;
+  justify-content:space-between;
+  align-items: center;
+  /* align-content:center; */
+  width: 100%;
+  margin-bottom: 5px;
+`
+const Instructions = styled.h3`
+  padding: 0px;
+  margin: 0px;
 
+`
+const Cancel = styled.button`
+  border: none;
+  background: none;
+  color: lightgrey;
+  font-weight: bold;
+
+  height: 26px;
+  margin: 0px;
+
+  &:hover {
+    background: grey;
+  }
+  /* width: 100px; */
+`
+const Save = styled.button`
+  /* width: 100px; */
 `
 
 const DDWrapper = styled.div`
-  color: black;
+  color: white;
 `;
 
 const DDTitleBox = styled.div`
@@ -264,6 +301,12 @@ margin-bottom: 10px;
 list-style-type: none;
 flex-direction: column;
 `;
+
+const TextArea = styled.textarea`
+  height: 80px;
+
+
+`
 
 
 Card.propTypes = {

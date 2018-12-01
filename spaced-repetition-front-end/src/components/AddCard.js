@@ -166,7 +166,7 @@ class AddDeck extends React.Component {
             </DDWrapper>
             <DDWrapper id="langDropdown">
               <DDTitleBox onClick={this.toggleListLangs}>
-                <div>{`Snippet Language: ${selectedLang}`}</div>
+                <div>{`Code Language: ${selectedLang}`}</div>
                 {dropDownOpenLangs
                   ? 'X'
                   : 'open'
@@ -229,13 +229,23 @@ const HeaderContainer = styled.div`
 const Instructions = styled.h3`
   padding: 0px;
   margin: 0px;
+
 `
 const Cancel = styled.button`
-  background: red;
+  border: none;
+  background: none;
+  color: lightgrey;
+  font-weight: bold;
+
   height: 26px;
   margin: 0px;
+
+  &:hover {
+    background: grey;
+  }
   /* width: 100px; */
 `
+
 const Save = styled.button`
   /* width: 100px; */
 `
