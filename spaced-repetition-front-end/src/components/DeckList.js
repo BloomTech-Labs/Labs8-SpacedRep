@@ -11,20 +11,6 @@ class DeckList extends React.Component {
     this.state = {};
   }
 
-  // handleCreateNewDeck = (e) => {
-  //   // don't allow submission of empty deck
-  //   e.preventDefault();
-  //   const API_URL = 'http://localhost:4242';
-  //   const newDeckObject = {
-  //     name: 'testdeck',
-  //     public: false,
-  //     tags: 'tag1,tag2,tag3',
-  //   };
-  //   axios.post(`${API_URL}/api/decks`, newDeckObject)
-  //     .then(response => console.log(response))
-  //     .catch(err => console.log(err));
-  // }
-
   render() {
     const { decks } = this.props;
     return (
@@ -50,6 +36,8 @@ const Container = styled.div`
   height: 100%;
   padding-top: 20px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  /* flex-direction: column;
+  align-items: center; */
+  flex-wrap: wrap;
+  justify-content: center;
 `;
