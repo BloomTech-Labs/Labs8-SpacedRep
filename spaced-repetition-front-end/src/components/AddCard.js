@@ -134,8 +134,11 @@ class AddDeck extends React.Component {
     return (
       <div onClick={this.onClickOutside}>
         {deckNames.length > 0 && (
-          <form onSubmit={this.addDeck}>
-            <h2>Add New Card:</h2>
+          <AddCardContainer onSubmit={this.addDeck}>
+            <HeaderContainer>
+              <Instructions>Add New Card:</Instructions>
+              <Cancel type="button" onClick={toggleAddCard}>X</Cancel>
+            </HeaderContainer>
             <input type="text" value={title} name="title" onChange={this.handleChange} placeholder="Title" required />
             <DDWrapper id="deckDropdown">
               <DDTitleBox onClick={this.toggleListDecks}>
@@ -163,7 +166,7 @@ class AddDeck extends React.Component {
             </DDWrapper>
             <DDWrapper id="langDropdown">
               <DDTitleBox onClick={this.toggleListLangs}>
-                <div>{`Snippet Language: ${selectedLang}`}</div>
+                <div>{`Code Language: ${selectedLang}`}</div>
                 {dropDownOpenLangs
                   ? 'X'
                   : 'open'
@@ -188,9 +191,11 @@ class AddDeck extends React.Component {
             <textarea value={question} onChange={this.handleChange} placeholder="Question" name="question" />
             <textarea value={answer} onChange={this.handleChange} placeholder="Answer" name="answer" />
             <input type="text" value={tags} name="tags" onChange={this.handleChange} placeholder="Enter a list of tags separated by comma (no spaces)" required />
-            <button type="button" onClick={toggleAddCard}>Cancel</button>
-            <button type="submit" onClick={this.onCardSave}>Add Card</button>
-          </form>
+
+
+            <Save type="submit" onClick={this.onCardSave}>Add Card</Save>
+
+          </AddCardContainer>
         )}
         {deckNames.length === 0 && (
           <div>
@@ -206,8 +211,46 @@ class AddDeck extends React.Component {
 
 export default AddDeck;
 
+const AddCardContainer = styled.form`
+  padding: 10px;
+  margin: 10px;
+  border: 1px solid ${props => props.theme.dark.sidebar};
+  background: ${props => props.theme.dark.sidebar};
+`
+
+const HeaderContainer = styled.div`
+  display: flex;
+  justify-content:space-between;
+  align-items: center;
+  /* align-content:center; */
+  width: 100%;
+  margin-bottom: 5px;
+`
+const Instructions = styled.h3`
+  padding: 0px;
+  margin: 0px;
+
+`
+const Cancel = styled.button`
+  border: none;
+  background: none;
+  color: lightgrey;
+  font-weight: bold;
+
+  height: 26px;
+  margin: 0px;
+
+  &:hover {
+    background: grey;
+  }
+  /* width: 100px; */
+`
+
+const Save = styled.button`
+  /* width: 100px; */
+`
 const DDWrapper = styled.div`
-  color: black;
+  color: white;
 `;
 
 const DDTitleBox = styled.div`
@@ -230,3 +273,4 @@ margin-bottom: 10px;
 list-style-type: none;
 flex-direction: column;
 `;
+
