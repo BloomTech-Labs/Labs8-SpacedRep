@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import CardInputs from './CardInputs';
+import { withRouter } from 'react-router-dom';
 
 // Need to make sure all card inputs are completed before submitting
 // iterate through all the properties exist on each object
@@ -65,6 +66,8 @@ class AddDeck extends React.Component {
             console.log(innerResponse)
           })
           .catch(err => console.log(err.message));
+        window.location.reload()
+        this.props.history.push('/dashboard/decks')
       })
       .catch(error => (
         this.setState({
@@ -109,7 +112,7 @@ class AddDeck extends React.Component {
   }
 }
 
-export default AddDeck;
+export default withRouter(AddDeck);
 
 const DeckContainer = styled.div`
   width: 100%;
