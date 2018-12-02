@@ -10,106 +10,108 @@ import AddCard from './AddCard';
 import Deck from './Deck';
 
 class CardList extends Component {
-   state = {
-     addNewCard: false,
-     // deckArr: [],
-     deck: {
-       cards: [],
-       dueDate: 0,
-       name: 'Default Deck',
-     },
-   };
+  state = {
+    addNewCard: false,
+    // deckArr: [],
+    deck: {
+      cards: [],
+      dueDate: 0,
+      name: 'Default Deck',
+    },
+  };
 
-   componentDidMount = () => {
-     const selectedDeckID = this.props.match.params.id;
-     console.log(selectedDeckID);
-
-
-     this.retrieveDeck();
-     //   const { decks, history } = this.props;
-
-     //   let match = false;
-     //   for (let i = 0; i < decks.length; i++) {
-     //     if (decks[i].id === Number(selectedDeckID)) {
-     //       console.log('match');
-     //       match = decks[i];
-     //     }
-     //   }
-
-     //   if (!match) history.push('/dashboard/decks');
-
-     //   this.setState({ deck: match });
-   }
-
-   retrieveDeck = () => {
-     const selectedDeckID = this.props.match.params.id;
-     console.log(selectedDeckID);
-     if (selectedDeckID) {
-       const token = localStorage.getItem('id_token');
-       const headers = { Authorization: `Bearer ${token}` };
-
-       axios.get(`${process.env.REACT_APP_URL}/api/decks/${selectedDeckID}`, { headers })
-         .then((response) => {
-           console.log(response.data);
-           // assign a dueDate to the deck based on its card with most recent dueDate
-           const deck = response.data;
-
-           //   this.setState({ decks });
-         })
-         .catch(error => (
-           this.setState({
-             errorMessage: error,
-           })
-         ));
-     }
-   }
-
-   handleAddCard = () => {
-     this.setState({ addNewCard: !this.state.addNewCard });
-   }
-
-   handleDeckData = () => {
-     const { decks } = this.props;
-     const deckData = decks.map(deck => ({ id: deck.id, name: deck.name }));
-
-     return deckData;
-   }
-
-   render() {
-     const { today, decks } = this.props;
-     const { addNewCard, deck } = this.state;
-     const selectedDeckID = this.props.match.params.deckId;
-     return (
-        <DeckViewContainer>
-           <Header>
-              {/* <CardListTools addNewCard={this.handleAddCard} /> */}
-              <Instructions>
-                 <h2>
-                     Import This Deck?
-                  </h2>
-                 <Controls>
-                    <Import> Import </Import>
-                    <Cancel> Cancel </Cancel>
-                  </Controls>
-
-               </Instructions>
-              <Deck deck={deck} today={today} disableTraining disableView />
-
-            </Header>
+  componentDidMount = () => {
+    const selectedDeckID = this.props.match.params.id;
+    console.log(selectedDeckID);
 
 
-           {/* <CardsContainer>
+    this.retrieveDeck();
+    //   const { decks, history } = this.props;
 
-              {addNewCard && <AddCard grabDeckInfo={this.handleDeckData} toggleAddCard={this.handleAddCard} deckID={selectedDeckID} />}
+    //   let match = false;
+    //   for (let i = 0; i < decks.length; i++) {
+    //     if (decks[i].id === Number(selectedDeckID)) {
+    //       console.log('match');
+    //       match = decks[i];
+    //     }
+    //   }
 
-              {deck.cards.map(card => (
-                 <Card key={card.id} card={card} deckName={deck.name} decks={decks} />
-               ))}
+    //   if (!match) history.push('/dashboard/decks');
 
-            </CardsContainer>  */}
-         </DeckViewContainer>
-     );
-   }
+    //   this.setState({ deck: match });
+  }
+
+  retrieveDeck = () => {
+    const { match } = this.props;
+    const selectedDeckID = match.params.id;
+    if (selectedDeckID) {
+      const token = localStorage.getItem('id_token');
+      const headers = { Authorization: `Bearer ${token}` };
+
+      axios.get(`${process.env.REACT_APP_URL}/api/decks/${selectedDeckID}`, { headers })
+        .then((response) => {
+          console.log(response.data);
+          // assign a dueDate to the deck based on its card with most recent dueDate
+          if (response.data && response.data.length > 0) {
+            const deck = response.data[0];
+
+            this.setState({ deck });
+          }
+        })
+        .catch(error => (
+          this.setState({
+            errorMessage: error,
+          })
+        ));
+    }
+  }
+
+  handleAddCard = () => {
+    const { addNewCard } = this.state;
+    this.setState({ addNewCard: !addNewCard });
+  }
+
+  handleDeckData = () => {
+    const { decks } = this.props;
+    const deckData = decks.map(deck => ({ id: deck.id, name: deck.name }));
+
+    return deckData;
+  }
+
+  render() {
+    const { today, decks } = this.props;
+    const { deck } = this.state;
+    return (
+      <DeckViewContainer>
+        <Header>
+          {/* <CardListTools addNewCard={this.handleAddCard} /> */}
+          <Instructions>
+            <h2>
+              Import This Deck?
+            </h2>
+            <Controls>
+              <Import> Import </Import>
+              <Cancel> Cancel </Cancel>
+            </Controls>
+
+          </Instructions>
+          <Deck deck={deck} today={today} disableTraining disableView />
+
+        </Header>
+
+
+        <CardsContainer>
+
+          {/* {addNewCard && <AddCard grabDeckInfo={this.handleDeckData} toggleAddCard={this.handleAddCard} deckID={selectedDeckID} />} */}
+
+          {deck.cards.map(card => (
+            <Card key={card.id} card={card} deckName={deck.name} decks={decks} disableEdit />
+          ))}
+
+        </CardsContainer>
+      </DeckViewContainer>
+    );
+  }
 }
 
 export default withRouter(CardList);
