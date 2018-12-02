@@ -1,17 +1,27 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
+import WhySpacedReps from './WhySpacedReps';
+import Features from './Features';
 import Pricing from './Pricing';
+import Team from './Team';
 import '../App.css';
 
 const LandingPage = () => (
   <WrapperContainer>
-    <img src="https://picsum.photos/1000/300" alt="" />
-    <ArrowContainer>
-      <Arrow />
-    </ArrowContainer>
+    <Header>
+      <img src="https://picsum.photos/1000/300" alt="" />
+      <ArrowContainer>
+        <Arrow />
+      </ArrowContainer>
+    </Header>
     <Body>
-      <DIV />
+      <WhySpacedReps />
+      <Features />
       <Pricing />
+      <Team />
+      <BackToTopContainer>
+        <BackToTop href="#top">Back to top</BackToTop>
+      </BackToTopContainer>
     </Body>
   </WrapperContainer>
 );
@@ -20,18 +30,27 @@ export default LandingPage;
 
 // styles
 
-const DIV = styled.div`
-width: 100%;
-height: 700px;
-`;
+// const DIV = styled.div`
+// width: 100%;
+// height: 100vh;
+// background-color: #4a606f;
+// `;
 
 const WrapperContainer = styled.div`
-  // display: flex;
-  // flex-direction: column;
-  // height: 100%;
-  // background: ${props => props.theme.dark.sidebar};
-  // overflow: hidden;
-  // scroll-behavior: smooth;
+          // display: flex;
+          // flex-direction: column;
+          // height: 100%;
+  background: ${props => props.theme.dark.sidebar};
+      // overflow: hidden;
+      // scroll-behavior: smooth;
+  
+    img {
+      width: 100%;
+  }
+`;
+
+const Header = styled.div`
+  height: 100vh;
 `;
 
 const Body = styled.div`
@@ -53,18 +72,23 @@ top: 95%;
 left: 50%;
 transform: translate(-50%, -50%);
 `;
+const BackToTopContainer = styled.div`
+position: absolute;
+top: 95%;
+right: 5%;
+`;
 
 const animate = keyframes`
 0% {
-  opacity: 0;
+      opacity: 0;
 }
 50% {
-  opacity: 1;
+      opacity: 1;
 }
 100% {
-  opacity: 0;
+      opacity: 0;
 }
-  `;
+`;
 
 const Arrow = styled.span`
 display: block;
@@ -74,4 +98,8 @@ border-bottom: 1px solid white;
 border-right: 1px solid white;
 transform: rotate(45deg);
 animation: ${animate} 2s infinite;
+`;
+
+const BackToTop = styled.a`
+font-size: 14px;
 `;
