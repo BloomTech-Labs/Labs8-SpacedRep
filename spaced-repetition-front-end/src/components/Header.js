@@ -22,13 +22,15 @@ const Header = ({ auth }) => {
         <Logo src={logo} />
       </AppName>
       <LoginRegisterContainer>
-        <Nav />
         {/* Conditionally renders "Sign in" or "Sign out" depending on authentication status. */}
         {!isAuthenticated()
           ? (
-            <LinkStyled type="button" onClick={login}>
-              Sign in
-            </LinkStyled>
+            <React.Fragment>
+              <Nav />
+              <LinkStyled type="button" onClick={login}>
+                Sign in
+              </LinkStyled>
+            </React.Fragment>
           )
           : (
             <LinkStyled type="button" onClick={logout}>

@@ -19,10 +19,18 @@ export default Nav;
 const NavContainer = styled.ul`
   display: flex;
   list-style-type: none;
+  justify-content: flex-end;
+  width: 100%;
 
   li {
     a {
       font-size: 14px;
+      text-decoration: none;
+      padding-bottom: 10px;
+
+      &:hover {
+        border-bottom: 1px solid lightseagreen;
+      }
     }
   }
 }
