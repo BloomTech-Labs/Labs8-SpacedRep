@@ -73,7 +73,7 @@ const SidebarItem = styled(Link)`
   ${props => props.path === props.thisroute && css`
     background: ${styleProps => styleProps.theme.dark.bodyBackground};
     `
-  }
+}
 `;
 
 const Divider = styled.hr`

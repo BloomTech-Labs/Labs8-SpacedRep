@@ -4,13 +4,16 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import '../App.css';
 
+const shareIcon = require('../images/shareColorized.svg');
+
 // use to convert int date to actual date
 const DAY_IN_MILLISECONDS = 24 * 60 * 60 * 1000;
 
 class Deck extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+    };
   }
 
   handleTrain = (e) => {
@@ -37,6 +40,18 @@ class Deck extends React.Component {
     );
   }
 
+  handleShare = (e) => {
+    const { deck } = this.props;
+    e.stopPropagation();
+    // copy to clipboard not working
+    // if (document.queryCommandSupported('copy')) {
+    //   console.log(document.execCommand('copy'));
+    //   e.target.focus();
+    // }
+
+    alert(`Shareable link: ${process.env.REACT_APP_URL}/share/deck/${deck.id}`);
+  }
+
   render() {
     const { deck, today, disableTraining } = this.props;
     return (
@@ -50,12 +65,14 @@ class Deck extends React.Component {
 
           </NumCards>
         </DeckHeader>
-        <DeckBody>
 
+        <DeckBody>
+          <ShareContainer>
+            <Share onClick={this.handleShare} src={shareIcon} alt="Share" />
+          </ShareContainer>
           <TagsContainer>
             <TagCaption> Tags: </TagCaption>
             {this.viewTags(deck.tags)}
-
           </TagsContainer>
           {!disableTraining && (
             <TrainingContainer>
@@ -75,7 +92,7 @@ class Deck extends React.Component {
             </TrainingContainer>
           )}
         </DeckBody>
-
+        <ClipboardInput value={`${process.env.REACT_APP_URL}/share/deck/${deck.id}`} ref={ClipboardInput => this.clipboardRef = ClipboardInput} />
       </Container>
     );
   }
@@ -117,6 +134,22 @@ const DeckBody = styled.div`
   width: 100%;
 `;
 
+const ShareContainer = styled.div`
+  width: 100%;
+  display:flex;
+  justify-content: flex-end;
+`;
+
+const Share = styled.img`
+  color: lightgrey;
+  height: 35px;
+  width: 35px;
+  margin: 1px;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
 const TagsContainer = styled.div`
     display:flex;
     justify-content: flex-start;
@@ -126,7 +159,7 @@ const TagsContainer = styled.div`
 const Tag = styled.div`
   padding: 6px;
   margin-right: 5px;
-  background: ${props => props.theme.dark.sidebar}
+  background: ${props => props.theme.dark.sidebar};
   border-radius: 2px 10px 10px;
 `;
 
@@ -168,6 +201,10 @@ const DueDate = styled.div`
 
 const DateCaption = styled.div`
   color: lightgrey;
+`;
+
+const ClipboardInput = styled.textarea`
+  display:none;
 `;
 
 Deck.propTypes = {

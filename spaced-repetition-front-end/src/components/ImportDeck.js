@@ -80,16 +80,14 @@ class ImportDeck extends Component {
   }
 
   handleImport = () => {
-    console.log('import clicked');
-
     const { deck } = this.state;
+    const { history } = this.props;
 
     const newDeck = {
       name: deck.name,
       public: deck.public,
       tags: deck.tags,
     };
-
     const deckCards = [...deck.cards];
 
     if (deck.cards.length < 1) {
@@ -98,19 +96,17 @@ class ImportDeck extends Component {
     }
     // remove unnecessary keys
     const formattedCards = [];
-    const requiredKeys = ['answer', 'question', 'language', 'title'];
+    const requiredKeys = ['answer', 'question', 'language', 'title']; // FIX: add tags when DB supports it
     deckCards.forEach((card) => {
       const formattedCard = {};
       requiredKeys.forEach((key) => {
         formattedCard[key] = card[key];
       });
-      console.log(formattedCard);
       formattedCards.push(formattedCard);
     });
 
 
-    // post request to cards with deckCards
-
+    // post request to server with formatted cards
     const token = localStorage.getItem('id_token');
     const headers = { Authorization: `Bearer ${token}` };
     axios.post(`${process.env.REACT_APP_URL}/api/decks/`, newDeck, { headers })
@@ -125,7 +121,7 @@ class ImportDeck extends Component {
           })
           .catch(err => console.log(err.message));
         window.location.reload();
-        this.props.history.push('/dashboard/decks');
+        history.push('/dashboard/decks');
       })
       .catch(error => (
         this.setState({

@@ -284,6 +284,7 @@ class App extends Component {
             <Route exact path="/share/deck/:id" render={props => <ImportDeck {...props} />} />
           </Wrapper>
         </Switch>
+
       </AppWrapper>
     );
   }
