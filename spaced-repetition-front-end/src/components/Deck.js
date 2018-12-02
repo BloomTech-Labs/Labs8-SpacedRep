@@ -25,6 +25,19 @@ class Deck extends React.Component {
     history.push(`/dashboard/decks/${deck.id}`);
   }
 
+  viewTags = (tagString) => {
+    if (!tagString) return;
+    const tags = tagString.split(',');
+    console.log(tags);
+
+    // no clue why this is an eslint error, if you add a return then eslint removes it.
+    // this error only shows because of the !tagString check above ^ which
+    // prevents an error on window redirects sometimes
+    return (
+      tags.map(tag => <Tag>{tag}</Tag>)
+    );
+  }
+
   render() {
     const { deck, today, disableTraining } = this.props;
     return (
@@ -38,24 +51,31 @@ class Deck extends React.Component {
 
           </NumCards>
         </DeckHeader>
+        <DeckBody>
 
-        {!disableTraining && (
-          <DeckBody>
-            {/* Routes user to deck training component which handles all
+          <TagsContainer>
+            <TagCaption> Tags: </TagCaption>
+            {this.viewTags(deck.tags)}
+
+          </TagsContainer>
+          {!disableTraining && (
+            <TrainingContainer>
+              {/* Routes user to deck training component which handles all
         of the training logic and flow. */}
-            <TrainDeck onClick={this.handleTrain}>Train Deck</TrainDeck>
+              <TrainDeck onClick={this.handleTrain}>Train Deck</TrainDeck>
 
-            <DueDateContainer>
-              <DueDate today={today} dueDate={deck.dueDate}>
-                {new Date(deck.dueDate * DAY_IN_MILLISECONDS).toLocaleDateString()}
-              </DueDate>
-              <DateCaption>
-                next training
-              </DateCaption>
-            </DueDateContainer>
+              <DueDateContainer>
+                <DueDate today={today} dueDate={deck.dueDate}>
+                  {new Date(deck.dueDate * DAY_IN_MILLISECONDS).toLocaleDateString()}
+                </DueDate>
+                <DateCaption>
+                  next training
+                </DateCaption>
+              </DueDateContainer>
 
-          </DeckBody>
-        )}
+            </TrainingContainer>
+          )}
+        </DeckBody>
 
       </Container>
     );
@@ -92,11 +112,36 @@ const NumCards = styled.div`
 `;
 
 const DeckBody = styled.div`
+  display:flex;
+  flex-direction: column;
+  padding-top: 10px;
+  width: 100%;
+`;
+
+const TagsContainer = styled.div`
+    display:flex;
+    justify-content: flex-start;
+    align-items: center;
+`;
+
+const Tag = styled.div`
+  padding: 6px;
+  margin-right: 5px;
+  background: ${props => props.theme.dark.sidebar}
+  border-radius: 2px 10px 10px;
+`;
+
+const TagCaption = styled.div`
+  padding: 10px;
+  color: lightgrey;
+`;
+
+const TrainingContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding-top: 20px;
-
+  width:100%;
 `;
 
 const TrainDeck = styled.button`
