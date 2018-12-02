@@ -28,13 +28,12 @@ class Deck extends React.Component {
   viewTags = (tagString) => {
     if (!tagString) return;
     const tags = tagString.split(',');
-    console.log(tags);
 
     // no clue why this is an eslint error, if you add a return then eslint removes it.
     // this error only shows because of the !tagString check above ^ which
     // prevents an error on window redirects sometimes
     return (
-      tags.map(tag => <Tag>{tag}</Tag>)
+      tags.map((tag, i) => <Tag key={i}>{tag}</Tag>)
     );
   }
 

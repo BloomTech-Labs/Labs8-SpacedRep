@@ -9,7 +9,7 @@ import CardListTools from './CardListTools';
 import AddCard from './AddCard';
 import Deck from './Deck';
 
-class CardList extends Component {
+class ImportDeck extends Component {
   state = {
     addNewCard: false,
     // deckArr: [],
@@ -21,7 +21,8 @@ class CardList extends Component {
   };
 
   componentDidMount = () => {
-    const selectedDeckID = this.props.match.params.id;
+    const { match } = this.props;
+    const selectedDeckID = match.params.id;
     console.log(selectedDeckID);
 
 
@@ -78,6 +79,66 @@ class CardList extends Component {
     return deckData;
   }
 
+  handleImport = () => {
+    console.log('import clicked');
+
+    const { deck } = this.state;
+
+    const newDeck = {
+      name: deck.name,
+      public: deck.public,
+      tags: deck.tags,
+    };
+
+    const deckCards = [...deck.cards];
+
+    if (deck.cards.length < 1) {
+      console.log('no cards, invalid deck');
+      return;
+    }
+    // remove unnecessary keys
+    const formattedCards = [];
+    const requiredKeys = ['answer', 'question', 'language', 'title'];
+    deckCards.forEach((card) => {
+      const formattedCard = {};
+      requiredKeys.forEach((key) => {
+        formattedCard[key] = card[key];
+      });
+      console.log(formattedCard);
+      formattedCards.push(formattedCard);
+    });
+
+
+    // post request to cards with deckCards
+
+    const token = localStorage.getItem('id_token');
+    const headers = { Authorization: `Bearer ${token}` };
+    axios.post(`${process.env.REACT_APP_URL}/api/decks/`, newDeck, { headers })
+      .then((response) => {
+        formattedCards.forEach((x) => {
+          x.deck_id = response.data;
+        });
+        console.log(formattedCards);
+        axios.post(`${process.env.REACT_APP_URL}/api/cards/batch`, formattedCards, { headers })
+          .then((innerResponse) => {
+            console.log(innerResponse);
+          })
+          .catch(err => console.log(err.message));
+        window.location.reload();
+        this.props.history.push('/dashboard/decks');
+      })
+      .catch(error => (
+        this.setState({
+          errorMessage: error,
+        })
+      ));
+  }
+
+  handleCancel = () => {
+    const { history } = this.props;
+    history.push('/dashboard/decks');
+  }
+
   render() {
     const { today, decks } = this.props;
     const { deck } = this.state;
@@ -90,8 +151,8 @@ class CardList extends Component {
               Import This Deck?
             </h2>
             <Controls>
-              <Import> Import </Import>
-              <Cancel> Cancel </Cancel>
+              <Import onClick={this.handleImport}> Import </Import>
+              <Cancel onClick={this.handleCancel}> Cancel </Cancel>
             </Controls>
 
           </Instructions>
@@ -99,7 +160,9 @@ class CardList extends Component {
 
         </Header>
 
-
+        <Instructions>
+          <h1> Cards: </h1>
+        </Instructions>
         <CardsContainer>
 
           {/* {addNewCard && <AddCard grabDeckInfo={this.handleDeckData} toggleAddCard={this.handleAddCard} deckID={selectedDeckID} />} */}
@@ -114,7 +177,7 @@ class CardList extends Component {
   }
 }
 
-export default withRouter(CardList);
+export default withRouter(ImportDeck);
 
 // styled
 
@@ -136,7 +199,7 @@ const Instructions = styled.div`
    align-items: center;
    width: 50%;
    
-   padding-bottom: 10px;
+   /* padding-bottom: 10px; */
 `;
 
 const Controls = styled.div`
@@ -173,6 +236,6 @@ const CardsContainer = styled.div`
 `;
 
 
-CardList.propTypes = {
-  decks: PropTypes.instanceOf(Object).isRequired,
-};
+// CardList.propTypes = {
+//   decks: PropTypes.instanceOf(Object).isRequired,
+// };
