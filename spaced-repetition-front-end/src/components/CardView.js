@@ -215,7 +215,7 @@ const Card = styled.div`
   width: 315px;
   margin: 2%;
   padding 2%;
-  border: 1px solid ${props => props.theme.dark.sidebar};
+  border: 1px solid ${props => props.theme.dark.main};
   background: ${props => props.theme.dark.cardBackground};
 `;
 

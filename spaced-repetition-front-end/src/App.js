@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import axios from 'axios';
 import styled, { createGlobalStyle } from 'styled-components';
-import Reset from './styles/Reset';
+import styles from './styles';
 import Auth from './auth/Auth';
 import Callback from './auth/Callback';
 import Header from './components/Header';
@@ -16,11 +16,13 @@ import AddDeck from './components/AddDeck';
 // import AddCard from './components/AddCard';
 import TrainDeck from './components/TrainDeck';
 import DeleteCardModal from './components/DeleteCardModal';
-import './App.css';
+// import './App.css';
 
 const GlobalStyle = createGlobalStyle`
-  ${Reset}
-  /* other styles */
+  body {
+    background: ${props => props.theme.dark.main};
+  }
+  ${styles}
 `;
 
 /**
@@ -281,6 +283,5 @@ const AppWrapper = styled.div`
   width: 100%;
   height: 100%;
   margin: 0 auto;
-  background: ${props => props.theme.dark.bodyBackground};
   color: white;
 `;

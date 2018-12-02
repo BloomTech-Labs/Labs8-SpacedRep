@@ -60,7 +60,7 @@ const Container = styled.div`
   padding-bottom: 5px;
   border-bottom: 1px solid white;
   box-sizing: border-box;
-  background: ${props => props.theme.dark.sidebar};
+  background: ${props => props.theme.dark.main};
 `;
 
 const AppName = styled(Link)`

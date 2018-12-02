@@ -54,7 +54,7 @@ const Container = styled.div`
   height: 100vh;
   /* padding-left: 20px; */
   padding-right:20px;
-  background: ${props => props.theme.dark.sidebar};
+  background: ${props => props.theme.dark.main};
   min-width: 200px;
   
   @media (max-width: 700px) {

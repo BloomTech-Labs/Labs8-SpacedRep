@@ -43,7 +43,7 @@ const Container = styled.div`
   padding: 20px;
   margin: 5px;
   width: 50%;
-  border: 1px solid ${props => props.theme.dark.sidebar};
+  border: 1px solid ${props => props.theme.dark.main};
   background: ${props => props.theme.dark.cardBackground};
   border-radius: 4px;
 `;

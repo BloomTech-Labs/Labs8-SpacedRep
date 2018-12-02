@@ -39,7 +39,7 @@ const WrapperContainer = styled.div`
           // display: flex;
           // flex-direction: column;
           // height: 100%;
-  background: ${props => props.theme.dark.sidebar};
+  // background: ${props => props.theme.dark.main};
       // overflow: hidden;
       // scroll-behavior: smooth;
   
