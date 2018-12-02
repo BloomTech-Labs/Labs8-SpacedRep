@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import Nav from './Nav';
 
 const logo = require('../images/SPACEREPS.PNG');
 
@@ -21,6 +22,7 @@ const Header = ({ auth }) => {
         <Logo src={logo} />
       </AppName>
       <LoginRegisterContainer>
+        <Nav />
         {/* Conditionally renders "Sign in" or "Sign out" depending on authentication status. */}
         {!isAuthenticated()
           ? (
