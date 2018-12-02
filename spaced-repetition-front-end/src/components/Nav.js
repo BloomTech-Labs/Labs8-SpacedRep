@@ -15,8 +15,9 @@ export default Nav;
 
 // styles
 
-const NavContainer = styled.div`
+const NavContainer = styled.ul`
   display: flex;
+  list-style-type: none;
 
   li {
     a {

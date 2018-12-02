@@ -1,14 +1,17 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
+import Pricing from './Pricing';
 import '../App.css';
 
 const LandingPage = () => (
   <WrapperContainer>
+    <img src="https://picsum.photos/1000/300" alt="" />
+    <ArrowContainer>
+      <Arrow />
+    </ArrowContainer>
     <Body>
-      <img src="https://picsum.photos/1000/500" alt="" />
-      <ArrowContainer>
-        <Arrow />
-      </ArrowContainer>
+      <DIV />
+      <Pricing />
     </Body>
   </WrapperContainer>
 );
@@ -16,11 +19,19 @@ const LandingPage = () => (
 export default LandingPage;
 
 // styles
+
+const DIV = styled.div`
+width: 100%;
+height: 700px;
+`;
+
 const WrapperContainer = styled.div`
-  display: flex;
+  // display: flex;
   // flex-direction: column;
   // height: 100%;
   // background: ${props => props.theme.dark.sidebar};
+  // overflow: hidden;
+  // scroll-behavior: smooth;
 `;
 
 const Body = styled.div`
@@ -28,37 +39,39 @@ const Body = styled.div`
   // justify-content: center;
   // align-items: center;
   // height: 100%;
-`;
-
-const LandingText = styled.div`
-  // width: 400px;
-`;
+  position: relative;
+  flex:1;
+  overflow:hidden;
+  /* overflow-y:auto; */
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling:touch;
+  `;
 
 const ArrowContainer = styled.div`
-  position: absolute;
-  top: 95%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+position: absolute;
+top: 95%;
+left: 50%;
+transform: translate(-50%, -50%);
 `;
 
 const animate = keyframes`
-  0% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-`;
+0% {
+  opacity: 0;
+}
+50% {
+  opacity: 1;
+}
+100% {
+  opacity: 0;
+}
+  `;
 
 const Arrow = styled.span`
-  display: block;
-  width: 20px;
-  height: 20px;
-  border-bottom: 1px solid white;
-  border-right: 1px solid white;
-  transform: rotate(45deg);
-  animation: ${animate} 2s infinite;
+display: block;
+width: 20px;
+height: 20px;
+border-bottom: 1px solid white;
+border-right: 1px solid white;
+transform: rotate(45deg);
+animation: ${animate} 2s infinite;
 `;
