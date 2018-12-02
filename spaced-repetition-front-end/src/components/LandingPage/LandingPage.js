@@ -4,7 +4,6 @@ import WhySpacedReps from './WhySpacedReps';
 import Features from './Features';
 import Pricing from './Pricing';
 import Team from './Team';
-import '../App.css';
 
 const LandingPage = () => (
   <WrapperContainer>

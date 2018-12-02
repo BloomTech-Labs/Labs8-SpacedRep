@@ -1,22 +1,27 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import axios from 'axios';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
+import Reset from './styles/Reset';
 import Auth from './auth/Auth';
 import Callback from './auth/Callback';
 import Header from './components/Header';
-import LandingPage from './components/LandingPage';
+import LandingPage from './components/LandingPage/LandingPage';
 import DeckList from './components/DeckList';
 import CardList from './components/CardList';
 import Wrapper from './components/Wrapper';
 import Profile from './components/Profile';
 import Billing from './components/Billing';
 import AddDeck from './components/AddDeck';
-import AddCard from './components/AddCard';
+// import AddCard from './components/AddCard';
 import TrainDeck from './components/TrainDeck';
 import DeleteCardModal from './components/DeleteCardModal';
 import './App.css';
 
+const GlobalStyle = createGlobalStyle`
+  ${Reset}
+  /* other styles */
+`;
 
 /**
  * Creates a new instance of the Auth module.
@@ -226,6 +231,7 @@ class App extends Component {
     const { decks, profile } = this.state;
     return (
       <AppWrapper>
+        <GlobalStyle />
         <Route path="/" render={props => <Header auth={auth} {...props} />} />
 
         <Switch>
