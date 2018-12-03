@@ -18,12 +18,13 @@ class Deck extends React.Component {
   }
 
   handleDeleteDeck = (deckId) => {
+    const { history } = this.props;
     const token = localStorage.getItem('id_token');
     const headers = { Authorization: `Bearer ${token}` };
     axios.delete(`${process.env.REACT_APP_URL}/api/decks/${deckId}`, { headers })
       .then(response => console.log(response.data))
       .catch(error => console.log(error));
-    this.history.push('/dashboard/decks');
+    history.push('/dashboard/decks');
   }
 
   handleEditDeck = () => {
