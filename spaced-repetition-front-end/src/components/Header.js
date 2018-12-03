@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Nav from './Nav';
 
-const logo = require('../images/SPACEREPS.PNG');
+const logo = require('../images/SPACEREPS.svg');
 
 const Header = ({ auth }) => {
   function login() {
@@ -21,24 +21,24 @@ const Header = ({ auth }) => {
       <AppName to="/">
         <Logo src={logo} />
       </AppName>
-      <LoginRegisterContainer>
-        {/* Conditionally renders "Sign in" or "Sign out" depending on authentication status. */}
-        {!isAuthenticated()
-          ? (
-            <React.Fragment>
-              <Nav />
-              <LinkStyled type="button" onClick={login}>
-                Sign in
+      {/* <LoginRegisterContainer> */}
+      {/* Conditionally renders "Sign in" or "Sign out" depending on authentication status. */}
+      {!isAuthenticated()
+        ? (
+          <VisitorsNav>
+            <Nav />
+            <LinkStyled type="button" onClick={login}>
+              Sign in
               </LinkStyled>
-            </React.Fragment>
-          )
-          : (
-            <LinkStyled type="button" onClick={logout}>
-              Sign out
+          </VisitorsNav>
+        )
+        : (
+          <LinkStyled type="button" onClick={logout}>
+            Sign out
             </LinkStyled>
-          )
-        }
-      </LoginRegisterContainer>
+        )
+      }
+      {/* </LoginRegisterContainer> */}
     </Container>
   );
 };
@@ -53,38 +53,91 @@ Header.propTypes = {
 
 // styles
 const Container = styled.div`
-  height: 100px;
+box-sizing: border-box; // it seems b-s:b-b is added to every component except Header... bug?
+padding: 0 2%;
+position: fixed;
+z-index: 1;
+top: 0;
+left: 0;
+width: 100%;
+max-width: 1500px;
+align-items: center;
+
+  height: 55px;
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
-  padding-bottom: 5px;
   border-bottom: 1px solid white;
-  box-sizing: border-box;
   background: ${props => props.theme.dark.main};
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+    height: 80px;
+  }
+
+  @media (max-width: 400px) {
+    height: 200px;
+  }
 `;
 
 const AppName = styled(Link)`
-  font-size: 40px;
-  font-weight: 200;
-  padding-bottom: 0px;
-  width: 25%;
+  // width: 25%;
+  align-self: center;
 `;
 
 const Logo = styled.img`
-  height: 50px;
-  width: 200px;
+  // height: 50px;
+  width: 75%;
+  max-width: 200px;
+  min-width: 100px;
 `;
 
 const LinkStyled = styled.button`
-  font-size: 20px;
-  margin: 0px;
-  margin-left: 20px;
-  font-weight: 100;
-  padding-bottom: 15px;
+  font-size: 14px;
+  height: 25px;
+  width: 75px;
+  cursor: pointer;
+  border-radius: 3px;
+  color: lightseagreen;
+  margin-left: 5%;
+  background: none;
+  border: 1px solid lightseagreen;
+
+  @media (max-width: 400px) {
+    margin: 0 0 15px 0;
+    border: none;
+    color: white;
+  }
 `;
 
-const LoginRegisterContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  padding-bottom: 14px;
+// const LoginRegisterContainer = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   padding-bottom: 14px;
+// `;
+
+const VisitorsNav = styled.div`
+align-items: baseline;
+display: flex;
+width: 60%;
+max-width: 50%;
+justify-content: space-between;
+
+@media (max-width: 1000px) {
+  max-width: 50%;
+}
+
+@media (max-width: 900px) {
+  width: 100%;
+  max-width: 100%;
+
+  }
+
+  @media (max-width: 400px) {
+    flex-direction: column;
+    height: 100%;
+    /* text-align: center; */
+    align-items: center;
+    /* align-items: center; */
+    /* width: 100%; */
+  }
 `;

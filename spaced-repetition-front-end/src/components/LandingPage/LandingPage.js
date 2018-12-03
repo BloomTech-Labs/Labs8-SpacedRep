@@ -5,10 +5,12 @@ import Features from './Features';
 import Pricing from './Pricing';
 import Team from './Team';
 
+const headerImg = require('../../images/brandi-redd-122054-unsplash.jpg');
+
 const LandingPage = () => (
   <WrapperContainer>
     <Header>
-      <img src="https://picsum.photos/1000/300" alt="" />
+      {/* <img src={headerImg} alt="" /> */}
       <ArrowContainer>
         <Arrow />
       </ArrowContainer>
@@ -19,7 +21,7 @@ const LandingPage = () => (
       <Pricing />
       <Team />
       <BackToTopContainer>
-        <BackToTop href="#top">Back to top</BackToTop>
+        <a href="#top">Back to top</a>
       </BackToTopContainer>
     </Body>
   </WrapperContainer>
@@ -29,41 +31,25 @@ export default LandingPage;
 
 // styles
 
-// const DIV = styled.div`
-// width: 100%;
-// height: 100vh;
-// background-color: #4a606f;
-// `;
-
 const WrapperContainer = styled.div`
-          // display: flex;
-          // flex-direction: column;
-          // height: 100%;
-  // background: ${props => props.theme.dark.main};
-      // overflow: hidden;
-      // scroll-behavior: smooth;
-  
     img {
       width: 100%;
+      transform: rotate(1350deg);
   }
 `;
 
 const Header = styled.div`
   height: 100vh;
+  background: url(headerImg);
 `;
 
 const Body = styled.div`
-  // display: flex;
-  // justify-content: center;
-  // align-items: center;
-  // height: 100%;
   position: relative;
   flex:1;
   overflow:hidden;
-  /* overflow-y:auto; */
   scroll-behavior: smooth;
   -webkit-overflow-scrolling:touch;
-  `;
+`;
 
 const ArrowContainer = styled.div`
 position: absolute;
@@ -71,6 +57,7 @@ top: 95%;
 left: 50%;
 transform: translate(-50%, -50%);
 `;
+
 const BackToTopContainer = styled.div`
 position: absolute;
 top: 95%;
@@ -93,12 +80,9 @@ const Arrow = styled.span`
 display: block;
 width: 20px;
 height: 20px;
-border-bottom: 1px solid white;
-border-right: 1px solid white;
+border-bottom-color: ${props => props.theme.dark.mainFontColor}
+border-bottom: 1px solid;
+border-right: 1px solid;
 transform: rotate(45deg);
 animation: ${animate} 2s infinite;
-`;
-
-const BackToTop = styled.a`
-font-size: 14px;
 `;

@@ -18,7 +18,7 @@ const Pricing = () => {
         {pricingInfo.map((item) => {
           return (
             <ul>
-              <HeaderLi>{item.tier}</HeaderLi>
+              <li>{item.tier}</li>
               <li>{item.price}</li>
               <li>{item.decks}</li>
               <li>a</li>
@@ -63,14 +63,3 @@ const SubscriptionsContainer = styled.div`
     }
   }
 `;
-
-const BoxParent = styled.div`
-display: flex;
-justify-content: space-around;
-`;
-
-const Box = styled.div`
-width: 300px;
-
-`;
-const HeaderLi = styled.li``;

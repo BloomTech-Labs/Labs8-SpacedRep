@@ -57,6 +57,7 @@ const CardContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  letf: 200px;
 `;
 
 CardList.propTypes = {

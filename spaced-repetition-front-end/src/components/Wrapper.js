@@ -54,16 +54,14 @@ Wrapper.propTypes = {
 
 // styles
 const WrapperContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
   background: ${props => props.theme.dark.bodyBackground};
+  height: 100%;
   `;
 
 const BodyContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  height: 100%;
+  position: relative;
+  top: 70px;
 
   @media (max-width: 700px) {
     flex-direction: column;

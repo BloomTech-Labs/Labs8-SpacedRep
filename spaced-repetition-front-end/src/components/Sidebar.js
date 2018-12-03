@@ -19,22 +19,22 @@ class Sidebar extends React.Component {
           <Logo src={decksIcon} />
           <ItemName>Decks</ItemName>
         </SidebarItem>
-        <Divider />
+        {/* <Divider /> */}
         <SidebarItem path={pathname} thisroute="/dashboard/add-deck" to="/dashboard/add-deck">
           <Logo src={decksIcon} />
           <ItemName>Add Deck</ItemName>
         </SidebarItem>
-        <Divider />
+        {/* <Divider /> */}
         <SidebarItem path={pathname} thisroute="/dashboard/cards" to="/dashboard/cards">
           <Logo src={decksIcon} />
           <ItemName>Cards</ItemName>
         </SidebarItem>
-        <Divider />
+        {/* <Divider /> */}
         <SidebarItem path={pathname} thisroute="/dashboard/profile" to="/dashboard/profile">
           <Logo src={decksIcon} />
           <ItemName>Profile</ItemName>
         </SidebarItem>
-        <Divider />
+        {/* <Divider /> */}
       </Container>
     );
   }
@@ -47,50 +47,51 @@ export default withRouter(Sidebar);
 // 192px when decks is selected, but stays at 200px when on add decks or add cards
 const Container = styled.div`
   display: flex;
+  position: fixed;
   flex-direction: column;
-  justify-content: flex-start;
+  // justify-content: flex-start;
   align-items: center;
   width: 200px;
   height: 100vh;
   /* padding-left: 20px; */
   padding-right:20px;
   background: ${props => props.theme.dark.main};
-  min-width: 200px;
+  // min-width: 200px;
   
   @media (max-width: 700px) {
     flex-direction: column;
     width: 100%;
-    height: 100%;
+    // height: 100%;
   }
 `;
 
 const SidebarItem = styled(Link)`
   display: flex;
-  justify-content: end;
+  // justify-content: end;
   align-items: center;
   /* margin-right:30px; */
-  margin-left:50px;
+  // margin-left:50px;
   padding:  10px 15px 15px 16px;
-  margin-right:20px;
+  // margin-right:20px;
   width: 100%;
   ${props => props.path === props.thisroute && css`
     background: ${styleProps => styleProps.theme.dark.bodyBackground};
-    `
-  }
+  `}
+  border-bottom: 1px solid white;
 `;
 
-const Divider = styled.hr`
-  width: 100%;
-  margin: 0px;
-  padding: 0px 0px 0px 0px;
-  margin-left:25px;
-  @media (max-width: 700px) {
-    display: none;
-  }
-`;
+// const Divider = styled.hr`
+//   width: 100%;
+//   // margin: 0px;
+//   // padding: 0px 0px 0px 0px;
+//   margin-left:25psx;
+//   @media (max-width: 700px) {
+//     display: none;
+//   }
+// `;
 
 const ItemName = styled.div`
-  color: white;
+  color: ${props => props.theme.dark.mainFontcolor};
   font-size: 25px;
   padding-left: 20px;
 `;

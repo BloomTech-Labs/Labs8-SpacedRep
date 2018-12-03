@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 227 52">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #49e6ae;
+        stroke: #49e6ae;
+        stroke-width: 2px;
+        font-size: 40px;
+        font-family: Lato-Hairline, Lato;
+        font-weight: 100;
+        letter-spacing: 0.03em;
+      }
+
+      .cls-2 {
+        font-family: Lato-Bold, Lato;
+        font-weight: 700;
+      }
+    </style>
+  </defs>
+  <text id="SPACEREPS" class="cls-1" transform="translate(2 41)"><tspan x="0" y="0">SPACE</tspan><tspan class="cls-2" y="0">REPS</tspan></text>
+</svg>

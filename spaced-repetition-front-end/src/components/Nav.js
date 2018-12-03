@@ -19,19 +19,30 @@ export default Nav;
 const NavContainer = styled.ul`
   display: flex;
   list-style-type: none;
-  justify-content: flex-end;
   width: 100%;
+  justify-content: space-around;
+  padding: 0;
 
   li {
     a {
       font-size: 14px;
-      text-decoration: none;
+      // text-decoration: none;
       padding-bottom: 10px;
 
       &:hover {
         border-bottom: 1px solid lightseagreen;
       }
     }
+  }
+
+  @media (max-width: 400px) {
+    flex-direction: column;
+    /* justify-content: center; */
+    text-align: center;
+    height: 300px;
+    height: 100%;
+    margin: 0 auto;
+    /* justify-content: space-between; */
   }
 }
 `;

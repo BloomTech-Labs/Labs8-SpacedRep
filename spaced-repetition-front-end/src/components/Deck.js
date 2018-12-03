@@ -15,6 +15,7 @@ class Deck extends React.Component {
 
   render() {
     const { deck } = this.props;
+    console.log('deck', deck.name)
     return (
       <Container>
         <DeckHeader>

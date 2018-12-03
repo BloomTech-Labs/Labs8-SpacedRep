@@ -13,14 +13,16 @@ import Wrapper from './components/Wrapper';
 import Profile from './components/Profile';
 import Billing from './components/Billing';
 import AddDeck from './components/AddDeck';
-// import AddCard from './components/AddCard';
 import TrainDeck from './components/TrainDeck';
 import DeleteCardModal from './components/DeleteCardModal';
-// import './App.css';
 
 const GlobalStyle = createGlobalStyle`
   body {
     background: ${props => props.theme.dark.main};
+
+    a {
+      color: ${props => props.theme.dark.mainFontColor};
+    }
   }
   ${styles}
 `;
@@ -279,9 +281,10 @@ export default App;
 
 // styles
 const AppWrapper = styled.div`
-  max-width: 1000px;
+padding: 0 2%;
+  max-width: 1500px;
   width: 100%;
-  height: 100%;
-  margin: 0 auto;
-  color: white;
+  // height: 100%;
+  // margin: 0 auto;
+  color: ${props => props.theme.dark.mainFontColor};
 `;
