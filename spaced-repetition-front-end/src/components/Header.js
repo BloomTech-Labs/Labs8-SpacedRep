@@ -33,13 +33,13 @@ const Header = ({ auth }, props) => {
           </VisitorsNav>
         )
         : (
-          <VisitorsNav>
+          <UsersNav>
             {window.location.pathname === '/' && <Nav isLoggedIn />}
             {/* <Nav /> */}
             <LinkStyled type="button" onClick={logout}>
               Sign out
             </LinkStyled>
-          </VisitorsNav>
+          </UsersNav>
         )
       }
       {/* </LoginRegisterContainer> */}
@@ -133,4 +133,8 @@ justify-content: space-between;
     height: 100%;
     align-items: center;
   }
+`;
+
+const UsersNav = styled(VisitorsNav)`
+  justify-content: flex-end;
 `;
