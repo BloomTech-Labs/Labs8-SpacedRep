@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import CardInputs from './CardInputs';
 import { withRouter } from 'react-router-dom';
+import CardInputs from './CardInputs';
 
 // Need to make sure all card inputs are completed before submitting
 // iterate through all the properties exist on each object
@@ -59,15 +59,15 @@ class AddDeck extends React.Component {
       .then((response) => {
         deckCards.forEach((x) => {
           x.deck_id = response.data;
-        })
+        });
         console.log(deckCards);
         axios.post(`${process.env.REACT_APP_URL}/api/cards/batch`, deckCards, { headers })
           .then((innerResponse) => {
-            console.log(innerResponse)
+            console.log(innerResponse);
           })
           .catch(err => console.log(err.message));
-        window.location.reload()
-        this.props.history.push('/dashboard/decks')
+        window.location.reload();
+        this.props.history.push('/dashboard/decks');
       })
       .catch(error => (
         this.setState({
@@ -84,9 +84,7 @@ class AddDeck extends React.Component {
   }
 
   newCard = () => {
-    this.setState((state) => {
-      return { cards: [...state.cards, { language: 'Plain Text' }] };
-    });
+    this.setState((state) => ({ cards: [...state.cards, { language: 'Plain Text' }] }));
   }
 
   render() {
@@ -103,9 +101,7 @@ class AddDeck extends React.Component {
             <button type="submit">Save</button>
           </DeckInfo>
         </DeckForm>
-        {state.cards.map((x, i) => {
-          return <CardInputs i={i} key={i} handleCardChange={this.handleCardChange} />;
-        })}
+        {state.cards.map((x, i) => <CardInputs i={i} key={i} handleCardChange={this.handleCardChange} />)}
         <button type="button" onClick={this.newCard}>Add Card</button>
       </DeckContainer>
     );
