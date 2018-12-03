@@ -53,7 +53,6 @@ class AddDeck extends React.Component {
       tags: deck.tags,
     };
     const deckCards = [...deck.cards];
-    if (Object.keys(deckCards).length === 1) { return; }
     const token = localStorage.getItem('id_token');
     const headers = { Authorization: `Bearer ${token}` };
     axios.post(`${process.env.REACT_APP_URL}/api/decks/`, newDeck, { headers })
@@ -85,7 +84,7 @@ class AddDeck extends React.Component {
   }
 
   newCard = () => {
-    this.setState(state => ({ cards: [...state.cards, { language: 'Plain Text' }] }));
+    this.setState((state) => ({ cards: [...state.cards, { language: 'Plain Text' }] }));
   }
 
   render() {
