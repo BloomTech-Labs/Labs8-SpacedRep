@@ -41,6 +41,7 @@ router.post('/batch', (req, res) => {
       res.status(201).json('entries added successfully');
     })
     .catch(err => {
+      console.log(err.message)
       res.status(500).json(err);
     });
 });
