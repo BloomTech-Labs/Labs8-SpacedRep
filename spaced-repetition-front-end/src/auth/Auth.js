@@ -27,25 +27,21 @@ class Auth {
     this.auth0.authorize();
   }
 
-  async handleAuthentication() {
+  handleAuthentication() {
     /**
      * parseHash() parses the URI for an access token and id token response from Auth0. If present,
      * a new session is set with the tokens from the URI and the user is redirected to the
      * dashboard view. Otherwise, redirection is set to the landing page.
      */
-    return new Promise((resolve, reject) => {
-      this.auth0.parseHash((err, authResult) => {
-        if (authResult && authResult.accessToken && authResult.idToken) {
-          this.setSession(authResult);
-          history.replace('/dashboard');
-          resolve();
-        } else if (err) {
-          history.replace('/');
-          console.log(err);
-          alert(`Error: ${err.error}. Check the console for further details.`);
-          reject(err);
-        }
-      });
+    this.auth0.parseHash((err, authResult) => {
+      if (authResult && authResult.accessToken && authResult.idToken) {
+        this.setSession(authResult);
+        history.replace('/dashboard');
+      } else if (err) {
+        history.replace('/');
+        console.log(err);
+        alert(`Error: ${err.error}. Check the console for further details.`);
+      }
     });
   }
 
@@ -55,6 +51,8 @@ class Auth {
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
+    // navigate to the dashboard route
+    history.replace('/dashboard');
   }
 
   logout() {
