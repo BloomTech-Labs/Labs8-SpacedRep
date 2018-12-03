@@ -58,7 +58,10 @@ const Container = styled.div`
   
   @media (max-width: 900px) {
     flex-direction: row;
-    height: 0;
+    top: 80px;
+    flex-direction: row;
+    height: 100%;
+    padding-right: 0;
   }
   @media (max-width: 700px) {
     // flex-direction: column;
@@ -74,6 +77,10 @@ const SidebarItem = styled(Link)`
     background: ${styleProps => styleProps.theme.dark.bodyBackground};
   `}
   border-bottom: 1px solid white;
+
+  @media (max-width: 900px) {
+    padding: 0;
+  }
 `;
 
 // const Divider = styled.hr`
@@ -88,16 +95,20 @@ const SidebarItem = styled(Link)`
 
 const ItemName = styled.p`
   color: ${props => props.theme.dark.mainFontcolor};
-  font-size: 25px;
   padding-left: 20px;
+  font-size:22px;
 
-  @media (max-width: 900) {
-    font-size: 22px;
+  @media (max-width: 900px) {
+    font-size: 18px;
+  }
+
+  @media (max-width: 700px) {
+    padding-left: 0;
   }
 `;
 
 const Logo = styled.img`
-  height: 25%;
+  // height: 25%;
   width: 25%;
   border-radius: 6px;
   @media (max-width: 700px) {

@@ -16,23 +16,29 @@ const Header = ({ auth }, props) => {
   }
 
   const { isAuthenticated } = auth;
+  {/* <LoginRegisterContainer> */ }
+  {/* Conditionally renders "Sign in" or "Sign out" depending on authentication status. */ }
   return (
-    <Container>
-      <AppName to="/">
-        <Logo src={logo} />
-      </AppName>
-      {/* <LoginRegisterContainer> */}
-      {/* Conditionally renders "Sign in" or "Sign out" depending on authentication status. */}
-      {!isAuthenticated()
-        ? (
+    // {
+    !isAuthenticated()
+      ? (
+        <Container>
+          <AppName to="/">
+            <Logo src={logo} />
+          </AppName>
           <VisitorsNav>
             <Nav />
             <LinkStyled type="button" onClick={login}>
               Sign in
             </LinkStyled>
           </VisitorsNav>
-        )
-        : (
+        </Container>
+      )
+      : (
+        <Container isLoggedIn>
+          <AppName to="/">
+            <Logo src={logo} />
+          </AppName>
           <UsersNav>
             {window.location.pathname === '/' && <Nav isLoggedIn />}
             {/* <Nav /> */}
@@ -40,12 +46,12 @@ const Header = ({ auth }, props) => {
               Sign out
             </LinkStyled>
           </UsersNav>
-        )
-      }
-      {/* </LoginRegisterContainer> */}
-    </Container>
+        </Container>
+      )
+    // }
   );
 };
+{/* </LoginRegisterContainer> */ }
 
 export default Header;
 
@@ -74,10 +80,18 @@ align-items: center;
   background: ${props => props.theme.dark.main};
 
   @media (max-width: 900px) {
-    flex-direction: column;
+    if (window.location.pathname === '/') {
+      flex-direction: ${props => props.isLoggedIn ? 'column' : 'row'}
+    } else if (window.location.pathname === '/dashboard') {
+      flex-direction: ${props => props.isLoggedIn ? 'row' : 'column'}
+    }
     height: 80px;
   }
+  
+  @media (max-width: 700px) {
+  }
 
+  }
   @media (max-width: 400px) {
     height: 200px;
   }
