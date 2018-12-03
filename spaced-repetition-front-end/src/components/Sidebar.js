@@ -48,33 +48,24 @@ export default withRouter(Sidebar);
 const Container = styled.div`
 flex: 0 0 20%;
   display: flex;
-  // position: fixed;
   flex-direction: column;
-  // justify-content: flex-start;
   align-items: center;
-  // width: 200px;
   height: 100vh;
-  /* padding-left: 20px; */
   padding-right:20px;
   background: ${props => props.theme.dark.main};
-  // min-width: 200px;
-  // overflow-y: hidden;
   
+  @media (max-width: 900px) {
+    flex-direction: row;
+  }
   @media (max-width: 700px) {
     flex-direction: column;
-    // width: 100%;
-    // height: 100%;
   }
 `;
 
 const SidebarItem = styled(Link)`
   display: flex;
-  // justify-content: end;
   align-items: center;
-  /* margin-right:30px; */
-  // margin-left:50px;
   padding:  10px 15px 15px 16px;
-  // margin-right:20px;
   width: 100%;
   ${props => props.path === props.thisroute && css`
     background: ${styleProps => styleProps.theme.dark.bodyBackground};
@@ -92,10 +83,14 @@ const SidebarItem = styled(Link)`
 //   }
 // `;
 
-const ItemName = styled.div`
+const ItemName = styled.p`
   color: ${props => props.theme.dark.mainFontcolor};
   font-size: 25px;
   padding-left: 20px;
+
+  @media (max-width: 900) {
+    font-size: 22px;
+  }
 `;
 
 const Logo = styled.img`

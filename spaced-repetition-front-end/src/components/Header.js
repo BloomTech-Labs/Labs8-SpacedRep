@@ -6,7 +6,7 @@ import Nav from './Nav';
 
 const logo = require('../images/SPACEREPS.svg');
 
-const Header = ({ auth }) => {
+const Header = ({ auth }, props) => {
   function login() {
     auth.login();
   }
@@ -29,13 +29,17 @@ const Header = ({ auth }) => {
             <Nav />
             <LinkStyled type="button" onClick={login}>
               Sign in
-              </LinkStyled>
+            </LinkStyled>
           </VisitorsNav>
         )
         : (
-          <LinkStyled type="button" onClick={logout}>
-            Sign out
+          <VisitorsNav>
+            {window.location.pathname === '/' && <Nav isLoggedIn />}
+            {/* <Nav /> */}
+            <LinkStyled type="button" onClick={logout}>
+              Sign out
             </LinkStyled>
+          </VisitorsNav>
         )
       }
       {/* </LoginRegisterContainer> */}
@@ -80,12 +84,10 @@ align-items: center;
 `;
 
 const AppName = styled(Link)`
-  // width: 25%;
   align-self: center;
 `;
 
 const Logo = styled.img`
-  // height: 50px;
   width: 75%;
   max-width: 200px;
   min-width: 100px;
@@ -94,7 +96,7 @@ const Logo = styled.img`
 const LinkStyled = styled.button`
   font-size: 14px;
   height: 25px;
-  width: 75px;
+  width: 90px;
   cursor: pointer;
   border-radius: 3px;
   color: lightseagreen;
@@ -108,12 +110,6 @@ const LinkStyled = styled.button`
     color: white;
   }
 `;
-
-// const LoginRegisterContainer = styled.div`
-//   display: flex;
-//   flex-direction: row;
-//   padding-bottom: 14px;
-// `;
 
 const VisitorsNav = styled.div`
 align-items: baseline;
@@ -135,9 +131,6 @@ justify-content: space-between;
   @media (max-width: 400px) {
     flex-direction: column;
     height: 100%;
-    /* text-align: center; */
     align-items: center;
-    /* align-items: center; */
-    /* width: 100%; */
   }
 `;
