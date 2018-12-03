@@ -183,7 +183,7 @@ const TrainingContainer = styled.div`
 `;
 /* ${props => props.theme.buttons.base} */
 const TrainDeck = styled.button`
-  
+  ${props => props.theme.dark.buttons.base}
   &:hover {
     background: ${props => props.theme.dark.logo};
     cursor: pointer;
