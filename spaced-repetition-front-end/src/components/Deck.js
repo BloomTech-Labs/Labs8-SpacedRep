@@ -1,7 +1,9 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import axios from 'axios';
+import EditDeck from './EditDeck';
 import '../App.css';
 
 const shareIcon = require('../images/shareColorized.svg');
@@ -13,7 +15,26 @@ class Deck extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isEditing: false,
     };
+  }
+
+  handleDeleteDeck = (deckId) => {
+    const { history } = this.props;
+    const token = localStorage.getItem('id_token');
+    const headers = { Authorization: `Bearer ${token}` };
+    axios.delete(`${process.env.REACT_APP_URL}/api/decks/${deckId}`, { headers })
+      .then(response => console.log(response.data))
+      .catch(error => console.log(error));
+    history.push('/dashboard/decks');
+  }
+
+  handleEditDeck = () => {
+    this.setState({ isEditing: true });
+  }
+
+  toggleEditModeToFalse = () => {
+    this.setState({ isEditing: false });
   }
 
   handleTrain = (e) => {
@@ -49,51 +70,59 @@ class Deck extends React.Component {
     //   e.target.focus();
     // }
 
-    alert(`Shareable link: ${process.env.REACT_APP_URL}/share/deck/${deck.id}`);
+    alert(`Shareable link: ${process.env.REACT_APP_URL}/share/deck/${deck.id}`); //FIX
   }
 
   render() {
     const { deck, today, disableTraining } = this.props;
+
+    const { isEditing } = this.state;
+
     return (
-      <Container onClick={this.handleDeckClick}>
-        <DeckHeader>
-          <Title>{deck.name}</Title>
+      !isEditing ?
+        <Container onClick={this.handleDeckClick}>
+          <DeckHeader>
+            <Title>{deck.name}</Title>
 
-          <NumCards>
+            <NumCards>
 
-            {deck.cards.length === 1 ? `${deck.cards.length} card` : `${deck.cards.length} cards`}
+              {deck.cards.length === 1 ? `${deck.cards.length} card` : `${deck.cards.length} cards`}
 
-          </NumCards>
-        </DeckHeader>
+            </NumCards>
+          </DeckHeader>
 
-        <DeckBody>
-          <ShareContainer>
-            <Share onClick={this.handleShare} src={shareIcon} alt="Share" />
-          </ShareContainer>
-          <TagsContainer>
-            <TagCaption> Tags: </TagCaption>
-            {this.viewTags(deck.tags)}
-          </TagsContainer>
-          {!disableTraining && (
-            <TrainingContainer>
-              {/* Routes user to deck training component which handles all
+          <DeckBody>
+            <ShareContainer>
+              <Share onClick={this.handleShare} src={shareIcon} alt="Share" />
+            </ShareContainer>
+            <TagsContainer>
+              <TagCaption> Tags: </TagCaption>
+              {this.viewTags(deck.tags)}
+            </TagsContainer>
+            {!disableTraining && (
+              <TrainingContainer>
+                {/* Routes user to deck training component which handles all
         of the training logic and flow. */}
-              <TrainDeck onClick={this.handleTrain}>Train Deck</TrainDeck>
-
-              <DueDateContainer>
-                <DueDate today={today} dueDate={deck.dueDate}>
-                  {new Date(deck.dueDate * DAY_IN_MILLISECONDS).toLocaleDateString()}
-                </DueDate>
-                <DateCaption>
-                  next training
+                <TrainDeck onClick={this.handleTrain}>Train Deck</TrainDeck>
+                <TrainDeck onClick={() => this.handleDeleteDeck(deck.id)}>Delete</TrainDeck>
+                <TrainDeck onClick={() => this.handleEditDeck(deck.id)}>Edit</TrainDeck>
+                <DueDateContainer>
+                  <DueDate today={today} dueDate={deck.dueDate}>
+                    {new Date(deck.dueDate * DAY_IN_MILLISECONDS).toLocaleDateString()}
+                  </DueDate>
+                  <DateCaption>
+                    next training
                 </DateCaption>
-              </DueDateContainer>
+                </DueDateContainer>
 
-            </TrainingContainer>
-          )}
-        </DeckBody>
-        <ClipboardInput value={`${process.env.REACT_APP_URL}/share/deck/${deck.id}`} ref={ClipboardInput => this.clipboardRef = ClipboardInput} />
-      </Container>
+              </TrainingContainer>
+            )}
+          </DeckBody>
+          <ClipboardInput value={`${process.env.REACT_APP_URL}/share/deck/${deck.id}`} ref={ClipboardInput => this.clipboardRef = ClipboardInput} />
+        </Container>
+        :
+        <EditDeck deck={deck} toggleEditModeToFalse={this.toggleEditModeToFalse} />
+
     );
   }
 }
@@ -181,7 +210,7 @@ const TrainingContainer = styled.div`
   padding-top: 20px;
   width:100%;
 `;
-/* ${props => props.theme.buttons.base} */
+
 const TrainDeck = styled.button`
   ${props => props.theme.dark.buttons.base}
   &:hover {

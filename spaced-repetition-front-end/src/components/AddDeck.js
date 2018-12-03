@@ -94,15 +94,15 @@ class AddDeck extends React.Component {
         <h2>Create New Deck:</h2>
         <DeckForm onSubmit={this.addDeck}>
           <DeckInfo>
-            <input type="text" value={state.name} name="name" onChange={this.handleChange} placeholder="Name" required />
-            <input type="text" value={state.tags} name="tags" onChange={this.handleChange} placeholder="Enter a list of tags separated by comma (no spaces)" required />
-            <p style={{ color: 'black' }}>Public?</p>
+            <Name type="text" value={state.name} name="name" onChange={this.handleChange} placeholder="Name" required />
+            <Tags type="text" value={state.tags} name="tags" onChange={this.handleChange} placeholder="Enter a list of tags separated by comma (no spaces)" required />
+            <PublicText style={{ color: 'black' }}>Public?</PublicText>
             <Checkbox type="checkbox" name="public" onChange={this.handleChange} />
-            <button type="submit">Save</button>
+            <SaveButton type="submit">Save</SaveButton>
           </DeckInfo>
         </DeckForm>
         {state.cards.map((x, i) => <CardInputs i={i} key={i} handleCardChange={this.handleCardChange} />)}
-        <button type="button" onClick={this.newCard}>Add Card</button>
+        <AddCard type="button" onClick={this.newCard}>Add Card</AddCard>
       </DeckContainer>
     );
   }
@@ -114,12 +114,14 @@ const DeckContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  height: 100%;
+  padding-top: 20px;
 `;
 
 const DeckForm = styled.form`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 90%;
   padding: 10px;
   background: ${props => props.theme.dark.cardBackground};
   border-radius: 3px;
@@ -139,7 +141,7 @@ const DeckInfo = styled.div`
   justify-content: space-between;
   box-shadow: none;
 
-  input[type="text"] {
+  /* input[type="text"] {
     flex-grow: 1;
   }
 
@@ -153,9 +155,34 @@ const DeckInfo = styled.div`
 
   input:first-child {
     margin-left: 0;
-  }
+  } */
 `;
 
 const Checkbox = styled.input`
   align-self: center;
 `;
+
+
+const SaveButton = styled.button`
+  ${props => props.theme.dark.buttons.base}
+  &:hover {
+    background: ${props => props.theme.dark.logo};
+    cursor: pointer;
+  }
+  font-size: 16px;
+`
+
+const AddCard = styled.button`
+  ${props => props.theme.dark.buttons.base}
+  &:hover {
+    background: ${props => props.theme.dark.logo};
+    cursor: pointer;
+  }
+  font-size: 16px;
+`
+
+const Name = styled.input``
+
+const Tags = styled.input``
+
+const PublicText = styled.p``
