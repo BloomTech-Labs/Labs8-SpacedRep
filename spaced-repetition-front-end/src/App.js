@@ -11,11 +11,11 @@ import CardList from './components/CardList';
 import Wrapper from './components/Wrapper';
 import Profile from './components/Profile';
 import AddDeck from './components/AddDeck';
+import AddCard from './components/AddCard';
 import TrainDeck from './components/TrainDeck';
 import DeckView from './components/DeckView';
 import Deck from './components/Deck';
 import DeleteCardModal from './components/DeleteCardModal';
-import ImportDeck from './components/ImportDeck';
 import './App.css';
 
 
@@ -114,12 +114,8 @@ class App extends Component {
   }
 
   addCardToUpdate = (cardProgressObject = false) => {
-    const { serverUpdateTimer, cardsToUpdate } = this.state;
-    // cardProgressObject is {difficulty: '', cardID: '', deckID: ''}.
-    // difficulty is an array index (0, 1, ..etc) which correlates to
-    // difficultyToNextTestDate in algorithm.js
-
-    clearTimeout(serverUpdateTimer);
+    // cardProgressObject is {difficulty: '', cardID: '', deckID: ''}. difficulty is an array index (0, 1, ..etc) which correlates to difficultyToNextTestDate in algorithm.js
+    clearTimeout(this.state.serverUpdateTimer);
     if (!cardProgressObject) {
       // instantly update the server with batch of cards waiting for timeout
       // this is used by End Session or Save-like functions in TrainDeck.js
@@ -128,15 +124,15 @@ class App extends Component {
     }
 
     this.setState({
-      cardsToUpdate: [cardProgressObject, ...cardsToUpdate],
+      cardsToUpdate: [cardProgressObject, ...this.state.cardsToUpdate],
       serverUpdateTimer: setTimeout(this.updateServer, WAIT_INTERVAL),
     });
   };
 
   updateServer = () => {
     // wait is done, send a POST to server to update card progress in case user does not save manually
-    const { decks, cardsToUpdate } = this.state;
-    const cards = cardsToUpdate;
+
+    const cards = this.state.cardsToUpdate;
     // if server is told to update via End Session/Save in TrainDeck, only update the server if there
     // are any cards in the queue
     if (cards.length < 1) return;
@@ -152,6 +148,7 @@ class App extends Component {
           // we can then use this to update the due dates of all the cards we just sent
           console.log(response);
           const newDates = response.data;
+          const decks = this.state.decks;
 
           cards.forEach((card) => {
             if (newDates[card.cardID]) {
@@ -230,21 +227,6 @@ class App extends Component {
         });
       })
       .catch(err => console.log(new Error(err)));
-  }
-
-  importDeck = () => {
-    const { history } = this.props;
-
-    // get deck id from URL
-    const match = matchPath(history.location.pathname, '/share/deck/:id');
-    let deckID;
-    if (match && match.params.id) deckID = match.params.id;
-
-    // send request to server:
-    // lookup this deck, create a new deck and copy all its cards to my UserID
-    console.log(deckID);
-    console.log(match);
-    return (<div />);
   }
 
   render() {

@@ -5,8 +5,7 @@ module.exports = {
   findByAuthor,
   add,
   update,
-  remove,
-  findByID,
+  remove
 };
 
 function findByAuthor(id) {
@@ -14,13 +13,6 @@ function findByAuthor(id) {
     .select('cards.*', 'decks.name', 'decks.public', 'decks.tags')
     .innerJoin('decks', 'cards.deck_id', 'decks.id')
     .where('decks.author', id);
-}
-
-function findByID(id) {
-  return db('cards')
-    .select('cards.*', 'decks.name', 'decks.public', 'decks.tags')
-    .innerJoin('decks', 'cards.deck_id', 'decks.id')
-    .where('decks.id', id);
 }
 
 function add(entry) {
