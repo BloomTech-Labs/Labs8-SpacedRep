@@ -2,8 +2,8 @@ import Global from './Global';
 import Reset from './Reset';
 
 const styles = {
-  Global,
   Reset,
+  Global,
 };
 
 export default styles;

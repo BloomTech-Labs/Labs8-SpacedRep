@@ -60,8 +60,10 @@ const WrapperContainer = styled.div`
 
 const BodyContainer = styled.div`
   display: flex;
-  position: relative;
-  top: 70px;
+  // position: absolute;
+  // top: 70px;
+  margin-top: 55px;
+  max-width: 1500px;
 
   @media (max-width: 700px) {
     flex-direction: column;

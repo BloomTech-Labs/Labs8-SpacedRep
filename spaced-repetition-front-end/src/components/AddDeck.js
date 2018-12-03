@@ -123,6 +123,8 @@ export default withRouter(AddDeck);
 
 const DeckContainer = styled.div`
   width: 100%;
+  display: flex;
+  flex-direction: column;
 `;
 
 const DeckForm = styled.form`

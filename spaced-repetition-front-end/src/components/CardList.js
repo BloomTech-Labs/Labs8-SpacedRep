@@ -53,11 +53,14 @@ export default CardList;
 // styled
 
 const CardContainer = styled.div`
-  width: 100%;
+  // width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  letf: 200px;
+  // letf: 200px;
+  // flex-grow: 1;  /*ensures that the container will take up the full height of the parent container*/
+    overflow-y: auto;  /*adds scroll to this container*/
+}
 `;
 
 CardList.propTypes = {

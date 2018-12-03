@@ -18,6 +18,10 @@ import DeleteCardModal from './components/DeleteCardModal';
 
 const GlobalStyle = createGlobalStyle`
   body {
+    height: 100%;   
+    // overflow: hidden;  /*makes the body non-scrollable (we will add scrolling to the sidebar and main content containers)*/
+    margin: 0px;  /*removes default style*/
+    // display: flex;
     background: ${props => props.theme.dark.main};
 
     a {
@@ -281,9 +285,9 @@ export default App;
 
 // styles
 const AppWrapper = styled.div`
-padding: 0 2%;
+// padding: 0 2%;
   max-width: 1500px;
-  width: 100%;
+  // width: 100%;
   // height: 100%;
   // margin: 0 auto;
   color: ${props => props.theme.dark.mainFontColor};
