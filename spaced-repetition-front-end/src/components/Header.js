@@ -89,6 +89,7 @@ align-items: center;
   }
   
   @media (max-width: 700px) {
+    flex-direction: column;
   }
 
   }
