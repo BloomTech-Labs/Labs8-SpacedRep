@@ -46,7 +46,9 @@ export default withRouter(Sidebar);
 // No idea what is causing it, but without min-width, container shrinks to
 // 192px when decks is selected, but stays at 200px when on add decks or add cards
 const Container = styled.div`
-flex: 0 0 20%;
+  position: sticky;
+  top: 55px;
+  flex: 0 0 20%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -56,9 +58,10 @@ flex: 0 0 20%;
   
   @media (max-width: 900px) {
     flex-direction: row;
+    height: 0;
   }
   @media (max-width: 700px) {
-    flex-direction: column;
+    // flex-direction: column;
   }
 `;
 

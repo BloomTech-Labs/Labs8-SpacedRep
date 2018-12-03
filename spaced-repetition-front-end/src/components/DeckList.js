@@ -53,4 +53,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  // // display flex;
+  // height: 50px;
+  // width: 100%;
 `;
