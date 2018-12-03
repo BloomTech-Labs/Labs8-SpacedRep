@@ -26,7 +26,6 @@ class CardList extends Component {
     let match = false;
     for (let i = 0; i < decks.length; i++) {
       if (decks[i].id === Number(selectedDeckID)) {
-        console.log('match');
         match = decks[i];
       }
     }

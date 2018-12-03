@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import {
-  Route, Switch, withRouter, matchPath,
-} from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import Auth from './auth/Auth';
@@ -12,12 +10,12 @@ import DeckList from './components/DeckList';
 import CardList from './components/CardList';
 import Wrapper from './components/Wrapper';
 import Profile from './components/Profile';
-import Billing from './components/Billing';
 import AddDeck from './components/AddDeck';
+import AddCard from './components/AddCard';
 import TrainDeck from './components/TrainDeck';
 import DeckView from './components/DeckView';
+import Deck from './components/Deck';
 import DeleteCardModal from './components/DeleteCardModal';
-import ImportDeck from './components/ImportDeck';
 import './App.css';
 
 
@@ -34,9 +32,9 @@ const auth = new Auth();
  *
  * @param {location} * Current URI
  */
-const handleAuthentication = ({ location }) => {
+const handleAuthentication = async (location) => {
   if (/access_token|id_token|error/.test(location.hash)) {
-    auth.handleAuthentication();
+    await auth.handleAuthentication();
   }
 };
 
@@ -57,6 +55,13 @@ class App extends Component {
       serverUpdateTimer: null,
       errorMessage: '', // better to add redux or pass the same error props everywhere?
     };
+  }
+
+  async componentDidMount() {
+    const { location } = this.props;
+    await handleAuthentication(location);
+    await this.handleProfile();
+    this.handleData();
   }
 
   // Calls auth's getProfile and responds with the profile associated with the identity provider
@@ -82,7 +87,6 @@ class App extends Component {
 
     axios.get(`${process.env.REACT_APP_URL}/api/decks/`, { headers })
       .then((response) => {
-        console.log(response.data);
         // assign a dueDate to the deck based on its card with most recent dueDate
         const decks = response.data;
         decks.forEach((deck) => {
@@ -110,12 +114,8 @@ class App extends Component {
   }
 
   addCardToUpdate = (cardProgressObject = false) => {
-    const { serverUpdateTimer, cardsToUpdate } = this.state;
-    // cardProgressObject is {difficulty: '', cardID: '', deckID: ''}.
-    // difficulty is an array index (0, 1, ..etc) which correlates to
-    // difficultyToNextTestDate in algorithm.js
-
-    clearTimeout(serverUpdateTimer);
+    // cardProgressObject is {difficulty: '', cardID: '', deckID: ''}. difficulty is an array index (0, 1, ..etc) which correlates to difficultyToNextTestDate in algorithm.js
+    clearTimeout(this.state.serverUpdateTimer);
     if (!cardProgressObject) {
       // instantly update the server with batch of cards waiting for timeout
       // this is used by End Session or Save-like functions in TrainDeck.js
@@ -124,15 +124,15 @@ class App extends Component {
     }
 
     this.setState({
-      cardsToUpdate: [cardProgressObject, ...cardsToUpdate],
+      cardsToUpdate: [cardProgressObject, ...this.state.cardsToUpdate],
       serverUpdateTimer: setTimeout(this.updateServer, WAIT_INTERVAL),
     });
   };
 
   updateServer = () => {
     // wait is done, send a POST to server to update card progress in case user does not save manually
-    const { decks, cardsToUpdate } = this.state;
-    const cards = cardsToUpdate;
+
+    const cards = this.state.cardsToUpdate;
     // if server is told to update via End Session/Save in TrainDeck, only update the server if there
     // are any cards in the queue
     if (cards.length < 1) return;
@@ -148,6 +148,7 @@ class App extends Component {
           // we can then use this to update the due dates of all the cards we just sent
           console.log(response);
           const newDates = response.data;
+          const decks = this.state.decks;
 
           cards.forEach((card) => {
             if (newDates[card.cardID]) {
@@ -228,63 +229,50 @@ class App extends Component {
       .catch(err => console.log(new Error(err)));
   }
 
-  importDeck = () => {
-    const { history } = this.props;
-
-    // get deck id from URL
-    const match = matchPath(history.location.pathname, '/share/deck/:id');
-    let deckID;
-    if (match && match.params.id) deckID = match.params.id;
-
-    // send request to server:
-    // lookup this deck, create a new deck and copy all its cards to my UserID
-    console.log(deckID);
-    console.log(match);
-    return (<div />);
-  }
-
   render() {
     const { decks, profile } = this.state;
+    console.log('decks in app: ', decks);
+    if (profile && decks) {
+      return (
+        <AppWrapper>
+          <Route path="/" render={props => <Header auth={auth} {...props} />} />
+
+          <Switch>
+            <Wrapper auth={auth}>
+              <Route exact path="/dashboard" decks={decks} />
+              <Route exact path="/dashboard/add-deck" render={props => <AddDeck {...props} />} />
+              <Route exact path="/dashboard/profile" render={props => <Profile profile={profile} handleUpdateTier={this.handleUpdateTier} {...props} />} />
+              <Route exact path="/dashboard/decks" render={props => <DeckList decks={decks} today={today} {...props} />} />
+              <Route exact path="/dashboard/decks/:deckId" render={props => <DeckView decks={decks} today={today} {...props} />} />
+              <Route exact path="/dashboard/decks/:id" render={props => <Deck decks={decks} {...props} />} />
+              <Route path="/dashboard/cards" render={props => <CardList decks={decks} {...props} />} />
+              <Route
+                exact
+                path="/dashboard/decks/:deckId/train"
+                render={(props) => {
+                  const deckToTrain = this.handleTrainDeck(props);
+                  return <TrainDeck deck={deckToTrain[0]} updateProgress={this.addCardToUpdate} {...props} />;
+                }}
+              />
+              <Route
+                exact
+                path="/dashboard/decks/:deckId/train/:id/delete"
+                render={props => <DeleteCardModal deleteCard={this.handleCardDeletion} {...props} />}
+              />
+            </Wrapper>
+          </Switch>
+        </AppWrapper>
+      );
+    }
+
     return (
       <AppWrapper>
         <Route path="/" render={props => <Header auth={auth} {...props} />} />
 
         <Switch>
           <Route exact path="/" render={props => <LandingPage auth={auth} {...props} />} />
-
-          <Route
-            path="/callback"
-            render={(props) => {
-              handleAuthentication(props);
-              return <Callback {...props} />;
-            }}
-          />
-
-          <Wrapper auth={auth} handleProfile={this.handleProfile} handleData={this.handleData}>
-            <Route exact path="/dashboard" decks={decks} />
-            <Route exact path="/dashboard/add-deck" render={props => <AddDeck />} />
-            <Route exact path="/dashboard/profile" render={props => <Profile profile={profile} handleUpdateTier={this.handleUpdateTier} {...props} />} />
-            <Route exact path="/dashboard/decks" render={props => <DeckList decks={decks} today={today} {...props} />} />
-            <Route exact path="/dashboard/decks/:deckId" render={props => <DeckView decks={decks} today={today} {...props} />} />
-            <Route exact path="/dashboard/cards" render={props => <CardList decks={decks} {...props} />} />
-            <Route exact path="/dashboard/billing" render={props => <Billing profile={profile} {...props} />} />
-            <Route
-              exact
-              path="/dashboard/decks/:deckId/train"
-              render={(props) => {
-                const deckToTrain = this.handleTrainDeck(props);
-                return <TrainDeck deck={deckToTrain[0]} updateProgress={this.addCardToUpdate} {...props} />;
-              }}
-            />
-            <Route
-              exact
-              path="/dashboard/decks/:deckId/train/:id/delete"
-              render={props => <DeleteCardModal deleteCard={this.handleCardDeletion} {...props} />}
-            />
-            <Route exact path="/share/deck/:id" render={props => <ImportDeck {...props} />} />
-          </Wrapper>
+          <Route path="/callback" render={props => <Callback {...props} />} />
         </Switch>
-
       </AppWrapper>
     );
   }
