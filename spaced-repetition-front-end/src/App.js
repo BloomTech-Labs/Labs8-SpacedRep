@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import Auth from './auth/Auth';
@@ -10,11 +10,11 @@ import DeckList from './components/DeckList';
 import CardList from './components/CardList';
 import Wrapper from './components/Wrapper';
 import Profile from './components/Profile';
-import Billing from './components/Billing';
 import AddDeck from './components/AddDeck';
 import AddCard from './components/AddCard';
 import TrainDeck from './components/TrainDeck';
 import DeckView from './components/DeckView';
+import Deck from './components/Deck';
 import DeleteCardModal from './components/DeleteCardModal';
 import './App.css';
 
@@ -32,9 +32,9 @@ const auth = new Auth();
  *
  * @param {location} * Current URI
  */
-const handleAuthentication = ({ location }) => {
+const handleAuthentication = async (location) => {
   if (/access_token|id_token|error/.test(location.hash)) {
-    auth.handleAuthentication();
+    await auth.handleAuthentication();
   }
 };
 
@@ -55,6 +55,13 @@ class App extends Component {
       serverUpdateTimer: null,
       errorMessage: '', // better to add redux or pass the same error props everywhere?
     };
+  }
+
+  async componentDidMount() {
+    const { location } = this.props;
+    await handleAuthentication(location);
+    await this.handleProfile();
+    this.handleData();
   }
 
   // Calls auth's getProfile and responds with the profile associated with the identity provider
@@ -80,7 +87,6 @@ class App extends Component {
 
     axios.get(`${process.env.REACT_APP_URL}/api/decks/`, { headers })
       .then((response) => {
-        console.log(response.data);
         // assign a dueDate to the deck based on its card with most recent dueDate
         const decks = response.data;
         decks.forEach((deck) => {
@@ -225,50 +231,54 @@ class App extends Component {
 
   render() {
     const { decks, profile } = this.state;
+    console.log('decks in app: ', decks);
+    if (profile && decks) {
+      return (
+        <AppWrapper>
+          <Route path="/" render={props => <Header auth={auth} {...props} />} />
+
+          <Switch>
+            <Wrapper auth={auth}>
+              <Route exact path="/dashboard" decks={decks} />
+              <Route exact path="/dashboard/add-deck" render={props => <AddDeck {...props} />} />
+              <Route exact path="/dashboard/profile" render={props => <Profile profile={profile} handleUpdateTier={this.handleUpdateTier} {...props} />} />
+              <Route exact path="/dashboard/decks" render={props => <DeckList decks={decks} today={today} {...props} />} />
+              <Route exact path="/dashboard/decks/:deckId" render={props => <DeckView decks={decks} today={today} {...props} />} />
+              <Route exact path="/dashboard/decks/:id" render={props => <Deck decks={decks} {...props} />} />
+              <Route path="/dashboard/cards" render={props => <CardList decks={decks} {...props} />} />
+              <Route
+                exact
+                path="/dashboard/decks/:deckId/train"
+                render={(props) => {
+                  const deckToTrain = this.handleTrainDeck(props);
+                  return <TrainDeck deck={deckToTrain[0]} updateProgress={this.addCardToUpdate} {...props} />;
+                }}
+              />
+              <Route
+                exact
+                path="/dashboard/decks/:deckId/train/:id/delete"
+                render={props => <DeleteCardModal deleteCard={this.handleCardDeletion} {...props} />}
+              />
+            </Wrapper>
+          </Switch>
+        </AppWrapper>
+      );
+    }
+
     return (
       <AppWrapper>
         <Route path="/" render={props => <Header auth={auth} {...props} />} />
 
         <Switch>
           <Route exact path="/" render={props => <LandingPage auth={auth} {...props} />} />
-
-          <Route
-            path="/callback"
-            render={(props) => {
-              handleAuthentication(props);
-              return <Callback {...props} />;
-            }}
-          />
-
-          <Wrapper auth={auth} handleProfile={this.handleProfile} handleData={this.handleData}>
-            <Route exact path="/dashboard" decks={decks} />
-            <Route exact path="/dashboard/add-deck" render={props => <AddDeck />} />
-            <Route exact path="/dashboard/profile" render={props => <Profile profile={profile} handleUpdateTier={this.handleUpdateTier} {...props} />} />
-            <Route exact path="/dashboard/decks" render={props => <DeckList decks={decks} today={today} {...props} />} />
-            <Route exact path="/dashboard/decks/:deckId" render={props => <DeckView decks={decks} today={today} {...props} />} />
-            <Route exact path="/dashboard/cards" render={props => <CardList decks={decks} {...props} />} />
-            <Route exact path="/dashboard/billing" render={props => <Billing profile={profile} {...props} />} />
-            <Route
-              exact
-              path="/dashboard/decks/:deckId/train"
-              render={(props) => {
-                const deckToTrain = this.handleTrainDeck(props);
-                return <TrainDeck deck={deckToTrain[0]} updateProgress={this.addCardToUpdate} {...props} />;
-              }}
-            />
-            <Route
-              exact
-              path="/dashboard/decks/:deckId/train/:id/delete"
-              render={props => <DeleteCardModal deleteCard={this.handleCardDeletion} {...props} />}
-            />
-          </Wrapper>
+          <Route path="/callback" render={props => <Callback {...props} />} />
         </Switch>
       </AppWrapper>
     );
   }
 }
 
-export default App;
+export default withRouter(App);
 
 // styles
 const AppWrapper = styled.div`

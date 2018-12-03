@@ -63,7 +63,7 @@ router.get('/', (req, res) => {
         if (dueDates[0] && dueDates[0].card_progress) {
           dueDates = dueDates[0].card_progress;
         } else {
-          dueDates = {}
+          dueDates = {};
         }
 
         console.log(format(decks, dueDates));
@@ -90,6 +90,21 @@ router.post('/', (req, res) => {
       console.log(err.message);
       res.status(500).json(err);
     });
+});
+
+router.get('/:id', (req, res) => {
+  const { id } = req.params;
+
+  decks
+    .findById(id)
+    .then(success => {
+      if (!success || success < 1) {
+        res.status(404).json({ message: 'No records found' });
+      } else {
+        res.status(200).json(success);
+      }
+    })
+    .catch(err => res.status(500).json(err));
 });
 
 router.put('/:id', (req, res) => {

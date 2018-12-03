@@ -21,17 +21,19 @@ router.post('/', (req, res) => {
   cards
     .add(card)
     .then(ids => {
-      console.log(ids[0])
+      console.log(ids[0]);
       res.status(201).json(ids[0]);
     })
     .catch(err => {
-      console.log(err)
+      console.log(err);
       res.status(500).json(err);
     });
 });
 
 router.post('/batch', (req, res) => {
   const batch = req.body;
+
+  console.log('batch: ', batch);
 
   cards
     .batchAdd(batch)
