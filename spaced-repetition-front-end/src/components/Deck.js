@@ -106,6 +106,7 @@ const Container = styled.div`
   margin: 5px;
   width: 50%;
   border: 1px solid ${props => props.theme.dark.main};
+  background: ${props => props.theme.dark.cardBackground};
   display:flex;
   flex-direction: column;
   /* height:100%; */
