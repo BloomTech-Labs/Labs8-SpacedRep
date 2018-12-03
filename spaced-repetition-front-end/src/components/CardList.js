@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import CardView from './CardView';
+import Card from './Card';
 import CardListTools from './CardListTools';
 // import CardInputs from './CardInputs';
 import AddCard from './AddCard';
@@ -29,12 +29,12 @@ class CardList extends Component {
     const { decks } = this.props;
     const { addNewCard, deckArr } = this.state;
     return (
-      <CardContainer>
+      <CardListContainer>
         <CardListTools addNewCard={this.handleAddCard} />
         {addNewCard && <AddCard grabDeckInfo={this.handleDeckData} toggleAddCard={this.handleAddCard} />}
         {decks.length > 0 && decks.map((deck) => {
           return deck.cards.map((card) => {
-            return <CardView key={card.id} card={card} deckName={deck.name} decks={decks} />;
+            return <Card key={card.id} card={card} deckName={deck.name} decks={decks} />;
           });
         })}
         {decks.length === 0 && !addNewCard && (
@@ -43,7 +43,7 @@ class CardList extends Component {
             <p>Click the Add Card button in the tool bar above to get started.</p>
           </div>
         )}
-      </CardContainer>
+      </CardListContainer>
     );
   }
 };
@@ -52,15 +52,14 @@ export default CardList;
 
 // styled
 
-const CardContainer = styled.div`
-  // width: 100%;
+const CardListContainer = styled.div`
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  // letf: 200px;
+  // left: 200px;
   // flex-grow: 1;  /*ensures that the container will take up the full height of the parent container*/
     overflow-y: auto;  /*adds scroll to this container*/
-}
 `;
 
 CardList.propTypes = {

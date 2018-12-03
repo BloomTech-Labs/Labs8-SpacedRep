@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
-import Card from './Card';
+import TrainingCard from './TrainingCard';
 
 class TrainDeck extends React.Component {
   state = {
@@ -99,7 +99,7 @@ class TrainDeck extends React.Component {
           {deck ? deck.name : 'Loading...'}
         </TrainingHeader>
         {/* <Card data={deck} updateProgress={updateProgress} /> */}
-        <Card formattedDeck={formattedDeck} updateProgress={updateProgress} />
+        <TrainingCard formattedDeck={formattedDeck} updateProgress={updateProgress} />
       </TrainingContainer>
     );
   }

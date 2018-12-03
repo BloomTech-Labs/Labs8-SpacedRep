@@ -11,50 +11,51 @@ const today = Math.round(new Date().getTime() / DAY_IN_MILLISECONDS);
 
 const router = express.Router();
 
+//takes retrieved decks/deck and formats them for front end
+const formatDecks = (decks = [], dueDates = {}) => {
+  let deckNames = {};
+  let formattedData = [];
+  let count = 0;
+  for (let i = 0; i < decks.length; i++) {
+    // if deck exists, push just the card to the object's card array
+    if (deckNames[decks[i].name] !== undefined) {
+      formattedData[deckNames[decks[i].name]].cards.push({
+        "id": decks[i].id,
+        "title": decks[i].title,
+        "question": decks[i].question,
+        "answer": decks[i].answer,
+        "language": decks[i].language,
+        "deck_id": decks[i].deck_id,
+        "dueDate": dueDates[decks[i].id] ? dueDates[decks[i].id].dueDate : today - 1
+      });
+    } else {
+      // if deck does not exist, push the deck to formattedData array
+      // add property to deckname objects and assign value of count (for referencing in the array)
+      deckNames[decks[i].name] = count++;
+      formattedData.push({
+        "id": decks[i].deck_id,
+        "name": decks[i].name,
+        "public": decks[i].public,
+        "tags": decks[i].tags,
+        "cards": [{
+          "id": decks[i].id,
+          "title": decks[i].title,
+          "question": decks[i].question,
+          "answer": decks[i].answer,
+          "language": decks[i].language,
+          "deck_id": decks[i].deck_id,
+          "dueDate": dueDates[decks[i].id] ? dueDates[decks[i].id].dueDate : today - 1
+        }]
+      });
+    }
+  }
+  return formattedData;
+}
+
 router.use(checkJwt);
 
 router.get('/', (req, res) => {
   let user_id = req.user.sub;
-
-  function format(arr, dueDates) {
-    let deckNames = {};
-    let formattedData = [];
-    let count = 0;
-    for (let i = 0; i < arr.length; i++) {
-      // if deck exists, push just the card to the object's card array
-      if (deckNames[arr[i].name] !== undefined) {
-        formattedData[deckNames[arr[i].name]].cards.push({
-          "id": arr[i].id,
-          "title": arr[i].title,
-          "question": arr[i].question,
-          "answer": arr[i].answer,
-          "language": arr[i].language,
-          "deck_id": arr[i].deck_id,
-          "dueDate": dueDates[arr[i].id] ? dueDates[arr[i].id].dueDate : today - 1
-        });
-      } else {
-        // if deck does not exist, push the deck to formattedData array
-        // add property to deckname objects and assign value of count (for referencing in the array)
-        deckNames[arr[i].name] = count++;
-        formattedData.push({
-          "id": arr[i].deck_id,
-          "name": arr[i].name,
-          "public": arr[i].public,
-          "tags": arr[i].tags,
-          "cards": [{
-            "id": arr[i].id,
-            "title": arr[i].title,
-            "question": arr[i].question,
-            "answer": arr[i].answer,
-            "language": arr[i].language,
-            "deck_id": arr[i].deck_id,
-            "dueDate": dueDates[arr[i].id] ? dueDates[arr[i].id].dueDate : today - 1
-          }]
-        });
-      }
-    }
-    return formattedData;
-  }
 
   decks
     .findByAuthor(user_id)
@@ -66,8 +67,8 @@ router.get('/', (req, res) => {
           dueDates = {}
         }
 
-        console.log(format(decks, dueDates));
-        res.status(200).json(format(decks, dueDates));
+        console.log(formatDecks(decks, dueDates));
+        res.status(200).json(formatDecks(decks, dueDates));
 
       }).catch(err => {
         console.log(err.message);
@@ -92,6 +93,28 @@ router.post('/', (req, res) => {
     });
 });
 
+//used to retrieve a single deck for share before confirming import
+router.get('/:id', (req, res) => {
+  const { id } = req.params;
+  console.log('findbyid:', id)
+  decks.findByID(id)
+    .then(decks => {
+      if (decks[0]) {
+        //deck exists, retrieve and show to user to confirm if they want to import deck
+        console.log('formatted', formatDecks(decks));
+        res.status(200).json(formatDecks(decks));
+      } else {
+        res.status(404).json({ message: 'Deck does not exist or is private' });
+      }
+
+    }).catch(err => {
+      console.log(err.message)
+      res.status(500).json(err)
+    });
+  console.log('  end findByID')
+});
+
+
 router.put('/:id', (req, res) => {
   // console.log('===== REQ', req);
   const { id } = req.params;
@@ -106,7 +129,10 @@ router.put('/:id', (req, res) => {
         res.status(200).json(success);
       }
     })
-    .catch(err => res.status(500).json(err));
+    .catch.catch(err => {
+      console.log(err.message)
+      res.status(500).json(err)
+    });
 });
 
 router.delete('/:id', (req, res) => {
@@ -121,7 +147,10 @@ router.delete('/:id', (req, res) => {
         res.status(200).json(success);
       }
     })
-    .catch(err => res.status(500).json(err));
+    .catch(err => {
+      console.log(err.message)
+      res.status(500).json(err)
+    });
 });
 
 module.exports = router;
