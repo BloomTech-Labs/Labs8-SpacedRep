@@ -12,7 +12,6 @@ const Billing = (props) => {
         <Title>Billing</Title>
         <Text>Free tier users are limited to 3 decks and a maximum of 150 cards.</Text>
         <Text>No limit for paid.</Text>
-        <Text>Would you like to complete the purchase?</Text>
         <Elements>
           <CheckoutForm
             handleUpdateTier={handleUpdateTier}

@@ -9,7 +9,17 @@ const headers = { Authorization: `Bearer ${idToken}` };
 class CheckoutForm extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      displayPurchaseForm: false,
+      displayCancel: false,
+    };
+  }
+
+  toggleSubscribe = (e) => {
+    if (e) { e.preventDefault(); }
+    this.setState(prevState => ({
+      displayPurchaseForm: !prevState.displayPurchaseForm,
+    }));
   }
 
   handleSubscribe = async (e) => {
@@ -27,39 +37,70 @@ class CheckoutForm extends Component {
       sub: profile.sub,
     };
 
-    axios.post(`${process.env.REACT_APP_URL}/api/stripe`, purchaseObj, { headers })
+    await axios.post(`${process.env.REACT_APP_URL}/api/stripe`, purchaseObj, { headers })
       .then(response => handleUpdateTier(response.data))
       .catch(error => console.log(error));
+
+    this.toggleSubscribe();
   };
+
+  toggleCancel = (e) => {
+    if (e) { e.preventDefault(); }
+    this.setState(prevState => ({
+      displayCancel: !prevState.displayCancel,
+    }));
+  }
 
   cancelSubscription = async (e) => {
     e.preventDefault();
     const { profile, handleUpdateTier } = this.props;
 
-    axios.put(`${process.env.REACT_APP_URL}/api/stripe`, { sub: profile.sub }, { headers })
+    await axios.put(`${process.env.REACT_APP_URL}/api/stripe`, { sub: profile.sub }, { headers })
       .then(response => handleUpdateTier(response.data))
       .catch(error => console.log(error));
+
+    this.toggleCancel();
   };
 
   render() {
     const { profile } = this.props;
-    if (profile && profile.tier === 'free') {
+    const { displayPurchaseForm, displayCancel } = this.state;
+    if (profile && profile.tier === 'free' && displayPurchaseForm) {
       return (
         <CheckoutFormContainer>
           <CardElement style={{ base: { fontSize: '18px', color: 'white' } }} />
           <button onClick={this.handleSubscribe} type="submit">
             Buy now
           </button>
+          <button onClick={this.toggleSubscribe} type="submit">
+            Lemme think about it
+          </button>
         </CheckoutFormContainer>
       );
     }
-    return (
-      <CheckoutFormContainer>
-        <CardElement style={{ base: { fontSize: '18px', color: 'white' } }} />
-        <button onClick={this.cancelSubscription} type="submit">
-          cancel
+    if (profile && profile.tier === 'paid' && !displayCancel) {
+      return (
+        <button onClick={this.toggleCancel} type="submit">
+          Cancel subscription
         </button>
-      </CheckoutFormContainer>
+      );
+    }
+    if (profile && profile.tier === 'paid' && displayCancel) {
+      return (
+        <div>
+          <button onClick={this.cancelSubscription} type="submit">
+            Cancel now
+          </button>
+          <button onClick={this.toggleCancel} type="submit">
+            {'Nah, I\'ll keep it'}
+          </button>
+        </div>
+      );
+    }
+    return (
+      <button onClick={this.toggleSubscribe} type="submit">
+        Subscribe
+      </button>
     );
   }
 }
