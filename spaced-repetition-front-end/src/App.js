@@ -310,10 +310,6 @@ export default withRouter(App);
 
 // styles
 const AppWrapper = styled.div`
-// padding: 0 2%;
   max-width: 1500px;
-  // width: 100%;
-  // height: 100%;
-  // margin: 0 auto;
   color: ${props => props.theme.dark.mainFontColor};
 `;

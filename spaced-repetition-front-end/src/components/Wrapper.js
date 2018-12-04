@@ -59,6 +59,7 @@ const WrapperContainer = styled.div`
 
   @media (max-width: 900px) {
     margin-top: 80px;
+    // flex-direction: column;
   }
   `;
 
@@ -67,10 +68,12 @@ const BodyContainer = styled.div`
   margin-top: 55px;
   max-width: 1500px;
 
-  @media (max-width: 900) {
+  @media (max-width: 900px) {
+    flex-direction: column;
+    // height: 0;
   }
 
   @media (max-width: 700px) {
-    flex-direction: column;
+    // flex-direction: column;
   }
 `;
