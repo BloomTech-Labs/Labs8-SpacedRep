@@ -208,6 +208,8 @@ export default Card;
 // styles
 
 const CardContainer = styled.div`
+  /* display:flex; */
+  /* flex-direction: column; */
   width: 315px;
   margin: 2%;
   padding: 2%;
@@ -224,7 +226,6 @@ const CardInteractions = styled.div`
 
 const TagsContainer = styled.div`
   display: flex;
-
   p {
     /* border: 1px solid black; */
     padding: 2%;

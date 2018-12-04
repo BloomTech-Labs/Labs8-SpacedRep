@@ -111,7 +111,7 @@ class AddDeck extends React.Component {
 export default withRouter(AddDeck);
 
 const DeckContainer = styled.div`
-  width: 100%;
+  width: 90%;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -121,7 +121,7 @@ const DeckContainer = styled.div`
 const DeckForm = styled.form`
   display: flex;
   flex-direction: column;
-  width: 90%;
+  width: 100%;
   padding: 10px;
   background: ${props => props.theme.dark.cardBackground};
   border-radius: 3px;

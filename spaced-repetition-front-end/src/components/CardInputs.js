@@ -53,7 +53,7 @@ export default CardInputs;
 const CardInfo = styled.form`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  /* width: 100%; */
   padding: 10px;
   background: ${props => props.theme.dark.cardBackground};
   border-radius: 3px;
