@@ -8,31 +8,17 @@ import '../App.css';
 class DeckList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    //FIX: convert back to HOC
   }
 
-  // handleCreateNewDeck = (e) => {
-  //   // don't allow submission of empty deck
-  //   e.preventDefault();
-  //   const API_URL = 'http://localhost:4242';
-  //   const newDeckObject = {
-  //     name: 'testdeck',
-  //     public: false,
-  //     tags: 'tag1,tag2,tag3',
-  //   };
-  //   axios.post(`${API_URL}/api/decks`, newDeckObject)
-  //     .then(response => console.log(response))
-  //     .catch(err => console.log(err));
-  // }
 
   render() {
-    const { decks } = this.props;
-    console.log('decks', decks)
+    const { decks, today } = this.props;
     return (
       <Container>
         {/* <button onClick={this.handleCreateNewDeck} type="submit">New deck</button> */}
         {decks.map(deck => (
-          <Deck key={deck.name} deck={deck} />
+          <Deck key={deck.name} deck={deck} today={today} />
         ))}
       </Container>
     );
@@ -51,10 +37,8 @@ const Container = styled.div`
   height: 100%;
   padding-top: 20px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  // // display flex;
-  // height: 50px;
-  // width: 100%;
+  /* flex-direction: column; */
+  /* align-items: center; */
+  flex-wrap: wrap;
+  justify-content: center;
 `;
