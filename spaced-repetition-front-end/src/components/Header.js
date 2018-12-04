@@ -38,7 +38,8 @@ const Header = ({ auth }, props) => {
       : (
         <Container isLoggedIn>
           <AppName to="/">
-            <Logo src={logo} />
+            <h1>SpaceReps</h1>
+            {/* <Logo src={logo} /> */}
           </AppName>
           <UsersNav>
             {window.location.pathname === '/' && <Nav isLoggedIn />}
