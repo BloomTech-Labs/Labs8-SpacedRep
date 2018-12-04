@@ -19,22 +19,22 @@ class Sidebar extends React.Component {
           <Logo src={decksIcon} />
           <ItemName>Decks</ItemName>
         </SidebarItem>
-        <Divider />
+        {/* <Divider /> */}
         <SidebarItem path={pathname} thisroute="/dashboard/add-deck" to="/dashboard/add-deck">
           <Logo src={decksIcon} />
           <ItemName>Add Deck</ItemName>
         </SidebarItem>
-        <Divider />
+        {/* <Divider /> */}
         <SidebarItem path={pathname} thisroute="/dashboard/cards" to="/dashboard/cards">
           <Logo src={decksIcon} />
           <ItemName>Cards</ItemName>
         </SidebarItem>
-        <Divider />
+        {/* <Divider /> */}
         <SidebarItem path={pathname} thisroute="/dashboard/profile" to="/dashboard/profile">
           <Logo src={decksIcon} />
           <ItemName>Profile</ItemName>
         </SidebarItem>
-        <Divider />
+        {/* <Divider /> */}
       </Container>
     );
   }
@@ -46,54 +46,69 @@ export default withRouter(Sidebar);
 // No idea what is causing it, but without min-width, container shrinks to
 // 192px when decks is selected, but stays at 200px when on add decks or add cards
 const Container = styled.div`
+  position: sticky;
+  top: 55px;
+  flex: 0 0 20%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: center;
-  width: 200px;
   height: 100vh;
-  /* padding-left: 20px; */
-  /* padding-right:20px; */
-  background: ${props => props.theme.dark.sidebar};
-  min-width: 200px;
+  padding-right:20px;
+  background: ${props => props.theme.dark.main};
   
-  @media (max-width: 700px) {
-    flex-direction: column;
-    width: 100%;
+  @media (max-width: 900px) {
+    flex-direction: row;
+    top: 80px;
+    flex-direction: row;
     height: 100%;
+    padding-right: 0;
+  }
+  @media (max-width: 700px) {
+    // flex-direction: column;
   }
 `;
 
 const SidebarItem = styled(Link)`
   display: flex;
-  justify-content: end;
   align-items: center;
-  padding:  20px 15px 20px 10px;
+  padding:  10px 15px 15px 16px;
   width: 100%;
   ${props => props.path === props.thisroute && css`
     background: ${styleProps => styleProps.theme.dark.bodyBackground};
-    `
-}
-`;
+  `}
+  border-bottom: 1px solid white;
 
-const Divider = styled.hr`
-  width: 100%;
-  margin: 0px;
-  /* padding: 0px 0px 0px 0px; */
-  /* margin-left:25px; */
-  @media (max-width: 700px) {
-    display: none;
+  @media (max-width: 900px) {
+    padding: 0;
   }
 `;
 
-const ItemName = styled.div`
-  color: white;
-  font-size: 25px;
+// const Divider = styled.hr`
+//   width: 100%;
+//   // margin: 0px;
+//   // padding: 0px 0px 0px 0px;
+//   margin-left:25psx;
+//   @media (max-width: 700px) {
+//     display: none;
+//   }
+// `;
+
+const ItemName = styled.p`
+  color: ${props => props.theme.dark.mainFontcolor};
   padding-left: 20px;
+  font-size:22px;
+
+  @media (max-width: 900px) {
+    font-size: 18px;
+  }
+
+  @media (max-width: 700px) {
+    padding-left: 0;
+  }
 `;
 
 const Logo = styled.img`
-  height: 25%;
+  // height: 25%;
   width: 25%;
   border-radius: 6px;
   @media (max-width: 700px) {

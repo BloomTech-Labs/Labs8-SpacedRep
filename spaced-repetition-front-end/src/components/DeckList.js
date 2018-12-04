@@ -37,8 +37,8 @@ const Container = styled.div`
   height: 100%;
   padding-top: 20px;
   display: flex;
-  /* flex-direction: column;
-  align-items: center; */
+  /* flex-direction: column; */
+  /* align-items: center; */
   flex-wrap: wrap;
   justify-content: center;
 `;

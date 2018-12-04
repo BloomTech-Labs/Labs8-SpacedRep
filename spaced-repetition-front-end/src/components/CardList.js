@@ -6,6 +6,8 @@ import CardListTools from './CardListTools';
 // import CardInputs from './CardInputs';
 import AddCard from './AddCard';
 
+
+//FIX: if 1 or 2 cards, the card's height is way too much and looks terrible
 class CardList extends Component {
   state = {
     addNewCard: false,
@@ -57,6 +59,9 @@ const CardListContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  // left: 200px;
+  // flex-grow: 1;  /*ensures that the container will take up the full height of the parent container*/
+    overflow-y: auto;  /*adds scroll to this container*/
 `;
 
 CardList.propTypes = {

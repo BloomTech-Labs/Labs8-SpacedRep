@@ -6,6 +6,15 @@
   box-sizing: border-box;
 }
 
+html {
+  /* position: relative; */
+  /* flex:1; */
+  /* overflow:hidden; */
+  /* overflow-y:auto; */
+  scroll-behavior: smooth;
+  /* -webkit-overflow-scrolling:touch; */
+}
+
 body {
   font-family: Helvetica;
   /*  background: lightsteelblue; */

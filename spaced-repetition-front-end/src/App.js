@@ -3,11 +3,12 @@ import {
   Route, Switch, withRouter, matchPath,
 } from 'react-router-dom';
 import axios from 'axios';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
+import styles from './styles';
 import Auth from './auth/Auth';
 import Callback from './auth/Callback';
 import Header from './components/Header';
-import LandingPage from './components/LandingPage';
+import LandingPage from './components/LandingPage/LandingPage';
 import DeckList from './components/DeckList';
 import CardList from './components/CardList';
 import Wrapper from './components/Wrapper';
@@ -18,8 +19,22 @@ import TrainDeck from './components/TrainDeck';
 import DeckView from './components/DeckView';
 import DeleteCardModal from './components/DeleteCardModal';
 import ImportDeck from './components/ImportDeck';
-import './App.css';
+// import './App.css';
 
+const GlobalStyle = createGlobalStyle`
+  body {
+    height: 100%;   
+    // overflow: hidden;  /*makes the body non-scrollable (we will add scrolling to the sidebar and main content containers)*/
+    margin: 0px;  /*removes default style*/
+    // display: flex;
+    background: ${props => props.theme.dark.main};
+
+    a {
+      color: ${props => props.theme.dark.mainFontColor};
+    }
+  }
+  ${styles}
+`;
 
 /**
  * Creates a new instance of the Auth module.
@@ -247,6 +262,7 @@ class App extends Component {
     const { decks, profile } = this.state;
     return (
       <AppWrapper>
+        <GlobalStyle />
         <Route path="/" render={props => <Header auth={auth} {...props} />} />
 
         <Switch>
@@ -294,10 +310,6 @@ export default withRouter(App);
 
 // styles
 const AppWrapper = styled.div`
-  max-width: 1000px;
-  width: 100%;
-  height: 100%;
-  margin: 0 auto;
-  background: ${props => props.theme.dark.bodyBackground};
-  color: white;
+  max-width: 1500px;
+  color: ${props => props.theme.dark.mainFontColor};
 `;

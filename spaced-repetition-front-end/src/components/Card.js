@@ -165,7 +165,7 @@ class Card extends React.Component {
         <TextArea value={question} onChange={this.handleChange} placeholder="Question" name="question" />
         <TextArea value={answer} onChange={this.handleChange} placeholder="Answer" name="answer" />
         {/* <input type="text" value={tags} name="tags" onChange={this.handleChange} placeholder="Enter a list of tags separated by comma (no spaces)" required /> */}
-        <Save type="submit" onClick={this.onCardSave}>Save</Save>
+        <SaveButton type="submit" onClick={this.onCardSave}>Save</SaveButton>
       </EditCard>
     );
   }
@@ -194,7 +194,7 @@ class Card extends React.Component {
             </TagsContainer>
             <CardInteractions>
               <p>{`From deck: ${deckName}`}</p>
-              {!disableEdit && <button type="button" onClick={this.toggleEdit}>Edit</button>}
+              {!disableEdit && <EditButton type="button" onClick={this.toggleEdit}>Edit</EditButton>}
             </CardInteractions>
           </CardContainer>
         )
@@ -208,6 +208,8 @@ export default Card;
 // styles
 
 const CardContainer = styled.div`
+  /* display:flex; */
+  /* flex-direction: column; */
   width: 315px;
   margin: 2%;
   padding: 2%;
@@ -224,7 +226,6 @@ const CardInteractions = styled.div`
 
 const TagsContainer = styled.div`
   display: flex;
-
   p {
     /* border: 1px solid black; */
     padding: 2%;
@@ -268,8 +269,12 @@ const Cancel = styled.button`
   }
   /* width: 100px; */
 `;
-const Save = styled.button`
-  /* width: 100px; */
+const SaveButton = styled.button`
+    ${props => props.theme.dark.buttons.base}
+  &:hover {
+    background: ${props => props.theme.dark.logo};
+    cursor: pointer;
+  }
 `;
 
 const DDWrapper = styled.div`
@@ -300,6 +305,15 @@ flex-direction: column;
 const TextArea = styled.textarea`
   height: 80px;
 `;
+
+const EditButton = styled.button`
+  ${props => props.theme.dark.buttons.base}
+  &:hover {
+    background: ${props => props.theme.dark.logo};
+    cursor: pointer;
+  }
+  
+`
 
 
 Card.propTypes = {
