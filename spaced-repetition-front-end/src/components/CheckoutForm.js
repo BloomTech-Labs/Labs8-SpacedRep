@@ -69,38 +69,38 @@ class CheckoutForm extends Component {
       return (
         <CheckoutFormContainer>
           <CardElement style={{ base: { fontSize: '18px', color: 'white' } }} />
-          <button onClick={this.handleSubscribe} type="submit">
+          <Subscribe onClick={this.handleSubscribe} type="submit">
             Buy now
-          </button>
-          <button onClick={this.toggleSubscribe} type="submit">
+          </Subscribe>
+          <Cancel onClick={this.toggleSubscribe} type="submit">
             Lemme think about it
-          </button>
+          </Cancel>
         </CheckoutFormContainer>
       );
     }
     if (profile && profile.tier === 'paid' && !displayCancel) {
       return (
-        <button onClick={this.toggleCancel} type="submit">
+        <Cancel onClick={this.toggleCancel} type="submit">
           Cancel subscription
-        </button>
+        </Cancel>
       );
     }
     if (profile && profile.tier === 'paid' && displayCancel) {
       return (
         <div>
-          <button onClick={this.cancelSubscription} type="submit">
+          <Cancel onClick={this.cancelSubscription} type="submit">
             Cancel now
-          </button>
-          <button onClick={this.toggleCancel} type="submit">
+          </Cancel>
+          <Subscribe onClick={this.toggleCancel} type="submit">
             {'Nah, I\'ll keep it'}
-          </button>
+          </Subscribe>
         </div>
       );
     }
     return (
-      <button onClick={this.toggleSubscribe} type="submit">
+      <Subscribe onClick={this.toggleSubscribe} type="submit">
         Subscribe
-      </button>
+      </Subscribe>
     );
   }
 }
@@ -111,3 +111,16 @@ export default injectStripe(CheckoutForm);
 const CheckoutFormContainer = styled.div`
 
 `;
+
+const Subscribe = styled.button`
+  ${props => props.theme.dark.buttons.base}
+  &:hover {
+    background: ${props => props.theme.dark.logo};
+    cursor: pointer;
+  }
+`
+
+const Cancel = styled.button`
+${props => props.theme.dark.buttons.base}
+background: ${props => props.theme.dark.buttons.negative};
+`
