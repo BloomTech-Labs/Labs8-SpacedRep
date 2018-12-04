@@ -6,6 +6,8 @@ import CardListTools from './CardListTools';
 // import CardInputs from './CardInputs';
 import AddCard from './AddCard';
 
+
+//FIX: if 1 or 2 cards, the card's height is way too much and looks terrible
 class CardList extends Component {
   state = {
     addNewCard: false,
