@@ -20,6 +20,7 @@ router.post('/', async (req, res) => {
     const user = await users.freeToPaid(user_id, customer.id)
     return res.status(200).json(user[0]);
   } catch (error) {
+    console.log('catch error: ', error.message);
     return res.status(500).json({ message: "Subscription failed.", error: error.message });
   }
 });
