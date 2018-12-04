@@ -70,6 +70,9 @@ padding: 5% 10%;
   letter-spacing: 1px;
   // color: #3e3d3d;
   color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   &::before {
     background-image: url(${headerImg});
@@ -84,6 +87,19 @@ padding: 5% 10%;
     z-index: -2;
     opacity: 0.2;
     }
+
+    div {
+      width: 700px;
+    }
+
+    h1 {
+      font-size: 38px;
+    }
+
+    p {
+      margin-top: 30px;
+      line-height: 25px;
+    }
 `;
 
 const Body = styled.div`
@@ -97,6 +113,7 @@ const Body = styled.div`
 
 const CTAButtonsGroup = styled.div`
 text-align: center;
+margin: 0 auto;
 
 button {
   width: 200px;
