@@ -314,4 +314,8 @@ const AppWrapper = styled.div`
   margin-top: 55px;
   max-width: 1500px;
   color: ${props => props.theme.dark.mainFontColor};
+
+  @media (max-width: 900px) {
+    margin-top: 80px;
+  }
 `;

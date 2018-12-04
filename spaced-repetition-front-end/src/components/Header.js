@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Nav from './Nav';
 
-const logo = require('../images/SPACEREPS.svg');
+// const logo = require('../images/SPACEREPS.svg');
 
 const Header = ({ auth }, props) => {
   function login() {
@@ -65,16 +65,14 @@ Header.propTypes = {
 
 // styles
 const Container = styled.div`
-box-sizing: border-box; // it seems b-s:b-b is added to every component except Header... bug?
-padding: 0 2%;
-position: fixed;
-z-index: 1;
-top: 0;
-left: 0;
-width: 100%;
-max-width: 1500px;
-align-items: center;
-
+  padding: 0 2%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  max-width: 1500px;
+  align-items: center;
   height: 55px;
   display: flex;
   justify-content: space-between;
@@ -87,7 +85,7 @@ align-items: center;
     } else if (window.location.pathname === '/dashboard') {
       flex-direction: ${props => props.isLoggedIn ? 'row' : 'column'}
     }
-    height: 80px;
+    height: 55px;
   }
   
   @media (max-width: 700px) {
@@ -137,16 +135,16 @@ const VisitorsNav = styled.div`
 align-items: baseline;
 display: flex;
 width: 60%;
-max-width: 50%;
+// max-width: 50%;
 justify-content: space-between;
 
 @media (max-width: 1000px) {
-  max-width: 50%;
+  // max-width: 50%;
 }
 
 @media (max-width: 900px) {
-  width: 100%;
-  max-width: 100%;
+  // width: 100%;
+  // max-width: 100%;
 
   }
 

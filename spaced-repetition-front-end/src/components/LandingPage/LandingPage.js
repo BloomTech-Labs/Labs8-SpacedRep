@@ -51,10 +51,12 @@ export default LandingPage;
 // styles
 
 const WrapperContainer = styled.div`
-    // img {
-      // width: 100%;
-      // transform: rotate(1350deg);
-  // }
+
+@media (max-width: 540px) {
+  h1 {
+    font-size: 28px;
+  }
+}
 `;
 
 const Header = styled.div`
@@ -89,7 +91,8 @@ padding: 5% 10%;
     }
 
     div {
-      width: 700px;
+      max-width: 700px;
+      width: 100%;
     }
 
     h1 {
@@ -116,7 +119,8 @@ text-align: center;
 margin: 0 auto;
 
 button {
-  width: 200px;
+  // width: 200px;
+  
 }
 `;
 
@@ -127,6 +131,11 @@ margin-right: ${props => props.learn ? 0 : '20px'};
 color: ${props => props.learn ? null : 'lightseagreen'};
 border-color: ${props => props.learn ? null : 'lightseagreen'};
 background: ${props => props.learn ? null : 'none'};
+width: 200px;
+
+@media (max-width: 540px) {
+  width: 115px;
+}
 `;
 
 const ArrowContainer = styled.div`

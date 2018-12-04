@@ -27,10 +27,13 @@ export default HeaderFeaturettes;
 
 const Container = styled.div`
 display: flex;
-padding: 40px 0;
+// padding: 40px 0;
 justify-content: space-around;
 width: 100%;
 // border: 1px solid yellow;
+// border: 1px solid yellow;
+margin-top: 30px;
+height: 200px;
 `;
 
 const Featurette = styled.div`
@@ -40,8 +43,13 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 text-align: center;
+height: 100%;
 
 i {
   color: lightseagreen;
+}
+
+p {
+  text-align: left;
 }
 `;
