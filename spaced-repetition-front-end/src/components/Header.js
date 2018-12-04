@@ -109,11 +109,11 @@ const AppName = styled(Link)`
   }
 `;
 
-const Logo = styled.img`
-  width: 75%;
-  max-width: 200px;
-  min-width: 100px;
-`;
+// const Logo = styled.img`
+//   width: 75%;
+//   max-width: 200px;
+//   min-width: 100px;
+// `;
 
 const LinkStyled = styled.button`
   font-size: 14px;

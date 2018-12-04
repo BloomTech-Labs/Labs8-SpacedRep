@@ -27,7 +27,7 @@ const NavContainer = styled.ul`
   li {
     a {
       font-size: 14px;
-      // text-decoration: none;
+      text-decoration: none;
       padding-bottom: 10px;
 
       &:hover {

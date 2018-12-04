@@ -114,25 +114,25 @@ background: ${props => props.learn ? null : 'none'};
 
 const ArrowContainer = styled.div`
 position: absolute;
-top: 95 %;
-left: 50 %;
-transform: translate(-50 %, -50 %);
+top: 95%;
+left: 50%;
+transform: translate(-50%, -50%);
 `;
 
 const BackToTopContainer = styled.div`
 position: absolute;
-top: 95 %;
-right: 5 %;
+top: 95%;
+right: 5%;
 `;
 
 const animate = keyframes`
-0 % {
+0% {
   opacity: 0;
 }
-50 % {
+50% {
   opacity: 1;
 }
-100 % {
+100% {
   opacity: 0;
 }
   `;
@@ -141,10 +141,10 @@ const Arrow = styled.span`
 display: block;
 width: 20px;
 height: 20px;
-border - color: black; // working in dev tools - not here
+border-color: black; // working in dev tools - not here
 // border-bottom-color: ${props => props.theme.dark.mainFontColor}
-border - bottom: 1px solid;
-border - right: 1px solid;
+border-bottom: 1px solid;
+border-right: 1px solid;
 transform: rotate(45deg);
-animation: ${ animate} 2s infinite;
+animation: ${animate} 2s infinite;
 `;
