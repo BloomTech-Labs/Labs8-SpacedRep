@@ -6,6 +6,7 @@ import { Router } from 'react-router-dom';
 import dark from './styles/themes/Dark';
 import App from './App';
 import history from './history';
+import './index.css';
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').load();

@@ -14,6 +14,7 @@ export default WhySpacedReps;
 // styles
 
 const WhyContainer = styled.div`
+padding-top: 55px;
 border: 1px solid pink;
 height: 100vh;
 width: 100%;

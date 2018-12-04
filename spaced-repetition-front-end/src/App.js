@@ -17,11 +17,12 @@ import TrainDeck from './components/TrainDeck';
 import DeleteCardModal from './components/DeleteCardModal';
 
 const GlobalStyle = createGlobalStyle`
+* {
+  box-sizing: border-box;
+}
   body {
     height: 100%;   
-    // overflow: hidden;  /*makes the body non-scrollable (we will add scrolling to the sidebar and main content containers)*/
-    margin: 0px;  /*removes default style*/
-    // display: flex;
+    margin: 0px;
     background: ${props => props.theme.dark.main};
 
     a {
@@ -285,6 +286,7 @@ export default App;
 
 // styles
 const AppWrapper = styled.div`
+  margin-top: 55px;
   max-width: 1500px;
   color: ${props => props.theme.dark.mainFontColor};
 `;

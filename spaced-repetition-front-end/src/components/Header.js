@@ -24,7 +24,8 @@ const Header = ({ auth }, props) => {
       ? (
         <Container>
           <AppName to="/">
-            <Logo src={logo} />
+            {/* <Logo src={logo} /> */}
+            <h1>SpaceReps</h1>
           </AppName>
           <VisitorsNav>
             <Nav />
@@ -100,6 +101,11 @@ align-items: center;
 
 const AppName = styled(Link)`
   align-self: center;
+
+  h1 {
+    font-family: 'Comfortaa', cursive;
+    font-size: 26px;
+  }
 `;
 
 const Logo = styled.img`

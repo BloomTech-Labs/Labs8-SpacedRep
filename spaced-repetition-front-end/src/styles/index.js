@@ -1,8 +1,8 @@
 import Global from './Global';
-import Reset from './Reset';
+// import Reset from './Reset';
 
 const styles = {
-  Reset,
+  // Reset,
   Global,
 };
 
