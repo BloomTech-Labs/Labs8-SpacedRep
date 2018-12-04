@@ -29,7 +29,7 @@ class CardInputs extends React.Component {
   render() {
     const { state } = this;
     return (
-      <div>
+      <Container>
         <CardInfo>
           <TopRow>
             <input type="text" value={state.title} name="title" onChange={this.handleChange} placeholder="Title" required />
@@ -40,37 +40,33 @@ class CardInputs extends React.Component {
               <option value="C++">C++</option>
             </Dropdown>
           </TopRow>
-          <textarea type="text" value={state.question} name="question" onChange={this.handleChange} placeholder="Question" required />
-          <textarea type="text" value={state.answer} name="answer" onChange={this.handleChange} placeholder="Answer" required />
+          <TextArea type="text" value={state.question} name="question" onChange={this.handleChange} placeholder="Question" required />
+          <TextArea type="text" value={state.answer} name="answer" onChange={this.handleChange} placeholder="Answer" required />
         </CardInfo>
-      </div>
+      </Container>
     );
   }
 }
 
 export default CardInputs;
 
+const Container = styled.div`
+  width: 100%;
+`
+
 const CardInfo = styled.form`
   display: flex;
   flex-direction: column;
-  /* width: 100%; */
+  width: 100%;
   padding: 10px;
   background: ${props => props.theme.dark.cardBackground};
   border-radius: 3px;
-  align-items: baseline;
-  justify-content: space-between;
   box-shadow: none;
 
   input[type="text"] {
-    width: 100%;
+    /* width: 100%; */
   }
 
-  textarea {
-    height: 50px;
-    width: 100%;
-    padding: 15px;
-    resize: vertical;
-  }
 `;
 
 const TopRow = styled.div`
@@ -97,3 +93,9 @@ const Dropdown = styled.select`
   border: none;
   height: 50px;
 `;
+
+const TextArea = styled.textarea`
+    height: 50px;
+    padding: 15px;
+    resize: vertical;
+`

@@ -90,7 +90,7 @@ class AddDeck extends React.Component {
   render() {
     const { state } = this;
     return (
-      <DeckContainer>
+      <AddDeckContainer>
         <h2>Create New Deck:</h2>
         <DeckForm onSubmit={this.addDeck}>
           <DeckInfo>
@@ -103,19 +103,19 @@ class AddDeck extends React.Component {
         </DeckForm>
         {state.cards.map((x, i) => <CardInputs i={i} key={i} handleCardChange={this.handleCardChange} />)}
         <AddCard type="button" onClick={this.newCard}>Add Card</AddCard>
-      </DeckContainer>
+      </AddDeckContainer>
     );
   }
 }
 
 export default withRouter(AddDeck);
 
-const DeckContainer = styled.div`
-  width: 90%;
+const AddDeckContainer = styled.div`
+  width: 70%;
+  margin: 10px;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  padding-top: 20px;
+  align-items: center;
 `;
 
 const DeckForm = styled.form`
@@ -123,9 +123,10 @@ const DeckForm = styled.form`
   flex-direction: column;
   width: 100%;
   padding: 10px;
+  margin-left: 18px;
   background: ${props => props.theme.dark.cardBackground};
   border-radius: 3px;
-  align-items: baseline;
+  /* align-items: baseline; */
   justify-content: space-between;
   box-shadow: none;
 `;
@@ -137,7 +138,7 @@ const DeckInfo = styled.div`
   padding: 10px 0;
   background: ${props => props.theme.dark.cardBackground};
   border-radius: 3px;
-  align-items: baseline;
+  /* align-items: baseline; */
   justify-content: space-between;
   box-shadow: none;
 
