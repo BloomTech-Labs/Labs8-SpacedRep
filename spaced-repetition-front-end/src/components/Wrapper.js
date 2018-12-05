@@ -61,7 +61,6 @@ margin-top: 55px;
 display: flex;
 
   @media (max-width: 900px) {
-    flex-direction: column;
   }
 
   @media (max-width: 700px) {
