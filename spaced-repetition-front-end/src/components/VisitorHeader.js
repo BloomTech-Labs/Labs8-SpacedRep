@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Nav from './Nav';
@@ -45,18 +45,69 @@ class VisitorHeader extends Component {
       //     </Container>
       //   )
       //   : (
-      <Container id="Container" isLoggedIn>
+      <Container id="Container" isLoggedIn={isAuthenticated()}>
         <AppName id="AppName" to="/">
           <h1>SpaceReps</h1>
         </AppName>
         <Nav toggle={toggle} login={this.login} logout={this.logout} isLoggedIn={isAuthenticated} />
-        <div type="button" onClick={this.toggleNav}><i className="fas fa-bars fa-2x" /></div>
+        <BurgerGroup isLoggedIn={isAuthenticated()}>
+          {isAuthenticated() ? <a href="/dashboard">Dashboard</a> : null}
+          <BurgerIcon type="button" onClick={this.toggleNav}><i className="fas fa-bars fa-2x" /></BurgerIcon>
+        </BurgerGroup>
+        {/* <NavBurger onClick={this.toggleNav}> */}
+        {/* <NavBurgerBtn>
+            <NavBurgerBar top />
+            <NavBurgerBar mid />
+            <NavBurgerBar bottom />
+          </NavBurgerBtn>
+        </NavBurger> */}
       </Container>
       // )
       // }
     );
   }
-};
+}
+
+const NavBurger = styled.div`
+    cursor: pointer;
+    `;
+
+
+const NavBurgerBtn = styled.div`
+        width: 35px;
+        height: 5px;
+        margin: 6px 0;
+        background-color: @general-background;
+        border-radius: 3px;
+        transition: 0.5s;
+    `;
+
+const NavBurgerBar = styled.div`
+${props => props.top && css`
+transform: rotate(-45deg); translate(-11px, 9px)
+`}
+        ${props => props.mid && css`
+opacity: 0;
+`}
+        ${props => props.bottom && css`
+transform: rotate(45deg); translate(-5px, -5px)
+`}
+        `;
+//   .change .top-bar {
+//     -webkit-transform: rotate(-45deg) translate(-11px, 9px);
+//     transform: rotate(-45deg) translate(-11px, 9px);
+//   }
+
+//   .change .mid-bar {
+//     opacity: 0;
+//   }
+
+//   .change .bottom-bar {
+//     -webkit-transform: rotate(45deg) translate(-5px, -5px);
+//     transform: rotate(45deg) translate(-5px, -5px);
+//   }
+// }
+// }
 
 export default VisitorHeader;
 
@@ -68,74 +119,90 @@ VisitorHeader.propTypes = {
 
 // styles
 const Container = styled.div`
-// temp background color to know which header
-background-color: palevioletred;
-  padding: 0 2%;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  width: 100%;
-  max-width: 1500px;
-  align-items: center;
-  height: 55px;
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid white;
-  // background: ${props => props.theme.dark.main};
+      padding: 0 2%;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      width: 100%;
+      max-width: 1500px;
+      align-items: center;
+      height: 55px;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid white;
+  background: ${props => props.theme.dark.main};
 
-  div {
-    display: none;
+  @media (max-width: 500px) {
+    height: ${props => props.isLoggedIn ? '90px' : '55px'};
+    flex-direction: ${props => props.isLoggedIn ? 'column' : 'row'};
+    // height: 90px;
+    // flex-direction: column;
+    justify-content: center;
 
-    @media (max-width: 900px) {
-      display: inline-block;
-    }
+    // height: 55px;
+    // flex-direction: row;
   }
 
-  // @media (max-width: 900px) {
-  //   if (window.location.pathname === '/') {
-  //     flex-direction: ${props => props.isLoggedIn ? 'column' : 'row'}
-  //   } else if (window.location.pathname === '/dashboard') {
-  //     flex-direction: ${props => props.isLoggedIn ? 'row' : 'column'}
-  //   }
-  //   height: 55px;
-  // }
-  
-  // @media (max-width: 700px) {
-  //   flex-direction: column;
-  // }
+  a {
+    font-size: 16px;
 
-  // }
-  // @media (max-width: 400px) {
-  //   height: 200px;
-  // }
+    &:hover {
+      text-decoration: none;
+    }
+  }
 `;
 
 const AppName = styled(Link)`
   align-self: center;
-
+  
+  &:hover {
+    text-decoration: none;
+  }
+      
   h1 {
     font-family: 'Comfortaa', cursive;
-    font-size: 26px;
+    font-size: 38px;
+    font-weight: bold;
   }
 `;
 
-// const Logo = styled.img`
-//   width: 75%;
-//   max-width: 200px;
-//   min-width: 100px;
-// `;
+const BurgerGroup = styled.div`
+width: 100%;
+max-width: 150px;
+display: flex;
+justify-content: ${props => props.isLoggedIn ? 'space-between' : 'flex-end'};
+align-items: center;
 
-// const LinkStyled = styled.button`
-//   font-size: 14px;
-//   height: 25px;
-//   width: 90px;
-//   cursor: pointer;
-//   border-radius: 3px;
-//   color: lightseagreen;
-//   margin-left: 5%;
-//   background: none;
-//   border: 1px solid lightseagreen;
+@media (max-width: 500px) {
+  max-width: 350px;
+}
+`;
+
+const BurgerIcon = styled.div`
+display: none;
+    
+    @media (max-width: 900px) {
+      display: inline-block;
+    }
+`;
+
+    // const Logo = styled.img`
+    //   width: 75%;
+    //   max-width: 200px;
+    //   min-width: 100px;
+    // `;
+
+    // const LinkStyled = styled.button`
+    //   font-size: 14px;
+    //   height: 25px;
+    //   width: 90px;
+    //   cursor: pointer;
+    //   border-radius: 3px;
+    //   color: lightseagreen;
+    //   margin-left: 5%;
+    //   background: none;
+    //   border: 1px solid lightseagreen;
 
 //   // @media (max-width: 400px) {
 //   //   margin: 0 0 15px 0;

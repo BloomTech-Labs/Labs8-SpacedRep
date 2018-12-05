@@ -5,13 +5,13 @@ const Nav = ({
   isLoggedIn, toggle, login, logout,
 }) => {
   return (
-    <NavContainer id="NavContainer" toggle={toggle}>
+    <NavContainer id="NavContainer" toggle={toggle} isLoggedIn={isLoggedIn()}>
       <li><a href="#why">Why SpacedReps</a></li>
       <li><a href="#features">Features</a></li>
       <li><a href="#pricing">Pricing</a></li>
       <li><a href="#team">Team</a></li>
-      {isLoggedIn() ? <li><a href="/dashboard">Dashboard</a></li> : null}
-      {isLoggedIn() ? <li><button type="button" onClick={logout}>Sign out</button></li> : <li><button type="button" onClick={login}>Sign in</button></li>}
+      {/* {isLoggedIn() ? <li><a href="/dashboard">Dashboard</a></li> : null} */}
+      {isLoggedIn() ? <button type="button" onClick={logout}>Sign out</button> : <button type="button" onClick={login}>Sign in</button>}
     </NavContainer>
   );
 };
@@ -41,10 +41,21 @@ padding: 0;
     align-content: space-around;
     text-align: center;
     background: ${props => props.theme.dark.main};
+    box-shadow: 1px 1px 5px 0px black;
   }
 
   @media (max-width: 756px) {
     height: 150px;
+    // top: 90px;
+    top: 55px;
+    // top: ${props => props.isLoggedIn ? '55px' : '60px'};
+  }
+  
+  @media (max-width: 500px) {
+    // height: 150px;
+    // top: 90px;
+    top: 55px;
+    top: ${props => props.isLoggedIn ? '90px' : '55px'};
   }
 
   li {
@@ -53,7 +64,7 @@ padding: 0;
       text-align: justify;
     }
     a {
-      font-size: 14px;
+      font-size: 16px;
       text-decoration: none;
       padding-bottom: 10px;
 

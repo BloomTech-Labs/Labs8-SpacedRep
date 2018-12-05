@@ -15,7 +15,7 @@ const LandingPage = ({ auth }) => {
     auth.login();
   }
   return (
-    <WrapperContainer>
+    <WrapperContainer id="landingpagewrapper">
       <Header>
         <JumboTron>
           <div>
@@ -51,6 +51,7 @@ export default LandingPage;
 // styles
 
 const WrapperContainer = styled.div`
+margin-top: 55px;
 
 @media (max-width: 540px) {
   h1 {
