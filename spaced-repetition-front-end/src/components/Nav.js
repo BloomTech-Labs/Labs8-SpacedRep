@@ -36,12 +36,12 @@ const NavContainer = styled.ul`
     }
   }
 
-  @media (max-width: 400px) {
-    flex-direction: column;
-    text-align: center;
-    height: 300px;
-    height: 100%;
-    margin: 0 auto;
-  }
+  //  @media (max-width: 400px) {
+  //   flex-direction: column;
+  //   text-align: center;
+  //  height: 300px;
+  //   height: 100%;
+  //   margin: 0 auto;
+  // }
 }
 `;
