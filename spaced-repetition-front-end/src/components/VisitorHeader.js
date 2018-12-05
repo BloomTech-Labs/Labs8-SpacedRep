@@ -175,7 +175,7 @@ display: none;
 }
 
 @media (max-width: 500px) {
-  max-width: 350px;
+  max-width: 500px;
 }
 
 a {

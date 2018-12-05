@@ -21,8 +21,7 @@ export default Nav;
 // styles
 
 const NavContainer = styled.ul`
-max-width: 650px;
-width: 100%;
+width: 70%;
 display: flex;
 list-style-type: none;
 justify-content: space-between;
@@ -31,40 +30,35 @@ align-items: baseline;
 padding: 0;
 
   @media (max-width: 900px) {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 15px 2%;
     max-width: 900px;
+    width: 100%;
     height: 50px;
     position: absolute;
     top: 55px;
     left: 0;
     display: ${props => props.toggle ? 'flex' : 'none'};
-    padding: 15px 0;
-    flex-wrap: wrap;
-    justify-content: center;
     align-content: space-around;
-    justify-content: center;
     text-align: center;
     background: ${props => props.theme.dark.main};
     box-shadow: 1px 1px 5px 0px black;
   }
   
-  @media (max-width: 605px) {
-    height: ${props => props.isLoggedIn ? '150px' : '50px'};
-    justify-content: ${props => props.isLoggedIn ? 'flex-end' : 'center'};
-  }
-
-  @media (max-width: 585px) {
-    height: 150px;
-    justify-content: flex-end;
-  }
-  
   @media (max-width: 500px) {
+    justify-content: flex-end;
+    height: 150px;
     top: ${props => props.isLoggedIn ? '90px' : '55px;'};
+
+    li {
+      width: 35%;
+    }
   }
 
   li {
     @media (max-width: 900px) {
-      margin: 0 4%;
-      text-align: justify;
+      text-align: right;
     }
     a {
       display: ${props => props.hide ? 'none' : 'inherit'};
