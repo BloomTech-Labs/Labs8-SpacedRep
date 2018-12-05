@@ -7,22 +7,26 @@ import Nav from './Nav';
 class VisitorHeader extends Component {
   state = { toggle: false };
 
-  login() {
-    this.props.auth.login();
+  login = () => {
+    const { auth } = this.props;
+    auth.login();
   }
 
-  logout() {
-    this.props.auth.logout();
+  logout = () => {
+    const { auth } = this.props;
+    auth.logout();
   }
 
   toggleNav = () => {
-    this.setState({ toggle: !this.state.toggle });
+    const { toggle } = this.state;
+    this.setState({ toggle: !toggle });
   }
 
   /* Conditionally renders "Sign in" or "Sign out" depending on authentication status. */
   render() {
     const { auth } = this.props;
     const { isAuthenticated } = auth;
+    const { toggle } = this.state;
     return (
       // {
       // !isAuthenticated()
@@ -45,14 +49,8 @@ class VisitorHeader extends Component {
         <AppName id="AppName" to="/">
           <h1>SpaceReps</h1>
         </AppName>
-        {/* <UsersNav id="UsersNav"> */}
-        {/* {window.location.pathname === '/' && <Nav id="Nav" isLoggedIn />} */}
-        {/* <LinkStyled id="LinkStyled" type="button" onClick={logout}> */}
-        {/* Sign out */}
-        {/* </LinkStyled> */}
-        {/* </UsersNav> */}
-        <Nav toggle={this.state.toggle} />
-        <div type="button" onClick={this.toggleNav}><i className="fas fa-bars fa-2x" /></div>
+        <Nav toggle={toggle} login={this.login} logout={this.logout} isLoggedIn={isAuthenticated} />
+        <button type="button" onClick={this.toggleNav}><i className="fas fa-bars fa-2x" /></button>
       </Container>
       // )
       // }

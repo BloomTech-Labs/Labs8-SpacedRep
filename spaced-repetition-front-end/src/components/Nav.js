@@ -1,14 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Nav = ({ isLoggedIn, toggle }) => {
+const Nav = ({
+  isLoggedIn, toggle, login, logout,
+}) => {
   return (
     <NavContainer id="NavContainer" toggle={toggle}>
       <li><a href="#why">Why SpacedReps</a></li>
       <li><a href="#features">Features</a></li>
       <li><a href="#pricing">Pricing</a></li>
       <li><a href="#team">Team</a></li>
-      {isLoggedIn ? <li><a href="/dashboard">Dashboard</a></li> : null}
+      {isLoggedIn() ? <li><a href="/dashboard">Dashboard</a></li> : null}
+      {isLoggedIn() ? <li><button type="button" oncClick={logout}></button>Sign out</li> : <li><button type="button" onClick={login}></button>Sign in</li>}
     </NavContainer>
   );
 };
