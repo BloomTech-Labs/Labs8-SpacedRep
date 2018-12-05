@@ -69,7 +69,10 @@ class CheckoutForm extends Component {
     if (profile && profile.tier === 'free' && displayPurchaseForm) {
       return (
         <CheckoutFormContainer>
-          <SplitForm handleSubscribe={this.handleSubscribe} toggleSubscribe={this.toggleSubscribe} />
+          <SplitForm
+            handleSubscribe={this.handleSubscribe}
+            toggleSubscribe={this.toggleSubscribe}
+          />
         </CheckoutFormContainer>
       );
     }

@@ -9,27 +9,25 @@ const Billing = (props) => {
   return (
     <StripeProvider apiKey="pk_test_KoWcK14l0HlLnKEAFc9icsPa">
       <Container>
-        <Title>Billing</Title>
         <Text>Free tier users are limited to 3 decks and a maximum of 150 cards.</Text>
         <Text>No limit for paid.</Text>
         <Elements>
-          <CheckoutForm
-            handleUpdateTier={handleUpdateTier}
-            profile={profile}
-          />
+          <CheckoutForm handleUpdateTier={handleUpdateTier} profile={profile} />
         </Elements>
       </Container>
     </StripeProvider>
   );
 };
 
+export default Billing;
+
 // styles
 
 const Container = styled.div`
+  display: flex;
+  width: 50%;
+  flex-direction: column;
+  padding-left: 20px;
 `;
 
-const Title = styled.h2`
-`;
-const Text = styled.p`
-`;
-export default Billing;
+const Text = styled.p``;

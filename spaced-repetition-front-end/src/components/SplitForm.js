@@ -33,72 +33,32 @@ class _SplitForm extends React.Component {
     this.state = {};
   }
 
-  handleBlur = () => {
-    console.log('[blur]');
-  };
-
-  handleChange = (change) => {
-    console.log('[change]', change);
-  };
-
-  handleFocus = () => {
-    console.log('[focus]');
-  };
-
-  handleReady = () => {
-    console.log('[ready]');
-  };
-
   render() {
     const { handleSubscribe, toggleSubscribe } = this.props;
     return (
       <Form onSubmit={this.handleSubmit}>
         <Label>Card number</Label>
         <Input>
-          <CardNumberElement
-            // onBlur={handleBlur}
-            // onChange={handleChange}
-            // onFocus={handleFocus}
-            // onReady={handleReady}
-            {...createOptions('15px', '10px 14px')}
-          />
+          <CardNumberElement {...createOptions('15px', '10px 14px')} />
         </Input>
         <Label>Expiration date</Label>
         <Input>
-          <CardExpiryElement
-            // onBlur={handleBlur}
-            // onChange={handleChange}
-            // onFocus={handleFocus}
-            // onReady={handleReady}
-            {...createOptions('15px', '10px 14px')}
-          />
+          <CardExpiryElement {...createOptions('15px', '10px 14px')} />
         </Input>
         <Label>CVC</Label>
         <Input>
-          <CardCVCElement
-            // onBlur={handleBlur}
-            // onChange={handleChange}
-            // onFocus={handleFocus}
-            // onReady={handleReady}
-            {...createOptions('15px', '10px 14px')}
-          />
+          <CardCVCElement {...createOptions('15px', '10px 14px')} />
         </Input>
         <Label>Postal code</Label>
         <Input>
-          <PostalCodeElement
-            // onBlur={handleBlur}
-            // onChange={handleChange}
-            // onFocus={handleFocus}
-            // onReady={handleReady}
-            {...createOptions('15px', '10px 14px')}
-          />
+          <PostalCodeElement {...createOptions('15px', '10px 14px')} />
         </Input>
-        <Button onClick={handleSubscribe} type="submit">
+        <Subscribe onClick={handleSubscribe} type="submit">
           Buy now
-        </Button>
-        <Button onClick={toggleSubscribe} type="submit">
+        </Subscribe>
+        <Cancel onClick={toggleSubscribe} type="submit">
           No thanks
-        </Button>
+        </Cancel>
       </Form>
     );
   }
@@ -164,4 +124,17 @@ const Input = styled.div`
     -webkit-transition: all 150ms ease;
     transition: all 150ms ease;
   }
+`;
+
+const Subscribe = styled.button`
+  ${props => props.theme.dark.buttons.base}
+  &:hover {
+    background: ${props => props.theme.dark.logo};
+    cursor: pointer;
+  }
+`;
+
+const Cancel = styled.button`
+${props => props.theme.dark.buttons.base}
+background: ${props => props.theme.dark.buttons.negative};
 `;

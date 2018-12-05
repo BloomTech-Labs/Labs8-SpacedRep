@@ -6,34 +6,27 @@ import '../App.css';
 
 const Profile = (props) => {
   const { profile, handleUpdateTier } = props;
-  return profile
-    ? (
-      <Container>
-        <div className="profile-area">
-          <h1>{profile.name}</h1>
-          <div>
-            {/* <ControlLabel><Glyphicon glyph="user" /> Nickname</ControlLabel> */}
-            <h3>{profile.nickname}</h3>
-          </div>
-          <div header="Profile">
-            <img src={profile.picture} alt="profile" style={{ width: '100px' }} />
-            <h4>
-              Tier:
-              {' '}
-              {profile.tier}
-            </h4>
-          </div>
-        </div>
-        <Billing profile={profile} handleUpdateTier={handleUpdateTier} />
-      </Container>
-    )
-    : (
-      <div className="container">
-        <div className="profile-area">
-          Loading...
-        </div>
-      </div>
-    );
+  return profile ? (
+    <Container>
+      <ProfileContainer>
+        <Name>{profile.name}</Name>
+        <Nickname>
+          {'Nickname: '}
+          {profile.nickname}
+        </Nickname>
+        <Tier>
+          {'Tier: '}
+          {profile.tier}
+        </Tier>
+        <ProfileImage src={profile.picture} alt="profile" />
+      </ProfileContainer>
+      <Billing profile={profile} handleUpdateTier={handleUpdateTier} />
+    </Container>
+  ) : (
+    <Container>
+      <ProfileContainer>Loading...</ProfileContainer>
+    </Container>
+  );
 };
 
 export default Profile;
@@ -43,17 +36,49 @@ export default Profile;
 // };
 
 const Container = styled.div`
-width: 100%;
-height: 100%;
-margin-left: 100px;
-padding: 20px;
-flex-direction: column;
-align-items: left;
-background: ${props => props.theme.dark.bodyBackground};
+  width: 100%;
+  margin-left: 100px;
+  padding: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: left;
+  background: ${props => props.theme.dark.bodyBackground};
 
-@media (max-width: 500px) {
-  margin-left: 0;
-  margin-top: 65px;
-  padding-top: 15px;
-}
+  @media (max-width: 500px) {
+    margin-left: 0;
+    margin-top: 65px;
+    padding-top: 15px;
+  }
+`;
+
+const ProfileContainer = styled.div`
+  display: flex;
+  width: 50%;
+  flex-direction: column;
+`;
+
+const Name = styled.h1`
+  font-size: 35px;
+  margin-bottom: 20px;
+  width: 300px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid white;
+`;
+
+const Nickname = styled.h3`
+  font-size: 20px;
+  margin-bottom: 20px;
+  width: 300px;
+`;
+
+const Tier = styled.h4`
+  font-size: 20px;
+  width: 300px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid white;
+`;
+
+const ProfileImage = styled.img`
+  width: 300px;
 `;
