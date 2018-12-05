@@ -49,7 +49,7 @@ margin-left: 100px;
 padding: 20px;
 flex-direction: column;
 align-items: left;
-background: ${props => props.theme.dark.bodyBackground}
+background: ${props => props.theme.dark.bodyBackground};
 
 @media (max-width: 500px) {
   margin-left: 0;
