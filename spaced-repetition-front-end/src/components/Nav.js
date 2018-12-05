@@ -26,9 +26,17 @@ const NavContainer = styled.ul`
 
   @media (max-width: 500px) {
     display: ${props => props.toggle ? 'inline-block' : 'none'};
+    position: absolute;
+    top: 55px;
+    left: 0;
+    text-align: right;
+    background: ${props => props.theme.dark.main};
   }
 
   li {
+    @media (max-width: 500px) {
+      padding: 15px;
+    }
     a {
       font-size: 14px;
       text-decoration: none;
