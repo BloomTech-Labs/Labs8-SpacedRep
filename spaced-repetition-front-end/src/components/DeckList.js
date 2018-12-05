@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 // import axios from 'axios';
 import Deck from './Deck';
-import CardListTools from './CardListTools';
+import DeckListTools from './DeckListTools.js';
 import '../App.css';
 
 class DeckList extends React.Component {
@@ -18,7 +18,7 @@ class DeckList extends React.Component {
     return (
       <Container id="decklist container">
         {/* Don't commit this - just for UI design thinking */}
-        <CardListTools addNewCard={this.handleAddCard} />
+        <DeckListTools addNewCard={this.handleAddCard} />
         {/* <button onClick={this.handleCreateNewDeck} type="submit">New deck</button> */}
         {decks.map(deck => (
           <Deck key={deck.name} deck={deck} today={today} />

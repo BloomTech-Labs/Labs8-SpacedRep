@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const CardListTools = ({ addNewCard }) => {
   return (
     <ToolsContainer>
-      <ToolButton type="button" onClick={addNewCard}> + Add Card </ToolButton>
+      <ToolButton type="button" onClick={addNewCard}> + Add Deck </ToolButton>
     </ToolsContainer>
   );
 };
