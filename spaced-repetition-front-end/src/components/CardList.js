@@ -34,6 +34,7 @@ class CardList extends Component {
       <CardListContainer id="CardListContainer">
         <CardListTools addNewCard={this.handleAddCard} />
         {addNewCard && <AddCard grabDeckInfo={this.handleDeckData} toggleAddCard={this.handleAddCard} />}
+
         {decks.length > 0 && decks.map((deck) => {
           return deck.cards.map((card) => {
             return <Card key={card.id} card={card} deckName={deck.name} decks={decks} />;
@@ -55,13 +56,18 @@ export default CardList;
 // styled
 
 const CardListContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  // left: 200px;
-  // flex-grow: 1;  /*ensures that the container will take up the full height of the parent container*/
-    overflow-y: auto;  /*adds scroll to this container*/
+width: 100%;
+height: 100%;
+margin-left: 100px;
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+background: ${props => props.theme.dark.bodyBackground}
+
+@media (max-width: 500px) {
+  margin-left: 0;
+  margin-top: 65px;
+}
 `;
 
 CardList.propTypes = {

@@ -43,10 +43,17 @@ export default Profile;
 // };
 
 const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  padding: 20px;
-  // display: flex;
-  flex-direction: column;
-  align-items: left;
+width: 100%;
+height: 100%;
+margin-left: 100px;
+padding: 20px;
+flex-direction: column;
+align-items: left;
+background: ${props => props.theme.dark.bodyBackground}
+
+@media (max-width: 500px) {
+  margin-left: 0;
+  margin-top: 65px;
+  padding-top: 15px;
+}
 `;

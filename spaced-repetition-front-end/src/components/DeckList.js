@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-// import axios from 'axios';
 import Deck from './Deck';
 import DeckListTools from './DeckListTools.js';
 import '../App.css';
@@ -39,20 +38,19 @@ DeckList.propTypes = {
 };
 
 // styles
-const Container = styled.div`
-  width: 100%;
-  // height: 100%;
-  // padding-top: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  overflow-y: auto;
-`;
 
-// width: 100 %;
-// display: flex;
-// flex - wrap: wrap;
-// justify - content: center;
-// // left: 200px;
-// // flex-grow: 1;  /*ensures that the container will take up the full height of the parent container*/
-// overflow - y: auto;  /*adds scroll to this container*/
+const Container = styled.div`
+width: 100%;
+height: 100%;
+margin-left: 100px;
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+background: ${props => props.theme.dark.bodyBackground}
+
+@media (max-width: 500px) {
+  margin-left: 0;
+  margin-top: 65px;
+  padding-top: 15px;
+}
+`;

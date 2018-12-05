@@ -79,23 +79,23 @@ const Container = styled.div`
   border-bottom: 1px solid white;
   background: ${props => props.theme.dark.main};
 
-  @media (max-width: 900px) {
-    if (window.location.pathname === '/') {
-      flex-direction: ${props => props.isLoggedIn ? 'column' : 'row'}
-    } else if (window.location.pathname === '/dashboard') {
-      flex-direction: ${props => props.isLoggedIn ? 'row' : 'column'}
-    }
-    height: 55px;
-  }
+  // @media (max-width: 900px) {
+  //   if (window.location.pathname === '/') {
+  //     flex-direction: ${props => props.isLoggedIn ? 'column' : 'row'}
+  //   } else if (window.location.pathname === '/dashboard') {
+  //     flex-direction: ${props => props.isLoggedIn ? 'row' : 'column'}
+  //   }
+  //   height: 55px;
+  // }
   
-  @media (max-width: 700px) {
-    flex-direction: column;
-  }
+  // @media (max-width: 700px) {
+  //   flex-direction: column;
+  // }
 
-  }
-  @media (max-width: 400px) {
-    height: 200px;
-  }
+  // }
+  // @media (max-width: 400px) {
+  //   height: 200px;
+  // }
 `;
 
 const AppName = styled(Link)`
@@ -124,11 +124,11 @@ const LinkStyled = styled.button`
   background: none;
   border: 1px solid lightseagreen;
 
-  @media (max-width: 400px) {
-    margin: 0 0 15px 0;
-    border: none;
-    color: white;
-  }
+  // @media (max-width: 400px) {
+  //   margin: 0 0 15px 0;
+  //   border: none;
+  //   color: white;
+  // }
 `;
 
 const VisitorsNav = styled.div`
@@ -138,21 +138,21 @@ width: 60%;
 // max-width: 50%;
 justify-content: space-between;
 
-@media (max-width: 1000px) {
-  // max-width: 50%;
-}
+// @media (max-width: 1000px) {
+//   // max-width: 50%;
+// }
 
-@media (max-width: 900px) {
-  // width: 100%;
-  // max-width: 100%;
+// @media (max-width: 900px) {
+//   // width: 100%;
+//   // max-width: 100%;
 
-  }
+//   }
 
-  @media (max-width: 400px) {
-    flex-direction: column;
-    height: 100%;
-    align-items: center;
-  }
+//   @media (max-width: 400px) {
+//     flex-direction: column;
+//     height: 100%;
+//     align-items: center;
+//   }
 `;
 
 const UsersNav = styled(VisitorsNav)`

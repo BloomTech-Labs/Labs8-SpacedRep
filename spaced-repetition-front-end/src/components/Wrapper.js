@@ -20,7 +20,7 @@ class Wrapper extends React.Component {
   render() {
     const { children, auth } = this.props;
     return (
-      <WrapperContainer>
+      <React.Fragment id="WC">
         {/* If the user is authenticated, render: */}
         {auth.isAuthenticated() && (
           <BodyContainer>
@@ -32,7 +32,7 @@ class Wrapper extends React.Component {
         {!auth.isAuthenticated() && (
           <h1>You are not logged in!</h1>
         )}
-      </WrapperContainer>
+      </React.Fragment>
     );
   }
 }
@@ -53,27 +53,16 @@ Wrapper.propTypes = {
 };
 
 // styles
-const WrapperContainer = styled.div`
-  background: ${props => props.theme.dark.bodyBackground};
-  height: 100%;
-
-  @media (max-width: 900px) {
-    margin-top: 80px;
-    // flex-direction: column;
-  }
-  `;
 
 const BodyContainer = styled.div`
-  display: flex;
-  margin-top: 55px;
-  max-width: 1500px;
+max-width: 1500px;
+height: 100%;
+margin-top: 55px;
+display: flex;
 
   @media (max-width: 900px) {
-    flex-direction: column;
-    // height: 0;
   }
 
   @media (max-width: 700px) {
-    // flex-direction: column;
   }
 `;
