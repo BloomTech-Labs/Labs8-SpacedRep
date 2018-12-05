@@ -14,6 +14,11 @@ class CardList extends Component {
     // deckArr: [],
   };
 
+  componentDidMount = () => {
+    window.scrollTo(0, 0);
+  }
+
+
   handleAddCard = () => {
     this.setState({ addNewCard: !this.state.addNewCard });
   }

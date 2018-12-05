@@ -14,6 +14,11 @@ class DeckList extends React.Component {
     }
   }
 
+  componentDidMount = () => {
+    window.scrollTo(0, 0);
+  }
+
+
   handleAddDeck = () => {
     this.setState({ showAddDeckModal: !this.state.showAddDeckModal })
   }
