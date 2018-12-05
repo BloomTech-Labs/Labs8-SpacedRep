@@ -49,8 +49,10 @@ export default withRouter(Sidebar);
 // Notes: Container is only sticky on Cards View
 const Container = styled.nav`
   // position sticky, top, and flex keep sidebar fixed and % width of Wrapper container
-  position: sticky;
-  top: 55px;
+  // position: sticky;
+  position: fixed;
+  // top: 55px;
+  width: 100px;
   // display: flex;
   // flex-direction: column;
   // flex: 0 0 20%;

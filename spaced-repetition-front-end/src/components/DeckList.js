@@ -36,6 +36,7 @@ DeckList.propTypes = {
 
 // styles
 const Container = styled.div`
+margin-left: 100px;
   width: 100%;
   // height: 100%;
   // padding-top: 20px;

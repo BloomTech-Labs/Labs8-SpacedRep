@@ -43,6 +43,7 @@ export default Profile;
 // };
 
 const Container = styled.div`
+margin-left: 100px;
   width: 100%;
   height: 100%;
   padding: 20px;
