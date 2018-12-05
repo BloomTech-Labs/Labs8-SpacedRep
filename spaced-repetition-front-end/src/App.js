@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import {
   Route, Switch, withRouter, matchPath,
 } from 'react-router-dom';
+import { Redirect } from 'react-router';
 import axios from 'axios';
 import styled, { createGlobalStyle } from 'styled-components';
 import styles from './styles';
 import Auth from './auth/Auth';
 import Callback from './auth/Callback';
-import Header from './components/Header';
+import UserHeader from './components/UserHeader';
 import LandingPage from './components/LandingPage/LandingPage';
 import DeckList from './components/DeckList';
 import CardList from './components/CardList';
@@ -19,6 +20,7 @@ import TrainDeck from './components/TrainDeck';
 import DeckView from './components/DeckView';
 import DeleteCardModal from './components/DeleteCardModal';
 import ImportDeck from './components/ImportDeck';
+import VisitorHeader from './components/VisitorHeader';
 // import './App.css';
 
 const GlobalStyle = createGlobalStyle`
@@ -264,7 +266,8 @@ class App extends Component {
     return (
       <AppWrapper id="AppWrapper">
         <GlobalStyle />
-        <Route path="/" render={props => <Header auth={auth} {...props} />} />
+        <Route exact path="/" render={props => <VisitorHeader auth={auth} {...props} />} />
+        <Route path="/dashboard" render={props => <UserHeader auth={auth} {...props} />} />
 
         <Switch>
           <Route exact path="/" render={props => <LandingPage auth={auth} {...props} />} />
