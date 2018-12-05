@@ -1,56 +1,63 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Nav from './Nav';
 
-const testImg = 'https://picsum.photos/30';
+class VisitorHeader extends Component {
+  state = { toggle: false };
 
-const VisitorHeader = ({ auth }, props) => {
-  function login() {
-    auth.login();
+  login() {
+    this.props.auth.login();
   }
 
-  function logout() {
-    auth.logout();
+  logout() {
+    this.props.auth.logout();
+  }
+
+  toggleNav = () => {
+    this.setState({ toggle: !this.state.toggle });
   }
 
   /* Conditionally renders "Sign in" or "Sign out" depending on authentication status. */
-  const { isAuthenticated } = auth;
-  return (
-    // {
-    // !isAuthenticated()
-    //   ? (
-    //     <Container id="HeaderContainer">
-    //       <AppName id="AppName" to="/">
-    //         {/* <Logo src={logo} /> */}
-    //         <h1>SpaceReps</h1>
-    //       </AppName>
-    //       <VisitorsNav id="VisitorsNav">
-    //         <Nav id="Nav" />
-    //         <LinkStyled id="LinkStyled" type="button" onClick={login}>
-    //           Sign in
-    //         </LinkStyled>
-    //       </VisitorsNav>
-    //     </Container>
-    //   )
-    //   : (
-    <Container id="Container" isLoggedIn>
-      <AppName id="AppName" to="/">
-        <h1>SpaceReps</h1>
-      </AppName>
-      {/* <UsersNav id="UsersNav"> */}
-      {/* {window.location.pathname === '/' && <Nav id="Nav" isLoggedIn />} */}
-      {/* <Nav /> */}
-      {/* <LinkStyled id="LinkStyled" type="button" onClick={logout}> */}
-      {/* Sign out */}
-      {/* </LinkStyled> */}
-      {/* </UsersNav> */}
-      <div type="button"><i className="fas fa-bars fa-2x" /></div>
-    </Container>
-    // )
-    // }
-  );
+  render() {
+    const { auth } = this.props;
+    const { isAuthenticated } = auth;
+    return (
+      // {
+      // !isAuthenticated()
+      //   ? (
+      //     <Container id="HeaderContainer">
+      //       <AppName id="AppName" to="/">
+      //         {/* <Logo src={logo} /> */}
+      //         <h1>SpaceReps</h1>
+      //       </AppName>
+      //       <VisitorsNav id="VisitorsNav">
+      //         <Nav id="Nav" />
+      //         <LinkStyled id="LinkStyled" type="button" onClick={login}>
+      //           Sign in
+      //         </LinkStyled>
+      //       </VisitorsNav>
+      //     </Container>
+      //   )
+      //   : (
+      <Container id="Container" isLoggedIn>
+        <AppName id="AppName" to="/">
+          <h1>SpaceReps</h1>
+        </AppName>
+        {/* <UsersNav id="UsersNav"> */}
+        {/* {window.location.pathname === '/' && <Nav id="Nav" isLoggedIn />} */}
+        {/* <LinkStyled id="LinkStyled" type="button" onClick={logout}> */}
+        {/* Sign out */}
+        {/* </LinkStyled> */}
+        {/* </UsersNav> */}
+        <Nav toggle={this.state.toggle} />
+        <div type="button" onClick={this.toggleNav}><i className="fas fa-bars fa-2x" /></div>
+      </Container>
+      // )
+      // }
+    );
+  }
 };
 
 export default VisitorHeader;

@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Nav = ({ isLoggedIn }) => {
+const Nav = ({ isLoggedIn, toggle }) => {
   return (
-    <NavContainer id="NavContainer">
+    <NavContainer id="NavContainer" toggle={toggle}>
       <li><a href="#why">Why SpacedReps</a></li>
       <li><a href="#features">Features</a></li>
       <li><a href="#pricing">Pricing</a></li>
@@ -24,6 +24,10 @@ const NavContainer = styled.ul`
   justify-content: space-around;
   padding: 0;
 
+  @media (max-width: 500px) {
+    display: ${props => props.toggle ? 'inline-block' : 'none'};
+  }
+
   li {
     a {
       font-size: 14px;
@@ -35,13 +39,5 @@ const NavContainer = styled.ul`
       }
     }
   }
-
-  //  @media (max-width: 400px) {
-  //   flex-direction: column;
-  //   text-align: center;
-  //  height: 300px;
-  //   height: 100%;
-  //   margin: 0 auto;
-  // }
 }
 `;
