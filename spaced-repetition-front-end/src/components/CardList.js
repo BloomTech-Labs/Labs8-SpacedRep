@@ -6,11 +6,18 @@ import CardListTools from './CardListTools';
 // import CardInputs from './CardInputs';
 import AddCard from './AddCard';
 
+
+//FIX: if 1 or 2 cards, the card's height is way too much and looks terrible
 class CardList extends Component {
   state = {
     addNewCard: false,
     // deckArr: [],
   };
+
+  componentDidMount = () => {
+    window.scrollTo(0, 0);
+  }
+
 
   handleAddCard = () => {
     this.setState({ addNewCard: !this.state.addNewCard });
@@ -29,9 +36,10 @@ class CardList extends Component {
     const { decks } = this.props;
     const { addNewCard, deckArr } = this.state;
     return (
-      <CardListContainer>
+      <CardListContainer id="CardListContainer">
         <CardListTools addNewCard={this.handleAddCard} />
         {addNewCard && <AddCard grabDeckInfo={this.handleDeckData} toggleAddCard={this.handleAddCard} />}
+
         {decks.length > 0 && decks.map((deck) => {
           return deck.cards.map((card) => {
             return <Card key={card.id} card={card} deckName={deck.name} decks={decks} />;
@@ -53,10 +61,18 @@ export default CardList;
 // styled
 
 const CardListContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+width: 100%;
+height: 100%;
+margin-left: 100px;
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+background: ${props => props.theme.dark.bodyBackground};
+
+@media (max-width: 500px) {
+  margin-left: 0;
+  margin-top: 65px;
+}
 `;
 
 CardList.propTypes = {

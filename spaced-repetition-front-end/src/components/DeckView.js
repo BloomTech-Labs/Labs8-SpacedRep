@@ -12,11 +12,7 @@ class CardList extends Component {
   state = {
     addNewCard: false,
     // deckArr: [],
-    deck: {
-      cards: [],
-      dueDate: 0,
-      name: 'Default Deck',
-    },
+    deck: false
   };
 
   componentDidMount = () => {
@@ -32,7 +28,6 @@ class CardList extends Component {
     }
 
     if (!match) history.push('/dashboard/decks');
-
     this.setState({ deck: match });
   }
 
@@ -53,6 +48,7 @@ class CardList extends Component {
     const { addNewCard, deck } = this.state;
     const selectedDeckID = this.props.match.params.deckId;
     return (
+      deck &&
       <DeckViewContainer>
         <Header>
           <CardListTools addNewCard={this.handleAddCard} />
@@ -80,6 +76,12 @@ export default withRouter(CardList);
 
 const DeckViewContainer = styled.div`
 width: 100%;
+height: 100%;
+margin-left: 100px;
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+background: ${props => props.theme.dark.bodyBackground};
 `;
 
 const Header = styled.div`

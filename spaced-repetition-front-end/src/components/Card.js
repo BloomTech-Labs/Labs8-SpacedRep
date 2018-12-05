@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import axios from 'axios'
+import axios from 'axios';
 
 class Card extends React.Component {
   state = {
@@ -22,12 +22,12 @@ class Card extends React.Component {
 
 
   componentDidMount = () => {
-    const { card, decks } = this.props
+    const { card, decks } = this.props;
 
     // console.log(card)
     this.setState({
-      title: card.title, question: card.question, answer: card.answer, language: card.language, selectedDeck: card.deck_id
-    })
+      title: card.title, question: card.question, answer: card.answer, language: card.language, selectedDeck: card.deck_id,
+    });
     // const deckNames = grabDeckInfo();
     // this.setState({ deckNames }, () => console.log('deckNames', deckNames));
   }
@@ -53,14 +53,13 @@ class Card extends React.Component {
 
   toggleSelectedDecks = (event) => {
     console.log('event', event.target);
-    const name = event.target.getAttribute('name'); //'HOME'
-    const id = event.target.getAttribute('id'); //'HOME'
+    const name = event.target.getAttribute('name'); // 'HOME'
+    const id = event.target.getAttribute('id'); // 'HOME'
 
     this.setState({
       selectedDeck: name,
       deck_id: id,
     }, console.log('deck_id', this.state.deck_id));
-
   }
 
   toggleSelectedLangs = (event) => {
@@ -70,15 +69,14 @@ class Card extends React.Component {
     this.setState({
       selectedLang: name,
     });
-
   }
 
   toggleEdit = () => {
-    this.setState({ isEditing: !this.state.isEditing })
+    this.setState({ isEditing: !this.state.isEditing });
   }
 
   toggleAddCard = () => {
-    return
+
   }
 
   onCardSave = (event) => {
@@ -89,20 +87,19 @@ class Card extends React.Component {
     } = this.state;
 
     const body = {
-      title, question, answer, language, deck_id
+      title, question, answer, language, deck_id,
     };
 
     const token = localStorage.getItem('id_token');
     const headers = { Authorization: `Bearer ${token}` };
     axios.put(`${process.env.REACT_APP_URL}/api/cards/${id}`, body, { headers })
       .then((response) => {
-        console.log('===add card res', response)
+        console.log('===add card res', response);
         //       deckCards.forEach((x) => {
         //         x.deck_id = response.data;
         window.location.reload();
       })
       .catch(err => console.log(err.message));
-
   };
 
   editCard = () => {
@@ -168,55 +165,56 @@ class Card extends React.Component {
         <TextArea value={question} onChange={this.handleChange} placeholder="Question" name="question" />
         <TextArea value={answer} onChange={this.handleChange} placeholder="Answer" name="answer" />
         {/* <input type="text" value={tags} name="tags" onChange={this.handleChange} placeholder="Enter a list of tags separated by comma (no spaces)" required /> */}
-        <Save type="submit" onClick={this.onCardSave} >Save</Save>
+        <SaveButton type="submit" onClick={this.onCardSave}>Save</SaveButton>
       </EditCard>
-    )
+    );
   }
 
   render() {
-    const { card, deckName } = this.props
+    const { card, deckName, disableEdit } = this.props;
     // const { tags } = card;
     const tags = ['js', 'css', 'plaintext'];
-    const { isEditing } = this.state
+    const { isEditing } = this.state;
 
     return (
 
-      isEditing ?
-
-        this.editCard()
-        :
-
-        <CardContainer>
-          <p>{`Title: ${card.title}`
-          }</p>
-          <p>{`Question: ${card.question}`}</p>
-          <p>{`Answer: ${card.answer}`}</p>
-          <p>{`Language: ${card.language}`}</p>
-          <p>Tags:</p>
-          <TagsContainer>
-            {tags && tags.map(tag => <p key={tag}>{tag}</p>)}
-          </TagsContainer>
-          <CardInteractions>
-            <p>{`From deck: ${deckName}`}</p>
-            <button type="button" onClick={this.toggleEdit}>Edit</button>
-          </CardInteractions>
-        </CardContainer >
-
-
+      isEditing
+        ? this.editCard()
+        : (
+          <CardContainer>
+            <Title>
+              {card.title}
+            </Title>
+            <LineContainer><LineDescription> Question: </LineDescription> <LineItem>{card.question}</LineItem></LineContainer>
+            <LineContainer><LineDescription> Answer: </LineDescription> <LineItem> {card.answer} </LineItem> </LineContainer>
+            <LineContainer><LineDescription>Language: </LineDescription> <LineItem> {card.language}</LineItem></LineContainer>
+            <LineDescription>Tags:</LineDescription>
+            <TagsContainer>
+              {tags && tags.map(tag => <p key={tag}>{tag}</p>)}
+            </TagsContainer>
+            <CardInteractions>
+              <p>{`From deck: ${deckName}`}</p>
+              {!disableEdit && <EditButton type="button" onClick={this.toggleEdit}>Edit</EditButton>}
+            </CardInteractions>
+          </CardContainer>
+        )
 
     );
   }
-};
+}
 
 export default Card;
 
 // styles
 
 const CardContainer = styled.div`
+  /* display:flex; */
+  /* flex-direction: column; */
   width: 315px;
   margin: 2%;
   padding: 2%;
-  border: 1px solid ${props => props.theme.dark.sidebar};
+  /* border: 1px solid ${props => props.theme.dark.sidebar}; */
+  border: 1px solid ${props => props.theme.dark.main};
   background: ${props => props.theme.dark.cardBackground};
 `;
 
@@ -227,9 +225,24 @@ const CardInteractions = styled.div`
   width: 100%;
 `;
 
+const Title = styled.p`
+  padding-bottom: 8px;
+  font-size: 22px;
+  font-weight: bold;
+`
+
+const LineContainer = styled.p`
+  padding: 4px 0px 4px 0px;
+`
+
+const LineDescription = styled.span`
+  font-weight: bold;
+`
+
+const LineItem = styled.span``
+
 const TagsContainer = styled.div`
   display: flex;
-
   p {
     /* border: 1px solid black; */
     padding: 2%;
@@ -238,14 +251,14 @@ const TagsContainer = styled.div`
 `;
 
 
-//////////////edit
+// ////////////edit
 const EditCard = styled.form`
   color: white;
   padding: 10px;
   margin: 10px;
   border: 1px solid ${props => props.theme.dark.sidebar};
   background: ${props => props.theme.dark.sidebar};
-`
+`;
 const HeaderContainer = styled.div`
   display: flex;
   justify-content:space-between;
@@ -253,12 +266,12 @@ const HeaderContainer = styled.div`
   /* align-content:center; */
   width: 100%;
   margin-bottom: 5px;
-`
+`;
 const Instructions = styled.h3`
   padding: 0px;
   margin: 0px;
 
-`
+`;
 const Cancel = styled.button`
   border: none;
   background: none;
@@ -272,10 +285,14 @@ const Cancel = styled.button`
     background: grey;
   }
   /* width: 100px; */
-`
-const Save = styled.button`
-  /* width: 100px; */
-`
+`;
+const SaveButton = styled.button`
+    ${props => props.theme.dark.buttons.base}
+  &:hover {
+    background: ${props => props.theme.dark.logo};
+    cursor: pointer;
+  }
+`;
 
 const DDWrapper = styled.div`
   color: white;
@@ -304,8 +321,15 @@ flex-direction: column;
 
 const TextArea = styled.textarea`
   height: 80px;
+`;
 
-
+const EditButton = styled.button`
+  ${props => props.theme.dark.buttons.base}
+  &:hover {
+    background: ${props => props.theme.dark.logo};
+    cursor: pointer;
+  }
+  
 `
 
 

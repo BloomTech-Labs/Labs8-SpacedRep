@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { ThemeProvider } from 'styled-components';
 import { Router } from 'react-router-dom';
+import dark from './styles/themes/Dark';
 import App from './App';
 import history from './history';
 import './index.css';
@@ -10,15 +11,8 @@ import './index.css';
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').load();
 }
-
 const theme = {
-  dark: {
-    bodyBackground: '#43525c',
-    cardBackground: '#56656f',
-    sidebar: '#2c3d48',
-    logo: '#48e6ae',
-    TEST: 'blue',
-  },
+  dark,
 };
 
 /**
@@ -30,7 +24,7 @@ const theme = {
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <Router history={history}>
-      <App />
+      <App id="App" />
     </Router>
   </ThemeProvider>,
   document.getElementById('root'),

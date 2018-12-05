@@ -217,6 +217,7 @@ class AddDeck extends React.Component {
 export default AddDeck;
 
 const AddCardContainer = styled.form`
+  /* width: 100%; */
   padding: 10px;
   margin: 10px;
   border: 1px solid ${props => props.theme.dark.sidebar};

@@ -1,23 +1,41 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import {
+  Route, Switch, withRouter, matchPath,
+} from 'react-router-dom';
 import axios from 'axios';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
+import styles from './styles';
 import Auth from './auth/Auth';
 import Callback from './auth/Callback';
 import Header from './components/Header';
-import LandingPage from './components/LandingPage';
+import LandingPage from './components/LandingPage/LandingPage';
 import DeckList from './components/DeckList';
 import CardList from './components/CardList';
 import Wrapper from './components/Wrapper';
 import Profile from './components/Profile';
 import Billing from './components/Billing';
 import AddDeck from './components/AddDeck';
-import AddCard from './components/AddCard';
 import TrainDeck from './components/TrainDeck';
 import DeckView from './components/DeckView';
 import DeleteCardModal from './components/DeleteCardModal';
-import './App.css';
+import ImportDeck from './components/ImportDeck';
+// import './App.css';
 
+const GlobalStyle = createGlobalStyle`
+* {
+  box-sizing: border-box;
+}
+  body {
+    height: 100%;   
+    margin: 0px;
+    background: ${props => props.theme.dark.main};
+
+    a {
+      color: ${props => props.theme.dark.mainFontColor};
+    }
+  }
+  ${styles}
+`;
 
 /**
  * Creates a new instance of the Auth module.
@@ -108,8 +126,12 @@ class App extends Component {
   }
 
   addCardToUpdate = (cardProgressObject = false) => {
-    // cardProgressObject is {difficulty: '', cardID: '', deckID: ''}. difficulty is an array index (0, 1, ..etc) which correlates to difficultyToNextTestDate in algorithm.js
-    clearTimeout(this.state.serverUpdateTimer);
+    const { serverUpdateTimer, cardsToUpdate } = this.state;
+    // cardProgressObject is {difficulty: '', cardID: '', deckID: ''}.
+    // difficulty is an array index (0, 1, ..etc) which correlates to
+    // difficultyToNextTestDate in algorithm.js
+
+    clearTimeout(serverUpdateTimer);
     if (!cardProgressObject) {
       // instantly update the server with batch of cards waiting for timeout
       // this is used by End Session or Save-like functions in TrainDeck.js
@@ -118,15 +140,15 @@ class App extends Component {
     }
 
     this.setState({
-      cardsToUpdate: [cardProgressObject, ...this.state.cardsToUpdate],
+      cardsToUpdate: [cardProgressObject, ...cardsToUpdate],
       serverUpdateTimer: setTimeout(this.updateServer, WAIT_INTERVAL),
     });
   };
 
   updateServer = () => {
     // wait is done, send a POST to server to update card progress in case user does not save manually
-
-    const cards = this.state.cardsToUpdate;
+    const { decks, cardsToUpdate } = this.state;
+    const cards = cardsToUpdate;
     // if server is told to update via End Session/Save in TrainDeck, only update the server if there
     // are any cards in the queue
     if (cards.length < 1) return;
@@ -142,7 +164,6 @@ class App extends Component {
           // we can then use this to update the due dates of all the cards we just sent
           console.log(response);
           const newDates = response.data;
-          const decks = this.state.decks;
 
           cards.forEach((card) => {
             if (newDates[card.cardID]) {
@@ -223,10 +244,26 @@ class App extends Component {
       .catch(err => console.log(new Error(err)));
   }
 
+  importDeck = () => {
+    const { history } = this.props;
+
+    // get deck id from URL
+    const match = matchPath(history.location.pathname, '/share/deck/:id');
+    let deckID;
+    if (match && match.params.id) deckID = match.params.id;
+
+    // send request to server:
+    // lookup this deck, create a new deck and copy all its cards to my UserID
+    console.log(deckID);
+    console.log(match);
+    return (<div />);
+  }
+
   render() {
     const { decks, profile } = this.state;
     return (
-      <AppWrapper>
+      <AppWrapper id="AppWrapper">
+        <GlobalStyle />
         <Route path="/" render={props => <Header auth={auth} {...props} />} />
 
         <Switch>
@@ -261,21 +298,21 @@ class App extends Component {
               path="/dashboard/decks/:deckId/train/:id/delete"
               render={props => <DeleteCardModal deleteCard={this.handleCardDeletion} {...props} />}
             />
+            <Route exact path="/share/deck/:id" render={props => <ImportDeck {...props} />} />
           </Wrapper>
         </Switch>
+
       </AppWrapper>
     );
   }
 }
 
-export default App;
+export default withRouter(App);
 
 // styles
 const AppWrapper = styled.div`
-  max-width: 1000px;
-  width: 100%;
-  height: 100%;
-  margin: 0 auto;
-  background: ${props => props.theme.dark.bodyBackground};
-  color: white;
+max-width: 1500px;
+height: 100%;
+min-height: 100%;
+color: ${props => props.theme.dark.mainFontColor};
 `;

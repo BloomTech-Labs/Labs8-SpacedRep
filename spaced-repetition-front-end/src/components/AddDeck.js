@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import CardInputs from './CardInputs';
 import { withRouter } from 'react-router-dom';
+import CardInputs from './CardInputs';
 
 // Need to make sure all card inputs are completed before submitting
 // iterate through all the properties exist on each object
@@ -59,15 +59,15 @@ class AddDeck extends React.Component {
       .then((response) => {
         deckCards.forEach((x) => {
           x.deck_id = response.data;
-        })
+        });
         console.log(deckCards);
         axios.post(`${process.env.REACT_APP_URL}/api/cards/batch`, deckCards, { headers })
           .then((innerResponse) => {
-            console.log(innerResponse)
+            console.log(innerResponse);
           })
           .catch(err => console.log(err.message));
-        window.location.reload()
-        this.props.history.push('/dashboard/decks')
+        window.location.reload();
+        this.props.history.push('/dashboard/decks');
       })
       .catch(error => (
         this.setState({
@@ -84,38 +84,38 @@ class AddDeck extends React.Component {
   }
 
   newCard = () => {
-    this.setState((state) => {
-      return { cards: [...state.cards, { language: 'Plain Text' }] };
-    });
+    this.setState((state) => ({ cards: [...state.cards, { language: 'Plain Text' }] }));
   }
 
   render() {
     const { state } = this;
     return (
-      <DeckContainer>
+      <AddDeckContainer>
         <h2>Create New Deck:</h2>
         <DeckForm onSubmit={this.addDeck}>
           <DeckInfo>
-            <input type="text" value={state.name} name="name" onChange={this.handleChange} placeholder="Name" required />
-            <input type="text" value={state.tags} name="tags" onChange={this.handleChange} placeholder="Enter a list of tags separated by comma (no spaces)" required />
-            <p style={{ color: 'black' }}>Public?</p>
+            <Name type="text" value={state.name} name="name" onChange={this.handleChange} placeholder="Name" required />
+            <Tags type="text" value={state.tags} name="tags" onChange={this.handleChange} placeholder="Enter a list of tags separated by comma (no spaces)" required />
+            <PublicText style={{ color: 'black' }}>Public?</PublicText>
             <Checkbox type="checkbox" name="public" onChange={this.handleChange} />
-            <button type="submit">Save</button>
+            <SaveButton type="submit">Save</SaveButton>
           </DeckInfo>
         </DeckForm>
-        {state.cards.map((x, i) => {
-          return <CardInputs i={i} key={i} handleCardChange={this.handleCardChange} />;
-        })}
-        <button type="button" onClick={this.newCard}>Add Card</button>
-      </DeckContainer>
+        {state.cards.map((x, i) => <CardInputs i={i} key={i} handleCardChange={this.handleCardChange} />)}
+        <AddCard type="button" onClick={this.newCard}>Add Card</AddCard>
+      </AddDeckContainer>
     );
   }
 }
 
 export default withRouter(AddDeck);
 
-const DeckContainer = styled.div`
-  width: 100%;
+const AddDeckContainer = styled.div`
+  width: 70%;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const DeckForm = styled.form`
@@ -123,9 +123,10 @@ const DeckForm = styled.form`
   flex-direction: column;
   width: 100%;
   padding: 10px;
+  margin-left: 18px;
   background: ${props => props.theme.dark.cardBackground};
   border-radius: 3px;
-  align-items: baseline;
+  /* align-items: baseline; */
   justify-content: space-between;
   box-shadow: none;
 `;
@@ -137,11 +138,11 @@ const DeckInfo = styled.div`
   padding: 10px 0;
   background: ${props => props.theme.dark.cardBackground};
   border-radius: 3px;
-  align-items: baseline;
+  /* align-items: baseline; */
   justify-content: space-between;
   box-shadow: none;
 
-  input[type="text"] {
+  /* input[type="text"] {
     flex-grow: 1;
   }
 
@@ -155,9 +156,34 @@ const DeckInfo = styled.div`
 
   input:first-child {
     margin-left: 0;
-  }
+  } */
 `;
 
 const Checkbox = styled.input`
   align-self: center;
 `;
+
+
+const SaveButton = styled.button`
+  ${props => props.theme.dark.buttons.base}
+  &:hover {
+    background: ${props => props.theme.dark.logo};
+    cursor: pointer;
+  }
+  font-size: 16px;
+`
+
+const AddCard = styled.button`
+  ${props => props.theme.dark.buttons.base}
+  &:hover {
+    background: ${props => props.theme.dark.logo};
+    cursor: pointer;
+  }
+  font-size: 16px;
+`
+
+const Name = styled.input``
+
+const Tags = styled.input``
+
+const PublicText = styled.p``
