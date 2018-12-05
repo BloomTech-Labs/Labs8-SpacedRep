@@ -80,6 +80,12 @@ export default withRouter(CardList);
 
 const DeckViewContainer = styled.div`
 width: 100%;
+height: 100%;
+margin-left: 100px;
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+background: ${props => props.theme.dark.bodyBackground};
 `;
 
 const Header = styled.div`

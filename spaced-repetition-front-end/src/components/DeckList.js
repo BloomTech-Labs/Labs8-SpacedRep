@@ -33,7 +33,7 @@ class DeckList extends React.Component {
         {showAddDeckModal ?
           <AddDeck />
           : decks.map(deck => (
-            <Deck key={deck.name} deck={deck} today={today} />
+            <Deck key={deck.name} deck={deck} today={today} disableDelete />
           ))
         }
       </Container>

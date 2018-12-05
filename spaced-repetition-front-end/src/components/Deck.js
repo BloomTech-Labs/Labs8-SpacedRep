@@ -74,7 +74,7 @@ class Deck extends React.Component {
   }
 
   render() {
-    const { deck, today, disableTraining } = this.props;
+    const { deck, today, disableTraining, disableDelete, disableEdit } = this.props;
 
     const { isEditing } = this.state;
 
@@ -104,7 +104,7 @@ class Deck extends React.Component {
                 {/* Routes user to deck training component which handles all
         of the training logic and flow. */}
                 <TrainDeck onClick={this.handleTrain}>Train Deck</TrainDeck>
-                <TrainDeck onClick={() => this.handleDeleteDeck(deck.id)}>Delete</TrainDeck>
+                {!disableDelete && <TrainDeck onClick={() => this.handleDeleteDeck(deck.id)}>Delete</TrainDeck>}
                 <TrainDeck onClick={() => this.handleEditDeck(deck.id)}>Edit</TrainDeck>
                 <DueDateContainer>
                   <DueDate today={today} dueDate={deck.dueDate}>

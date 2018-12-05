@@ -67,7 +67,7 @@ margin-left: 100px;
 display: flex;
 flex-wrap: wrap;
 justify-content: center;
-background: ${props => props.theme.dark.bodyBackground}
+background: ${props => props.theme.dark.bodyBackground};
 
 @media (max-width: 500px) {
   margin-left: 0;
