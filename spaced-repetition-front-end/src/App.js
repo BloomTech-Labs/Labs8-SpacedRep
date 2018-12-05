@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
   Route, Switch, withRouter, matchPath,
 } from 'react-router-dom';
-import { Redirect } from 'react-router';
 import axios from 'axios';
 import styled, { createGlobalStyle } from 'styled-components';
 import styles from './styles';
