@@ -14,6 +14,11 @@ class CardList extends Component {
     // deckArr: [],
   };
 
+  componentDidMount = () => {
+    window.scrollTo(0, 0);
+  }
+
+
   handleAddCard = () => {
     this.setState({ addNewCard: !this.state.addNewCard });
   }
@@ -62,7 +67,7 @@ margin-left: 100px;
 display: flex;
 flex-wrap: wrap;
 justify-content: center;
-background: ${props => props.theme.dark.bodyBackground}
+background: ${props => props.theme.dark.bodyBackground};
 
 @media (max-width: 500px) {
   margin-left: 0;

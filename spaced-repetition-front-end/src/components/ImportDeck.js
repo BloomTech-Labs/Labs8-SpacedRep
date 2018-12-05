@@ -178,7 +178,7 @@ export default withRouter(ImportDeck);
 // styled
 
 const DeckViewContainer = styled.div`
-width: 100%;
+  width: 100%;
 `;
 
 const Header = styled.div`
@@ -213,14 +213,14 @@ const Import = styled.button`
   border: 1px solid #707070;
   border-radius: 6px;
   font-size: 16px; */
-  ${props => props.theme.buttons.base}
+  ${props => props.theme.dark.buttons.base}
   &:hover {
         background: ${props => props.theme.dark.sidebar};
       }
 `;
 
 const Cancel = styled(Import)`
-   background: ${props => props.theme.buttons.negative};
+   background: ${props => props.theme.dark.buttons.negative};
 `;
 
 

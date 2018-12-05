@@ -81,29 +81,35 @@ class EditDeck extends React.Component {
     render() {
         const { state } = this;
         return (
-            <DeckContainer>
-                <h2>Edit Deck:</h2>
+            <EditDeckContainer>
+                <Header>Edit Deck:</Header>
                 <DeckForm onSubmit={this.editDeck}>
                     <DeckInfo>
                         <input type="text" value={state.name} name="name" onChange={this.handleChange} placeholder="Name" required />
                         <input type="text" value={state.tags} name="tags" onChange={this.handleChange} placeholder="Enter a list of tags separated by comma (no spaces)" required />
                         <p style={{ color: 'black' }}>Public?</p>
                         <Checkbox type="checkbox" name="public" onChange={this.handleChange} />
-                        <button type="submit">Save</button>
+                        <Button type="submit">Save</Button>
                     </DeckInfo>
                 </DeckForm>
                 {/* {state.cards.map((x, i) => <CardInputs i={i} key={i} handleCardChange={this.handleCardChange} />)} */}
-                <button type="button" onClick={this.newCard}>Add Card</button>
-            </DeckContainer>
+                <Button type="button" onClick={this.newCard}>Add Card</Button>
+            </EditDeckContainer>
         );
     }
 }
 
 export default withRouter(EditDeck);
 
-const DeckContainer = styled.div`
+const EditDeckContainer = styled.div`
   width: 100%;
+  padding:10px;
 `;
+
+const Header = styled.h2`
+    font-size: 22px;
+    padding: 5px;
+`
 
 const DeckForm = styled.form`
   display: flex;
@@ -143,4 +149,13 @@ const DeckInfo = styled.div`
 
 const Checkbox = styled.input`
   align-self: center;
+`;
+
+const Button = styled.button`
+  ${props => props.theme.dark.buttons.base}
+  &:hover {
+    background: ${props => props.theme.dark.logo};
+    cursor: pointer;
+  }
+  font-size: 16px;
 `;

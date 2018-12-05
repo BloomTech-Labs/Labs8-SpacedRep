@@ -16,7 +16,16 @@ class Deck extends React.Component {
     super(props);
     this.state = {
       isEditing: false,
+      shareURL: '',
+      sharing: 'false',
     };
+  }
+
+  componentDidMount() {
+    const { deck } = this.props;
+    const endOfUrl = process.env.REACT_APP_REDIRECT.lastIndexOf('/')
+
+    this.setState({ shareURL: `${process.env.REACT_APP_REDIRECT.substr(0, endOfUrl)}/share/deck/${deck.id}` })
   }
 
   handleDeleteDeck = (deckId) => {
@@ -29,7 +38,9 @@ class Deck extends React.Component {
     history.push('/dashboard/decks');
   }
 
-  handleEditDeck = () => {
+  handleEditDeck = (e, id) => {
+    console.log(id)
+    e.stopPropagation();
     this.setState({ isEditing: true });
   }
 
@@ -63,20 +74,27 @@ class Deck extends React.Component {
 
   handleShare = (e) => {
     const { deck } = this.props;
+    const { shareURL } = this.state;
     e.stopPropagation();
-    // copy to clipboard not working
-    // if (document.queryCommandSupported('copy')) {
-    //   console.log(document.execCommand('copy'));
-    //   e.target.focus();
-    // }
-
-    alert(`Shareable link: ${process.env.REACT_APP_URL}/share/deck/${deck.id}`); //FIX
+    if (document.queryCommandSupported('copy')) {
+      var textField = document.createElement('textarea')
+      textField.innerText = shareURL
+      document.body.appendChild(textField)
+      textField.select()
+      document.execCommand('copy')
+      textField.remove()
+      alert('Shareable link copied!')
+    } else {
+      console.log('Copy not supported');
+      const endOfUrl = process.env.REACT_APP_REDIRECT.lastIndexOf('/');
+      alert(`Shareable Link: ${process.env.REACT_APP_REDIRECT.substr(0, endOfUrl)}/share/deck/${deck.id}`)
+    }
   }
 
   render() {
-    const { deck, today, disableTraining } = this.props;
+    const { deck, today, disableTraining, disableDelete, disableEdit } = this.props;
 
-    const { isEditing } = this.state;
+    const { isEditing, shareURL, sharing } = this.state;
 
     return (
       !isEditing ?
@@ -104,8 +122,8 @@ class Deck extends React.Component {
                 {/* Routes user to deck training component which handles all
         of the training logic and flow. */}
                 <TrainDeck onClick={this.handleTrain}>Train Deck</TrainDeck>
-                <TrainDeck onClick={() => this.handleDeleteDeck(deck.id)}>Delete</TrainDeck>
-                <TrainDeck onClick={() => this.handleEditDeck(deck.id)}>Edit</TrainDeck>
+                {!disableDelete && <TrainDeck onClick={() => this.handleDeleteDeck(deck.id)}>Delete</TrainDeck>}
+                <TrainDeck onClick={(e) => this.handleEditDeck(e, deck.id)}>Edit</TrainDeck>
                 <DueDateContainer>
                   <DueDate today={today} dueDate={deck.dueDate}>
                     {new Date(deck.dueDate * DAY_IN_MILLISECONDS).toLocaleDateString()}
@@ -118,7 +136,7 @@ class Deck extends React.Component {
               </TrainingContainer>
             )}
           </DeckBody>
-          <ClipboardInput value={`${process.env.REACT_APP_URL}/share/deck/${deck.id}`} ref={ClipboardInput => this.clipboardRef = ClipboardInput} />
+          <ClipboardInput isSharing={sharing} value={shareURL} ref={ClipboardInput => this.clipboardRef = ClipboardInput} />
         </Container>
         :
         <EditDeck deck={deck} toggleEditModeToFalse={this.toggleEditModeToFalse} />
@@ -138,14 +156,6 @@ const Container = styled.div`
   background: ${props => props.theme.dark.cardBackground};
   display:flex;
   flex-direction: column;
-  /* height:100%; */
-  /*changes from development below */
-  /* padding: 15px 20px 15px 20px;
-  margin: 10px;
-  width: 40%;
-  border: 1px solid ${props => props.theme.dark.sidebar};
-  background: ${props => props.theme.dark.cardBackground};
-  border-radius: 4px; */
 `;
 
 const DeckHeader = styled.div`
@@ -189,6 +199,8 @@ const TagsContainer = styled.div`
     display:flex;
     justify-content: flex-start;
     align-items: center;
+    padding: 0px;
+    margin: 0px;
 `;
 
 const Tag = styled.div`
@@ -199,7 +211,7 @@ const Tag = styled.div`
 `;
 
 const TagCaption = styled.div`
-  padding: 10px;
+  padding: 10px 10px 10px 0px;
   color: lightgrey;
 `;
 
@@ -223,7 +235,9 @@ const TrainDeck = styled.button`
 const DueDateContainer = styled.div`
   display: flex;
   flex-direction:column;
+  justify-content:space-between;
   align-items: flex-end;
+  height: 50px;
   /* width: 100%; */
 `;
 
@@ -232,7 +246,7 @@ const DueDate = styled.div`
   ${props => props.dueDate <= props.today && css`
     color: #EA7075;
     `}
-  `;
+`;
 
 const DateCaption = styled.div`
   color: lightgrey;
@@ -240,6 +254,10 @@ const DateCaption = styled.div`
 
 const ClipboardInput = styled.textarea`
   display:none;
+  ${props => props.isSharing === true && css`
+    display: inline-block;
+  `}
+  
 `;
 
 Deck.propTypes = {

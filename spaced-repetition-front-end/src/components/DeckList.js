@@ -2,30 +2,40 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Deck from './Deck';
+import AddDeck from './AddDeck';
 import DeckListTools from './DeckListTools.js';
 import '../App.css';
 
 class DeckList extends React.Component {
   constructor(props) {
     super(props);
-    //FIX: convert back to HOC
+    this.state = {
+      showAddDeckModal: false,
+    }
   }
 
-  handleAddDeck = () => {
+  componentDidMount = () => {
+    window.scrollTo(0, 0);
+  }
 
+
+  handleAddDeck = () => {
+    this.setState({ showAddDeckModal: !this.state.showAddDeckModal })
   }
 
 
   render() {
     const { decks, today } = this.props;
+    const { showAddDeckModal } = this.state;
     return (
       <Container id="decklist container">
-        {/* Don't commit this - just for UI design thinking */}
         <DeckListTools addNewDeck={this.handleAddDeck} />
-        {/* <button onClick={this.handleCreateNewDeck} type="submit">New deck</button> */}
-        {decks.map(deck => (
-          <Deck key={deck.name} deck={deck} today={today} />
-        ))}
+        {showAddDeckModal ?
+          <AddDeck />
+          : decks.map(deck => (
+            <Deck key={deck.name} deck={deck} today={today} disableDelete />
+          ))
+        }
       </Container>
     );
   }
@@ -46,7 +56,7 @@ margin-left: 100px;
 display: flex;
 flex-wrap: wrap;
 justify-content: center;
-background: ${props => props.theme.dark.bodyBackground}
+background: ${props => props.theme.dark.bodyBackground};
 
 @media (max-width: 500px) {
   margin-left: 0;
