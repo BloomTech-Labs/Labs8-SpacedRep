@@ -69,8 +69,8 @@ class Deck extends React.Component {
     //   console.log(document.execCommand('copy'));
     //   e.target.focus();
     // }
-
-    alert(`Shareable link: ${process.env.REACT_APP_URL}/share/deck/${deck.id}`); //FIX
+    const endOfUrl = process.env.REACT_APP_REDIRECT.lastIndexOf('/')
+    alert(`Shareable link: ${process.env.REACT_APP_REDIRECT.substr(0, endOfUrl)}/share/deck/${deck.id}`); //FIX
   }
 
   render() {
