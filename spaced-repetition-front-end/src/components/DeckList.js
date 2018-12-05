@@ -12,6 +12,10 @@ class DeckList extends React.Component {
     //FIX: convert back to HOC
   }
 
+  handleAddDeck = () => {
+
+  }
+
 
   render() {
     const { decks, today } = this.props;
