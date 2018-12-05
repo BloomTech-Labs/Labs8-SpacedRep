@@ -50,4 +50,10 @@ padding: 20px;
 flex-direction: column;
 align-items: left;
 background: ${props => props.theme.dark.bodyBackground}
+
+@media (max-width: 500px) {
+  margin-left: 0;
+  margin-top: 65px;
+  padding-top: 15px;
+}
 `;
