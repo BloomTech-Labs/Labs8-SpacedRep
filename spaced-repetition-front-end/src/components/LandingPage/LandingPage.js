@@ -15,7 +15,7 @@ const LandingPage = ({ auth }) => {
     auth.login();
   }
   return (
-    <WrapperContainer id="landingpagewrapper">
+    <WrapperContainer id="landingpagewrapper" isLoggedIn={auth.isAuthenticated()}>
       <Header>
         <JumboTron>
           <div>
@@ -52,6 +52,7 @@ export default LandingPage;
 
 const WrapperContainer = styled.div`
 margin-top: 55px;
+margin-top: ${props => props.isLoggedIn ? '90px' : '55px'};
 
 @media (max-width: 540px) {
   h1 {

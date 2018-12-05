@@ -136,12 +136,7 @@ const Container = styled.div`
   @media (max-width: 500px) {
     height: ${props => props.isLoggedIn ? '90px' : '55px'};
     flex-direction: ${props => props.isLoggedIn ? 'column' : 'row'};
-    // height: 90px;
-    // flex-direction: column;
     justify-content: center;
-
-    // height: 55px;
-    // flex-direction: row;
   }
 
   a {
@@ -176,6 +171,14 @@ align-items: center;
 
 @media (max-width: 500px) {
   max-width: 350px;
+}
+
+a {
+  display: none;
+
+  @media (max-width: 900px) {
+    display: inherit;
+  }
 }
 `;
 

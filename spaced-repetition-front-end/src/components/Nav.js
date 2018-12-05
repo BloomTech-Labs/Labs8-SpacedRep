@@ -10,8 +10,8 @@ const Nav = ({
       <li><a href="#features">Features</a></li>
       <li><a href="#pricing">Pricing</a></li>
       <li><a href="#team">Team</a></li>
-      {/* {isLoggedIn() ? <li><a href="/dashboard">Dashboard</a></li> : null} */}
-      {isLoggedIn() ? <button type="button" onClick={logout}>Sign out</button> : <button type="button" onClick={login}>Sign in</button>}
+      {isLoggedIn() ? <DashLink><a href="/dashboard">Dashboard</a></DashLink> : null}
+      {isLoggedIn() ? <li><button type="button" onClick={logout}>Sign out</button></li> : <li><button type="button" onClick={login}>Sign in</button></li>}
     </NavContainer>
   );
 };
@@ -26,6 +26,8 @@ width: 100%;
 display: flex;
 list-style-type: none;
 justify-content: space-between;
+// align-items: center; //
+align-items: baseline;
 padding: 0;
 
   @media (max-width: 900px) {
@@ -39,23 +41,24 @@ padding: 0;
     flex-wrap: wrap;
     justify-content: center;
     align-content: space-around;
+    justify-content: center;
     text-align: center;
     background: ${props => props.theme.dark.main};
     box-shadow: 1px 1px 5px 0px black;
   }
+  
+  @media (max-width: 605px) {
+    height: ${props => props.isLoggedIn ? '150px' : '50px'};
+    justify-content: ${props => props.isLoggedIn ? 'flex-end' : 'center'};
+  }
 
-  @media (max-width: 756px) {
+  @media (max-width: 585px) {
     height: 150px;
-    // top: 90px;
-    top: 55px;
-    // top: ${props => props.isLoggedIn ? '55px' : '60px'};
+    justify-content: flex-end;
   }
   
   @media (max-width: 500px) {
-    // height: 150px;
-    // top: 90px;
-    top: 55px;
-    top: ${props => props.isLoggedIn ? '90px' : '55px'};
+    top: ${props => props.isLoggedIn ? '90px' : '55px;'};
   }
 
   li {
@@ -64,6 +67,7 @@ padding: 0;
       text-align: justify;
     }
     a {
+      display: ${props => props.hide ? 'none' : 'inherit'};
       font-size: 16px;
       text-decoration: none;
       padding-bottom: 10px;
@@ -77,5 +81,11 @@ padding: 0;
       height: initial;
     }
   }
+}
+`;
+
+const DashLink = styled.li`
+@media (max-width: 900px) {
+  display: none;
 }
 `;
