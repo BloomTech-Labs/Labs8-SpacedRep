@@ -191,6 +191,8 @@ const TagsContainer = styled.div`
     display:flex;
     justify-content: flex-start;
     align-items: center;
+    padding: 0px;
+    margin: 0px;
 `;
 
 const Tag = styled.div`
@@ -201,7 +203,7 @@ const Tag = styled.div`
 `;
 
 const TagCaption = styled.div`
-  padding: 10px;
+  padding: 10px 10px 10px 0px;
   color: lightgrey;
 `;
 
