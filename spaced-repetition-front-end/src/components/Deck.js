@@ -16,7 +16,16 @@ class Deck extends React.Component {
     super(props);
     this.state = {
       isEditing: false,
+      shareURL: '',
+      sharing: 'false',
     };
+  }
+
+  componentDidMount() {
+    const { deck } = this.props;
+    const endOfUrl = process.env.REACT_APP_REDIRECT.lastIndexOf('/')
+
+    this.setState({ shareURL: `${process.env.REACT_APP_REDIRECT.substr(0, endOfUrl)}/share/deck/${deck.id}` })
   }
 
   handleDeleteDeck = (deckId) => {
@@ -65,20 +74,27 @@ class Deck extends React.Component {
 
   handleShare = (e) => {
     const { deck } = this.props;
+    const { shareURL } = this.state;
     e.stopPropagation();
-    // copy to clipboard not working
-    // if (document.queryCommandSupported('copy')) {
-    //   console.log(document.execCommand('copy'));
-    //   e.target.focus();
-    // }
-    const endOfUrl = process.env.REACT_APP_REDIRECT.lastIndexOf('/')
-    alert(`Shareable link: ${process.env.REACT_APP_REDIRECT.substr(0, endOfUrl)}/share/deck/${deck.id}`); //FIX
+    if (document.queryCommandSupported('copy')) {
+      var textField = document.createElement('textarea')
+      textField.innerText = shareURL
+      document.body.appendChild(textField)
+      textField.select()
+      document.execCommand('copy')
+      textField.remove()
+      alert('Shareable link copied!')
+    } else {
+      console.log('Copy not supported');
+      const endOfUrl = process.env.REACT_APP_REDIRECT.lastIndexOf('/');
+      alert(`Shareable Link: ${process.env.REACT_APP_REDIRECT.substr(0, endOfUrl)}/share/deck/${deck.id}`)
+    }
   }
 
   render() {
     const { deck, today, disableTraining, disableDelete, disableEdit } = this.props;
 
-    const { isEditing } = this.state;
+    const { isEditing, shareURL, sharing } = this.state;
 
     return (
       !isEditing ?
@@ -120,7 +136,7 @@ class Deck extends React.Component {
               </TrainingContainer>
             )}
           </DeckBody>
-          <ClipboardInput value={`${process.env.REACT_APP_URL}/share/deck/${deck.id}`} ref={ClipboardInput => this.clipboardRef = ClipboardInput} />
+          <ClipboardInput isSharing={sharing} value={shareURL} ref={ClipboardInput => this.clipboardRef = ClipboardInput} />
         </Container>
         :
         <EditDeck deck={deck} toggleEditModeToFalse={this.toggleEditModeToFalse} />
@@ -140,14 +156,6 @@ const Container = styled.div`
   background: ${props => props.theme.dark.cardBackground};
   display:flex;
   flex-direction: column;
-  /* height:100%; */
-  /*changes from development below */
-  /* padding: 15px 20px 15px 20px;
-  margin: 10px;
-  width: 40%;
-  border: 1px solid ${props => props.theme.dark.sidebar};
-  background: ${props => props.theme.dark.cardBackground};
-  border-radius: 4px; */
 `;
 
 const DeckHeader = styled.div`
@@ -238,7 +246,7 @@ const DueDate = styled.div`
   ${props => props.dueDate <= props.today && css`
     color: #EA7075;
     `}
-  `;
+`;
 
 const DateCaption = styled.div`
   color: lightgrey;
@@ -246,6 +254,10 @@ const DateCaption = styled.div`
 
 const ClipboardInput = styled.textarea`
   display:none;
+  ${props => props.isSharing === true && css`
+    display: inline-block;
+  `}
+  
 `;
 
 Deck.propTypes = {
