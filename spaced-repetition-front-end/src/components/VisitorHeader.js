@@ -50,7 +50,7 @@ class VisitorHeader extends Component {
           <h1>SpaceReps</h1>
         </AppName>
         <Nav toggle={toggle} login={this.login} logout={this.logout} isLoggedIn={isAuthenticated} />
-        <button type="button" onClick={this.toggleNav}><i className="fas fa-bars fa-2x" /></button>
+        <div type="button" onClick={this.toggleNav}><i className="fas fa-bars fa-2x" /></div>
       </Container>
       // )
       // }
