@@ -11,7 +11,7 @@ const Nav = ({
       <li><a href="#pricing">Pricing</a></li>
       <li><a href="#team">Team</a></li>
       {isLoggedIn() ? <li><a href="/dashboard">Dashboard</a></li> : null}
-      {isLoggedIn() ? <li><button type="button" oncClick={logout}></button>Sign out</li> : <li><button type="button" onClick={login}></button>Sign in</li>}
+      {isLoggedIn() ? <li><button type="button" onClick={logout}>Sign out</button></li> : <li><button type="button" onClick={login}>Sign in</button></li>}
     </NavContainer>
   );
 };
@@ -28,17 +28,23 @@ const NavContainer = styled.ul`
   padding: 0;
 
   @media (max-width: 500px) {
-    display: ${props => props.toggle ? 'inline-block' : 'none'};
+    height: 150px;
     position: absolute;
     top: 55px;
     left: 0;
-    text-align: right;
+    display: ${props => props.toggle ? 'flex' : 'none'};
+    padding: 15px 0;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: space-around;
+    text-align: center;
     background: ${props => props.theme.dark.main};
   }
 
   li {
     @media (max-width: 500px) {
-      padding: 15px;
+      margin: 0 5%;
+      text-align: justify;
     }
     a {
       font-size: 14px;
@@ -48,6 +54,10 @@ const NavContainer = styled.ul`
       &:hover {
         border-bottom: 1px solid lightseagreen;
       }
+    }
+    button {
+      margin: 0;
+      height: initial;
     }
   }
 }
