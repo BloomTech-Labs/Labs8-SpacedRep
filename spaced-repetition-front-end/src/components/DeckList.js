@@ -16,7 +16,7 @@ class DeckList extends React.Component {
   render() {
     const { decks, today } = this.props;
     return (
-      <Container>
+      <Container id="decklist container">
         {/* Don't commit this - just for UI design thinking */}
         <CardListTools addNewCard={this.handleAddCard} />
         {/* <button onClick={this.handleCreateNewDeck} type="submit">New deck</button> */}
@@ -37,11 +37,18 @@ DeckList.propTypes = {
 // styles
 const Container = styled.div`
   width: 100%;
-  height: 100%;
-  padding-top: 20px;
+  // height: 100%;
+  // padding-top: 20px;
   display: flex;
-  /* flex-direction: column; */
-  /* align-items: center; */
   flex-wrap: wrap;
   justify-content: center;
+  overflow-y: auto;
 `;
+
+// width: 100 %;
+// display: flex;
+// flex - wrap: wrap;
+// justify - content: center;
+// // left: 200px;
+// // flex-grow: 1;  /*ensures that the container will take up the full height of the parent container*/
+// overflow - y: auto;  /*adds scroll to this container*/

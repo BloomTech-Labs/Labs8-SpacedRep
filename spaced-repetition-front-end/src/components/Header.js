@@ -22,29 +22,29 @@ const Header = ({ auth }, props) => {
     // {
     !isAuthenticated()
       ? (
-        <Container>
-          <AppName to="/">
+        <Container id="HeaderContainer">
+          <AppName id="AppName" to="/">
             {/* <Logo src={logo} /> */}
             <h1>SpaceReps</h1>
           </AppName>
-          <VisitorsNav>
-            <Nav />
-            <LinkStyled type="button" onClick={login}>
+          <VisitorsNav id="VisitorsNav">
+            <Nav id="Nav" />
+            <LinkStyled id="LinkStyled" type="button" onClick={login}>
               Sign in
             </LinkStyled>
           </VisitorsNav>
         </Container>
       )
       : (
-        <Container isLoggedIn>
-          <AppName to="/">
+        <Container id="Container" isLoggedIn>
+          <AppName id="AppName" to="/">
             <h1>SpaceReps</h1>
             {/* <Logo src={logo} /> */}
           </AppName>
-          <UsersNav>
-            {window.location.pathname === '/' && <Nav isLoggedIn />}
+          <UsersNav id="UsersNav">
+            {window.location.pathname === '/' && <Nav id="Nav" isLoggedIn />}
             {/* <Nav /> */}
-            <LinkStyled type="button" onClick={logout}>
+            <LinkStyled id="LinkStyled" type="button" onClick={logout}>
               Sign out
             </LinkStyled>
           </UsersNav>

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const Nav = ({ isLoggedIn }) => {
   return (
-    <NavContainer>
+    <NavContainer id="NavContainer">
       <li><a href="#why">Why SpacedReps</a></li>
       <li><a href="#features">Features</a></li>
       <li><a href="#pricing">Pricing</a></li>

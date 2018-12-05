@@ -5,8 +5,7 @@ import '../App.css';
 
 const decksIcon = require('../images/Decks.svg');
 const cardsIcon = require('../images/Cards.svg');
-
-
+const profileIcon = require('../images/Profile.svg');
 
 class Sidebar extends React.Component {
   componentDidMount() {
@@ -16,28 +15,30 @@ class Sidebar extends React.Component {
   render() {
     const { props } = this;
     const { pathname } = props.location;
-    console.log('pathname', pathname);
     return (
-      <Container>
-        <SidebarItem path={pathname} thisroute="/dashboard/decks" to="/dashboard/decks">
-          <ItemName path={pathname} thisroute="/dashboard/decks">
-            <img src={decksIcon} alt="decks" />
-            Decks
+      <div id="sidebar div">
+
+        <Container id="Sidebar Container">
+          <SidebarItem path={pathname} thisroute="/dashboard/decks" to="/dashboard/decks">
+            <ItemName path={pathname} thisroute="/dashboard/decks">
+              <img src={decksIcon} alt="decks" />
+              Decks
           </ItemName>
-        </SidebarItem>
-        <SidebarItem path={pathname} thisroute="/dashboard/cards" to="/dashboard/cards">
-          <ItemName path={pathname} thisroute="/dashboard/cards">
-            <img src={cardsIcon} alt="decks" />
-            Cards
+          </SidebarItem>
+          <SidebarItem path={pathname} thisroute="/dashboard/cards" to="/dashboard/cards">
+            <ItemName path={pathname} thisroute="/dashboard/cards">
+              <img src={cardsIcon} alt="decks" />
+              Cards
           </ItemName>
-        </SidebarItem>
-        <SidebarItem path={pathname} thisroute="/dashboard/profile" to="/dashboard/profile">
-          <ItemName path={pathname} thisroute="/dashboard/profile">
-            <i className="far fa-user-circle fa-2x"></i>
-            Profile
+          </SidebarItem>
+          <SidebarItem path={pathname} thisroute="/dashboard/profile" to="/dashboard/profile">
+            <ItemName path={pathname} thisroute="/dashboard/profile">
+              <img src={profileIcon} alt="decks" />
+              Profile
           </ItemName>
-        </SidebarItem>
-      </Container>
+          </SidebarItem>
+        </Container>
+      </div>
     );
   }
 }

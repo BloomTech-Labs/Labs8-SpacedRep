@@ -24,7 +24,7 @@ const theme = {
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <Router history={history}>
-      <App />
+      <App id="App" />
     </Router>
   </ThemeProvider>,
   document.getElementById('root'),
