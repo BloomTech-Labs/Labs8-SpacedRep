@@ -21,14 +21,16 @@ export default Nav;
 // styles
 
 const NavContainer = styled.ul`
-  display: flex;
-  list-style-type: none;
-  width: 100%;
-  justify-content: space-around;
-  padding: 0;
+max-width: 650px;
+width: 100%;
+display: flex;
+list-style-type: none;
+justify-content: space-between;
+padding: 0;
 
-  @media (max-width: 500px) {
-    height: 150px;
+  @media (max-width: 900px) {
+    max-width: 900px;
+    height: 50px;
     position: absolute;
     top: 55px;
     left: 0;
@@ -41,9 +43,13 @@ const NavContainer = styled.ul`
     background: ${props => props.theme.dark.main};
   }
 
+  @media (max-width: 756px) {
+    height: 150px;
+  }
+
   li {
-    @media (max-width: 500px) {
-      margin: 0 5%;
+    @media (max-width: 900px) {
+      margin: 0 4%;
       text-align: justify;
     }
     a {

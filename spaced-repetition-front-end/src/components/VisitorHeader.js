@@ -87,7 +87,7 @@ background-color: palevioletred;
   div {
     display: none;
 
-    @media (max-width: 500px) {
+    @media (max-width: 900px) {
       display: inline-block;
     }
   }
