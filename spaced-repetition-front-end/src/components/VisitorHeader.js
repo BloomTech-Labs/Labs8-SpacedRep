@@ -28,23 +28,6 @@ class VisitorHeader extends Component {
     const { isAuthenticated } = auth;
     const { toggle } = this.state;
     return (
-      // {
-      // !isAuthenticated()
-      //   ? (
-      //     <Container id="HeaderContainer">
-      //       <AppName id="AppName" to="/">
-      //         {/* <Logo src={logo} /> */}
-      //         <h1>SpaceReps</h1>
-      //       </AppName>
-      //       <VisitorsNav id="VisitorsNav">
-      //         <Nav id="Nav" />
-      //         <LinkStyled id="LinkStyled" type="button" onClick={login}>
-      //           Sign in
-      //         </LinkStyled>
-      //       </VisitorsNav>
-      //     </Container>
-      //   )
-      //   : (
       <Container id="Container" isLoggedIn={isAuthenticated()}>
         <AppName id="AppName" to="/">
           <h1>SpaceReps</h1>
@@ -52,62 +35,12 @@ class VisitorHeader extends Component {
         <Nav toggle={toggle} login={this.login} logout={this.logout} isLoggedIn={isAuthenticated} />
         <BurgerGroup isLoggedIn={isAuthenticated()}>
           {isAuthenticated() ? <a href="/dashboard">Dashboard</a> : null}
-          <BurgerIcon type="button" onClick={this.toggleNav}><i className="fas fa-bars fa-2x" /></BurgerIcon>
+          {toggle ? <CloseIcon type="button" onClick={this.toggleNav}><i class="fas fa-times fa-2x"></i></CloseIcon> : <BurgerIcon type="button" onClick={this.toggleNav}><i className="fas fa-bars fa-2x" /></BurgerIcon>}
         </BurgerGroup>
-        {/* <NavBurger onClick={this.toggleNav}> */}
-        {/* <NavBurgerBtn>
-            <NavBurgerBar top />
-            <NavBurgerBar mid />
-            <NavBurgerBar bottom />
-          </NavBurgerBtn>
-        </NavBurger> */}
       </Container>
-      // )
-      // }
     );
   }
 }
-
-const NavBurger = styled.div`
-    cursor: pointer;
-    `;
-
-
-const NavBurgerBtn = styled.div`
-        width: 35px;
-        height: 5px;
-        margin: 6px 0;
-        background-color: @general-background;
-        border-radius: 3px;
-        transition: 0.5s;
-    `;
-
-const NavBurgerBar = styled.div`
-${props => props.top && css`
-transform: rotate(-45deg); translate(-11px, 9px)
-`}
-        ${props => props.mid && css`
-opacity: 0;
-`}
-        ${props => props.bottom && css`
-transform: rotate(45deg); translate(-5px, -5px)
-`}
-        `;
-//   .change .top-bar {
-//     -webkit-transform: rotate(-45deg) translate(-11px, 9px);
-//     transform: rotate(-45deg) translate(-11px, 9px);
-//   }
-
-//   .change .mid-bar {
-//     opacity: 0;
-//   }
-
-//   .change .bottom-bar {
-//     -webkit-transform: rotate(45deg) translate(-5px, -5px);
-//     transform: rotate(45deg) translate(-5px, -5px);
-//   }
-// }
-// }
 
 export default VisitorHeader;
 
@@ -194,6 +127,8 @@ display: none;
       display: inline-block;
     }
 `;
+
+const CloseIcon = styled.div``;
 
     // const Logo = styled.img`
     //   width: 75%;
