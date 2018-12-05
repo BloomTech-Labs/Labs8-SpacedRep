@@ -9,15 +9,13 @@ const profileIcon = require('../images/Profile.svg');
 
 class Sidebar extends React.Component {
   componentDidMount() {
-
   }
 
   render() {
     const { props } = this;
     const { pathname } = props.location;
     return (
-      <div id="sidebar div">
-
+      <React.Fragment id="sidebar div">
         <Container id="Sidebar Container">
           <SidebarItem path={pathname} thisroute="/dashboard/decks" to="/dashboard/decks">
             <ItemName path={pathname} thisroute="/dashboard/decks">
@@ -38,7 +36,7 @@ class Sidebar extends React.Component {
           </ItemName>
           </SidebarItem>
         </Container>
-      </div>
+      </React.Fragment>
     );
   }
 }
@@ -48,59 +46,34 @@ export default withRouter(Sidebar);
 // styles
 // Notes: Container is only sticky on Cards View
 const Container = styled.nav`
-  // position sticky, top, and flex keep sidebar fixed and % width of Wrapper container
-  // position: sticky;
-  position: fixed;
-  // top: 55px;
-  width: 100px;
-  // display: flex;
-  // flex-direction: column;
-  // flex: 0 0 20%;
-  // align-items: center;
-  height: 100vh;
-  background: ${props => props.theme.dark.main};
-  
-  `;
-// @media (max-width: 900px) {
-//   flex-direction: row;
-//   top: 80px;
-//   flex-direction: row;
-//   height: 100%;
-// }
-// @media (max-width: 700px) {
-//   // flex-direction: column;
-// }
+position: fixed;
+width: 100px;
+height: 100%;
+background: ${props => props.theme.dark.main};
+`;
 
 const SidebarItem = styled(Link)`
-  // display: flex;
-  // align-items: center;
-  // padding:  10px 15px 15px 16px;
-  // width: 100%;
-  ${props => props.path === props.thisroute && css`
-    background: ${styleProps => styleProps.theme.dark.bodyBackground};
-  `}
-  border-bottom: 1px solid white;
+${props => props.path === props.thisroute && css`
+background: ${styleProps => styleProps.theme.dark.bodyBackground};
+`}
+border-bottom: 1px solid white;
 
-  &:hover {
-    text-decoration: none;
-    // cursor: pointer;
-  }
-
-  // @media (max-width: 900px) {
-  //   padding: 0;
-  // }
+&:hover {
+  text-decoration: none;
+}
 `;
 
 const ItemName = styled.p`
-color: ${props => props.theme.dark.mainFontcolor};
-font-size: 22px;
-text-align: center;
 padding: 15px;
+text-align: center;
+font-size: 22px;
+color: ${props => props.theme.dark.mainFontcolor};
 border-bottom: 1px solid white;
-// background: ${props => props.theme.dark.main};
 ${props => props.path === props.thisroute && css`
 background: #1f2b33;
 `}
+
+// background: ${props => props.theme.dark.main};
 
   img {
     display: block;
@@ -109,20 +82,21 @@ background: #1f2b33;
     margin-bottom: 10px;
   }
   
-  // @media (max-width: 900px) {
-  //   font-size: 18px;
-  // }
-  
-  // @media (max-width: 700px) {
-  //   padding-left: 0;
-  // }
   `;
+// @media (max-width: 900px) {
+//   font-size: 18px;
+// }
+
+// @media (max-width: 700px) {
+//   padding-left: 0;
+// }
 
 const Logo = styled.img`
-// height: 25%;
 width:25%;
 border-radius: 6px;
-// @media(max-width: 700px) {
-//   display: none;
-// }
+
+// height: 25%;
 `;
+  // @media(max-width: 700px) {
+  //   display: none;
+  // }

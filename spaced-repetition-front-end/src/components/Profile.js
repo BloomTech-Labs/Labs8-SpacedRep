@@ -43,11 +43,11 @@ export default Profile;
 // };
 
 const Container = styled.div`
+width: 100%;
+height: 100%;
 margin-left: 100px;
-  width: 100%;
-  height: 100%;
-  padding: 20px;
-  // display: flex;
-  flex-direction: column;
-  align-items: left;
+padding: 20px;
+flex-direction: column;
+align-items: left;
+background: ${props => props.theme.dark.bodyBackground}
 `;
