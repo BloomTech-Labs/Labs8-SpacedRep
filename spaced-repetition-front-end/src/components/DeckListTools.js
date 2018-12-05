@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const CardListTools = ({ addNewCard }) => {
+const CardListTools = ({ addNewDeck }) => {
   return (
     <ToolsContainer>
-      <ToolButton type="button" onClick={addNewCard}> + Add Deck </ToolButton>
+      <ToolButton type="button" onClick={addNewDeck}> + Add Deck </ToolButton>
     </ToolsContainer>
   );
 };
@@ -28,7 +28,7 @@ const ToolButton = styled.button`
   margin-top: 0px;
   color: white;
   background: #505c65;
-  padding: 0px 10px 0px 12px;
+  padding: 0px 12px 0px 12px;
 
   &:hover {
     border-bottom: 1px solid lightseagreen;

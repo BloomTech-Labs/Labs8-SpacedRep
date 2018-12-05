@@ -22,7 +22,7 @@ class DeckList extends React.Component {
     return (
       <Container id="decklist container">
         {/* Don't commit this - just for UI design thinking */}
-        <DeckListTools addNewCard={this.handleAddCard} />
+        <DeckListTools addNewDeck={this.handleAddDeck} />
         {/* <button onClick={this.handleCreateNewDeck} type="submit">New deck</button> */}
         {decks.map(deck => (
           <Deck key={deck.name} deck={deck} today={today} />
