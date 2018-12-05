@@ -165,9 +165,14 @@ const AppName = styled(Link)`
 const BurgerGroup = styled.div`
 width: 100%;
 max-width: 150px;
-display: flex;
+// display: flex;
 justify-content: ${props => props.isLoggedIn ? 'space-between' : 'flex-end'};
 align-items: center;
+display: none;
+
+@media (max-width: 900px) {
+  display: flex;
+}
 
 @media (max-width: 500px) {
   max-width: 350px;
