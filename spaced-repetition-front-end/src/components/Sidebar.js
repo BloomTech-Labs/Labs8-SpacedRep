@@ -50,6 +50,15 @@ position: fixed;
 width: 100px;
 height: 100%;
 background: ${props => props.theme.dark.main};
+
+@media (max-width: 500px) {
+  width: 100%;
+  height: 100%;
+  max-height: 65px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid white;
+}
 `;
 
 const SidebarItem = styled(Link)`
@@ -60,6 +69,14 @@ border-bottom: 1px solid white;
 
 &:hover {
   text-decoration: none;
+}
+
+@media (max-width: 500px) {
+  width: 100%;
+  margin: auto 0;
+
+  border-bottom: none; //?
+  height: 100%; //?
 }
 `;
 
@@ -73,6 +90,12 @@ ${props => props.path === props.thisroute && css`
 background: #1f2b33;
 `}
 
+@media (max-width: 500px) {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
 // background: ${props => props.theme.dark.main};
 
   img {
@@ -80,6 +103,14 @@ background: #1f2b33;
     width: 40px;
     margin: 0 auto;
     margin-bottom: 10px;
+
+    @media (max-width: 500px) {
+      display: none;
+      // height: 100%;
+      // display: inline-block;
+      // margin: 0;
+      // margin-right: 15px;
+    }
   }
   
   `;
