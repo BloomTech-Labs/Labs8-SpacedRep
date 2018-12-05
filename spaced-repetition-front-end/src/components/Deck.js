@@ -29,7 +29,9 @@ class Deck extends React.Component {
     history.push('/dashboard/decks');
   }
 
-  handleEditDeck = () => {
+  handleEditDeck = (e, id) => {
+    console.log(id)
+    e.stopPropagation();
     this.setState({ isEditing: true });
   }
 
@@ -105,7 +107,7 @@ class Deck extends React.Component {
         of the training logic and flow. */}
                 <TrainDeck onClick={this.handleTrain}>Train Deck</TrainDeck>
                 {!disableDelete && <TrainDeck onClick={() => this.handleDeleteDeck(deck.id)}>Delete</TrainDeck>}
-                <TrainDeck onClick={() => this.handleEditDeck(deck.id)}>Edit</TrainDeck>
+                <TrainDeck onClick={(e) => this.handleEditDeck(e, deck.id)}>Edit</TrainDeck>
                 <DueDateContainer>
                   <DueDate today={today} dueDate={deck.dueDate}>
                     {new Date(deck.dueDate * DAY_IN_MILLISECONDS).toLocaleDateString()}
@@ -223,7 +225,9 @@ const TrainDeck = styled.button`
 const DueDateContainer = styled.div`
   display: flex;
   flex-direction:column;
+  justify-content:space-between;
   align-items: flex-end;
+  height: 50px;
   /* width: 100%; */
 `;
 
