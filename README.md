@@ -2,7 +2,7 @@
 
 ## Links
 
-- Deployed site: https://srsly-manual.netlify.com/
+- Deployed site: https://spaced-repetition.netlify.com/
 - Wireframes: https://balsamiq.cloud/snv27r3/p2yk660/r7DA1
 
 ## Contributors
@@ -22,13 +22,13 @@ Project Manager
 
 This project was built using yarn v1.12.1 and node v10.13.0.
 
-Client side dependencies:
+### Front end dependencies (production)
 
-Server side dependencies:
+### Front end dependencies (development)
 
-Dev dependencies:
+### Back end dependencies (production)
 
-## How to Contribute
+### Back end dependencies (development)
 
 # API Documentation
 
