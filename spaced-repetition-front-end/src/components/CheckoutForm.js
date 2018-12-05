@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { CardElement, injectStripe } from 'react-stripe-elements';
 import axios from 'axios';
+import SplitForm from './SplitForm';
 
 const idToken = localStorage.getItem('id_token');
 const headers = { Authorization: `Bearer ${idToken}` };
@@ -68,13 +69,7 @@ class CheckoutForm extends Component {
     if (profile && profile.tier === 'free' && displayPurchaseForm) {
       return (
         <CheckoutFormContainer>
-          <CardElement style={{ base: { fontSize: '18px', color: 'white' } }} />
-          <Subscribe onClick={this.handleSubscribe} type="submit">
-            Buy now
-          </Subscribe>
-          <Cancel onClick={this.toggleSubscribe} type="submit">
-            Lemme think about it
-          </Cancel>
+          <SplitForm handleSubscribe={this.handleSubscribe} toggleSubscribe={this.toggleSubscribe} />
         </CheckoutFormContainer>
       );
     }
@@ -118,9 +113,9 @@ const Subscribe = styled.button`
     background: ${props => props.theme.dark.logo};
     cursor: pointer;
   }
-`
+`;
 
 const Cancel = styled.button`
 ${props => props.theme.dark.buttons.base}
 background: ${props => props.theme.dark.buttons.negative};
-`
+`;
