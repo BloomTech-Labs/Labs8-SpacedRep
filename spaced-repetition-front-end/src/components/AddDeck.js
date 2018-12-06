@@ -54,7 +54,6 @@ class AddDeck extends React.Component {
     const validatedCards = [];
     //validate decks
     if (deck.name.length > 0) {
-      const indexesToRemove = [];
       deckCards.forEach((card, i) => {
         console.log(card)
         if (card.answer && card.question && card.title) validatedCards.push(card)

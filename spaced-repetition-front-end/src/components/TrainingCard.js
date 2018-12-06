@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { Redirect } from 'react-router';
 import styled, { keyframes } from 'styled-components';
 import Highlight from 'react-highlight.js';
@@ -58,6 +58,11 @@ class TrainingCard extends React.Component {
     updateProgress(progress);
   }
 
+  leaveTraining = () => {
+    const { history } = this.props;
+    history.push('/dashboard/decks')
+  }
+
   render() {
     const { formattedDeck, updateProgress } = this.props;
 
@@ -74,11 +79,15 @@ class TrainingCard extends React.Component {
       <MainCardContainer>
         <CardModal>
           <CardContainer>
-            <CardTitle>{title}</CardTitle>
-            {/* <h3>Question</h3> */}
+            <Header>
+              <CardTitle>{title}</CardTitle>
+              <Cancel type="button" onClick={this.leaveTraining}>x</Cancel>
+            </Header>
+
+            <h3>Question</h3>
             {qFilteredContent.map((content, i) => {
               if (qContentType[i] === 'txt') {
-                return <CardText key={`${i + qContentType[i]}`}>{content}</CardText>;
+                return <p key={`${i + qContentType[i]}`}>{content}</p>;
               }
               return (
                 <Highlight key={`${i + qContentType[i]}`} language={language}>
@@ -93,7 +102,7 @@ class TrainingCard extends React.Component {
                 <h3>Answer</h3>
                 {aFilteredContent.map((content, i) => {
                   if (aContentType[i] === 'txt') {
-                    return <CardText key={`${i + qContentType[i]}`}>{content}</CardText>;
+                    return <p key={`${i + qContentType[i]}`}>{content}</p>;
                   }
                   return (
                     <Highlight key={`${i + qContentType[i]}`} language={language}>
@@ -102,7 +111,7 @@ class TrainingCard extends React.Component {
                   );
                 })}
                 <ButtonContainer>
-                  <CardButton type="button" onClick={() => this.handleAnswer(0)}>Missed It</CardButton>
+                  <Missed type="button" onClick={() => this.handleAnswer(0)}>Missed It</Missed>
                   <CardButton type="button" onClick={() => this.handleAnswer(1)}>Got It</CardButton>
                   {(currentCard + 1) !== formattedDeck.length
                     ? (
@@ -142,9 +151,9 @@ class TrainingCard extends React.Component {
             >
               Quit current training session.
             </OptionItem>
-            <OptionItemLink to={`/dashboard/decks/${formattedDeck.id}/train/${id}/delete`}>
+            {/* <OptionItemLink to={`/dashboard/decks/${formattedDeck.id}/train/${id}/delete`}>
               Delete this card.
-            </OptionItemLink>
+            </OptionItemLink> */}
           </OptionsMenu>
         </CardModal>
       </MainCardContainer>
@@ -152,11 +161,24 @@ class TrainingCard extends React.Component {
   }
 }
 
-export default TrainingCard;
+export default withRouter(TrainingCard);
 
 // styles
 
 const CardContainer = styled.div`
+  h3 {
+    font-size: 22px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: lightgrey;
+  }
+
+  p{
+    padding: 5px;
+    font-size: 18px;
+  }
+
+
 `;
 
 // covers and darkens viewport except for modal
@@ -185,12 +207,34 @@ const CardModal = styled.div`
 `;
 
 
+const Header = styled.h2`
+  display: flex;
+  width: 100%;
+  min-height: 46px;
+  /* align-self: flex-start; */
+  justify-content: space-between;
+  font-size: 20px;
+  padding: 10px 0px 10px 0px;
+`
+const Cancel = styled.button`
+  border: none;
+  background: none;
+  color: lightgrey;
+  font-weight: bold;
+  font-size: 20px;
+  height: 26px;
+  margin: 0px;
+  padding: 0px;
+  color: ${props => props.theme.dark.buttons.negative};
+
+  /* width: 100px; */
+`;
+
 const CardTitle = styled.h2`
 padding-bottom: 2%;
 border-bottom: 1px solid white;
-`;
-
-const CardText = styled.p`
+flex-grow: 1;
+margin-right: 20px;
 `;
 
 const CardInteractionsAnswer = styled(CardContainer)`
@@ -210,8 +254,17 @@ const ButtonContainer = styled(CardContainer)`
 `;
 
 const CardButton = styled.button`
-  height: 35px;
-  width: 125px;
+  /* height: 35px;
+  width: 125px; */
+
+    ${props => props.theme.dark.buttons.base}
+  &:hover {
+        background: ${props => props.theme.dark.sidebar};
+      }
+`;
+
+const Missed = styled(CardButton)`
+   background: ${props => props.theme.dark.buttons.negative};
 `;
 
 const NextCardButton = styled(CardButton)`
@@ -238,7 +291,7 @@ const NextCardLink = styled(Link)`
     }
 `;
 
-const ProgressText = styled(CardText)`
+const ProgressText = styled.p`
   text-align: center;
   font-size: 12px;
 `;
@@ -263,7 +316,7 @@ const OptionsMenu = styled(CardContainer)`
   border-top: 1px solid white;
 `;
 
-const OptionItem = styled(CardText)`
+const OptionItem = styled(ProgressText)`
   text-align: end;
   cursor: pointer;
         
