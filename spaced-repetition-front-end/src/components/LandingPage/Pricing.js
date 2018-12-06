@@ -9,7 +9,13 @@ const Pricing = () => {
         <Boxes>
           {/* <LeftBox>1</LeftBox> */}
           {/* <RightBox>2</RightBox> */}
-          <LeftBox>1</LeftBox>
+          <LeftBox>
+            <p>Our mission is to give people like you the tools you need to have a successful study session.
+              That is why we are offering all our features and team support to every tier.
+              {/* The only difference you'll find between our free and unlimited tiers is the amount of cards and decks you can create. */}
+              We want you to have the true experience of our service from day one.</p>
+            <button>Get Started!</button>
+          </LeftBox>
           <RightBox>2</RightBox>
         </Boxes>
       </Content>
@@ -26,7 +32,7 @@ border: 1px solid gold; // temp
 width: 100%;
 height: 100%;
 margin: auto 0;
-padding: 10%;
+padding: 5%;
 `;
 
 const Content = styled.div`
@@ -45,21 +51,28 @@ const Boxes = styled.div`
 border: 1px solid gold; // temp
 width: 100%;
 height: 90%;
+display: flex;
 
 div {
   border: 1px solid gold; // temp
 }
 `;
 
-// const InnerBox = styled.div`
-// height: 100%;
-// display: inline-block;
-// `;
-
 const LeftBox = styled.div`
 width: 30%;
 height: 100%;
-display: inline-block;
+display: inline-flex;
+flex-direction: column;
+
+p {
+  line-height: 1.5;
+}
+
+button {
+  font-size: 20px;
+  margin-top: 0;
+  width: 90%;
+}
 `;
 
 const RightBox = styled.div`
