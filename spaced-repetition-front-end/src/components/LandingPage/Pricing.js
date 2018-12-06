@@ -10,13 +10,42 @@ const Pricing = () => {
           {/* <LeftBox>1</LeftBox> */}
           {/* <RightBox>2</RightBox> */}
           <LeftBox>
-            <p>Our mission is to give people like you the tools you need to have a successful study session.
-              That is why we are offering all our features and team support to every tier.
-              {/* The only difference you'll find between our free and unlimited tiers is the amount of cards and decks you can create. */}
-              We want you to have the true experience of our service from day one.</p>
-            <button>Get Started!</button>
+            <PricingCTA>
+              <p>
+                Our mission is to give people like you the tools you need to have a successful study session.
+                That is why we are offering all our features and team support to every tier.
+                {/* The only difference you'll find between our free and unlimited tiers is the amount of cards and decks you can create. */}
+                We want you to have the true experience of our service from day one.
+              </p>
+              <button type="button">Get Started!</button>
+            </PricingCTA>
           </LeftBox>
-          <RightBox>2</RightBox>
+          <RightBox>
+            <CardsContainer>
+              <FreeCard>
+                <Tier>Free</Tier>
+                <Price><span>0</span>/mo.</Price>
+                <Item><i class="fas fa-check fs-2x" />snippet</Item>
+                <Item><i class="fas fa-check fs-2x" />SRS</Item>
+                <Item><i class="fas fa-check fs-2x" />support</Item>
+                <Item><i class="fas fa-check fs-2x" />deck sharing</Item>
+                <Item><i class="fas fa-check fs-2x" />training mode</Item>
+                <Item><i class="fas fa-check fs-2x" /># of decks</Item>
+                <Item><i class="fas fa-check fs-2x" /># of cards</Item>
+              </FreeCard>
+              <UnlimitedCard>
+                <Tier>Unlimited</Tier>
+                <Price><span>9</span>.99/mo.</Price>
+                <Item><i class="fas fa-check fs-2x" />snippet</Item>
+                <Item><i class="fas fa-check fs-2x" />SRS</Item>
+                <Item><i class="fas fa-check fs-2x" />support</Item>
+                <Item><i class="fas fa-check fs-2x" />deck sharing</Item>
+                <Item><i class="fas fa-check fs-2x" />training mode</Item>
+                <Item><i class="fas fa-check fs-2x" /># of decks</Item>
+                <Item><i class="fas fa-check fs-2x" /># of cards</Item>
+              </UnlimitedCard>
+            </CardsContainer>
+          </RightBox>
         </Boxes>
       </Content>
     </Container>
@@ -28,7 +57,7 @@ export default Pricing;
 // styled
 
 const Container = styled.section`
-border: 1px solid gold; // temp
+// border: 1px solid gold; // temp
 width: 100%;
 height: 100%;
 margin: auto 0;
@@ -36,7 +65,7 @@ padding: 5%;
 `;
 
 const Content = styled.div`
-border: 1px solid gold; // temp
+// border: 1px solid gold; // temp
 width: 100%;
 height: 100%;
 
@@ -48,37 +77,118 @@ h2 {
 }
 `;
 const Boxes = styled.div`
-border: 1px solid gold; // temp
+// border: 1px solid gold; // temp
 width: 100%;
 height: 90%;
 display: flex;
+justify-content: space-between;
 
-div {
-  border: 1px solid gold; // temp
-}
-`;
+// div {
+  //   border: 1px solid gold; // temp
+  // }
+  `;
+
 
 const LeftBox = styled.div`
-width: 30%;
-height: 100%;
-display: inline-flex;
+  width: 30%;
+  height: 100%;
+  // display: inline-flex;
+  // flex-direction: column;
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+  
+  p {
+    line-height: 1.5;
+    font-size: 20px;
+  }
+  
+  button {
+    font-size: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+    background-color: mediumseagreen;
+    box-shadow: 2px 2px 2px black;
+
+    &:hover {
+      background-color: lightseagreen;
+    }
+  }
+  `;
+
+const PricingCTA = styled.div`
+  // border: 1px solid gold; // temp
+width: 100%;
+height: 80%;
+display: flex;
 flex-direction: column;
-
-p {
-  line-height: 1.5;
-}
-
-button {
-  font-size: 20px;
-  margin-top: 0;
-  width: 90%;
-}
+justify-content: space-between;
 `;
 
 const RightBox = styled.div`
-width: 70%;
+// border: 1px solid gold; // temp
+width: 60%;
 height: 100%;
-display: inline-block;
+display: flex;
+`;
+
+const CardsContainer = styled.div`
+height: 100%;
+width: 100%;
+display: flex;
+justify-content: space-around;
+align-items: center;
+`;
+
+const FreeCard = styled.ul`
+border: 1px solid gray;
+background-color: #3c4f5d;
+width: 45%;
+height: 90%;
+box-shadow: 6px 6px 15px 1px black;
+`;
+
+const UnlimitedCard = styled(FreeCard)`
+width: 40%;
+height: 80%;
+box-shadow: none;
+`;
+
+const Item = styled.li`
+// height: 10.625%;
+height: 8.125%;
+text-align: left;
+padding-top: 5%;
+
+i {
+  padding: 0 5%;
+}
+`;
+
+const Tier = styled(Item)`
+height: 15%;
+font-size: 32px;
+font-weight: bold;
+text-align: center;
+background: lightseagreen;
+`;
+
+const Price = styled(Item)`
+height: 20%;
+padding-top: 8%;
+text-shadow: 1px 1px 2px black;
+font-weight: bold;
+text-align: center;
+span {
+    font-size: 50px;
+  
+    &::before {
+      content: '$';
+      position: absolute;
+      font-size: 15px;
+      margin-left: -10px;
+      margin-top: 10px;
+    }
 `;
 
 // const Container = styled.section`
