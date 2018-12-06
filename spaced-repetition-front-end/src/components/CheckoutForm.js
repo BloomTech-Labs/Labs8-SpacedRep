@@ -14,6 +14,8 @@ class CheckoutForm extends Component {
     this.state = {
       isPurchaseModalOpen: false,
       isCancelModalOpen: false,
+      isPurchaseCompleteModalOpen: false,
+      isCancelCompleteModalOpen: false,
     };
   }
 
@@ -54,10 +56,12 @@ class CheckoutForm extends Component {
 
     await axios
       .post(`${process.env.REACT_APP_URL}/api/stripe`, purchaseObj, { headers })
-      .then(response => handleUpdateTier(response.data))
+      .then((response) => {
+        handleUpdateTier(response.data);
+        console.log('in');
+        this.onCompletePurchase();
+      })
       .catch(error => console.log(error));
-
-    this.closePurchaseModal();
   };
 
   cancelSubscription = async (e) => {
@@ -66,15 +70,37 @@ class CheckoutForm extends Component {
 
     await axios
       .put(`${process.env.REACT_APP_URL}/api/stripe`, { sub: profile.sub }, { headers })
-      .then(response => handleUpdateTier(response.data))
+      .then((response) => {
+        handleUpdateTier(response.data);
+        this.onCompleteCancel();
+      })
       .catch(error => console.log(error));
-
-    this.closeCancelModal();
   };
+
+  onCompletePurchase = () => {
+    this.setState({ isPurchaseModalOpen: false, isPurchaseCompleteModalOpen: true });
+    setTimeout(() => {
+      this.setState({ isPurchaseCompleteModalOpen: false });
+    }, 1500);
+    clearTimeout();
+  }
+
+  onCompleteCancel = () => {
+    this.setState({ isCancelModalOpen: false, isCancelCompleteModalOpen: true });
+    setTimeout(() => {
+      this.setState({ isCancelCompleteModalOpen: false });
+    }, 1500);
+    clearTimeout();
+  }
 
   render() {
     const { profile } = this.props;
-    const { isPurchaseModalOpen, isCancelModalOpen } = this.state;
+    const {
+      isPurchaseModalOpen,
+      isCancelModalOpen,
+      isPurchaseCompleteModalOpen,
+      isCancelCompleteModalOpen,
+    } = this.state;
 
     if (profile && profile.tier === 'paid') {
       return (
@@ -100,11 +126,20 @@ class CheckoutForm extends Component {
     }
     return (
       <PaymentFormContainer>
-        <PurchaseModal isOpen={isPurchaseModalOpen} onRequestClose={this.closePurchaseModal}>
+        <PurchaseModal
+          isOpen={isPurchaseModalOpen}
+          onRequestClose={this.closePurchaseModal}
+        >
           <SplitForm
             handleSubscribe={this.handleSubscribe}
             closePurchaseModal={this.closePurchaseModal}
           />
+        </PurchaseModal>
+        <PurchaseModal isOpen={isPurchaseCompleteModalOpen}>
+          Purchase complete
+        </PurchaseModal>
+        <PurchaseModal isOpen={isCancelCompleteModalOpen}>
+          Cancel complete
         </PurchaseModal>
         <Subscribe onClick={this.openPurchaseModal} type="submit">
           Get unlimited
