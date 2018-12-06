@@ -10,29 +10,38 @@ class DeckList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showAddDeckModal: false,
-    };
+      showAddDeck: false,
+    }
   }
 
   componentDidMount = () => {
     window.scrollTo(0, 0);
   };
 
-  handleAddDeck = () => {
-    this.setState({ showAddDeckModal: !this.state.showAddDeckModal });
-  };
+  toggleAddDeck = () => {
+    this.setState({ showAddDeck: !this.state.showAddDeck })
+    console.log('toggle')
+  }
+
+
 
   render() {
     const { decks, today } = this.props;
-    const { showAddDeckModal } = this.state;
+    const { showAddDeck } = this.state;
     return (
       <Container id="decklist container">
-        <DeckListTools addNewDeck={this.handleAddDeck} />
-        {showAddDeckModal ? (
-          <AddDeck />
-        ) : (
-          decks.map(deck => <Deck key={deck.name} deck={deck} today={today} disableDelete />)
-        )}
+        <DeckListTools toggleAddDeck={this.toggleAddDeck} showAddDeck={showAddDeck} />
+        {showAddDeck ?
+          <AddDeck toggleAddDeck={this.toggleAddDeck} />
+          : decks.length > 0 ? decks.map(deck => (
+            <Deck key={deck.name} deck={deck} today={today} disableDelete />
+          ))
+            :
+            <Welcome>
+              <h3>Hey, it doesn't look like you haven't made any decks yet!</h3>
+              <p> Click  <span onClick={this.toggleAddDeck}> +Add Deck </span>  on the toolbar to create your first deck. </p>
+            </Welcome>
+        }
       </Container>
     );
   }
@@ -47,17 +56,43 @@ DeckList.propTypes = {
 // styles
 
 const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  margin-left: 100px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  background: ${props => props.theme.dark.bodyBackground};
+width: 100%;
+height: 100%;
+margin-left: 100px;
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+align-items: flex-start;
+background: ${props => props.theme.dark.bodyBackground};
 
-  @media (max-width: 500px) {
-    margin-left: 0;
-    margin-top: 65px;
-    padding-top: 15px;
-  }
+@media (max-width: 500px) {
+  margin-left: 0;
+  margin-top: 65px;
+  padding-top: 15px;
+}
 `;
+
+const Welcome = styled.div`
+  display:flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 20px;
+
+  h3 {
+    font-size: 22px;
+    padding: 10px;
+  }
+  
+  p {
+    font-size: 18px;
+    padding: 10px;
+  }
+
+  span {
+    padding-bottom: 10px;
+    &:hover {
+    border-bottom: 1px solid lightseagreen;
+    cursor:pointer;
+  }
+  }
+`

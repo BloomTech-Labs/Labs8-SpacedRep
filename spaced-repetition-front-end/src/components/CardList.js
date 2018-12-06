@@ -20,6 +20,8 @@ class CardList extends Component {
 
 
   handleAddCard = () => {
+    const { decks, history } = this.props;
+    if (decks.length === 0) history.push('/dashboard/decks')
     this.setState({ addNewCard: !this.state.addNewCard });
   }
 
@@ -30,6 +32,11 @@ class CardList extends Component {
     })
     console.log('deckData from cardlist', deckData);
     return deckData;
+  }
+
+  handleWelcomeClick = () => {
+    const { history } = this.props;
+    history.push('/dashboard/decks')
   }
 
   render() {
@@ -46,10 +53,10 @@ class CardList extends Component {
           });
         })}
         {decks.length === 0 && !addNewCard && (
-          <div>
-            <h3>Hey, it doesn't look like you've made any cards yet!</h3>
-            <p>Click the Add Card button in the tool bar above to get started.</p>
-          </div>
+          <Welcome>
+            <h3>Hey, it doesn't look like you haven't made any cards or decks yet!</h3>
+            <p>Click <span onClick={this.handleWelcomeClick}> Decks </span>on the sidebar to get started.</p>
+          </Welcome>
         )}
       </CardListContainer>
     );
@@ -74,6 +81,33 @@ background: ${props => props.theme.dark.bodyBackground};
   margin-top: 65px;
 }
 `;
+
+
+const Welcome = styled.div`
+  display:flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 20px;
+
+  h3 {
+    font-size: 22px;
+    padding: 10px;
+  }
+  
+  p {
+    font-size: 18px;
+    padding: 10px;
+  }
+
+  span {
+    padding-bottom: 10px;
+    &:hover {
+    border-bottom: 1px solid lightseagreen;
+    cursor:pointer;
+  }
+  }
+`
+
 
 CardList.propTypes = {
   decks: PropTypes.instanceOf(Object).isRequired,

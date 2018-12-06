@@ -122,7 +122,7 @@ class Deck extends React.Component {
                 {/* Routes user to deck training component which handles all
         of the training logic and flow. */}
                 <TrainDeck onClick={this.handleTrain}>Train Deck</TrainDeck>
-                {!disableDelete && <TrainDeck onClick={() => this.handleDeleteDeck(deck.id)}>Delete</TrainDeck>}
+                {/* {!disableDelete && <DeleteDeck onClick={() => this.handleDeleteDeck(deck.id)}>Delete</DeleteDeck>} */}
                 <TrainDeck onClick={(e) => this.handleEditDeck(e, deck.id)}>Edit</TrainDeck>
                 <DueDateContainer>
                   <DueDate today={today} dueDate={deck.dueDate}>
@@ -139,7 +139,7 @@ class Deck extends React.Component {
           <ClipboardInput isSharing={sharing} value={shareURL} ref={ClipboardInput => this.clipboardRef = ClipboardInput} />
         </Container>
         :
-        <EditDeck deck={deck} toggleEditModeToFalse={this.toggleEditModeToFalse} />
+        <EditDeck deck={deck} toggleEditModeToFalse={this.toggleEditModeToFalse} deleteDeck={this.handleDeleteDeck} />
 
     );
   }
@@ -251,6 +251,10 @@ const DueDate = styled.div`
 const DateCaption = styled.div`
   color: lightgrey;
 `;
+
+const DeleteDeck = styled(TrainDeck)`
+background: ${props => props.theme.dark.buttons.negative}
+`
 
 const ClipboardInput = styled.textarea`
   display:none;

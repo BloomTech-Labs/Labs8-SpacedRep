@@ -198,7 +198,6 @@ class Card extends React.Component {
             </CardInteractions>
           </CardContainer>
         )
-
     );
   }
 }
@@ -331,6 +330,7 @@ const EditButton = styled.button`
   }
   
 `
+
 
 
 Card.propTypes = {
