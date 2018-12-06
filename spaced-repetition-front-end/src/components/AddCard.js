@@ -16,7 +16,7 @@ import CardInputs from './CardInputs';
 // then you could set state like cards[i].title = val.title. This would also elminate
 // the need for a save button when you finish writing a card!
 
-class AddDeck extends React.Component {
+class AddCard extends React.Component {
   constructor(props) {
     super(props);
 
@@ -214,7 +214,7 @@ class AddDeck extends React.Component {
   }
 }
 
-export default AddDeck;
+export default AddCard;
 
 const AddCardContainer = styled.form`
   /* width: 100%; */
