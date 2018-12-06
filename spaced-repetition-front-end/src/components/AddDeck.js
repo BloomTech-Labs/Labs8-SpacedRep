@@ -120,9 +120,14 @@ class AddDeck extends React.Component {
         </Header>
         <DeckForm onSubmit={this.addDeck}>
           <DeckInfo>
-            <Name type="text" value={state.name} name="name" onChange={this.handleChange} placeholder="Name" required />
-            <Tags type="text" value={state.tags} name="tags" onChange={this.handleChange} placeholder="Enter a list of tags separated by comma (no spaces)" required />
-
+            <DeckItem>
+              <p>Deck Name</p>
+              <input type="text" value={state.name} name="name" onChange={this.handleChange} placeholder="Name" required />
+            </DeckItem>
+            <DeckItem>
+              <p>Tags</p>
+              <input type="text" value={state.tags} name="tags" onChange={this.handleChange} placeholder="Enter a list of tags separated by comma (no spaces)" required />
+            </DeckItem>
 
             <SaveButton type="submit"> Save Deck </SaveButton>
           </DeckInfo>
@@ -194,11 +199,16 @@ const DeckForm = styled.div`
   /* align-items: baseline; */
   justify-content: space-between;
   box-shadow: none;
+
+  @media (max-width: 700px) {
+    min-height: 270px;
+  }
 `;
 
 const DeckInfo = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: center;
   width: 100%;
   padding: 10px 0;
   background: ${props => props.theme.dark.cardBackground};
@@ -206,8 +216,24 @@ const DeckInfo = styled.div`
   /* align-items: baseline; */
   justify-content: space-between;
   box-shadow: none;
-
+  @media (max-width: 700px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
 `;
+
+const DeckItem = styled.div`
+  font-size: 18px;
+  padding-bottom: 2px;
+  width: 100%;
+
+  input {
+    @media (max-width: 700px) {
+      width: 100%;
+    }
+    
+  }
+`
 
 const Public = styled.div`
   width: 100%;
@@ -246,10 +272,6 @@ const AddCard = styled.button`
   }
   font-size: 16px;
 `
-
-const Name = styled.input``
-
-const Tags = styled.input``
 
 const ControlsContainer = styled.div`
   display:flex;

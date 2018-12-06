@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 
 const Welcome = (props) => {
 
-  const handleIntroClick = () => {
+  const handleWelcomeClick = () => {
     const { history } = props;
     history.push('/dashboard/decks')
   }
@@ -17,7 +17,7 @@ const Welcome = (props) => {
       <WelcomeText>
         <h3>Welcome to SpaceReps!</h3>
         <p>This is a Spaced Repetition memory assistant application.</p>
-        <p> Click  <span onClick={handleIntroClick}> +Add Deck </span>  on the toolbar to get started. </p>
+        <p>Click <span onClick={handleWelcomeClick}> Decks </span>on the sidebar to get started.</p>
       </WelcomeText>
     </DeckViewContainer>
   );

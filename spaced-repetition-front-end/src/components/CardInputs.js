@@ -34,7 +34,7 @@ class CardInputs extends React.Component {
         <CardInfo>
           <Header>
             {`Card #${props.i + 1}`}
-            <Caption> Supports code snippets in Question & Answer, just surround code with 3 backticks ``` </Caption>
+            <Caption> Supports code snippets too, just surround code with 3 backticks ``` </Caption>
             {props.i !== 0 && <Cancel type="button" onClick={() => props.removeCard(props.i)}>x</Cancel>}
           </Header>
 

@@ -40,7 +40,7 @@ class DeckList extends React.Component {
             :
             <Welcome>
               <h3>Hey, it doesn't look like you haven't made any decks yet!</h3>
-              <p> Click  <span onClick={this.toggleAddDeck}> +Add Deck </span>  on the toolbar to get started. </p>
+              <p> Click  <span onClick={this.toggleAddDeck}> +Add Deck </span>  on the toolbar to create your first deck. </p>
             </Welcome>
         }
       </Container>
