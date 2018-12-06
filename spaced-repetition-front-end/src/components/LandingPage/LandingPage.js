@@ -21,7 +21,8 @@ const LandingPage = ({ auth }) => {
           <div>
             <h1>Focus on your what matters to you.</h1>
             <h1>Let us take care of the when.</h1>
-            <p>We believe in providing a seamless and intuitive study session from beginning to end. Whether you're adding new material or reviewing previous.</p>
+            <p>Our application is built on the scientifically proven principles of spaced repetition to help you study more efficiently and less often. We believe in providing a seamless and intuitive study session from beginning to end, whether you're adding new material or reviewing previous.</p>
+            <p>Studying with us is as easy as creating your own digital flashcards and decks. We take care of the rest! Are you a programmer? Check out our code snippet integration!</p>
           </div>
           <CTAButtonsGroup>
             <CTABtn onClick={login}>Sign up</CTABtn>
@@ -51,32 +52,32 @@ export default LandingPage;
 // styles
 
 const WrapperContainer = styled.div`
-margin-top: 55px;
-margin-top: ${props => props.isLoggedIn ? '90px' : '55px'};
+height: 100%;
+padding-top: 55px;
+// margin-top: ${props => props.isLoggedIn ? '90px' : '55px'};
 
-@media (max-width: 540px) {
-  h1 {
-    font-size: 28px;
-  }
-}
+// @media (max-width: 540px) {
+//   h1 {
+//     font-size: 28px;
+//   }
+// }
 `;
 
 const Header = styled.div`
-height: 100vh;
+height: 100%;
 `;
 
 const JumboTron = styled.div`
-padding: 5% 10%;
-  height: 55vh;
+height: 60%;
+width: 100%;
+padding: 5% 8%;
   background-size: cover;
   background-position: center bottom;
-  // background-image: url(${headerImg});
   letter-spacing: 1px;
-  // color: #3e3d3d;
   color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: space-between;
 
   &::before {
     background-image: url(${headerImg});
@@ -87,27 +88,28 @@ padding: 5% 10%;
     top: 0;
     left: 0;
     width: 100%;
-    height: 65vh;
+    height: 60%;
     z-index: -2;
     opacity: 0.2;
     }
 
-    div {
-      max-width: 700px;
-      width: 100%;
-    }
+    // div {
+    //   max-width: 700px;
+    //   width: 100%;
+    // }
 
-    h1 {
-      font-size: 38px;
-    }
+    // h1 {
+    //   font-size: 38px;
+    // }
 
-    p {
-      margin-top: 30px;
-      line-height: 25px;
-    }
+    // p {
+    //   margin-top: 30px;
+    //   line-height: 25px;
+    // }
 `;
 
 const Body = styled.div`
+height: 100%;
   margin-top: 55px;
   position: relative;
   flex:1;
