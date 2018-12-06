@@ -9,8 +9,17 @@ const Billing = (props) => {
   return (
     <StripeProvider apiKey="pk_test_KoWcK14l0HlLnKEAFc9icsPa">
       <Container>
-        <Text>Free tier users are limited to 3 decks and a maximum of 150 cards.</Text>
-        <Text>No limit for paid.</Text>
+        {profile && profile.tier === 'paid' ? (
+          <PaidText>
+            <Text>You are a paid user!</Text>
+            <Text>Enjoy your unlimited access to decks and cards.</Text>
+          </PaidText>
+        ) : (
+          <FreeText>
+            <Text>Free tier users are limited to 3 decks and a maximum of 150 cards.</Text>
+            <Text>No limit for paid.</Text>
+          </FreeText>
+        )}
         <Elements>
           <CheckoutForm handleUpdateTier={handleUpdateTier} profile={profile} />
         </Elements>
@@ -29,6 +38,10 @@ const Container = styled.div`
   flex-direction: column;
   padding-left: 20px;
 `;
+
+const PaidText = styled.div``;
+
+const FreeText = styled.div``;
 
 const Text = styled.p`
   font-size: 25px;

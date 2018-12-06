@@ -101,6 +101,6 @@ const Cancel = styled.button`
   ${props => props.theme.dark.buttons.base}
   background: ${props => props.theme.dark.buttons.negative};
   &:hover {
-    background: #EB71B2;
+    background: #ed494e;
   }
 `;
