@@ -47,12 +47,23 @@ class AddDeck extends React.Component {
   addDeck = (e) => {
     e.preventDefault();
     const deck = this.state;
+
+    const deckCards = [...deck.cards];
+
+    //validate decks
+    if (deck.name.length < 1) {
+      const indexesToRemove = [];
+      deckCards.forEach((card, i) => {
+
+      })
+    }
+
     const newDeck = {
       name: deck.name,
       public: deck.public,
       tags: deck.tags,
     };
-    const deckCards = [...deck.cards];
+
     const token = localStorage.getItem('id_token');
     const headers = { Authorization: `Bearer ${token}` };
     axios.post(`${process.env.REACT_APP_URL}/api/decks/`, newDeck, { headers })
@@ -87,23 +98,42 @@ class AddDeck extends React.Component {
     this.setState((state) => ({ cards: [...state.cards, { language: 'Plain Text' }] }));
   }
 
+  removeCard = (index) => {
+    const { cards } = this.state;
+    // needed to do it this way otherwise React will just erase the array
+    // because it thinks you are modifying state directly
+    let newCards = [...cards]
+    newCards.splice(index, 1)
+    this.setState({ cards: newCards });
+  }
+
   render() {
     const { state } = this;
+    const { toggleAddDeck } = this.props;
+
     return (
+
       <AddDeckContainer>
-        <h2>Create New Deck:</h2>
+        <Header>
+          Create New Deck:
+          <Cancel type="button" onClick={toggleAddDeck}>x</Cancel>
+        </Header>
         <DeckForm onSubmit={this.addDeck}>
           <DeckInfo>
             <Name type="text" value={state.name} name="name" onChange={this.handleChange} placeholder="Name" required />
             <Tags type="text" value={state.tags} name="tags" onChange={this.handleChange} placeholder="Enter a list of tags separated by comma (no spaces)" required />
             <PublicText style={{ color: 'black' }}>Public?</PublicText>
             <Checkbox type="checkbox" name="public" onChange={this.handleChange} />
-            <SaveButton type="submit">Save</SaveButton>
+            <SaveButton type="submit"> Save Deck </SaveButton>
           </DeckInfo>
         </DeckForm>
-        {state.cards.map((x, i) => <CardInputs i={i} key={i} handleCardChange={this.handleCardChange} />)}
-        <AddCard type="button" onClick={this.newCard}>Add Card</AddCard>
+        {state.cards.map((x, i) => <CardInputs i={i} key={i} handleCardChange={this.handleCardChange} removeCard={this.removeCard} />)}
+        <ControlsContainer>
+          <AddCard type="button" onClick={this.newCard}>Add Another Card</AddCard>
+          {state.cards.length > 1 && <SaveButton onClick={this.addDeck}> Save Deck </SaveButton>}
+        </ControlsContainer>
       </AddDeckContainer>
+
     );
   }
 }
@@ -111,19 +141,47 @@ class AddDeck extends React.Component {
 export default withRouter(AddDeck);
 
 const AddDeckContainer = styled.div`
-  width: 70%;
-  margin: 10px;
+  /* flex-direction: column;
+  align-items: center; */
+  width: 100%;
+  margin: 25px;
+  padding: 10px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  background: ${props => props.theme.dark.bodyBackground};
 `;
 
-const DeckForm = styled.form`
+const Header = styled.h2`
+  display: flex;
+  width: 100%;
+  /* align-self: flex-start; */
+  justify-content: space-between;
+  font-size: 20px;
+  padding: 10px 0px 10px 0px;
+`
+
+const Cancel = styled.button`
+  border: none;
+  background: none;
+  color: lightgrey;
+  font-weight: bold;
+  font-size: 20px;
+  height: 26px;
+  margin: 0px;
+  padding: 0px;
+  color: ${props => props.theme.dark.buttons.negative};
+
+  /* width: 100px; */
+`;
+
+const DeckForm = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
   padding: 10px;
-  margin-left: 18px;
+  
   background: ${props => props.theme.dark.cardBackground};
   border-radius: 3px;
   /* align-items: baseline; */
@@ -142,21 +200,6 @@ const DeckInfo = styled.div`
   justify-content: space-between;
   box-shadow: none;
 
-  /* input[type="text"] {
-    flex-grow: 1;
-  }
-
-  button {
-    flex-grow: 0.5;
-  }
-
-  * {
-    margin-left: 5px; 
-  }
-
-  input:first-child {
-    margin-left: 0;
-  } */
 `;
 
 const Checkbox = styled.input`
@@ -187,3 +230,9 @@ const Name = styled.input``
 const Tags = styled.input``
 
 const PublicText = styled.p``
+
+const ControlsContainer = styled.div`
+  display:flex;
+  width: 100%;
+  justify-content: space-between;
+`

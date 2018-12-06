@@ -216,10 +216,10 @@ class AddDeck extends React.Component {
 
 export default AddDeck;
 
-const AddCardContainer = styled.form`
+const AddCardContainer = styled.div`
   /* width: 100%; */
-  padding: 10px;
-  margin: 10px;
+  /* padding: 10px; */
+  /* margin: 10px; */
   border: 1px solid ${props => props.theme.dark.sidebar};
   background: ${props => props.theme.dark.sidebar};
 `
