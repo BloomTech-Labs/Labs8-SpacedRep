@@ -80,6 +80,7 @@ class EditDeck extends React.Component {
 
     render() {
         const { state } = this;
+        const { deleteDeck, deck } = this.props;
         return (
             <EditDeckContainer>
                 <Header>Edit Deck:</Header>
@@ -89,8 +90,12 @@ class EditDeck extends React.Component {
                         <input type="text" value={state.tags} name="tags" onChange={this.handleChange} placeholder="Enter a list of tags separated by comma (no spaces)" required />
                         <p style={{ color: 'black' }}>Public?</p>
                         <Checkbox type="checkbox" name="public" onChange={this.handleChange} />
-                        <Button type="submit">Save</Button>
+
                     </DeckInfo>
+                    <Controls>
+                        <Button type="submit">Save</Button>
+                        <Delete onClick={() => deleteDeck(deck.id)}>Delete</Delete>
+                    </Controls>
                 </DeckForm>
                 {/* {state.cards.map((x, i) => <CardInputs i={i} key={i} handleCardChange={this.handleCardChange} />)} */}
                 <Button type="button" onClick={this.newCard}>Add Card</Button>
@@ -118,7 +123,7 @@ const DeckForm = styled.form`
   padding: 10px;
   background: ${props => props.theme.dark.cardBackground};
   border-radius: 3px;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   box-shadow: none;
 `;
@@ -151,11 +156,20 @@ const Checkbox = styled.input`
   align-self: center;
 `;
 
+const Controls = styled.div`
+  display:flex;
+  justify-content: space-between;
+  width: 50%;
+`
+
 const Button = styled.button`
   ${props => props.theme.dark.buttons.base}
   &:hover {
     background: ${props => props.theme.dark.logo};
     cursor: pointer;
   }
-  font-size: 16px;
 `;
+
+const Delete = styled(Button)`
+  background: ${props => props.theme.dark.buttons.negative};
+`

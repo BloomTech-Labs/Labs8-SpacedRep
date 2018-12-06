@@ -19,6 +19,7 @@ import TrainDeck from './components/TrainDeck';
 import DeckView from './components/DeckView';
 import DeleteCardModal from './components/DeleteCardModal';
 import ImportDeck from './components/ImportDeck';
+import Welcome from './components/Welcome';
 import VisitorHeader from './components/VisitorHeader';
 // import './App.css';
 
@@ -280,7 +281,7 @@ class App extends Component {
           />
 
           <Wrapper auth={auth} handleProfile={this.handleProfile} handleData={this.handleData}>
-            <Route exact path="/dashboard" decks={decks} />
+            <Route exact path="/dashboard" decks={decks} render={props => <Welcome />} />
             <Route exact path="/dashboard/add-deck" render={props => <AddDeck />} />
             <Route exact path="/dashboard/profile" render={props => <Profile profile={profile} handleUpdateTier={this.handleUpdateTier} {...props} />} />
             <Route exact path="/dashboard/decks" render={props => <DeckList decks={decks} today={today} {...props} />} />
