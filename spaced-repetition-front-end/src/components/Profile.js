@@ -58,7 +58,7 @@ const ProfileContainer = styled.div`
 `;
 
 const Name = styled.h1`
-  font-size: 35px;
+  font-size: 30px;
   margin-bottom: 20px;
   width: 300px;
   padding-bottom: 20px;

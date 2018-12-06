@@ -30,4 +30,9 @@ const Container = styled.div`
   padding-left: 20px;
 `;
 
-const Text = styled.p``;
+const Text = styled.p`
+  font-size: 25px;
+  margin-bottom: 20px;
+  width: 300px;
+  line-height: 30px;
+`;

@@ -27,44 +27,35 @@ const createOptions = (fontSize, padding) => ({
   },
 });
 
-class _SplitForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+const SplitForm = (props) => {
+  const { handleSubscribe, closePurchaseModal } = props;
+  return (
+    <Form onSubmit={handleSubscribe}>
+      <Label>Card number</Label>
+      <Input>
+        <CardNumberElement {...createOptions('15px', '10px 14px')} />
+      </Input>
+      <Label>Expiration date</Label>
+      <Input>
+        <CardExpiryElement {...createOptions('15px', '10px 14px')} />
+      </Input>
+      <Label>CVC</Label>
+      <Input>
+        <CardCVCElement {...createOptions('15px', '10px 14px')} />
+      </Input>
+      <Label>Postal code</Label>
+      <Input>
+        <PostalCodeElement {...createOptions('15px', '10px 14px')} />
+      </Input>
+      <Subscribe type="submit">Buy now</Subscribe>
+      <Cancel onClick={closePurchaseModal} type="submit">
+        No thanks
+      </Cancel>
+    </Form>
+  );
+};
 
-  render() {
-    const { handleSubscribe, toggleSubscribe } = this.props;
-    return (
-      <Form onSubmit={this.handleSubmit}>
-        <Label>Card number</Label>
-        <Input>
-          <CardNumberElement {...createOptions('15px', '10px 14px')} />
-        </Input>
-        <Label>Expiration date</Label>
-        <Input>
-          <CardExpiryElement {...createOptions('15px', '10px 14px')} />
-        </Input>
-        <Label>CVC</Label>
-        <Input>
-          <CardCVCElement {...createOptions('15px', '10px 14px')} />
-        </Input>
-        <Label>Postal code</Label>
-        <Input>
-          <PostalCodeElement {...createOptions('15px', '10px 14px')} />
-        </Input>
-        <Subscribe onClick={handleSubscribe} type="submit">
-          Buy now
-        </Subscribe>
-        <Cancel onClick={toggleSubscribe} type="submit">
-          No thanks
-        </Cancel>
-      </Form>
-    );
-  }
-}
-
-export default injectStripe(_SplitForm);
+export default injectStripe(SplitForm);
 
 const Form = styled.form`
   box-sizing: border-box;
@@ -74,37 +65,9 @@ const Form = styled.form`
 
 const Label = styled.label`
   color: #6b7c93;
-  font-weight: 300;
+  font-weight: 100;
   letter-spacing: 0.025em;
-`;
-
-const Button = styled.button`
-  white-space: nowrap;
-  border: 0;
-  outline: 0;
-  display: inline-block;
-  height: 40px;
-  line-height: 40px;
-  padding: 0 14px;
-  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
-  color: #fff;
-  border-radius: 4px;
   font-size: 15px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.025em;
-  background-color: lightseagreen;
-  text-decoration: none;
-  -webkit-transition: all 150ms ease;
-  transition: all 150ms ease;
-  margin-top: 10px;
-  &:hover {
-    color: #fff;
-    cursor: pointer;
-    background-color: #7795f8;
-    transform: translateY(-1px);
-    box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
-  }
 `;
 
 const Input = styled.div`
@@ -128,13 +91,16 @@ const Input = styled.div`
 
 const Subscribe = styled.button`
   ${props => props.theme.dark.buttons.base}
+  margin-bottom: 10px;
   &:hover {
     background: ${props => props.theme.dark.logo};
-    cursor: pointer;
   }
 `;
 
 const Cancel = styled.button`
-${props => props.theme.dark.buttons.base}
-background: ${props => props.theme.dark.buttons.negative};
+  ${props => props.theme.dark.buttons.base}
+  background: ${props => props.theme.dark.buttons.negative};
+  &:hover {
+    background: #EB71B2;
+  }
 `;
