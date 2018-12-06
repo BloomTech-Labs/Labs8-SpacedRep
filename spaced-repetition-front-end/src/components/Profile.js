@@ -46,6 +46,7 @@ const Container = styled.div`
 
   @media (max-width: 500px) {
     margin-left: 0;
+    min-height: 750px;
     margin-top: 65px;
     padding-top: 15px;
     display: flex;

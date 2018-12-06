@@ -54,12 +54,9 @@ Wrapper.propTypes = {
 
 const BodyContainer = styled.div`
   max-width: 1500px;
+  height: 100%;
   margin-top: 55px;
-  min-height: 700px;
   display: flex;
-
-  @media (max-width: 900px) {
-  }
 
   @media (max-width: 900px) {
   }
