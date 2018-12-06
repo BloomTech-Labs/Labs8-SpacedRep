@@ -29,9 +29,7 @@ class Wrapper extends React.Component {
           </BodyContainer>
         )}
         {/* If the user is not authenticated, render: */}
-        {!auth.isAuthenticated() && (
-          <h1>You are not logged in!</h1>
-        )}
+        {!auth.isAuthenticated() && <h1>You are not logged in!</h1>}
       </React.Fragment>
     );
   }
@@ -55,10 +53,13 @@ Wrapper.propTypes = {
 // styles
 
 const BodyContainer = styled.div`
-max-width: 1500px;
-height: 100%;
-margin-top: 55px;
-display: flex;
+  max-width: 1500px;
+  margin-top: 55px;
+  min-height: 700px;
+  display: flex;
+
+  @media (max-width: 900px) {
+  }
 
   @media (max-width: 900px) {
   }

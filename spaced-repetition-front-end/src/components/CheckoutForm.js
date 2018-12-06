@@ -58,7 +58,6 @@ class CheckoutForm extends Component {
       .post(`${process.env.REACT_APP_URL}/api/stripe`, purchaseObj, { headers })
       .then((response) => {
         handleUpdateTier(response.data);
-        console.log('in');
         this.onCompletePurchase();
       })
       .catch(error => console.log(error));
@@ -83,7 +82,7 @@ class CheckoutForm extends Component {
       this.setState({ isPurchaseCompleteModalOpen: false });
     }, 1500);
     clearTimeout();
-  }
+  };
 
   onCompleteCancel = () => {
     this.setState({ isCancelModalOpen: false, isCancelCompleteModalOpen: true });
@@ -91,7 +90,7 @@ class CheckoutForm extends Component {
       this.setState({ isCancelCompleteModalOpen: false });
     }, 1500);
     clearTimeout();
-  }
+  };
 
   render() {
     const { profile } = this.props;
@@ -126,21 +125,17 @@ class CheckoutForm extends Component {
     }
     return (
       <PaymentFormContainer>
-        <PurchaseModal
-          isOpen={isPurchaseModalOpen}
-          onRequestClose={this.closePurchaseModal}
-        >
+        <PurchaseModal isOpen={isPurchaseModalOpen} onRequestClose={this.closePurchaseModal}>
           <SplitForm
             handleSubscribe={this.handleSubscribe}
             closePurchaseModal={this.closePurchaseModal}
           />
         </PurchaseModal>
-        <PurchaseModal isOpen={isPurchaseCompleteModalOpen}>
-          Purchase complete
-        </PurchaseModal>
-        <PurchaseModal isOpen={isCancelCompleteModalOpen}>
-          Cancel complete
-        </PurchaseModal>
+        <PurchaseModal isOpen={isPurchaseCompleteModalOpen}>Purchase complete</PurchaseModal>
+        <CancelCompleteModal isOpen={isCancelCompleteModalOpen}>
+          <CancelText style={{ marginBottom: '20px' }}>Subscription cancelled.</CancelText>
+          <CancelText>Re-subscribe anytime...</CancelText>
+        </CancelCompleteModal>
         <Subscribe onClick={this.openPurchaseModal} type="submit">
           Get unlimited
         </Subscribe>
@@ -159,6 +154,7 @@ const PaymentFormContainer = styled.div`
 
 const PurchaseModal = styled(Modal)`
   display: flex;
+  z-index: 100;
   justify-content: center;
   align-items: center;
   transform: translate(130%, 18%);
@@ -169,6 +165,9 @@ const PurchaseModal = styled(Modal)`
   border-radius: 4px;
   &:focus {
     outline: none;
+  }
+  @media (max-width: 500px) {
+    transform: translate(7%, 18%);
   }
 `;
 
@@ -186,6 +185,29 @@ const CancelModal = styled(Modal)`
   border-radius: 4px;
   &:focus {
     outline: none;
+  }
+  @media (max-width: 500px) {
+    transform: translate(7%, 60%);
+  }
+`;
+
+const CancelCompleteModal = styled(Modal)`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transform: translate(130%, 60%);
+  padding: 25px 0 25px 0;
+  width: 350px;
+  height: 300px;
+  border: 1px solid #979797;
+  background: #ffffff;
+  border-radius: 4px;
+  &:focus {
+    outline: none;
+  }
+  @media (max-width: 500px) {
+    transform: translate(7%, 60%);
   }
 `;
 

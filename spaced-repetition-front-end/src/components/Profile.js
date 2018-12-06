@@ -48,6 +48,8 @@ const Container = styled.div`
     margin-left: 0;
     margin-top: 65px;
     padding-top: 15px;
+    display: flex;
+    flex-direction: column;
   }
 `;
 
@@ -55,6 +57,10 @@ const ProfileContainer = styled.div`
   display: flex;
   width: 50%;
   flex-direction: column;
+
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `;
 
 const Name = styled.h1`

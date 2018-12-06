@@ -37,6 +37,11 @@ const Container = styled.div`
   width: 50%;
   flex-direction: column;
   padding-left: 20px;
+
+  @media (max-width: 500px) {
+    width: 100%;
+    padding: 30px 0 0 0;
+  }
 `;
 
 const PaidText = styled.div``;
