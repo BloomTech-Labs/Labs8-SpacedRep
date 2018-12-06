@@ -1,45 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const pricingInfo = [
-  { tier: 'Free', price: 'No Cost', decks: 'Decks: 3', Cards: 'Cards: 150', color: 'lightseagreen', linkText: 'far fa-check-circle fa-2x' },
-  { tier: 'Monthly Subscription', price: '$9.99', decks: 'Decks: Unlimited', Cards: 'Cards: Unlimited', color: '#0f9275', linkText: 'Buy now' },
-  // { tier: 'Annual Subscription', price: '$99.99', decks: 'Decks: Unlimited', Cards: 'Cards: Unlimited', color: '#09984f', linkText: 'Buy now' },
-];
-
 const Pricing = () => {
   return (
-    <PricingContainer id="pricing">
-      <h1>Pricing</h1>
-      <p>How much</p>
-      <p>What you get</p>
-      <p>Cancel at any time</p>
-      <SubscriptionsContainer>
-        {pricingInfo.map((item) => {
-          return (
-            <ul>
-              <li><Tier color={item.color}>{item.tier}</Tier></li>
-              <li><p>{item.price}</p></li>
-              <li><p>{item.decks}</p></li>
-              <li>
-                <a
-                  href={''}
-                >
-                  {item.linkText === 'far fa-check-circle fa-2x' && (
-                    <i class={item.linkText}></i>
-                  )}
-                  {item.linkText !== 'far fa-check-circle fa-2x' && (
-                    item.linkText
-                  )}
-
-                </a>
-              </li>
-            </ul>
-
-          )
-        })}
-      </SubscriptionsContainer>
-    </PricingContainer>
+    <Container id="pricing">
+      <Content>
+        <h2>Pricing</h2>
+        <Boxes>
+          {/* <LeftBox>1</LeftBox> */}
+          {/* <RightBox>2</RightBox> */}
+          <LeftBox>1</LeftBox>
+          <RightBox>2</RightBox>
+        </Boxes>
+      </Content>
+    </Container>
   );
 };
 
@@ -47,64 +21,144 @@ export default Pricing;
 
 // styled
 
-const PricingContainer = styled.section`
-padding-top: 55px;
-  // border: 1px solid pink;
-  height: 100vh;
+const Container = styled.section`
+border: 1px solid gold; // temp
+width: 100%;
+height: 100%;
+margin: auto 0;
+padding: 10%;
+`;
+
+const Content = styled.div`
+border: 1px solid gold; // temp
+width: 100%;
+height: 100%;
+
+h2 {
   width: 100%;
-  padding: 110px 10% 0% 10%;
+  height: 10%;
+  font-size: 34px;
+  letter-spacing: 1px;
+}
+`;
+const Boxes = styled.div`
+border: 1px solid gold; // temp
+width: 100%;
+height: 90%;
 
-  h1 {
-    font-size: 36px;
-  }
+div {
+  border: 1px solid gold; // temp
+}
 `;
 
-const SubscriptionsContainer = styled.div`
-  // border: 1px solid pink;
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  // width: 100%;
-  width: 100%;
-  margin: 0 auto;
+// const InnerBox = styled.div`
+// height: 100%;
+// display: inline-block;
+// `;
 
-  ul {
-    list-style-type: none;
-    // border: 1px solid #eee;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    // -webkit-transition: 0.3s;
-    // transition: 0.3s;
-
-    li {
-      width: 300px;
-      padding: 10px 0;
-      // border: 1px solid green;
-      background-color: #253440;
-      border: 1px solid darkslategrey;
-      padding: 0;
-      height: 50px;
-
-      &:first-child {
-        padding: 0;
-      }
-
-      h1 {
-        margin: 0;
-      }
-
-    }
-  }
+const LeftBox = styled.div`
+width: 30%;
+height: 100%;
+display: inline-block;
 `;
 
-const Tier = styled.h2`
-font-size: 24px;
-padding: 0;
-margin: 0;
-padding-top: 15px;
-background-color: ${props => props.color};
-height: 50px;
-    text-align: center;
-    padding-top: 15px;
+const RightBox = styled.div`
+width: 70%;
+height: 100%;
+display: inline-block;
 `;
+
+// const Container = styled.section`
+// align-items: center;
+// // justify-content: space-between;
+// height: 100%;
+// width: 100%;
+// padding: 50px;
+// display: flex;
+
+// :first-child {
+//   width: 300px;
+//   height: 100%;
+// }
+
+// h1 {
+//   font-size: 36px;
+// }
+// `;
+
+// const SubscriptionsContainer = styled.div`
+// justify-content: space-between;
+// display: flex;
+// width: 100%;
+// `;
+
+// const FreeTierBox = styled.ul`
+// max-height: 400px;
+// height: 100%;
+// max-width: 300px;
+// width: 100%;
+// background-color: #299488;
+
+// li {
+//   padding: 20px;
+// }
+// `;
+
+// const PaidTierBox = styled(FreeTierBox)`
+// `;
+
+// const Item = styled.li`
+// `;
+
+// const TierItem = styled.li`
+// background-color: #24312f;
+// font-size: 30px;
+// text-shadow: 1px 1px 5px black;
+// padding: 20px;
+// background-color: darkslategray;
+// `;
+
+// const PriceItem = styled.li`
+// text-align: center;
+// span {
+//   font-size: 50px;
+
+//   &::before {
+//     content: '$';
+//     position: absolute;
+//     font-size: 15px;
+//     margin-left: -10px;
+//     margin-top: 10px;
+//   }
+// }
+// `;
+
+
+{/* <SubscriptionsContainer >
+  <div>
+    <h1>Pricing</h1>
+    <p><a>Click here</a> to get started with a free or paid account and begin creating your own flashcards!</p>
+  </div>
+  <FreeTierBox>
+    <TierItem>Free</TierItem>
+    <PriceItem>
+      <span>0</span>
+      /mo.
+    </PriceItem>
+    <Item>Code Snippets</Item>
+    <Item>Deck sharing</Item>
+    <Item>3 Decks</Item>
+    <Item>150 Cards</Item>
+  </FreeTierBox>
+  <PaidTierBox>
+    <TierItem>Paid</TierItem>
+    <PriceItem>
+      <span>9</span>
+      .99/mo.
+    </PriceItem>
+    <Item>Code Snippets</Item>
+    <Item>Deck sharing</Item>
+    <Item>Unlimited Decks</Item>
+    <Item>Unlimited Cards</Item>
+  </PaidTierBox>
+</SubscriptionsContainer> */}

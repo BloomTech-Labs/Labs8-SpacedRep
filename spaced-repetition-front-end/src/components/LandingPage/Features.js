@@ -14,6 +14,7 @@ export default Features;
 // styles
 
 const TeamContainer = styled.div`
+background-color: purple;
 padding-top: 55px;
 border: 1px solid pink;
 height: 100vh;

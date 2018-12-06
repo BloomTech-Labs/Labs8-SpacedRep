@@ -109,6 +109,7 @@ padding: 5% 8%;
 `;
 
 const Body = styled.div`
+height: 100%;
   margin-top: 55px;
   position: relative;
   flex:1;
