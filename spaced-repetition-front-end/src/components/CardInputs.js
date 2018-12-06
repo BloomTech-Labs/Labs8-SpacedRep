@@ -42,10 +42,10 @@ class CardInputs extends React.Component {
           <TopRow>
             <input type="text" value={state.title} name="title" onChange={this.handleChange} placeholder="Title" required />
             <Dropdown name="language" onChange={this.handleChange}>
-              <option value="Plain Text">Plain Text</option>
-              <option value="JavaScript">JavaScript</option>
-              <option value="Python">Python</option>
-              <option value="C++">C++</option>
+              <DropdownOption value="Plain Text">Plain Text</DropdownOption>
+              <DropdownOption value="JavaScript">JavaScript</DropdownOption>
+              <DropdownOption value="Python">Python</DropdownOption>
+              <DropdownOption value="C++">C++</DropdownOption>
             </Dropdown>
           </TopRow>
 
@@ -155,6 +155,12 @@ const Dropdown = styled.select`
   border: none;
   height: 50px;
 `;
+
+const DropdownOption = styled.option`
+  /* background: darkgrey; */
+  background: ${props => props.theme.dark.main};
+  color: white;
+`
 
 const TextArea = styled.textarea`
     height: 50px;
