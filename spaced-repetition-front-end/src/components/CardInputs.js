@@ -28,7 +28,6 @@ class CardInputs extends React.Component {
 
   render() {
     const { state, props } = this;
-    console.log(props)
     return (
       <Container>
         <CardInfo>

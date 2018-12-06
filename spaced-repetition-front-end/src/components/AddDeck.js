@@ -41,57 +41,64 @@ class AddDeck extends React.Component {
     cards[i][name] = val;
     this.setState({
       cards,
-    }, () => console.log(state));
+    });
   }
 
   addDeck = (e) => {
+    console.log('clicked')
     e.preventDefault();
     const deck = this.state;
 
     const deckCards = [...deck.cards];
 
+    const validatedCards = [];
     //validate decks
-    if (deck.name.length < 1) {
+    if (deck.name.length > 0) {
       const indexesToRemove = [];
       deckCards.forEach((card, i) => {
-
+        console.log(card)
+        if (card.answer && card.question && card.title) validatedCards.push(card)
       })
     }
 
-    const newDeck = {
-      name: deck.name,
-      public: deck.public,
-      tags: deck.tags,
-    };
+    if (validatedCards.length > 0) {
+      const newDeck = {
+        name: deck.name,
+        public: deck.public,
+        tags: deck.tags,
+      };
 
-    const token = localStorage.getItem('id_token');
-    const headers = { Authorization: `Bearer ${token}` };
-    axios.post(`${process.env.REACT_APP_URL}/api/decks/`, newDeck, { headers })
-      .then((response) => {
-        deckCards.forEach((x) => {
-          x.deck_id = response.data;
-        });
-        console.log(deckCards);
-        axios.post(`${process.env.REACT_APP_URL}/api/cards/batch`, deckCards, { headers })
-          .then((innerResponse) => {
-            console.log(innerResponse);
-          })
-          .catch(err => console.log(err.message));
-        window.location.reload();
-        this.props.history.push('/dashboard/decks');
-      })
-      .catch(error => (
-        this.setState({
-          errorMessage: error,
+      const token = localStorage.getItem('id_token');
+      const headers = { Authorization: `Bearer ${token}` };
+      axios.post(`${process.env.REACT_APP_URL}/api/decks/`, newDeck, { headers })
+        .then((response) => {
+          validatedCards.forEach((x) => {
+            x.deck_id = response.data;
+          });
+          console.log(validatedCards);
+          axios.post(`${process.env.REACT_APP_URL}/api/cards/batch`, validatedCards, { headers })
+            .then((innerResponse) => {
+              console.log(innerResponse);
+            })
+            .catch(err => console.log(err.message));
+          window.location.reload();
+          this.props.history.push('/dashboard/decks');
         })
-      ));
-    // post request to cards with deckCards
-    this.setState({
-      name: '',
-      public: '',
-      tags: '',
-      cards: [{ language: 'Plain Text' }],
-    });
+        .catch(error => (
+          this.setState({
+            errorMessage: error,
+          })
+        ));
+      // post request to cards with validatedCards
+      this.setState({
+        name: '',
+        public: '',
+        tags: '',
+        cards: [{ language: 'Plain Text' }],
+      });
+    }
+
+
   }
 
   newCard = () => {
@@ -129,7 +136,7 @@ class AddDeck extends React.Component {
               <input type="text" value={state.tags} name="tags" onChange={this.handleChange} placeholder="Enter a list of tags separated by comma (no spaces)" required />
             </DeckItem>
 
-            <SaveButton type="submit"> Save Deck </SaveButton>
+            <SaveButton onClick={this.addDeck}> Save Deck </SaveButton>
           </DeckInfo>
           <Public>
             <p >Enable sharing for this deck?</p>
