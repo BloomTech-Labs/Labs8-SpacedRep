@@ -122,10 +122,14 @@ class AddDeck extends React.Component {
           <DeckInfo>
             <Name type="text" value={state.name} name="name" onChange={this.handleChange} placeholder="Name" required />
             <Tags type="text" value={state.tags} name="tags" onChange={this.handleChange} placeholder="Enter a list of tags separated by comma (no spaces)" required />
-            <PublicText style={{ color: 'black' }}>Public?</PublicText>
-            <Checkbox type="checkbox" name="public" onChange={this.handleChange} />
+
+
             <SaveButton type="submit"> Save Deck </SaveButton>
           </DeckInfo>
+          <Public>
+            <p >Enable sharing for this deck?</p>
+            <input type="checkbox" name="public" onChange={this.handleChange} />
+          </Public>
         </DeckForm>
         {state.cards.map((x, i) => <CardInputs i={i} key={i} handleCardChange={this.handleCardChange} removeCard={this.removeCard} />)}
         <ControlsContainer>
@@ -144,11 +148,13 @@ const AddDeckContainer = styled.div`
   /* flex-direction: column;
   align-items: center; */
   width: 100%;
-  margin: 25px;
+  height: 100%;
+  margin: 20px 25px;
   padding: 10px;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
+  /* flex-wrap: wrap; */
+  /* justify-content: center; */
   align-items: flex-start;
   background: ${props => props.theme.dark.bodyBackground};
 `;
@@ -156,6 +162,7 @@ const AddDeckContainer = styled.div`
 const Header = styled.h2`
   display: flex;
   width: 100%;
+  min-height: 46px;
   /* align-self: flex-start; */
   justify-content: space-between;
   font-size: 20px;
@@ -181,7 +188,7 @@ const DeckForm = styled.div`
   flex-direction: column;
   width: 100%;
   padding: 10px;
-  
+  min-height: 120px;
   background: ${props => props.theme.dark.cardBackground};
   border-radius: 3px;
   /* align-items: baseline; */
@@ -202,10 +209,25 @@ const DeckInfo = styled.div`
 
 `;
 
-const Checkbox = styled.input`
-  align-self: center;
-`;
+const Public = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
 
+  input {
+    align-self: center;
+    margin: 0px;
+    height: 20px;
+    width: 20px;
+    border-radius: 6px;
+    padding: 3px;
+  }
+
+  p {
+    color: white;
+    padding-right: 10px;
+  }
+`
 
 const SaveButton = styled.button`
   ${props => props.theme.dark.buttons.base}
@@ -228,8 +250,6 @@ const AddCard = styled.button`
 const Name = styled.input``
 
 const Tags = styled.input``
-
-const PublicText = styled.p``
 
 const ControlsContainer = styled.div`
   display:flex;

@@ -31,12 +31,17 @@ class DeckList extends React.Component {
     const { showAddDeck } = this.state;
     return (
       <Container id="decklist container">
-        <DeckListTools toggleAddDeck={this.toggleAddDeck} />
+        <DeckListTools toggleAddDeck={this.toggleAddDeck} showAddDeck={showAddDeck} />
         {showAddDeck ?
           <AddDeck toggleAddDeck={this.toggleAddDeck} />
-          : decks.map(deck => (
+          : decks.length > 0 ? decks.map(deck => (
             <Deck key={deck.name} deck={deck} today={today} disableDelete />
           ))
+            :
+            <Welcome>
+              <h3>Hey, it doesn't look like you haven't made any decks yet!</h3>
+              <p> Click  <span onClick={this.toggleAddDeck}> +Add Deck </span>  on the toolbar to get started. </p>
+            </Welcome>
         }
       </Container>
     );
@@ -67,3 +72,28 @@ background: ${props => props.theme.dark.bodyBackground};
   padding-top: 15px;
 }
 `;
+
+const Welcome = styled.div`
+  display:flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 20px;
+
+  h3 {
+    font-size: 22px;
+    padding: 10px;
+  }
+  
+  p {
+    font-size: 18px;
+    padding: 10px;
+  }
+
+  span {
+    padding-bottom: 10px;
+    &:hover {
+    border-bottom: 1px solid lightseagreen;
+    cursor:pointer;
+  }
+  }
+`
