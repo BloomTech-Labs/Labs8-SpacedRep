@@ -71,11 +71,11 @@ padding: 0;
       }
     }
     button {
+      ${props => props.theme.dark.buttons.base}
       margin: 0;
       height: initial;
     }
   }
-}
 `;
 
 const DashLink = styled.li`
