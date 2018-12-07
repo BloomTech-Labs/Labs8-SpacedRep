@@ -76,6 +76,7 @@ h2 {
   letter-spacing: 1px;
 }
 `;
+
 const Boxes = styled.div`
 // border: 1px solid gold; // temp
 width: 100%;
@@ -83,17 +84,16 @@ height: 90%;
 display: flex;
 justify-content: space-between;
 
-// div {
-  //   border: 1px solid gold; // temp
-  // }
-  `;
+@media (max-width: 900px) {
+  flex-direction: column-reverse;
+  // space-between gone?
+}
+`;
 
 
 const LeftBox = styled.div`
   width: 30%;
   height: 100%;
-  // display: inline-flex;
-  // flex-direction: column;
   justify-content: space-between;
   display: flex;
   align-items: center;
@@ -114,6 +114,18 @@ const LeftBox = styled.div`
       background-color: lightseagreen;
     }
   }
+
+  @media (max-width: 900px) {
+    width: 100%;
+    height: 55%;
+    // align-items center gone?
+
+    button {
+      margin-bottom: 0;
+      width: 50%;
+      align-self: center;
+    }
+  }
   `;
 
 const PricingCTA = styled.div`
@@ -123,6 +135,10 @@ height: 80%;
 display: flex;
 flex-direction: column;
 justify-content: space-between;
+
+@media (max-width: 900px) {
+  height: 100%;
+}
 `;
 
 const RightBox = styled.div`
@@ -130,6 +146,10 @@ const RightBox = styled.div`
 width: 60%;
 height: 100%;
 display: flex;
+
+@media (max-width: 900px) {
+  width: 100%;
+}
 `;
 
 const CardsContainer = styled.div`
@@ -138,6 +158,11 @@ width: 100%;
 display: flex;
 justify-content: space-around;
 align-items: center;
+
+// space-around and center gone ?
+@media (max-width: 900px) {
+  align-items: flex-start
+}
 `;
 
 const FreeCard = styled.ul`
@@ -163,6 +188,10 @@ padding-top: 5%;
 i {
   padding: 0 5%;
 }
+
+@media (max-width: 900px) {
+  padding-top: 2%;
+}
 `;
 
 const Tier = styled(Item)`
@@ -171,6 +200,11 @@ font-size: 32px;
 font-weight: bold;
 text-align: center;
 background: lightseagreen;
+            
+@media (max-width: 900px) {
+padding-top: 4%;
+height: 18%;
+}
 `;
 
 const Price = styled(Item)`
@@ -180,15 +214,20 @@ text-shadow: 1px 1px 2px black;
 font-weight: bold;
 text-align: center;
 span {
-    font-size: 50px;
+  font-size: 50px;
   
-    &::before {
-      content: '$';
-      position: absolute;
-      font-size: 15px;
-      margin-left: -10px;
-      margin-top: 10px;
-    }
+  &::before {
+    content: '$';
+    position: absolute;
+    font-size: 15px;
+    margin-left: -10px;
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 900px) {
+  padding-top: 2%;
+}
 `;
 
 // const Container = styled.section`
