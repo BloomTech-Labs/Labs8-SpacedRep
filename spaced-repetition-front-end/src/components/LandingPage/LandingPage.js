@@ -37,7 +37,7 @@ const LandingPage = ({ auth }) => {
       <Body>
         <WhySpacedReps />
         <Features />
-        <Pricing />
+        <Pricing login={login} />
         <Team />
         <BackToTopContainer>
           <a href="top">Back to top</a>

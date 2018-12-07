@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Pricing = () => {
+const Pricing = ({ login }) => {
   return (
     <Container id="pricing">
       <Content>
@@ -13,7 +13,7 @@ const Pricing = () => {
                 Our mission is to give people like you the tools you need to have a successful study session.
                 That is why we are offering all our features and team support to every tier. We want you to have the true experience of our service from day one.
               </p>
-              <button type="button">Get Started!</button>
+              <button type="button" onClick={login}>Get Started!</button>
             </PricingCTA>
           </LeftBox>
           <RightBox>
