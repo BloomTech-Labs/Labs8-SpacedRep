@@ -26,7 +26,7 @@ const LandingPage = ({ auth }) => {
           </div>
           <CTAButtonsGroup>
             <CTABtn onClick={login}>Sign up</CTABtn>
-            <CTABtn learn href="#why">Learn more</CTABtn>
+            <CTABtn isLoggedIn={auth.isAuthenticated()} learn href="#why">Learn more</CTABtn>
           </CTAButtonsGroup>
         </JumboTron>
         <HeaderFeaturettes />
@@ -136,6 +136,7 @@ color: ${props => props.learn ? null : 'lightseagreen'};
 border-color: ${props => props.learn ? null : 'lightseagreen'};
 background: ${props => props.learn ? null : 'none'};
 width: 200px;
+display: ${props => props.isLoggedIn ? 'none' : null};
 
 @media (max-width: 540px) {
   width: 115px;
