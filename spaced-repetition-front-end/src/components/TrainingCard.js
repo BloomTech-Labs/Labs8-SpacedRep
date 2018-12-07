@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { Redirect } from 'react-router';
 import styled, { keyframes } from 'styled-components';
 import Highlight from 'react-highlight.js';
@@ -16,6 +16,7 @@ class TrainingCard extends React.Component {
     // would like to narrow this down to questionData and answerData objects
     // - avoiding prop issues atm
     showModal: false,
+    answerSelected: false,
   };
 
   showAnswer = () => {
@@ -58,6 +59,11 @@ class TrainingCard extends React.Component {
     updateProgress(progress);
   }
 
+  leaveTraining = () => {
+    const { history } = this.props;
+    history.push('/dashboard/decks')
+  }
+
   render() {
     const { formattedDeck, updateProgress } = this.props;
 
@@ -73,12 +79,16 @@ class TrainingCard extends React.Component {
     return (
       <MainCardContainer>
         <CardModal>
+          <CancelContainer>
+            <Cancel type="button" onClick={this.leaveTraining}>x</Cancel>
+          </CancelContainer>
           <CardContainer>
             <CardTitle>{title}</CardTitle>
-            {/* <h3>Question</h3> */}
+
+            <h3>Question</h3>
             {qFilteredContent.map((content, i) => {
               if (qContentType[i] === 'txt') {
-                return <CardText key={`${i + qContentType[i]}`}>{content}</CardText>;
+                return <CardQuestion key={`${i + qContentType[i]}`}>{content}</CardQuestion>;
               }
               return (
                 <Highlight key={`${i + qContentType[i]}`} language={language}>
@@ -93,7 +103,7 @@ class TrainingCard extends React.Component {
                 <h3>Answer</h3>
                 {aFilteredContent.map((content, i) => {
                   if (aContentType[i] === 'txt') {
-                    return <CardText key={`${i + qContentType[i]}`}>{content}</CardText>;
+                    return <CardAnswer key={`${i + qContentType[i]}`}>{content}</CardAnswer>;
                   }
                   return (
                     <Highlight key={`${i + qContentType[i]}`} language={language}>
@@ -102,8 +112,9 @@ class TrainingCard extends React.Component {
                   );
                 })}
                 <ButtonContainer>
-                  <CardButton type="button" onClick={() => this.handleAnswer(0)}>Missed It</CardButton>
-                  <CardButton type="button" onClick={() => this.handleAnswer(1)}>Got It</CardButton>
+                  {!showNext && <Missed type="button" onClick={() => this.handleAnswer(0)}>Missed It</Missed>}
+                  {!showNext && <CardButton type="button" onClick={() => this.handleAnswer(1)}>Got It</CardButton>}
+
                   {(currentCard + 1) !== formattedDeck.length
                     ? (
                       <NextCardButton type="button" onClick={this.nextCard} showNext={showNext}>Next</NextCardButton>
@@ -142,9 +153,9 @@ class TrainingCard extends React.Component {
             >
               Quit current training session.
             </OptionItem>
-            <OptionItemLink to={`/dashboard/decks/${formattedDeck.id}/train/${id}/delete`}>
+            {/* <OptionItemLink to={`/dashboard/decks/${formattedDeck.id}/train/${id}/delete`}>
               Delete this card.
-            </OptionItemLink>
+            </OptionItemLink> */}
           </OptionsMenu>
         </CardModal>
       </MainCardContainer>
@@ -152,14 +163,20 @@ class TrainingCard extends React.Component {
   }
 }
 
-export default TrainingCard;
+export default withRouter(TrainingCard);
 
 // styles
 
+// covers and darkens viewport except for modal
 const CardContainer = styled.div`
+  h3 {
+    font-size: 17px;
+    padding-top: 12px;
+    padding-bottom: 8px;
+    color: lightgrey;
+  }
 `;
 
-// covers and darkens viewport except for modal
 const MainCardContainer = styled(CardContainer)`
   position: fixed;
   z-index: 1;
@@ -174,23 +191,64 @@ const MainCardContainer = styled(CardContainer)`
 
 const CardModal = styled.div`
   background-color: #43525c;
-  max-width: 600px;
+  max-width: 650px;
   width: 100%;
   margin: 232px auto;
-  padding: 2%;
-
+  padding: 1% 2% 2% 2%;
+  border-radius: 3px;
   @media (max-width: 700px) {
     width: 90%; /* gives margin to left/right when screen gets smaller */
   }
 `;
 
 
-const CardTitle = styled.h2`
-padding-bottom: 2%;
-border-bottom: 1px solid white;
+
+const CardQuestion = styled.p`
+    padding: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    padding-bottom: 10px;
+`
+
+const CardAnswer = styled(CardQuestion)`
+  font-weight:normal;
+`
+
+
+
+const CancelContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+`
+const Cancel = styled.button`
+  border: none;
+  background: none;
+  color: lightgrey;
+  font-weight: bold;
+  font-size: 20px;
+  height: 26px;
+  margin: 0px;
+  padding: 0px;
+  color: ${props => props.theme.dark.buttons.negative};
+
+  /* width: 100px; */
 `;
 
-const CardText = styled.p`
+
+const CardTitle = styled.h2`
+  display: flex;
+  width: 100%;
+  /* min-height: 46px; */
+  /* align-self: flex-start; */
+  justify-content: flex-start;
+  font-size: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid white;
+  flex-grow: 1;
+  margin-right: 20px;
 `;
 
 const CardInteractionsAnswer = styled(CardContainer)`
@@ -202,6 +260,7 @@ const ButtonContainer = styled(CardContainer)`
   justify-content: space-between;
   width: 65%;
   margin: 0 auto;
+  padding: 25px 20px;
 
   @media (max-width: 700px) {
     flex-direction: column;
@@ -210,18 +269,29 @@ const ButtonContainer = styled(CardContainer)`
 `;
 
 const CardButton = styled.button`
-  height: 35px;
-  width: 125px;
+  /* height: 35px;
+  width: 125px; */
+
+    ${props => props.theme.dark.buttons.base}
+  &:hover {
+        background: ${props => props.theme.dark.sidebar};
+      }
+`;
+
+const Missed = styled(CardButton)`
+   background: ${props => props.theme.dark.buttons.negative};
 `;
 
 const NextCardButton = styled(CardButton)`
+  margin: 0px 10px 0px 10px;
+  width: 100%;
   display: ${props => (props.showNext ? 'inline-block' : 'none')};
 `;
 
 // because prop value is cast to a string, the condition will evaluate to true when value is false
 const NextCardLink = styled(Link)` 
   display: ${props => (props.shownext === 'true' ? 'flex' : 'none')};
-  height: 35px;
+  /* height: 35px;
   width: 125px;
   font-size: 15px;
   border-radius: 3px;
@@ -230,17 +300,24 @@ const NextCardLink = styled(Link)`
   background: lightseagreen;
   border: 1px solid white;
   align-items: center;
+  
+  box-sizing: border-box; this needs to be on everything! */
   justify-content: center;
-  box-sizing: border-box; /* this needs to be on everything! */
 
-    &:hover {
-      text-decoration: none;
+  ${props => props.theme.dark.buttons.base}
+  margin: 10px;
+  width: 100%;
+  padding: 15px 10px 15px 10px;
+  &:hover {
+        background: ${props => props.theme.dark.sidebar};
+        text-decoration: none;
     }
 `;
 
-const ProgressText = styled(CardText)`
+const ProgressText = styled.p`
   text-align: center;
   font-size: 12px;
+  padding: 10px;
 `;
 
 const NextCardProgressText = styled(ProgressText)`
@@ -263,7 +340,7 @@ const OptionsMenu = styled(CardContainer)`
   border-top: 1px solid white;
 `;
 
-const OptionItem = styled(CardText)`
+const OptionItem = styled(ProgressText)`
   text-align: end;
   cursor: pointer;
         

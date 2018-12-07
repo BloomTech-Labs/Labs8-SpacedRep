@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { CardElement, injectStripe } from 'react-stripe-elements';
+import { injectStripe } from 'react-stripe-elements';
 import axios from 'axios';
+import Modal from 'react-modal';
+import SplitForm from './SplitForm';
 
 const idToken = localStorage.getItem('id_token');
 const headers = { Authorization: `Bearer ${idToken}` };
@@ -10,24 +12,39 @@ class CheckoutForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      displayPurchaseForm: false,
-      displayCancel: false,
+      isPurchaseModalOpen: false,
+      isCancelModalOpen: false,
+      isPurchaseCompleteModalOpen: false,
+      isCancelCompleteModalOpen: false,
     };
   }
 
-  toggleSubscribe = (e) => {
-    if (e) { e.preventDefault(); }
-    this.setState(prevState => ({
-      displayPurchaseForm: !prevState.displayPurchaseForm,
-    }));
-  }
+  openPurchaseModal = (e) => {
+    e.preventDefault();
+    this.setState({ isPurchaseModalOpen: true });
+  };
+
+  closePurchaseModal = () => {
+    this.setState({ isPurchaseModalOpen: false });
+  };
+
+  openCancelModal = (e) => {
+    e.preventDefault();
+    this.setState({ isCancelModalOpen: true });
+  };
+
+  closeCancelModal = () => {
+    this.setState({ isCancelModalOpen: false });
+  };
 
   handleSubscribe = async (e) => {
     e.preventDefault();
     const { stripe, profile, handleUpdateTier } = this.props;
     const { token } = await stripe.createToken();
 
-    if (!token) { return; }
+    if (!token) {
+      return;
+    }
 
     const purchaseObj = {
       purchase: {
@@ -37,90 +54,207 @@ class CheckoutForm extends Component {
       sub: profile.sub,
     };
 
-    await axios.post(`${process.env.REACT_APP_URL}/api/stripe`, purchaseObj, { headers })
-      .then(response => handleUpdateTier(response.data))
+    await axios
+      .post(`${process.env.REACT_APP_URL}/api/stripe`, purchaseObj, { headers })
+      .then((response) => {
+        handleUpdateTier(response.data);
+        this.onCompletePurchase();
+      })
       .catch(error => console.log(error));
-
-    this.toggleSubscribe();
   };
-
-  toggleCancel = (e) => {
-    if (e) { e.preventDefault(); }
-    this.setState(prevState => ({
-      displayCancel: !prevState.displayCancel,
-    }));
-  }
 
   cancelSubscription = async (e) => {
     e.preventDefault();
     const { profile, handleUpdateTier } = this.props;
 
-    await axios.put(`${process.env.REACT_APP_URL}/api/stripe`, { sub: profile.sub }, { headers })
-      .then(response => handleUpdateTier(response.data))
+    await axios
+      .put(`${process.env.REACT_APP_URL}/api/stripe`, { sub: profile.sub }, { headers })
+      .then((response) => {
+        handleUpdateTier(response.data);
+        this.onCompleteCancel();
+      })
       .catch(error => console.log(error));
+  };
 
-    this.toggleCancel();
+  onCompletePurchase = () => {
+    this.setState({ isPurchaseModalOpen: false, isPurchaseCompleteModalOpen: true });
+    setTimeout(() => {
+      this.setState({ isPurchaseCompleteModalOpen: false });
+    }, 1500);
+    clearTimeout();
+  };
+
+  onCompleteCancel = () => {
+    this.setState({ isCancelModalOpen: false, isCancelCompleteModalOpen: true });
+    setTimeout(() => {
+      this.setState({ isCancelCompleteModalOpen: false });
+    }, 1500);
+    clearTimeout();
   };
 
   render() {
     const { profile } = this.props;
-    const { displayPurchaseForm, displayCancel } = this.state;
-    if (profile && profile.tier === 'free' && displayPurchaseForm) {
+    const {
+      isPurchaseModalOpen,
+      isCancelModalOpen,
+      isPurchaseCompleteModalOpen,
+      isCancelCompleteModalOpen,
+    } = this.state;
+
+    if (profile && profile.tier === 'paid') {
       return (
-        <CheckoutFormContainer>
-          <CardElement style={{ base: { fontSize: '18px', color: 'white' } }} />
-          <Subscribe onClick={this.handleSubscribe} type="submit">
-            Buy now
-          </Subscribe>
-          <Cancel onClick={this.toggleSubscribe} type="submit">
-            Lemme think about it
+        <PaymentFormContainer>
+          <CancelModal isOpen={isCancelModalOpen} onRequestClose={this.closeCancelModal}>
+            <CancelText>Sure you want to cancel?</CancelText>
+            <CancelText>So many decks and cards...</CancelText>
+            <ButtonContainer>
+              <CancelSubscription onClick={this.cancelSubscription} type="submit">
+                Cancel now
+              </CancelSubscription>
+              <KeepSubscription onClick={this.closeCancelModal} type="submit">
+                {"Nah, I'll keep it"}
+              </KeepSubscription>
+            </ButtonContainer>
+          </CancelModal>
+
+          <Cancel onClick={this.openCancelModal} type="submit">
+            Cancel subscription
           </Cancel>
-        </CheckoutFormContainer>
-      );
-    }
-    if (profile && profile.tier === 'paid' && !displayCancel) {
-      return (
-        <Cancel onClick={this.toggleCancel} type="submit">
-          Cancel subscription
-        </Cancel>
-      );
-    }
-    if (profile && profile.tier === 'paid' && displayCancel) {
-      return (
-        <div>
-          <Cancel onClick={this.cancelSubscription} type="submit">
-            Cancel now
-          </Cancel>
-          <Subscribe onClick={this.toggleCancel} type="submit">
-            {'Nah, I\'ll keep it'}
-          </Subscribe>
-        </div>
+        </PaymentFormContainer>
       );
     }
     return (
-      <Subscribe onClick={this.toggleSubscribe} type="submit">
-        Subscribe
-      </Subscribe>
+      <PaymentFormContainer>
+        <PurchaseModal isOpen={isPurchaseModalOpen} onRequestClose={this.closePurchaseModal}>
+          <SplitForm
+            handleSubscribe={this.handleSubscribe}
+            closePurchaseModal={this.closePurchaseModal}
+          />
+        </PurchaseModal>
+        <PurchaseModal isOpen={isPurchaseCompleteModalOpen}>Purchase complete</PurchaseModal>
+        <CancelCompleteModal isOpen={isCancelCompleteModalOpen}>
+          <CancelText style={{ marginBottom: '20px' }}>Subscription cancelled.</CancelText>
+          <CancelText>Re-subscribe anytime...</CancelText>
+        </CancelCompleteModal>
+        <Subscribe onClick={this.openPurchaseModal} type="submit">
+          Get unlimited
+        </Subscribe>
+      </PaymentFormContainer>
     );
   }
 }
 
 export default injectStripe(CheckoutForm);
 
-// Don't want to dwell on customizing the look just yet
-const CheckoutFormContainer = styled.div`
+const PaymentFormContainer = styled.div`
+  display: flex;
+  width: 50%;
+  flex-direction: column;
+`;
 
+const PurchaseModal = styled(Modal)`
+  display: flex;
+  z-index: 100;
+  justify-content: center;
+  align-items: center;
+  transform: translate(130%, 18%);
+  width: 350px;
+  height: 500px;
+  border: 1px solid #979797;
+  background: #ffffff;
+  border-radius: 4px;
+  &:focus {
+    outline: none;
+  }
+  @media (max-width: 500px) {
+    transform: translate(7%, 18%);
+  }
+`;
+
+const CancelModal = styled(Modal)`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  transform: translate(130%, 60%);
+  padding: 25px 0 25px 0;
+  width: 350px;
+  height: 300px;
+  border: 1px solid #979797;
+  background: #ffffff;
+  border-radius: 4px;
+  &:focus {
+    outline: none;
+  }
+  @media (max-width: 500px) {
+    transform: translate(7%, 60%);
+  }
+`;
+
+const CancelCompleteModal = styled(Modal)`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transform: translate(130%, 60%);
+  padding: 25px 0 25px 0;
+  width: 350px;
+  height: 300px;
+  border: 1px solid #979797;
+  background: #ffffff;
+  border-radius: 4px;
+  &:focus {
+    outline: none;
+  }
+  @media (max-width: 500px) {
+    transform: translate(7%, 60%);
+  }
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const CancelText = styled.p`
+  width: 300px;
+  font-size: 25px;
+  text-align: center;
 `;
 
 const Subscribe = styled.button`
+  width: 300px;
   ${props => props.theme.dark.buttons.base}
   &:hover {
     background: ${props => props.theme.dark.logo};
     cursor: pointer;
   }
-`
+`;
 
 const Cancel = styled.button`
-${props => props.theme.dark.buttons.base}
-background: ${props => props.theme.dark.buttons.negative};
-`
+  width: 300px;
+  ${props => props.theme.dark.buttons.base}
+  background: ${props => props.theme.dark.buttons.negative};
+  &:hover {
+    background: #ed494e;
+  }
+`;
+
+const CancelSubscription = styled.button`
+  width: 300px;
+  ${props => props.theme.dark.buttons.base}
+  margin-bottom: 10px;
+  &:hover {
+    background: ${props => props.theme.dark.logo};
+    cursor: pointer;
+  }
+`;
+
+const KeepSubscription = styled.button`
+  width: 300px;
+  ${props => props.theme.dark.buttons.base}
+  background: ${props => props.theme.dark.buttons.negative};
+  &:hover {
+    background: #ed494e;
+  }
+`;

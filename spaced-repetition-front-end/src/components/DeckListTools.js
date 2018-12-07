@@ -1,10 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const CardListTools = ({ addNewDeck }) => {
+const CardListTools = ({ toggleAddDeck, showAddDeck }) => {
   return (
     <ToolsContainer>
-      <ToolButton type="button" onClick={addNewDeck}> + Add Deck </ToolButton>
+      {showAddDeck ? <CancelToolButton type="button" onClick={toggleAddDeck}> Cancel Add Deck </CancelToolButton>
+        :
+        <ToolButton type="button" onClick={toggleAddDeck}> + Add Deck </ToolButton>
+      }
+
     </ToolsContainer>
   );
 };
@@ -34,3 +38,7 @@ const ToolButton = styled.button`
     border-bottom: 1px solid lightseagreen;
   }
 `;
+
+const CancelToolButton = styled(ToolButton)`
+  color: ${styleProps => styleProps.theme.dark.buttons.negative};
+`
