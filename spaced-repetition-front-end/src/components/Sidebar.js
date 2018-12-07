@@ -3,12 +3,8 @@ import styled, { css } from 'styled-components';
 import { Link, withRouter } from 'react-router-dom';
 import '../App.css';
 
-// const decksIcon = require('../images/Decks.svg');
 const decksIcon = require('../images/DecksSVG.svg');
 const cardsIcon = require('../images/Cards.svg');
-// const profileIcon = require('../images/Profile.svg');
-// const profileIcon = require('../images/userSVG.svg');
-// const profileIcon = require('../images/ProfileThinner.svg');
 const profileIcon = require('../images/profileTEST2.svg');
 
 class Sidebar extends React.Component {
