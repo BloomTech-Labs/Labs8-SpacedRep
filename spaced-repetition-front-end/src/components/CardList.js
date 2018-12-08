@@ -46,12 +46,15 @@ class CardList extends Component {
       <CardListContainer id="CardListContainer">
         <CardListTools addNewCard={this.handleAddCard} />
         {addNewCard && <AddCard grabDeckInfo={this.handleDeckData} toggleAddCard={this.handleAddCard} />}
+        {/* <div id="cardlistcontainer"> */}
 
         {decks.length > 0 && decks.map((deck) => {
           return deck.cards.map((card) => {
             return <Card key={card.id} card={card} deckName={deck.name} decks={decks} />;
           });
         })}
+        {/* </div> */}
+
         {decks.length === 0 && !addNewCard && (
           <Welcome>
             <h3>Hey, it doesn't look like you haven't made any cards or decks yet!</h3>
@@ -68,6 +71,7 @@ export default CardList;
 // styled
 
 const CardListContainer = styled.div`
+overflow: auto;
 width: 100%;
 height: 100%;
 margin-left: 100px;
