@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import HeaderFeaturettes from './HeaderFeaturettes';
 import WhySpacedReps from './WhySpacedReps';
@@ -25,8 +25,8 @@ const LandingPage = ({ auth }) => {
             <p>Studying with us is as easy as creating your own digital flashcards and decks. We take care of the rest! Are you a programmer? Check out our code snippet integration!</p>
           </div>
           <CTAButtonsGroup>
-            <CTABtn onClick={login}>Sign up</CTABtn>
-            <CTABtn isLoggedIn={auth.isAuthenticated()} learn href="#why">Learn more</CTABtn>
+            {auth.isAuthenticated() ? <CTABtn onClick={login}> Go To Dashboard</CTABtn> : <CTABtn onClick={login}>Sign up</CTABtn>}
+            <CTABtn learn href="#why">Learn more</CTABtn>
           </CTAButtonsGroup>
         </JumboTron>
         <HeaderFeaturettes />
@@ -129,6 +129,7 @@ button {
 `;
 
 const CTABtn = styled.button`
+${props => props.theme.dark.buttons.base}
 font-size: 18px;
 height: 40px;
 margin-right: ${props => props.learn ? 0 : '20px'};
