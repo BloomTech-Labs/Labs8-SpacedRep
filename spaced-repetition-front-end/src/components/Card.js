@@ -209,6 +209,7 @@ export default Card;
 const CardContainer = styled.div`
   /* display:flex; */
   /* flex-direction: column; */
+  border-radius: 20px;
   width: 315px;
   margin: 2%;
   padding: 2%;
