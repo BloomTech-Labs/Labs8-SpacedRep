@@ -245,14 +245,23 @@ background: ${props => props.theme.dark.cardBackground};
 `;
 
 const CardTop = styled.div`
-// width: 100%;
-// height: 70%;
-// padding: 4%;
+width: 100%;
+height: 85%;
+padding: 4%;
 
 // div {
 // padding: 3% 0;
 // height: 65%;
 // }
+`;
+
+const CardBottom = styled.div`
+width: 100%;
+height: 15%;
+padding: 2% 4%;
+background-color: #2f3d47;
+border-bottom-left-radius: 20px;
+border-bottom-right-radius: 20px;
 `;
 
 const TagsLang = styled.div`
@@ -268,14 +277,6 @@ const TagsLang = styled.div`
 // }
 `;
 
-const CardBottom = styled.div`
-// height: 30%;
-// width: 100%;
-// padding: 4%;
-// background-color: #2f3d47;
-// border-bottom-left-radius: 20px;
-// border-bottom-right-radius: 20px;
-`;
 
 const CardInteractions = styled.div`
 // display: flex;
