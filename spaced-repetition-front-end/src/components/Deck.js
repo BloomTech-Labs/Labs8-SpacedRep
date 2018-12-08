@@ -150,12 +150,15 @@ export default withRouter(Deck);
 // styles
 const Container = styled.div`
   padding: 20px;
-  margin: 5px;
+  margin: 20px;
   width: 50%;
+  height: 100%;
   border: 1px solid ${props => props.theme.dark.main};
   background: ${props => props.theme.dark.cardBackground};
   display:flex;
   flex-direction: column;
+  max-width: 370px;
+  max-height: 250px;
 `;
 
 const DeckHeader = styled.div`
@@ -175,8 +178,10 @@ const NumCards = styled.div`
 const DeckBody = styled.div`
   display:flex;
   flex-direction: column;
+  justify-content: space-between;
   padding-top: 10px;
   width: 100%;
+  height: 100%;
 `;
 
 const ShareContainer = styled.div`
