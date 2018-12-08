@@ -235,193 +235,196 @@ export default Card;
 const CardContainer = styled.div`
 box-shadow: 2px 2px 10px 0px black;
 border-radius: 20px;
-width: 315px;
+width: 100%;
+max-width: 415px;
+height: 100%;
+max-height: 370px;
 margin: 2%;
 border: 1px solid ${props => props.theme.dark.main};
 background: ${props => props.theme.dark.cardBackground};
 `;
 
 const CardTop = styled.div`
-width: 100%;
-height: 70%;
-padding: 4%;
+// width: 100%;
+// height: 70%;
+// padding: 4%;
 
-div {
-padding: 3% 0;
-height: 65%;
-}
+// div {
+// padding: 3% 0;
+// height: 65%;
+// }
 `;
 
 const TagsLang = styled.div`
-font-size: 14px;
-color: lightgray;
+// font-size: 14px;
+// color: lightgray;
 
-p {
-  span {
-    font-weight: bold;
-    margin-bottom: 8px;
-    padding-bottom: 4px;
-  }
-}
+// p {
+//   span {
+//     font-weight: bold;
+//     margin-bottom: 8px;
+//     padding-bottom: 4px;
+//   }
+// }
 `;
 
 const CardBottom = styled.div`
-height: 30%;
-width: 100%;
-padding: 4%;
-background-color: #2f3d47;
-border-bottom-left-radius: 20px;
-border-bottom-right-radius: 20px;
+// height: 30%;
+// width: 100%;
+// padding: 4%;
+// background-color: #2f3d47;
+// border-bottom-left-radius: 20px;
+// border-bottom-right-radius: 20px;
 `;
 
 const CardInteractions = styled.div`
-display: flex;
-justify-content: space-between;
-align-items: center;
-width: 100%;
+// display: flex;
+// justify-content: space-between;
+// align-items: center;
+// width: 100%;
 `;
 
 const Title = styled.p`
-padding-bottom: 8px;
-font-size: 22px;
-font-weight: bold;
+// padding-bottom: 8px;
+// font-size: 22px;
+// font-weight: bold;
 `;
 
 const LineContainer = styled.p`
-padding: 4px 0px 4px 0px;
+// padding: 4px 0px 4px 0px;
 `;
 
 const LineDescription = styled.span`
-font-weight: bold;
-display: block;
-width: 25%;
-padding-bottom: 4px;
-border-bottom: 2px solid mediumseagreen;
+// font-weight: bold;
+// display: block;
+// width: 25%;
+// padding-bottom: 4px;
+// border-bottom: 2px solid mediumseagreen;
 `;
 
 
 const TagsContainer = styled.div`
-display: flex;
+// display: flex;
 
-div {
-  display: flex;
-  flex-wrap: wrap;
+// div {
+//   display: flex;
+//   flex-wrap: wrap;
 
-  &::before {
-    content: 'Tags: ';
-  }
-}
+//   &::before {
+//     content: 'Tags: ';
+//   }
+// }
 
-p {
-  padding: 7px 10px 8px 10px;
-  margin-right: 5px;
-  background: ${props => props.theme.dark.main};
-  border-radius: 2px 10px 10px;
-}
+// p {
+//   padding: 7px 10px 8px 10px;
+//   margin-right: 5px;
+//   background: ${props => props.theme.dark.main};
+//   border-radius: 2px 10px 10px;
+// }
 `;
 
 const EditCard = styled.form`
-color: white;
-padding: 10px;
-margin: 10px;
-border: 1px solid ${props => props.theme.dark.sidebar};
-background: ${props => props.theme.dark.sidebar};
+// color: white;
+// padding: 10px;
+// margin: 10px;
+// border: 1px solid ${props => props.theme.dark.sidebar};
+// background: ${props => props.theme.dark.sidebar};
 `;
 
 const HeaderContainer = styled.div`
-display: flex;
-justify-content:space-between;
-align-items: center;
-width: 100%;
-margin-bottom: 5px;
+// display: flex;
+// justify-content:space-between;
+// align-items: center;
+// width: 100%;
+// margin-bottom: 5px;
 `;
 
 const Instructions = styled.h3`
-padding: 0px;
-margin: 0px;
+// padding: 0px;
+// margin: 0px;
 `;
 
 const Cancel = styled.button`
-border: none;
-background: none;
-color: lightgrey;
-font-weight: bold;
-height: 26px;
-margin: 0px;
+// border: none;
+// background: none;
+// color: lightgrey;
+// font-weight: bold;
+// height: 26px;
+// margin: 0px;
 
-&:hover {
-  background: grey;
-}
+// &:hover {
+//   background: grey;
+// }
 `;
 
 const SaveButton = styled.button`
-${props => props.theme.dark.buttons.base}
-&:hover {
-  background: ${props => props.theme.dark.logo};
-  cursor: pointer;
-}
+// ${props => props.theme.dark.buttons.base}
+// &:hover {
+//   background: ${props => props.theme.dark.logo};
+//   cursor: pointer;
+// }
 `;
 
 const DDWrapper = styled.div`
-color: white;
+// color: white;
 `;
 
 const DDTitleBox = styled.div`
-border: 1px solid gray;
-padding: 4%;
-display: flex;
-justify-content: space-between;
-margin-bottom: 10px;
+// border: 1px solid gray;
+// padding: 4%;
+// display: flex;
+// justify-content: space-between;
+// margin-bottom: 10px;
 `;
 
 const DDlist = styled.ul`
-border: 1px solid gray;
-padding: 4%;
-display: -webkit-box;
-display: -webkit-flex;
-display: -ms-flexbox;
-width: 274px;
-margin: -10px 0 10px 0;
-margin-bottom: 10px;
-list-style-type: none;
-flex-direction: column;
+// border: 1px solid gray;
+// padding: 4%;
+// display: -webkit-box;
+// display: -webkit-flex;
+// display: -ms-flexbox;
+// width: 274px;
+// margin: -10px 0 10px 0;
+// margin-bottom: 10px;
+// list-style-type: none;
+// flex-direction: column;
 `;
 
 const TextArea = styled.textarea`
-height: 80px;
+// height: 80px;
 `;
 
 const EditButton = styled.button`
-width: 75px;
-background-color: none;
-background: none;
-font-size: 14px;
-text-align: right;
-border: none;
-padding-right: 0;
+// width: 75px;
+// background-color: none;
+// background: none;
+// font-size: 14px;
+// text-align: right;
+// border: none;
+// padding-right: 0;
           
-&:hover {
-  cursor: pointer;
+// &:hover {
+//   cursor: pointer;
 
-  i, p {
-    color: mediumseagreen;
-  }
-}
+//   i, p {
+//     color: mediumseagreen;
+//   }
+// }
 
-i {
-  color: lightseagreen;
-  margin: 5px;
-}
+// i {
+//   color: lightseagreen;
+//   margin: 5px;
+// }
         
-p {
-  display: inline-block;
-  color: lightseagreen;
-}
+// p {
+//   display: inline-block;
+//   color: lightseagreen;
+// }
 `;
 
 const FromDeck = styled.p`
-color: lightgray;
-font-size: 14px;
+// color: lightgray;
+// font-size: 14px;
 `;
 
 Card.propTypes = {
