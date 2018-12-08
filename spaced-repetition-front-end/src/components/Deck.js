@@ -158,6 +158,7 @@ const Container = styled.div`
   flex-direction: column;
   max-width: 370px;
   max-height: 250px;
+  border-radius: 20px;
 `;
 
 const DeckHeader = styled.div`
@@ -167,7 +168,8 @@ const DeckHeader = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 20px;
+  font-size: 25px;
+  /* letter-spacing: 1px; */
 `;
 
 const NumCards = styled.div`
@@ -208,7 +210,7 @@ const TagsContainer = styled.div`
 `;
 
 const Tag = styled.div`
-  padding: 6px;
+  padding: 7px 10px 8px 10px;
   margin-right: 5px;
   background: ${props => props.theme.dark.main};
   border-radius: 2px 10px 10px;

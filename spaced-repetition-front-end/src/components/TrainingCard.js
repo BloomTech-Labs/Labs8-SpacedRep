@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { Redirect } from 'react-router';
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import Highlight from 'react-highlight.js';
 import PropTypes from 'prop-types';
 import { format } from 'path';
@@ -79,86 +79,175 @@ class TrainingCard extends React.Component {
     return (
       <MainCardContainer>
         <CardModal>
-          <CancelContainer>
-            <Cancel type="button" onClick={this.leaveTraining}>x</Cancel>
-          </CancelContainer>
-          <CardContainer>
-            <CardTitle>{title}</CardTitle>
+          <FrontSide trained={trained}>
+            <TopCard>
+              <CancelContainer>
+                <Cancel type="button" onClick={this.leaveTraining}>x</Cancel>
+              </CancelContainer>
 
-            <h3>Question</h3>
-            {qFilteredContent.map((content, i) => {
-              if (qContentType[i] === 'txt') {
-                return <CardQuestion key={`${i + qContentType[i]}`}>{content}</CardQuestion>;
+              <CardTitle>{title}</CardTitle>
+
+              <h3>Question</h3>
+              {qFilteredContent.map((content, i) => {
+                if (qContentType[i] === 'txt') {
+                  return <CardQuestion key={`${i + qContentType[i]}`}>{content}</CardQuestion>;
+                }
+                return (
+                  <Highlight key={`${i + qContentType[i]}`} language={language}>
+                    {content}
+                  </Highlight>
+                );
+              })}
+
+
+            </TopCard>
+
+            <BottomCard >
+              {!trained ?
+                <CardInteractionsAnswer>
+                  <CardButton type="button" onClick={this.showAnswer}>Show Answer</CardButton>
+                </CardInteractionsAnswer>
+                :
+                <NextCardProgressText hidePrompt={showNext}>
+                  How did you do? Select to see the next card.
+              </NextCardProgressText>
               }
-              return (
-                <Highlight key={`${i + qContentType[i]}`} language={language}>
-                  {content}
-                </Highlight>
-              );
-            })}
-          </CardContainer>
-          {trained && (
-            <CardContainer>
-              <AnimateOnReveal>
-                <h3>Answer</h3>
-                {aFilteredContent.map((content, i) => {
-                  if (aContentType[i] === 'txt') {
-                    return <CardAnswer key={`${i + qContentType[i]}`}>{content}</CardAnswer>;
-                  }
-                  return (
-                    <Highlight key={`${i + qContentType[i]}`} language={language}>
-                      {content}
-                    </Highlight>
-                  );
-                })}
-                <ButtonContainer>
-                  {!showNext && <Missed type="button" onClick={() => this.handleAnswer(0)}>Missed It</Missed>}
-                  {!showNext && <CardButton type="button" onClick={() => this.handleAnswer(1)}>Got It</CardButton>}
 
-                  {(currentCard + 1) !== formattedDeck.length
-                    ? (
-                      <NextCardButton type="button" onClick={this.nextCard} showNext={showNext}>Next</NextCardButton>
-                    )
-                    : (
-                      // Routing users back to decklist for now. Could add intermediary
-                      // modal with further options (e.g. train again, deck list, dashboard, etc)
-                      // showNext to string is recommended fix to console warning
-                      <NextCardLink to="/dashboard/decks" shownext={showNext.toString()} onClick={() => updateProgress()}>End Session</NextCardLink>
-                    )
-                  }
-                </ButtonContainer>
+              <ProgressText>
+                {`${currentCard + 1} of ${formattedDeck.length} cards completed`}
+              </ProgressText>
+
+            </BottomCard>
+
+          </FrontSide>
+
+          <BackSide trained={trained}>
+            <TopCard>
+              <CancelContainer>
+                <Cancel type="button" onClick={this.leaveTraining}>x</Cancel>
+              </CancelContainer>
+
+              <CardTitle>{title}</CardTitle>
+
+              <h3>Question</h3>
+              {qFilteredContent.map((content, i) => {
+                if (qContentType[i] === 'txt') {
+                  return <CardQuestion key={`${i + qContentType[i]}`}>{content}</CardQuestion>;
+                }
+                return (
+                  <Highlight key={`${i + qContentType[i]}`} language={language}>
+                    {content}
+                  </Highlight>
+                );
+              })}
+
+              <h3>Answer</h3>
+              {aFilteredContent.map((content, i) => {
+                if (aContentType[i] === 'txt') {
+                  return <CardAnswer key={`${i + qContentType[i]}`}>{content}</CardAnswer>;
+                }
+                return (
+                  <Highlight key={`${i + qContentType[i]}`} language={language}>
+                    {content}
+                  </Highlight>
+                );
+              })}
+            </TopCard>
+
+            <BottomCard>
+              <ButtonContainer>
+                {!showNext && <Missed type="button" onClick={() => this.handleAnswer(0)}>Missed It</Missed>}
+                {!showNext && <CardButton type="button" onClick={() => this.handleAnswer(1)}>Got It</CardButton>}
+
+                {(currentCard + 1) !== formattedDeck.length
+                  ? (
+                    <NextCardButton type="button" onClick={this.nextCard} showNext={showNext}>Next</NextCardButton>
+                  )
+                  : (
+                    // Routing users back to decklist for now. Could add intermediary
+                    // modal with further options (e.g. train again, deck list, dashboard, etc)
+                    // showNext to string is recommended fix to console warning
+                    <NextCardLink to="/dashboard/decks" shownext={showNext.toString()} onClick={() => updateProgress()}>End Session</NextCardLink>
+                  )
+                }
+              </ButtonContainer>
+            </BottomCard>
+          </BackSide>
+
+          {/* {trained && (
+            <BackSide>
+              <CancelContainer>
+                <Cancel type="button" onClick={this.leaveTraining}>x</Cancel>
+              </CancelContainer>
+
+              <CardTitle>{title}</CardTitle>
+
+              <h3>Question</h3>
+              {qFilteredContent.map((content, i) => {
+                if (qContentType[i] === 'txt') {
+                  return <CardQuestion key={`${i + qContentType[i]}`}>{content}</CardQuestion>;
+                }
+                return (
+                  <Highlight key={`${i + qContentType[i]}`} language={language}>
+                    {content}
+                  </Highlight>
+                );
+              })}
+              <AnimateOnReveal>
+                <TopCard>
+                  <h3>Answer</h3>
+                  {aFilteredContent.map((content, i) => {
+                    if (aContentType[i] === 'txt') {
+                      return <CardAnswer key={`${i + qContentType[i]}`}>{content}</CardAnswer>;
+                    }
+                    return (
+                      <Highlight key={`${i + qContentType[i]}`} language={language}>
+                        {content}
+                      </Highlight>
+                    );
+                  })}
+                </TopCard>
+                <BottomCard>
+                  <ButtonContainer>
+                    {!showNext && <Missed type="button" onClick={() => this.handleAnswer(0)}>Missed It</Missed>}
+                    {!showNext && <CardButton type="button" onClick={() => this.handleAnswer(1)}>Got It</CardButton>}
+
+                    {(currentCard + 1) !== formattedDeck.length
+                      ? (
+                        <NextCardButton type="button" onClick={this.nextCard} showNext={showNext}>Next</NextCardButton>
+                      )
+                      : (
+                        // Routing users back to decklist for now. Could add intermediary
+                        // modal with further options (e.g. train again, deck list, dashboard, etc)
+                        // showNext to string is recommended fix to console warning
+                        <NextCardLink to="/dashboard/decks" shownext={showNext.toString()} onClick={() => updateProgress()}>End Session</NextCardLink>
+                      )
+                    }
+                  </ButtonContainer>
+                </BottomCard>
               </AnimateOnReveal>
+
+            </BackSide>
+          )}
+
+          <BottomCard>
+            {!trained ?
+              <CardInteractionsAnswer>
+                <CardButton type="button" onClick={this.showAnswer}>Show Answer</CardButton>
+              </CardInteractionsAnswer>
+              :
               <NextCardProgressText hidePrompt={showNext}>
                 How did you do? Select to see the next card.
               </NextCardProgressText>
-            </CardContainer>
-          )}
-          {!trained && (
-            <CardInteractionsAnswer>
-              <CardButton type="button" onClick={this.showAnswer}>Show Answer</CardButton>
-            </CardInteractionsAnswer>
-          )}
-          <ProgressText>
-            Progress:
-            {currentCard + 1}
-            /
-            {formattedDeck.length}
-          </ProgressText>
-          {/* Toggles more options for UX: edit card, quit current training, etc */}
-          {/* Could be modal? */}
-          <OptionsButton type="button" title="Options" onClick={this.toggleOption}>...</OptionsButton>
-          <OptionsMenu status={showOptions}>
-            <OptionItem
-              onClick={this.quitTrainingSession}
-            >
-              Quit current training session.
-            </OptionItem>
-            {/* <OptionItemLink to={`/dashboard/decks/${formattedDeck.id}/train/${id}/delete`}>
-              Delete this card.
-            </OptionItemLink> */}
-          </OptionsMenu>
+            }
+
+            <ProgressText>
+              {`${currentCard + 1} of ${formattedDeck.length} cards completed`}
+            </ProgressText>
+          </BottomCard> */}
+
         </CardModal>
-      </MainCardContainer>
+      </MainCardContainer >
     );
   }
 }
@@ -166,7 +255,44 @@ class TrainingCard extends React.Component {
 export default withRouter(TrainingCard);
 
 // styles
+const FrontSide = styled.div`
+  width: 100%;
+  position: absolute;
+  background: ${props => props.theme.dark.bodyBackground};
+  transition: all 0.8s ease;
+  backface-visibility: hidden;
 
+  ${props => props.trained && css`
+    /* background: ${styleProps => styleProps.theme.dark.bodyBackground}; */
+    transform: rotateY(180deg);
+  `}
+
+`
+
+const BackSide = styled(FrontSide)`
+  z-index: 10;
+  background: ${props => props.theme.dark.bodyBackground};
+  transform: rotateY(-180deg);
+
+  ${props => props.trained && css`
+    transform: rotateY(0);
+  `}
+
+  &:hover {
+    /* backface-visibility: visible; */
+    /* transform: rotateY(0); */
+  }
+`
+
+const TopCard = styled.div`
+  padding: 0% 3%;
+  background: ${props => props.theme.dark.bodyBackground};
+`
+
+const BottomCard = styled.div`
+  background: ${props => props.theme.dark.main};
+  padding: 15px;
+`
 // covers and darkens viewport except for modal
 const CardContainer = styled.div`
   h3 {
@@ -187,21 +313,21 @@ const MainCardContainer = styled(CardContainer)`
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+
 `;
 
 const CardModal = styled.div`
-  background-color: #43525c;
+  perspective: 150rem;
   max-width: 650px;
   width: 100%;
   margin: 232px auto;
-  padding: 1% 2% 2% 2%;
-  border-radius: 3px;
+  /* padding: 1% 2% 0% 2%; */
+
+
   @media (max-width: 700px) {
     width: 90%; /* gives margin to left/right when screen gets smaller */
   }
 `;
-
-
 
 const CardQuestion = styled.p`
     padding: 5px;
@@ -213,8 +339,6 @@ const CardQuestion = styled.p`
 const CardAnswer = styled(CardQuestion)`
   font-weight:normal;
 `
-
-
 
 const CancelContainer = styled.div`
   display: flex;
@@ -228,7 +352,7 @@ const Cancel = styled.button`
   background: none;
   color: lightgrey;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 24px;
   height: 26px;
   margin: 0px;
   padding: 0px;
@@ -260,8 +384,7 @@ const ButtonContainer = styled(CardContainer)`
   justify-content: space-between;
   width: 65%;
   margin: 0 auto;
-  padding: 25px 20px;
-
+  /* padding: 20px 10px; */
   @media (max-width: 700px) {
     flex-direction: column;
     align-items: center;
@@ -272,10 +395,7 @@ const CardButton = styled.button`
   /* height: 35px;
   width: 125px; */
 
-    ${props => props.theme.dark.buttons.base}
-  &:hover {
-        background: ${props => props.theme.dark.sidebar};
-      }
+  ${props => props.theme.dark.buttons.base}
 `;
 
 const Missed = styled(CardButton)`
@@ -291,17 +411,6 @@ const NextCardButton = styled(CardButton)`
 // because prop value is cast to a string, the condition will evaluate to true when value is false
 const NextCardLink = styled(Link)` 
   display: ${props => (props.shownext === 'true' ? 'flex' : 'none')};
-  /* height: 35px;
-  width: 125px;
-  font-size: 15px;
-  border-radius: 3px;
-  margin-top: 5px;
-  color: white;
-  background: lightseagreen;
-  border: 1px solid white;
-  align-items: center;
-  
-  box-sizing: border-box; this needs to be on everything! */
   justify-content: center;
 
   ${props => props.theme.dark.buttons.base}
@@ -316,13 +425,14 @@ const NextCardLink = styled(Link)`
 
 const ProgressText = styled.p`
   text-align: center;
-  font-size: 12px;
+  font-size: 14px;
   padding: 10px;
 `;
 
 const NextCardProgressText = styled(ProgressText)`
   visibility: ${props => (props.hidePrompt ? 'hidden' : 'visible')};
-  font-size: 12px;
+  color: lightgrey;
+  font-size: 14px;
 `;
 
 const OptionsButton = styled(CardContainer)`
@@ -372,6 +482,12 @@ const FadeIn = keyframes`
 const AnimateOnReveal = styled(CardContainer)`
   animation: ${FadeIn} 2s;
 `;
+
+
+const CardDetails = styled.div`
+
+`
+
 
 // prop checking
 TrainingCard.defaultProps = {
