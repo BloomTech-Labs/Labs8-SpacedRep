@@ -35,7 +35,7 @@ class DeckList extends React.Component {
           {showAddDeck ?
             <AddDeck toggleAddDeck={this.toggleAddDeck} />
             : decks.length > 0 ? decks.map(deck => (
-              <Deck key={deck.name} deck={deck} today={today} disableDelete />
+              <Deck key={deck.name} deck={deck} today={today} disableDelete disableEdit />
             ))
               :
               <Welcome>

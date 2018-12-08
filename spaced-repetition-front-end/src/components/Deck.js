@@ -117,24 +117,23 @@ class Deck extends React.Component {
               <TagCaption> Tags: </TagCaption>
               {this.viewTags(deck.tags)}
             </TagsContainer>
-            {!disableTraining && (
-              <TrainingContainer>
-                {/* Routes user to deck training component which handles all
-        of the training logic and flow. */}
-                <TrainDeck onClick={this.handleTrain}>Train Deck</TrainDeck>
-                {/* {!disableDelete && <DeleteDeck onClick={() => this.handleDeleteDeck(deck.id)}>Delete</DeleteDeck>} */}
-                <TrainDeck onClick={(e) => this.handleEditDeck(e, deck.id)}>Edit</TrainDeck>
-                <DueDateContainer>
-                  <DueDate today={today} dueDate={deck.dueDate}>
-                    {new Date(deck.dueDate * DAY_IN_MILLISECONDS).toLocaleDateString()}
-                  </DueDate>
-                  <DateCaption>
-                    next training
-                </DateCaption>
-                </DueDateContainer>
 
-              </TrainingContainer>
-            )}
+            <TrainingContainer>
+              {/* Routes user to deck training component which handles all
+                    of the training logic and flow. */}
+              {!disableTraining && <TrainDeck onClick={this.handleTrain}>Train Deck</TrainDeck>}
+              {!disableDelete && <DeleteDeck onClick={() => this.handleDeleteDeck(deck.id)}>Delete</DeleteDeck>}
+              {!disableEdit && <TrainDeck onClick={(e) => this.handleEditDeck(e, deck.id)}>Edit</TrainDeck>}
+              {!disableTraining && <DueDateContainer>
+                <DueDate today={today} dueDate={deck.dueDate}>
+                  {new Date(deck.dueDate * DAY_IN_MILLISECONDS).toLocaleDateString()}
+                </DueDate>
+                <DateCaption>
+                  next training
+                </DateCaption>
+              </DueDateContainer>
+              }
+            </TrainingContainer>
           </DeckBody>
           <ClipboardInput isSharing={sharing} value={shareURL} ref={ClipboardInput => this.clipboardRef = ClipboardInput} />
         </Container>
@@ -211,7 +210,7 @@ const TagsContainer = styled.div`
 const Tag = styled.div`
   padding: 6px;
   margin-right: 5px;
-  background: ${props => props.theme.dark.sidebar};
+  background: ${props => props.theme.dark.main};
   border-radius: 2px 10px 10px;
 `;
 
