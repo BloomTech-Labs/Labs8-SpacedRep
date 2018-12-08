@@ -182,21 +182,47 @@ class Card extends React.Component {
         ? this.editCard()
         : (
           <CardContainer>
-            <Title>
-              {card.title}
-            </Title>
-            <LineContainer><LineDescription> Question: </LineDescription> <LineItem>{card.question}</LineItem></LineContainer>
-            <LineContainer><LineDescription> Answer: </LineDescription> <LineItem> {card.answer} </LineItem> </LineContainer>
-            <LineContainer><LineDescription>Language: </LineDescription> <LineItem> {card.language}</LineItem></LineContainer>
-            <LineDescription>Tags:</LineDescription>
-            <TagsContainer>
-              {tags && tags.map(tag => <p key={tag}>{tag}</p>)}
-            </TagsContainer>
-            <CardInteractions>
-              <p>{`From deck: ${deckName}`}</p>
-              {!disableEdit && <EditButton type="button" onClick={this.toggleEdit}>Edit</EditButton>}
-            </CardInteractions>
-          </CardContainer>
+            <CardTop>
+
+              <Title>
+                {card.title}
+              </Title>
+              <div>
+                <LineContainer>
+                  <LineDescription> Question: </LineDescription>
+                  {card.question}
+                </LineContainer>
+                <LineContainer>
+                  <LineDescription> Answer: </LineDescription>
+                  {card.answer}
+                </LineContainer>
+              </div>
+              <TagsLang id="tagslang">
+                <p>
+                  <span>Language:{' '}</span>
+                  {card.language}
+                </p>
+                <TagsContainer>
+                  {/* <span>Tags:</span> */}
+                  <div>
+                    {tags && tags.map(tag => <p key={tag}>{tag}</p>)}
+                  </div>
+                </TagsContainer>
+              </TagsLang>
+            </CardTop>
+            <CardBottom>
+              <CardInteractions>
+                <FromDeck>
+                  From deck:
+                  <br />
+                  {deckName}
+                </FromDeck>
+                {/* {!disableEdit && <EditButton type="button" onClick={this.toggleEdit}>Edit</EditButton>} */}
+                {!disableEdit && <EditButton onClick={this.toggleEdit}>
+                  <i class="fas fa-pencil-alt" /><p>Edit</p></EditButton>}
+              </CardInteractions>
+            </CardBottom>
+          </CardContainer >
         )
     );
   }
@@ -207,132 +233,202 @@ export default Card;
 // styles
 
 const CardContainer = styled.div`
-  /* display:flex; */
-  /* flex-direction: column; */
-  border-radius: 20px;
-  width: 315px;
-  margin: 2%;
-  padding: 2%;
+box-shadow: 2px 2px 10px 0px black;
+      /* display:flex; */
+      /* flex-direction: column; */
+      border-radius: 20px;
+      width: 315px;
+      margin: 2%;
+      // padding: 2%;
   /* border: 1px solid ${props => props.theme.dark.sidebar}; */
   border: 1px solid ${props => props.theme.dark.main};
   background: ${props => props.theme.dark.cardBackground};
+          `;
+const CardTop = styled.div`
+          width: 100%;
+          height: 70%;
+          padding: 4%;
+          `;
+
+const TagsLang = styled.div`
+font-size: 14px;
+color: lightgray;
+p {
+  span {
+    font-weight: bold;
+    // display: block;
+    // width: 25%;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    // border-bottom: 2px solid mediumseagreen;
+  }
+}
 `;
+
+const CardBottom = styled.div`
+          height: 30%;
+          width: 100%;
+          padding: 4%;
+          background-color: #2f3d47;
+          border-bottom-left-radius: 20px;
+          border-bottom-right-radius: 20px;
+          `;
 
 const CardInteractions = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-`;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+          `;
 
 const Title = styled.p`
-  padding-bottom: 8px;
-  font-size: 22px;
-  font-weight: bold;
-`
+            padding-bottom: 8px;
+            font-size: 22px;
+            font-weight: bold;
+          `;
 
 const LineContainer = styled.p`
-  padding: 4px 0px 4px 0px;
-`
+            padding: 4px 0px 4px 0px;
+          `;
 
 const LineDescription = styled.span`
-  font-weight: bold;
-`
+            font-weight: bold;
+            display: block;
+            width: 25%;
+            margin-bottom: 8px;
+            padding-bottom: 4px;
+            // border-bottom: 2px solid mediumseagreen;
+          `;
 
-const LineItem = styled.span``
 
 const TagsContainer = styled.div`
-  display: flex;
+            display: flex;
+
+            div {
+              display: flex;
+              flex-wrap: wrap;
+
+              &::before {
+                content: 'Tags: ';
+              }
+            }
   p {
-    /* border: 1px solid black; */
-    padding: 2%;
-    margin: 2%;
-  }
-`;
+              /* border: 1px solid black; */
+            //   padding: 2%;
+            // margin: 2%;
+
+            padding: 7px 10px 8px 10px;
+            margin-right: 5px;
+            background: ${props => props.theme.dark.main};
+            border-radius: 2px 10px 10px;
+          }
+        `;
 
 
 // ////////////edit
 const EditCard = styled.form`
-  color: white;
-  padding: 10px;
-  margin: 10px;
+          color: white;
+          padding: 10px;
+          margin: 10px;
   border: 1px solid ${props => props.theme.dark.sidebar};
   background: ${props => props.theme.dark.sidebar};
-`;
+          `;
 const HeaderContainer = styled.div`
-  display: flex;
-  justify-content:space-between;
-  align-items: center;
-  /* align-content:center; */
-  width: 100%;
-  margin-bottom: 5px;
-`;
+            display: flex;
+            justify-content:space-between;
+            align-items: center;
+            /* align-content:center; */
+            width: 100%;
+            margin-bottom: 5px;
+          `;
 const Instructions = styled.h3`
-  padding: 0px;
-  margin: 0px;
-
-`;
+            padding: 0px;
+            margin: 0px;
+          
+          `;
 const Cancel = styled.button`
-  border: none;
-  background: none;
-  color: lightgrey;
-  font-weight: bold;
-
-  height: 26px;
-  margin: 0px;
-
+            border: none;
+            background: none;
+            color: lightgrey;
+            font-weight: bold;
+          
+            height: 26px;
+            margin: 0px;
+          
   &:hover {
-    background: grey;
-  }
-  /* width: 100px; */
-`;
+              background: grey;
+          }
+          /* width: 100px; */
+        `;
 const SaveButton = styled.button`
     ${props => props.theme.dark.buttons.base}
-  &:hover {
-    background: ${props => props.theme.dark.logo};
-    cursor: pointer;
-  }
-`;
+            &:hover {
+              background: ${props => props.theme.dark.logo};
+            cursor: pointer;
+          }
+        `;
 
 const DDWrapper = styled.div`
-  color: white;
-`;
+          color: white;
+        `;
 
 const DDTitleBox = styled.div`
-  border: 1px solid gray;
-  padding: 4%;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-`;
+          border: 1px solid gray;
+          padding: 4%;
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 10px;
+        `;
 
 const DDlist = styled.ul`
-border: 1px solid gray;
-padding: 4%;
-display: -webkit-box;
-display: -webkit-flex;
-display: -ms-flexbox;
-width: 274px;
-margin: -10px 0 10px 0;
-margin-bottom: 10px;
-list-style-type: none;
-flex-direction: column;
-`;
+        border: 1px solid gray;
+        padding: 4%;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        width: 274px;
+        margin: -10px 0 10px 0;
+        margin-bottom: 10px;
+        list-style-type: none;
+        flex-direction: column;
+        `;
 
 const TextArea = styled.textarea`
-  height: 80px;
-`;
+          height: 80px;
+        `;
 
 const EditButton = styled.button`
-  ${props => props.theme.dark.buttons.base}
+  // ${props => props.theme.dark.buttons.base}
+            width: 75px;
+            background-color: none;
+            background: none;
+            font-size: 14px;
+            text-align: right;
+            border: none;
+            padding-right: 0;
+          
+  i {
+              color: lightseagreen;
+            margin: 5px;
+          }
+        
+  p {
+              display: inline-block;
+            color: lightseagreen;
+          }
   &:hover {
-    background: ${props => props.theme.dark.logo};
-    cursor: pointer;
-  }
-  
-`
+              // background: ${props => props.theme.dark.logo};
+            cursor: pointer;
+            i, p {
+              color: mediumseagreen;
+            }
+          }
+        `;
 
-
+const FromDeck = styled.p`
+        color: lightgray;
+        font-size: 14px;
+        `;
 
 Card.propTypes = {
   card: PropTypes.instanceOf(Object).isRequired,

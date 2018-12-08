@@ -14,6 +14,8 @@ export default CardListTools;
 // styles
 
 const ToolsContainer = styled.div`
+position: sticky;
+top: 0px;
   display: flex;
   height: 50px;
   width: 100%;
