@@ -179,6 +179,9 @@ export default withRouter(ImportDeck);
 
 const DeckViewContainer = styled.div`
   width: 100%;
+  height: 100%;
+  background: ${props => props.theme.dark.bodyBackground};
+
 `;
 
 const Header = styled.div`

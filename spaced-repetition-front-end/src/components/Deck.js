@@ -25,7 +25,7 @@ class Deck extends React.Component {
     const { deck } = this.props;
     const endOfUrl = process.env.REACT_APP_REDIRECT.lastIndexOf('/')
 
-    this.setState({ shareURL: `${process.env.REACT_APP_REDIRECT.substr(0, endOfUrl)}/share/deck/${deck.id}` })
+    this.setState({ shareURL: `${process.env.REACT_APP_REDIRECT.substr(0, endOfUrl)}/dashboard/share/deck/${deck.id}` })
   }
 
   handleDeleteDeck = (deckId) => {
