@@ -171,6 +171,9 @@ class TrainingCard extends React.Component {
                   )
                 }
               </ButtonContainer>
+              <ProgressText>
+                {`${currentCard + 1} of ${formattedDeck.length} cards completed`}
+              </ProgressText>
             </BottomCard>
           </BackSide>
 
@@ -290,7 +293,7 @@ const TopCard = styled.div`
 `
 
 const BottomCard = styled.div`
-  background: ${props => props.theme.dark.main};
+  /* background: ${props => props.theme.dark.main}; */
   padding: 15px;
 `
 // covers and darkens viewport except for modal
