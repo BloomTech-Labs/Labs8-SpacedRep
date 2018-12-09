@@ -14,7 +14,14 @@ class CardList extends Component {
     // deckArr: [],
   };
 
+  componentDidMount = () => {
+    window.scrollTo(0, 0);
+  }
+
+
   handleAddCard = () => {
+    const { decks, history } = this.props;
+    if (decks.length === 0) history.push('/dashboard/decks')
     this.setState({ addNewCard: !this.state.addNewCard });
   }
 
@@ -27,23 +34,29 @@ class CardList extends Component {
     return deckData;
   }
 
+  handleWelcomeClick = () => {
+    const { history } = this.props;
+    history.push('/dashboard/decks')
+  }
+
   render() {
     const { decks } = this.props;
     const { addNewCard, deckArr } = this.state;
     return (
-      <CardListContainer>
+      <CardListContainer id="CardListContainer">
         <CardListTools addNewCard={this.handleAddCard} />
         {addNewCard && <AddCard grabDeckInfo={this.handleDeckData} toggleAddCard={this.handleAddCard} />}
+
         {decks.length > 0 && decks.map((deck) => {
           return deck.cards.map((card) => {
             return <Card key={card.id} card={card} deckName={deck.name} decks={decks} />;
           });
         })}
         {decks.length === 0 && !addNewCard && (
-          <div>
-            <h3>Hey, it doesn't look like you've made any cards yet!</h3>
-            <p>Click the Add Card button in the tool bar above to get started.</p>
-          </div>
+          <Welcome>
+            <h3>Hey, it doesn't look like you haven't made any cards or decks yet!</h3>
+            <p>Click <span onClick={this.handleWelcomeClick}> Decks </span>on the sidebar to get started.</p>
+          </Welcome>
         )}
       </CardListContainer>
     );
@@ -55,14 +68,46 @@ export default CardList;
 // styled
 
 const CardListContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  // left: 200px;
-  // flex-grow: 1;  /*ensures that the container will take up the full height of the parent container*/
-    overflow-y: auto;  /*adds scroll to this container*/
+width: 100%;
+height: 100%;
+margin-left: 100px;
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+background: ${props => props.theme.dark.bodyBackground};
+
+@media (max-width: 500px) {
+  margin-left: 0;
+  margin-top: 65px;
+}
 `;
+
+
+const Welcome = styled.div`
+  display:flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 20px;
+
+  h3 {
+    font-size: 22px;
+    padding: 10px;
+  }
+  
+  p {
+    font-size: 18px;
+    padding: 10px;
+  }
+
+  span {
+    padding-bottom: 10px;
+    &:hover {
+    border-bottom: 1px solid lightseagreen;
+    cursor:pointer;
+  }
+  }
+`
+
 
 CardList.propTypes = {
   decks: PropTypes.instanceOf(Object).isRequired,

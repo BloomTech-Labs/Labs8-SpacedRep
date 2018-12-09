@@ -93,11 +93,12 @@ class TrainDeck extends React.Component {
     const { formattedDeck } = this.state;
     return (
       <TrainingContainer>
+        {/* Display Error in this code:
         <TrainingHeader>
           Currently training:
           {' '}
           {deck ? deck.name : 'Loading...'}
-        </TrainingHeader>
+        </TrainingHeader> */}
         {/* <Card data={deck} updateProgress={updateProgress} /> */}
         <TrainingCard formattedDeck={formattedDeck} updateProgress={updateProgress} />
       </TrainingContainer>
@@ -113,6 +114,7 @@ const TrainingContainer = styled.div`
 
 const TrainingHeader = styled.h2`
 `;
+
 TrainDeck.defaultProps = {
   deck: null,
 };

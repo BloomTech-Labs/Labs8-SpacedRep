@@ -182,13 +182,13 @@ class Card extends React.Component {
         ? this.editCard()
         : (
           <CardContainer>
-            <p>
-              {`Title: ${card.title}`}
-            </p>
-            <p>{`Question: ${card.question}`}</p>
-            <p>{`Answer: ${card.answer}`}</p>
-            <p>{`Language: ${card.language}`}</p>
-            <p>Tags:</p>
+            <Title>
+              {card.title}
+            </Title>
+            <LineContainer><LineDescription> Question: </LineDescription> <LineItem>{card.question}</LineItem></LineContainer>
+            <LineContainer><LineDescription> Answer: </LineDescription> <LineItem> {card.answer} </LineItem> </LineContainer>
+            <LineContainer><LineDescription>Language: </LineDescription> <LineItem> {card.language}</LineItem></LineContainer>
+            <LineDescription>Tags:</LineDescription>
             <TagsContainer>
               {tags && tags.map(tag => <p key={tag}>{tag}</p>)}
             </TagsContainer>
@@ -198,7 +198,6 @@ class Card extends React.Component {
             </CardInteractions>
           </CardContainer>
         )
-
     );
   }
 }
@@ -213,7 +212,8 @@ const CardContainer = styled.div`
   width: 315px;
   margin: 2%;
   padding: 2%;
-  border: 1px solid ${props => props.theme.dark.sidebar};
+  /* border: 1px solid ${props => props.theme.dark.sidebar}; */
+  border: 1px solid ${props => props.theme.dark.main};
   background: ${props => props.theme.dark.cardBackground};
 `;
 
@@ -223,6 +223,22 @@ const CardInteractions = styled.div`
   align-items: center;
   width: 100%;
 `;
+
+const Title = styled.p`
+  padding-bottom: 8px;
+  font-size: 22px;
+  font-weight: bold;
+`
+
+const LineContainer = styled.p`
+  padding: 4px 0px 4px 0px;
+`
+
+const LineDescription = styled.span`
+  font-weight: bold;
+`
+
+const LineItem = styled.span``
 
 const TagsContainer = styled.div`
   display: flex;
@@ -314,6 +330,7 @@ const EditButton = styled.button`
   }
   
 `
+
 
 
 Card.propTypes = {

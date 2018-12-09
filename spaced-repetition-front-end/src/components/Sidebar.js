@@ -3,39 +3,40 @@ import styled, { css } from 'styled-components';
 import { Link, withRouter } from 'react-router-dom';
 import '../App.css';
 
-const decksIcon = require('../images/DECKS.PNG');
+const decksIcon = require('../images/DecksSVG.svg');
+const cardsIcon = require('../images/Cards.svg');
+const profileIcon = require('../images/profileTEST2.svg');
 
 class Sidebar extends React.Component {
   componentDidMount() {
-
   }
 
   render() {
     const { props } = this;
     const { pathname } = props.location;
     return (
-      <Container>
-        <SidebarItem path={pathname} thisroute="/dashboard/decks" to="/dashboard/decks">
-          <Logo src={decksIcon} />
-          <ItemName>Decks</ItemName>
-        </SidebarItem>
-        {/* <Divider /> */}
-        <SidebarItem path={pathname} thisroute="/dashboard/add-deck" to="/dashboard/add-deck">
-          <Logo src={decksIcon} />
-          <ItemName>Add Deck</ItemName>
-        </SidebarItem>
-        {/* <Divider /> */}
-        <SidebarItem path={pathname} thisroute="/dashboard/cards" to="/dashboard/cards">
-          <Logo src={decksIcon} />
-          <ItemName>Cards</ItemName>
-        </SidebarItem>
-        {/* <Divider /> */}
-        <SidebarItem path={pathname} thisroute="/dashboard/profile" to="/dashboard/profile">
-          <Logo src={decksIcon} />
-          <ItemName>Profile</ItemName>
-        </SidebarItem>
-        {/* <Divider /> */}
-      </Container>
+      <React.Fragment id="sidebar div">
+        <Container id="Sidebar Container">
+          <SidebarItem path={pathname} thisroute="/dashboard/decks" to="/dashboard/decks">
+            <ItemName path={pathname} thisroute="/dashboard/decks">
+              <img src={decksIcon} alt="decks" />
+              Decks
+          </ItemName>
+          </SidebarItem>
+          <SidebarItem path={pathname} thisroute="/dashboard/cards" to="/dashboard/cards">
+            <ItemName path={pathname} thisroute="/dashboard/cards">
+              <img src={cardsIcon} alt="decks" />
+              Cards
+          </ItemName>
+          </SidebarItem>
+          <SidebarItem path={pathname} thisroute="/dashboard/profile" to="/dashboard/profile">
+            <ItemName path={pathname} thisroute="/dashboard/profile">
+              <img src={profileIcon} alt="decks" />
+              Profile
+          </ItemName>
+          </SidebarItem>
+        </Container>
+      </React.Fragment>
     );
   }
 }
@@ -43,75 +44,90 @@ class Sidebar extends React.Component {
 export default withRouter(Sidebar);
 
 // styles
-// No idea what is causing it, but without min-width, container shrinks to
-// 192px when decks is selected, but stays at 200px when on add decks or add cards
-const Container = styled.div`
-  position: sticky;
-  top: 55px;
-  flex: 0 0 20%;
+// Notes: Container is only sticky on Cards View
+const Container = styled.nav`
+position: fixed;
+width: 100px;
+height: 100%;
+background: ${props => props.theme.dark.main};
+
+@media (max-width: 500px) {
+  width: 100%;
+  height: 100%;
+  max-height: 65px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100vh;
-  padding-right:20px;
-  background: ${props => props.theme.dark.main};
-  
-  @media (max-width: 900px) {
-    flex-direction: row;
-    top: 80px;
-    flex-direction: row;
-    height: 100%;
-    padding-right: 0;
-  }
-  @media (max-width: 700px) {
-    // flex-direction: column;
-  }
+  justify-content: space-between;
+  border-bottom: 1px solid white;
+}
 `;
 
 const SidebarItem = styled(Link)`
-  display: flex;
-  align-items: center;
-  padding:  10px 15px 15px 16px;
+${props => props.path === props.thisroute && css`
+background: ${styleProps => styleProps.theme.dark.bodyBackground};
+`}
+border-bottom: 1px solid white;
+
+&:hover {
+  text-decoration: none;
+}
+
+@media (max-width: 500px) {
   width: 100%;
-  ${props => props.path === props.thisroute && css`
-    background: ${styleProps => styleProps.theme.dark.bodyBackground};
-  `}
-  border-bottom: 1px solid white;
+  margin: auto 0;
 
-  @media (max-width: 900px) {
-    padding: 0;
-  }
+  border-bottom: none; //?
+  height: 100%; //?
+}
 `;
-
-// const Divider = styled.hr`
-//   width: 100%;
-//   // margin: 0px;
-//   // padding: 0px 0px 0px 0px;
-//   margin-left:25psx;
-//   @media (max-width: 700px) {
-//     display: none;
-//   }
-// `;
 
 const ItemName = styled.p`
-  color: ${props => props.theme.dark.mainFontcolor};
-  padding-left: 20px;
-  font-size:22px;
+padding: 15px;
+text-align: center;
+font-size: 22px;
+color: ${props => props.theme.dark.mainFontcolor};
+border-bottom: 1px solid white;
+${props => props.path === props.thisroute && css`
+background: #1f2b33;
+`}
 
-  @media (max-width: 900px) {
-    font-size: 18px;
-  }
+@media (max-width: 500px) {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
 
-  @media (max-width: 700px) {
-    padding-left: 0;
+// background: ${props => props.theme.dark.main};
+
+  img {
+    display: block;
+    width: 40px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+
+    @media (max-width: 500px) {
+      display: none;
+      // height: 100%;
+      // display: inline-block;
+      // margin: 0;
+      // margin-right: 15px;
+    }
   }
-`;
+  
+  `;
+// @media (max-width: 900px) {
+//   font-size: 18px;
+// }
+
+// @media (max-width: 700px) {
+//   padding-left: 0;
+// }
 
 const Logo = styled.img`
-  // height: 25%;
-  width: 25%;
-  border-radius: 6px;
-  @media (max-width: 700px) {
-    display: none;
-  }
+width:25%;
+border-radius: 6px;
+
+// height: 25%;
 `;
+  // @media(max-width: 700px) {
+  //   display: none;
+  // }
