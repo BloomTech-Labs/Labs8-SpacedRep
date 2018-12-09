@@ -261,6 +261,7 @@ const TrainDeck = styled.button`
   ${props => props.theme.dark.buttons.base}
   &:hover {
     background: ${props => props.theme.dark.logo};
+    color: ${props => props.theme.dark.main};
     cursor: pointer;
   }
   font-size: 16px;
