@@ -36,13 +36,15 @@ class CardInputs extends React.Component {
             <Caption> Supports code snippets too, just surround code with 3 backticks ``` </Caption>
             {props.i !== 0 && <Cancel type="button" onClick={() => props.removeCard(props.i)}>x</Cancel>}
           </Header>
-
+          {/* Title and Language should be labels instead of p */}
           <DescriptionLine> <p>Title</p> <p>Language</p> </DescriptionLine>
           <TopRow>
             <input type="text" value={state.title} name="title" onChange={this.handleChange} placeholder="Title" required />
             <Dropdown name="language" onChange={this.handleChange}>
               <DropdownOption value="Plain Text">Plain Text</DropdownOption>
               <DropdownOption value="JavaScript">JavaScript</DropdownOption>
+              <DropdownOption value="HTML">HTML</DropdownOption>
+              <DropdownOption value="CSS">CSS</DropdownOption>
               <DropdownOption value="Python">Python</DropdownOption>
               <DropdownOption value="C++">C++</DropdownOption>
             </Dropdown>
