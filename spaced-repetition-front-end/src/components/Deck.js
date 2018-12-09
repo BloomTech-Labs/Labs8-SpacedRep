@@ -35,7 +35,9 @@ class Deck extends React.Component {
     axios.delete(`${process.env.REACT_APP_URL}/api/decks/${deckId}`, { headers })
       .then(response => console.log(response.data))
       .catch(error => console.log(error));
+
     history.push('/dashboard/decks');
+    window.location.reload();
   }
 
   handleEditDeck = (e, id) => {
@@ -87,12 +89,12 @@ class Deck extends React.Component {
     } else {
       console.log('Copy not supported');
       const endOfUrl = process.env.REACT_APP_REDIRECT.lastIndexOf('/');
-      alert(`Shareable Link: ${process.env.REACT_APP_REDIRECT.substr(0, endOfUrl)}/share/deck/${deck.id}`)
+      alert(`Shareable Link: ${process.env.REACT_APP_REDIRECT.substr(0, endOfUrl)}/dashboard/share/deck/${deck.id}`)
     }
   }
 
   render() {
-    const { deck, today, disableTraining, disableDelete, disableEdit, toggleAddDeck } = this.props;
+    const { deck, today, disableTraining, disableDelete, disableEdit, disableShare, toggleAddDeck } = this.props;
 
     const { isEditing, shareURL, sharing } = this.state;
     const { state } = this;
@@ -108,10 +110,11 @@ class Deck extends React.Component {
               </NumCards>
             </DeckHeader>
 
-
-            <ShareContainer>
-              <Share onClick={this.handleShare} src={shareIcon} alt="Share" />
-            </ShareContainer>
+            {!disableShare &&
+              <ShareContainer>
+                <Share onClick={this.handleShare} src={shareIcon} alt="Share" />
+              </ShareContainer>
+            }
             <TagsContainer>
               <TagCaption> Tags: </TagCaption>
               {this.viewTags(deck.tags)}
@@ -136,35 +139,33 @@ class Deck extends React.Component {
               }
             </TrainingContainer>
           </DeckBottom>
-
-          <ClipboardInput isSharing={sharing} value={shareURL} ref={ClipboardInput => this.clipboardRef = ClipboardInput} />
         </Container>
         :
-        // <EditDeck deck={deck} toggleEditModeToFalse={this.toggleEditModeToFalse} deleteDeck={this.handleDeleteDeck} />
-        <div>
-          <Header>
-            Create New Deck:
-          <Cancel type="button" onClick={toggleAddDeck}>x</Cancel>
-          </Header>
-          <DeckForm onSubmit={this.addDeck}>
-            <DeckInfo>
-              <DeckItem>
-                <p>Deck Name</p>
-                <input type="text" value={state.name} name="name" onChange={this.handleChange} placeholder="Name" required />
-              </DeckItem>
-              <DeckItem>
-                <p>Tags</p>
-                <input type="text" value={state.tags} name="tags" onChange={this.handleChange} placeholder="Enter a list of tags separated by comma (no spaces)" required />
-              </DeckItem>
+        <EditDeck deck={deck} toggleEditModeToFalse={this.toggleEditModeToFalse} deleteDeck={this.handleDeleteDeck} />
+      // <EditContainer>
+      //   <Header>
+      //     Editing Deck:
+      //   <Cancel type="button" onClick={toggleAddDeck}>x</Cancel>
+      //   </Header>
+      //   <DeckForm onSubmit={this.addDeck}>
+      //     <DeckInfo>
+      //       <DeckItem>
+      //         <p>Deck Name</p>
+      //         <input type="text" value={state.name} name="name" onChange={this.handleChange} placeholder="Name" required />
+      //       </DeckItem>
+      //       <DeckItem>
+      //         <p>Tags</p>
+      //         <input type="text" value={state.tags} name="tags" onChange={this.handleChange} placeholder="Enter a list of tags separated by comma (no spaces)" required />
+      //       </DeckItem>
 
-              <SaveButton onClick={this.addDeck}> Save Deck </SaveButton>
-            </DeckInfo>
-            <Public>
-              <p >Enable sharing for this deck?</p>
-              <input type="checkbox" name="public" onChange={this.handleChange} />
-            </Public>
-          </DeckForm>
-        </div>
+      //       <SaveButton onClick={this.addDeck}> Save Deck </SaveButton>
+      //     </DeckInfo>
+      //     <Public>
+      //       <p >Enable sharing for this deck?</p>
+      //       <input type="checkbox" name="public" onChange={this.handleChange} />
+      //     </Public>
+      //   </DeckForm>
+      // </EditContainer>
     );
   }
 }
@@ -193,6 +194,15 @@ const Container = styled.div`
     cursor: pointer;
   }
 `;
+
+const EditContainer = styled.div`
+  width: 80%;
+  border: 1px solid ${props => props.theme.dark.main};
+  background: ${props => props.theme.dark.cardBackground};
+  padding: 10px;
+  margin: 10px;
+  border-radius: 20px;
+`
 
 const DeckHeader = styled.div`
   display: flex;
@@ -283,7 +293,8 @@ const DueDateContainer = styled.div`
   justify-content:space-between;
   align-items: flex-end;
   height: 50px;
-  /* width: 100%; */
+  font-size: 18px;
+  
 `;
 
 const DueDate = styled.div`
@@ -295,18 +306,12 @@ const DueDate = styled.div`
 
 const DateCaption = styled.div`
   color: lightgrey;
+  font-size: 17px;
 `;
 
 const DeleteDeck = styled(TrainDeck)`
 background: ${props => props.theme.dark.buttons.negative};
 `
-
-const ClipboardInput = styled.textarea`
-  display:none;
-  ${props => props.isSharing === true && css`
-    display: inline-block;
-  `}
-`;
 
 //edit card refactor
 const Header = styled.h2`
@@ -414,7 +419,7 @@ const SaveButton = styled.button`
 ///////////////style bottom of Deck
 const DeckBottom = styled.div`
   /* height: 12%; */
-
+  margin-top: 10px;
   width: 100%;
   padding: 4% 4%;
   display: flex;

@@ -120,8 +120,10 @@ class ImportDeck extends Component {
             console.log(innerResponse);
           })
           .catch(err => console.log(err.message));
+
         window.location.reload();
         history.push('/dashboard/decks');
+
       })
       .catch(error => (
         this.setState({
@@ -152,8 +154,7 @@ class ImportDeck extends Component {
             </Controls>
 
           </Instructions>
-          <Deck deck={deck} today={today} disableTraining disableView disableDelete disableEdit />
-
+          <Deck deck={deck} today={today} disableTraining disableView disableDelete disableEdit disableShare />
         </Header>
 
         <h1> Cards: </h1>
@@ -184,6 +185,8 @@ const DeckViewContainer = styled.div`
     font-size: 25px;
     padding: 15px 15px 0px 15px ;
   }
+
+
 `;
 
 const Header = styled.div`
