@@ -80,10 +80,6 @@ flex-wrap: wrap;
 justify-content: center;
 background: ${props => props.theme.dark.bodyBackground};
 
-&::-webkit-scrollbar {
-  display: none;
-}
-
 @media (max-width: 500px) {
   margin-left: 0;
   margin-top: 65px;

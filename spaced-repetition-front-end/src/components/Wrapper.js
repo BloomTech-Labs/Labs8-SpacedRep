@@ -57,6 +57,7 @@ const BodyContainer = styled.div`
   height: 100%;
   margin-top: 55px;
   display: flex;
+  
 
   @media (max-width: 900px) {
   }
