@@ -187,16 +187,21 @@ class Card extends React.Component {
               <Title>
                 {card.title}
               </Title>
-              <div>
-                <LineContainer>
-                  <LineDescription> Question: </LineDescription>
-                  {card.question}
-                </LineContainer>
-                <LineContainer>
-                  <LineDescription> Answer: </LineDescription>
-                  {card.answer}
-                </LineContainer>
-              </div>
+
+
+              <Body>
+                <BodyGroup>
+                  <Label>Question:</Label>
+                  <Text>{card.question}</Text>
+                </BodyGroup>
+                <BodyGroup bottom>
+                  <Label> Answer: </Label>
+                  <Text>{card.answer}</Text>
+                </BodyGroup>
+              </Body>
+
+
+
               <TagsLang id="tagslang">
                 <p>
                   <span>Language:{' '}</span>
@@ -259,6 +264,56 @@ padding: 4%;
 // }
 `;
 
+const Title = styled.h2`
+height: 10%;
+// border: 1px solid pink; // temp
+font-size: 22px;
+font-weight: bold;
+`;
+
+const Body = styled.div`
+height: 70%;
+display: flex;
+flex-direction: column;
+justify-content: space-around;
+line-height: 1.2;
+// border: 1px solid pink; // temp
+`;
+
+const BodyGroup = styled.div`
+margin-bottom: ${props => props.bottom ? '15px' : null};
+`;
+
+const Label = styled.h3`
+// padding: 4px 0px 4px 0px;
+font-weight: bold;
+letter-spacing: 0.5px;
+`;
+
+const Text = styled.p`
+// font-weight: bold;
+// display: block;
+// width: 25%;
+// padding-bottom: 4px;
+// border-bottom: 2px solid mediumseagreen;
+`;
+
+const TagsLang = styled.div`
+height: 20%;
+border: 1px solid pink;
+
+// font-size: 14px;
+// color: lightgray;
+
+// p {
+//   span {
+//     font-weight: bold;
+//     margin-bottom: 8px;
+//     padding-bottom: 4px;
+//   }
+// }
+`;
+
 const CardBottom = styled.div`
 width: 100%;
 height: 12%;
@@ -311,39 +366,6 @@ i {
 // // align-items: center;
 // // width: 100%;
 // `;
-
-const TagsLang = styled.div`
-// font-size: 14px;
-// color: lightgray;
-
-// p {
-//   span {
-//     font-weight: bold;
-//     margin-bottom: 8px;
-//     padding-bottom: 4px;
-//   }
-// }
-`;
-
-
-
-const Title = styled.p`
-// padding-bottom: 8px;
-// font-size: 22px;
-// font-weight: bold;
-`;
-
-const LineContainer = styled.p`
-// padding: 4px 0px 4px 0px;
-`;
-
-const LineDescription = styled.span`
-// font-weight: bold;
-// display: block;
-// width: 25%;
-// padding-bottom: 4px;
-// border-bottom: 2px solid mediumseagreen;
-`;
 
 
 const TagsContainer = styled.div`
