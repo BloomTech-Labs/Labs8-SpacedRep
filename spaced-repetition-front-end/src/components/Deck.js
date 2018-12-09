@@ -92,10 +92,10 @@ class Deck extends React.Component {
   }
 
   render() {
-    const { deck, today, disableTraining, disableDelete, disableEdit } = this.props;
+    const { deck, today, disableTraining, disableDelete, disableEdit, toggleAddDeck } = this.props;
 
     const { isEditing, shareURL, sharing } = this.state;
-
+    const { state } = this;
     return (
       !isEditing ?
         <Container onClick={this.handleDeckClick}>
@@ -103,9 +103,7 @@ class Deck extends React.Component {
             <Title>{deck.name}</Title>
 
             <NumCards>
-
               {deck.cards.length === 1 ? `${deck.cards.length} card` : `${deck.cards.length} cards`}
-
             </NumCards>
           </DeckHeader>
 
@@ -117,29 +115,53 @@ class Deck extends React.Component {
               <TagCaption> Tags: </TagCaption>
               {this.viewTags(deck.tags)}
             </TagsContainer>
-
-            <TrainingContainer>
-              {/* Routes user to deck training component which handles all
+            <DeckBottom>
+              <TrainingContainer>
+                {/* Routes user to deck training component which handles all
                     of the training logic and flow. */}
-              {!disableTraining && <TrainDeck onClick={this.handleTrain}>Train Deck</TrainDeck>}
-              {!disableDelete && <DeleteDeck onClick={() => this.handleDeleteDeck(deck.id)}>Delete</DeleteDeck>}
-              {!disableEdit && <TrainDeck onClick={(e) => this.handleEditDeck(e, deck.id)}>Edit</TrainDeck>}
-              {!disableTraining && <DueDateContainer>
-                <DueDate today={today} dueDate={deck.dueDate}>
-                  {new Date(deck.dueDate * DAY_IN_MILLISECONDS).toLocaleDateString()}
-                </DueDate>
-                <DateCaption>
-                  next training
+                {!disableTraining && <TrainDeck onClick={this.handleTrain}>Train Deck</TrainDeck>}
+                {!disableDelete && <DeleteDeck onClick={() => this.handleDeleteDeck(deck.id)}>Delete</DeleteDeck>}
+                {!disableEdit && <TrainDeck onClick={(e) => this.handleEditDeck(e, deck.id)}>Edit</TrainDeck>}
+                {!disableTraining && <DueDateContainer>
+                  <DueDate today={today} dueDate={deck.dueDate}>
+                    {new Date(deck.dueDate * DAY_IN_MILLISECONDS).toLocaleDateString()}
+                  </DueDate>
+                  <DateCaption>
+                    next training
                 </DateCaption>
-              </DueDateContainer>
-              }
-            </TrainingContainer>
+                </DueDateContainer>
+                }
+              </TrainingContainer>
+            </DeckBottom>
           </DeckBody>
           <ClipboardInput isSharing={sharing} value={shareURL} ref={ClipboardInput => this.clipboardRef = ClipboardInput} />
         </Container>
         :
-        <EditDeck deck={deck} toggleEditModeToFalse={this.toggleEditModeToFalse} deleteDeck={this.handleDeleteDeck} />
+        // <EditDeck deck={deck} toggleEditModeToFalse={this.toggleEditModeToFalse} deleteDeck={this.handleDeleteDeck} />
+        <div>
+          <Header>
+            Create New Deck:
+          <Cancel type="button" onClick={toggleAddDeck}>x</Cancel>
+          </Header>
+          <DeckForm onSubmit={this.addDeck}>
+            <DeckInfo>
+              <DeckItem>
+                <p>Deck Name</p>
+                <input type="text" value={state.name} name="name" onChange={this.handleChange} placeholder="Name" required />
+              </DeckItem>
+              <DeckItem>
+                <p>Tags</p>
+                <input type="text" value={state.tags} name="tags" onChange={this.handleChange} placeholder="Enter a list of tags separated by comma (no spaces)" required />
+              </DeckItem>
 
+              <SaveButton onClick={this.addDeck}> Save Deck </SaveButton>
+            </DeckInfo>
+            <Public>
+              <p >Enable sharing for this deck?</p>
+              <input type="checkbox" name="public" onChange={this.handleChange} />
+            </Public>
+          </DeckForm>
+        </div>
     );
   }
 }
@@ -159,6 +181,12 @@ const Container = styled.div`
   max-width: 370px;
   max-height: 250px;
   border-radius: 20px;
+
+  &:hover {
+    /* background: ${props => props.theme.dark.cardBackground}; */
+    background: #727E86;
+    cursor: pointer;
+  }
 `;
 
 const DeckHeader = styled.div`
@@ -259,7 +287,7 @@ const DateCaption = styled.div`
 `;
 
 const DeleteDeck = styled(TrainDeck)`
-background: ${props => props.theme.dark.buttons.negative}
+background: ${props => props.theme.dark.buttons.negative};
 `
 
 const ClipboardInput = styled.textarea`
@@ -267,8 +295,131 @@ const ClipboardInput = styled.textarea`
   ${props => props.isSharing === true && css`
     display: inline-block;
   `}
-  
 `;
+
+//edit card refactor
+const Header = styled.h2`
+  display: flex;
+  width: 100%;
+  min-height: 46px;
+  /* align-self: flex-start; */
+  justify-content: space-between;
+  font-size: 20px;
+  padding: 10px 0px 10px 0px;
+`
+
+const Cancel = styled.button`
+  border: none;
+  background: none;
+  color: lightgrey;
+  font-weight: bold;
+  font-size: 20px;
+  height: 26px;
+  margin: 0px;
+  padding: 0px;
+  color: ${props => props.theme.dark.buttons.negative};
+
+  /* width: 100px; */
+`;
+
+const DeckForm = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 10px;
+  min-height: 120px;
+  background: ${props => props.theme.dark.cardBackground};
+  border-radius: 3px;
+  /* align-items: baseline; */
+  justify-content: space-between;
+  box-shadow: none;
+
+  @media (max-width: 700px) {
+    min-height: 270px;
+  }
+`;
+
+const DeckInfo = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  padding: 10px 0;
+  background: ${props => props.theme.dark.cardBackground};
+  border-radius: 3px;
+  /* align-items: baseline; */
+  justify-content: space-between;
+  box-shadow: none;
+  @media (max-width: 700px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+`;
+
+const DeckItem = styled.div`
+  font-size: 18px;
+  padding-bottom: 2px;
+  width: 100%;
+
+  input {
+    @media (max-width: 700px) {
+      width: 100%;
+    }
+    
+  }
+`
+
+const Public = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+
+  input {
+    align-self: center;
+    margin: 0px;
+    height: 20px;
+    width: 20px;
+    border-radius: 6px;
+    padding: 3px;
+  }
+
+  p {
+    color: white;
+    padding-right: 10px;
+  }
+`
+
+const SaveButton = styled.button`
+  ${props => props.theme.dark.buttons.base}
+  &:hover {
+    background: ${props => props.theme.dark.logo};
+    cursor: pointer;
+  }
+  font-size: 16px;
+`
+
+
+
+///////////////style bottom of Deck
+const DeckBottom = styled.div`
+  /* height: 12%; */
+
+  /* width: 100%;
+  padding: 2% 4%;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 14px;
+  background-color: #2f3d47;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px; */
+`;
+
+
+
+
+
+
 
 Deck.propTypes = {
   deck: PropTypes.shape().isRequired,
