@@ -18,14 +18,14 @@ export default CardListTools;
 // styles
 
 const ToolsContainer = styled.div`
+  position: sticky;
+  top: 0px;
   display: flex;
   height: 50px;
   width: 100%;
   box-shadow: 0px 1px 3px 0px black;
   background-color: #505c65;
-
-  position: sticky;
-  top: 0px;
+  min-height: 50px;
 `;
 
 const ToolButton = styled.button`

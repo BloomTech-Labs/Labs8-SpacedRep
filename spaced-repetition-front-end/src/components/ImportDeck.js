@@ -185,6 +185,8 @@ const DeckViewContainer = styled.div`
     font-size: 25px;
     padding: 15px 15px 0px 15px ;
   }
+
+
 `;
 
 const Header = styled.div`

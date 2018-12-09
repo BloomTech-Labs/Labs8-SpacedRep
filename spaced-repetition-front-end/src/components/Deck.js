@@ -293,7 +293,8 @@ const DueDateContainer = styled.div`
   justify-content:space-between;
   align-items: flex-end;
   height: 50px;
-  /* width: 100%; */
+  font-size: 18px;
+  
 `;
 
 const DueDate = styled.div`
@@ -305,6 +306,7 @@ const DueDate = styled.div`
 
 const DateCaption = styled.div`
   color: lightgrey;
+  font-size: 17px;
 `;
 
 const DeleteDeck = styled(TrainDeck)`
@@ -417,7 +419,7 @@ const SaveButton = styled.button`
 ///////////////style bottom of Deck
 const DeckBottom = styled.div`
   /* height: 12%; */
-
+  margin-top: 10px;
   width: 100%;
   padding: 4% 4%;
   display: flex;

@@ -168,6 +168,8 @@ const AddDeckContainer = styled.div`
   /* justify-content: center; */
   align-items: flex-start;
   background: ${props => props.theme.dark.bodyBackground};
+
+
 `;
 
 const Header = styled.h2`
@@ -234,6 +236,7 @@ const DeckItem = styled.div`
   width: 100%;
 
   input {
+    width: 80%;
     @media (max-width: 700px) {
       width: 100%;
     }
@@ -265,6 +268,7 @@ const SaveButton = styled.button`
   ${props => props.theme.dark.buttons.base}
   &:hover {
     background: ${props => props.theme.dark.logo};
+    color: ${props => props.theme.dark.main};
     cursor: pointer;
   }
   font-size: 16px;
@@ -274,6 +278,7 @@ const AddCard = styled.button`
   ${props => props.theme.dark.buttons.base}
   &:hover {
     background: ${props => props.theme.dark.logo};
+    color: ${props => props.theme.dark.main};
     cursor: pointer;
   }
   font-size: 16px;
