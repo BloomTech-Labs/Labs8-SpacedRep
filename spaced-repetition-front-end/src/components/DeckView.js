@@ -60,7 +60,7 @@ class CardList extends Component {
 
           {addNewCard && <AddCard grabDeckInfo={this.handleDeckData} toggleAddCard={this.handleAddCard} deckID={selectedDeckID} />}
 
-          {deck.cards.map(card => (
+          {deck.cards.map((card) => (
             <Card key={card.id} card={card} deckName={deck.name} decks={decks} />
           ))}
 
@@ -82,6 +82,7 @@ display: flex;
 flex-wrap: wrap;
 justify-content: center;
 background: ${props => props.theme.dark.bodyBackground};
+overflow: auto;
 `;
 
 const Header = styled.div`

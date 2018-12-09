@@ -57,7 +57,7 @@ class EditDeck extends React.Component {
 
     editDeck = (e) => {
         e.preventDefault();
-        const { deck, toggleEditModeToFalse } = this.props;
+        const { deck, toggleEditModeToFalse, history } = this.props;
         const deckfromState = this.state;
         const newDeck = {
             name: deckfromState.name,
@@ -70,8 +70,13 @@ class EditDeck extends React.Component {
             .then((response) => {
                 console.log(response.data);
                 toggleEditModeToFalse();
+
             })
             .catch(error => console.log(error));
+
+        // window.location.reload();
+
+        // history.push(`/dashboard/decks/${deck.id}`)
     }
 
     newCard = () => {
@@ -98,7 +103,7 @@ class EditDeck extends React.Component {
                     </Controls>
                 </DeckForm>
                 {/* {state.cards.map((x, i) => <CardInputs i={i} key={i} handleCardChange={this.handleCardChange} />)} */}
-                <Button type="button" onClick={this.newCard}>Add Card</Button>
+                {/* <Button type="button" onClick={this.newCard}>Add Card</Button> */}
             </EditDeckContainer>
         );
     }
@@ -107,8 +112,12 @@ class EditDeck extends React.Component {
 export default withRouter(EditDeck);
 
 const EditDeckContainer = styled.div`
-  width: 100%;
-  padding:10px;
+  width: 80%;
+  border: 1px solid ${props => props.theme.dark.main};
+  background: ${props => props.theme.dark.cardBackground};
+  padding: 10px;
+  margin: 10px;
+  border-radius: 20px;
 `;
 
 const Header = styled.h2`
