@@ -58,7 +58,7 @@ DeckList.propTypes = {
 // styles
 
 const Container = styled.div`
-overflow: auto; //comment out this, might fix scrolls
+overflow: auto;
 width: 100%;
 height: 100%;
 margin-left: 100px;
@@ -67,10 +67,6 @@ flex-wrap: wrap;
 justify-content: center;
 align-items: flex-start;
 background: ${props => props.theme.dark.bodyBackground};
-
-/* &::-webkit-scrollbar {
-  display: none;
-} */
 
   @media (max-width: 500px) {
     margin-left: 0;
