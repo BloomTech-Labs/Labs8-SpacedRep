@@ -7,9 +7,7 @@ const Nav = ({
   return (
     <NavContainer id="NavContainer" toggle={toggle} isLoggedIn={isLoggedIn()}>
       <li><a href="#why">Why SpacedReps</a></li>
-      <li><a href="#features">Features</a></li>
       <li><a href="#pricing">Pricing</a></li>
-      <li><a href="#team">Team</a></li>
       {isLoggedIn() ? <DashLink><a href="/dashboard">Dashboard</a></DashLink> : null}
       {isLoggedIn() ? <li><button type="button" onClick={logout}>Sign out</button></li> : <li><button type="button" onClick={login}>Sign in</button></li>}
     </NavContainer>
@@ -21,7 +19,7 @@ export default Nav;
 // styles
 
 const NavContainer = styled.ul`
-width: 70%;
+width: 45%;
 display: flex;
 list-style-type: none;
 justify-content: space-between;
