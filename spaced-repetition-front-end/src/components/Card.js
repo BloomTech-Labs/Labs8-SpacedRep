@@ -211,16 +211,18 @@ class Card extends React.Component {
               </TagsLang>
             </CardTop>
             <CardBottom>
-              <CardInteractions>
-                <FromDeck>
-                  From deck:
-                  <br />
-                  {deckName}
-                </FromDeck>
-                {/* {!disableEdit && <EditButton type="button" onClick={this.toggleEdit}>Edit</EditButton>} */}
-                {!disableEdit && <EditButton onClick={this.toggleEdit}>
-                  <i class="fas fa-pencil-alt" /><p>Edit</p></EditButton>}
-              </CardInteractions>
+              {/* <Bottom> */}
+              <FromDeck>
+                Belongs to <DeckName>{deckName}</DeckName> Deck
+                {/* {deckName} */}
+              </FromDeck>
+              {!disableEdit && (
+                <EditButton type="button" onClick={this.toggleEdit}>
+                  <i class="fas fa-pencil-alt" />
+                  edit card
+                  </EditButton>
+              )}
+              {/* </Bottom> */}
             </CardBottom>
           </CardContainer>
         )
@@ -246,7 +248,7 @@ background: ${props => props.theme.dark.cardBackground};
 
 const CardTop = styled.div`
 width: 100%;
-height: 85%;
+height: 88%;
 padding: 4%;
 
 // div {
@@ -257,12 +259,89 @@ padding: 4%;
 
 const CardBottom = styled.div`
 width: 100%;
-height: 15%;
+height: 12%;
 padding: 2% 4%;
+display: flex;
+justify-content: space-between;
+align-items: baseline;
+font-size: 14px;
 background-color: #2f3d47;
 border-bottom-left-radius: 20px;
 border-bottom-right-radius: 20px;
 `;
+
+const FromDeck = styled.p`
+// color: lightgray;
+// font-size: 14px;
+color: slategray;
+`;
+
+const DeckName = styled.span`
+color: lightseagreen;
+text-decoration: underline;
+cursor: pointer;
+
+&:hover {
+  color: mediumseagreen;
+}
+`;
+
+const EditButton = styled.button`
+text-align: right;
+padding: 0;
+
+height: 25px;
+margin-top: 0;
+/* height: 50px; */
+cursor: pointer;
+/* border-radius: 3px; */
+/* margin-top: 5px; */
+color: lightseagreen;
+background-color: transparent;
+// border-color: transparent;
+border: none;
+
+&:hover {
+  color: mediumseagreen;
+}
+
+i {
+  margin-right: 5px;
+}
+
+// width: 75px;
+// background-color: none;
+// background: none;
+// font-size: 14px;
+// text-align: right;
+// border: none;
+// padding-right: 0;
+          
+// &:hover {
+//   cursor: pointer;
+
+//   i, p {
+//     color: mediumseagreen;
+//   }
+// }
+
+// i {
+//   color: lightseagreen;
+//   margin: 5px;
+// }
+        
+// p {
+//   display: inline-block;
+//   color: lightseagreen;
+// }
+`;
+
+// const Bottom = styled.div`
+// // display: flex;
+// // justify-content: space-between;
+// // align-items: center;
+// // width: 100%;
+// `;
 
 const TagsLang = styled.div`
 // font-size: 14px;
@@ -278,12 +357,6 @@ const TagsLang = styled.div`
 `;
 
 
-const CardInteractions = styled.div`
-// display: flex;
-// justify-content: space-between;
-// align-items: center;
-// width: 100%;
-`;
 
 const Title = styled.p`
 // padding-bottom: 8px;
@@ -393,39 +466,6 @@ const DDlist = styled.ul`
 
 const TextArea = styled.textarea`
 // height: 80px;
-`;
-
-const EditButton = styled.button`
-// width: 75px;
-// background-color: none;
-// background: none;
-// font-size: 14px;
-// text-align: right;
-// border: none;
-// padding-right: 0;
-          
-// &:hover {
-//   cursor: pointer;
-
-//   i, p {
-//     color: mediumseagreen;
-//   }
-// }
-
-// i {
-//   color: lightseagreen;
-//   margin: 5px;
-// }
-        
-// p {
-//   display: inline-block;
-//   color: lightseagreen;
-// }
-`;
-
-const FromDeck = styled.p`
-// color: lightgray;
-// font-size: 14px;
 `;
 
 Card.propTypes = {
