@@ -35,7 +35,9 @@ class Deck extends React.Component {
     axios.delete(`${process.env.REACT_APP_URL}/api/decks/${deckId}`, { headers })
       .then(response => console.log(response.data))
       .catch(error => console.log(error));
+
     history.push('/dashboard/decks');
+    window.location.reload();
   }
 
   handleEditDeck = (e, id) => {
