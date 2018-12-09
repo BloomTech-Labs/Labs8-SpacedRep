@@ -99,15 +99,16 @@ class Deck extends React.Component {
     return (
       !isEditing ?
         <Container onClick={this.handleDeckClick}>
-          <DeckHeader>
-            <Title>{deck.name}</Title>
+          <DeckTop>
+            <DeckHeader>
+              <Title>{deck.name}</Title>
 
-            <NumCards>
-              {deck.cards.length === 1 ? `${deck.cards.length} card` : `${deck.cards.length} cards`}
-            </NumCards>
-          </DeckHeader>
+              <NumCards>
+                {deck.cards.length === 1 ? `${deck.cards.length} card` : `${deck.cards.length} cards`}
+              </NumCards>
+            </DeckHeader>
 
-          <DeckBody>
+
             <ShareContainer>
               <Share onClick={this.handleShare} src={shareIcon} alt="Share" />
             </ShareContainer>
@@ -115,25 +116,27 @@ class Deck extends React.Component {
               <TagCaption> Tags: </TagCaption>
               {this.viewTags(deck.tags)}
             </TagsContainer>
-            <DeckBottom>
-              <TrainingContainer>
-                {/* Routes user to deck training component which handles all
+
+          </DeckTop>
+          <DeckBottom>
+            <TrainingContainer>
+              {/* Routes user to deck training component which handles all
                     of the training logic and flow. */}
-                {!disableTraining && <TrainDeck onClick={this.handleTrain}>Train Deck</TrainDeck>}
-                {!disableDelete && <DeleteDeck onClick={() => this.handleDeleteDeck(deck.id)}>Delete</DeleteDeck>}
-                {!disableEdit && <TrainDeck onClick={(e) => this.handleEditDeck(e, deck.id)}>Edit</TrainDeck>}
-                {!disableTraining && <DueDateContainer>
-                  <DueDate today={today} dueDate={deck.dueDate}>
-                    {new Date(deck.dueDate * DAY_IN_MILLISECONDS).toLocaleDateString()}
-                  </DueDate>
-                  <DateCaption>
-                    next training
+              {!disableTraining && <TrainDeck onClick={this.handleTrain}>Train Deck</TrainDeck>}
+              {!disableDelete && <DeleteDeck onClick={() => this.handleDeleteDeck(deck.id)}>Delete</DeleteDeck>}
+              {!disableEdit && <TrainDeck onClick={(e) => this.handleEditDeck(e, deck.id)}>Edit</TrainDeck>}
+              {!disableTraining && <DueDateContainer>
+                <DueDate today={today} dueDate={deck.dueDate}>
+                  {new Date(deck.dueDate * DAY_IN_MILLISECONDS).toLocaleDateString()}
+                </DueDate>
+                <DateCaption>
+                  next training
                 </DateCaption>
-                </DueDateContainer>
-                }
-              </TrainingContainer>
-            </DeckBottom>
-          </DeckBody>
+              </DueDateContainer>
+              }
+            </TrainingContainer>
+          </DeckBottom>
+
           <ClipboardInput isSharing={sharing} value={shareURL} ref={ClipboardInput => this.clipboardRef = ClipboardInput} />
         </Container>
         :
@@ -170,7 +173,7 @@ export default withRouter(Deck);
 
 // styles
 const Container = styled.div`
-  padding: 20px;
+  padding: 20px 0px 0px 0px;
   margin: 20px;
   width: 50%;
   height: 100%;
@@ -178,6 +181,8 @@ const Container = styled.div`
   background: ${props => props.theme.dark.cardBackground};
   display:flex;
   flex-direction: column;
+  justify-content: space-between;
+  min-width: 250px;
   max-width: 370px;
   max-height: 250px;
   border-radius: 20px;
@@ -192,7 +197,7 @@ const Container = styled.div`
 const DeckHeader = styled.div`
   display: flex;
   justify-content: space-between;
-  padding-bottom: 10px;
+  padding-bottom: 14px;
 `;
 
 const Title = styled.div`
@@ -203,6 +208,11 @@ const Title = styled.div`
 const NumCards = styled.div`
   color: lightgrey;
 `;
+
+const DeckTop = styled.div`
+  padding: 0px 15px 0px 15px;
+`
+
 
 const DeckBody = styled.div`
   display:flex;
@@ -253,7 +263,7 @@ const TrainingContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 20px;
+  /* padding-top: 20px; */
   width:100%;
 `;
 
@@ -405,15 +415,15 @@ const SaveButton = styled.button`
 const DeckBottom = styled.div`
   /* height: 12%; */
 
-  /* width: 100%;
-  padding: 2% 4%;
+  width: 100%;
+  padding: 4% 4%;
   display: flex;
   justify-content: space-between;
   align-items: baseline;
   font-size: 14px;
   background-color: #2f3d47;
   border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px; */
+  border-bottom-right-radius: 20px;
 `;
 
 

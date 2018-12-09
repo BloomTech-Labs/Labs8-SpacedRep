@@ -269,27 +269,29 @@ const FrontSide = styled.div`
     /* background: ${styleProps => styleProps.theme.dark.bodyBackground}; */
     transform: rotateY(180deg);
   `}
+  border-radius: 10px;
 
 `
 
 const BackSide = styled(FrontSide)`
+  visibility: hidden;
   z-index: 10;
   background: ${props => props.theme.dark.bodyBackground};
   transform: rotateY(-180deg);
 
   ${props => props.trained && css`
+    visibility: visible;
     transform: rotateY(0);
   `}
-
-  &:hover {
-    /* backface-visibility: visible; */
-    /* transform: rotateY(0); */
-  }
 `
 
 const TopCard = styled.div`
   padding: 0% 3%;
-  background: ${props => props.theme.dark.bodyBackground};
+  /* background: ${props => props.theme.dark.bodyBackground}; */
+  /* border: 1px solid blue; */
+
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 `
 
 const BottomCard = styled.div`
@@ -316,7 +318,6 @@ const MainCardContainer = styled(CardContainer)`
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-
 `;
 
 const CardModal = styled.div`
@@ -325,7 +326,6 @@ const CardModal = styled.div`
   width: 100%;
   margin: 232px auto;
   /* padding: 1% 2% 0% 2%; */
-
 
   @media (max-width: 700px) {
     width: 90%; /* gives margin to left/right when screen gets smaller */
@@ -430,6 +430,7 @@ const ProgressText = styled.p`
   text-align: center;
   font-size: 14px;
   padding: 10px;
+  color: lightgrey;
 `;
 
 const NextCardProgressText = styled(ProgressText)`
