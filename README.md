@@ -1,4 +1,4 @@
-# Labs8 Spaced Repetition
+# Labs8 Spaced Repetition [![Build Status](https://travis-ci.com/Lambda-School-Labs/Labs8-SpacedRep.svg?branch=master)](https://travis-ci.com/Lambda-School-Labs/Labs8-SpacedRep)
 
 ## Links
 
@@ -10,17 +10,17 @@
 
 Team Members
 
-- Drew Moody
+- [Drew Moody](https://github.com/DrewMoody)
 
-- Gabriel Duquette
+- [Gabriel Duquette](https://github.com/affordances)
 
-- Saxon Hunt
+- [Saxon Hunt](https://github.com/noxasaxon)
 
-- Megan Williamson
+- [Megan Williamson](https://github.com/gooseandmegander)
 
 Project Manager
 
-- Keith Haag
+- [Keith Haag](https://github.com/kkhaag)
 
 ## Dependencies and Environment
 
@@ -28,89 +28,66 @@ This project was built using yarn v1.12.1 and node v10.13.0.
 
 ### Back end dependencies (production)
 
-- "chai": "^4.2.0",
+- [chai](https://www.npmjs.com/package/chai)
 
-- "chai-http": "^4.2.0",
+- [cors](https://www.npmjs.com/package/cors)
 
-- "cors": "^2.8.4",
+- [dotenv](https://www.npmjs.com/package/dotenv)
 
-- "dotenv": "^6.1.0",
+- [express](https://www.npmjs.com/package/express)
 
-- "express": "^4.16.4",
+- [express-jwt](https://www.npmjs.com/package/express-jwt)
 
-- "express-jwt": "5.3.1",
+- [helmet](https://www.npmjs.com/package/helmet)
 
-- "express-jwt-authz": "^1.0.0",
+- [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
 
-- "helmet": "^3.14.0",
+- [knex](https://www.npmjs.com/package/knex)
 
-- "jsonwebtoken": "^8.4.0",
+- [mocha](https://www.npmjs.com/package/mocha)
 
-- "jwks-rsa": "^1.3.0",
+- [pg](https://www.npmjs.com/package/pg)
 
-- "knex": "^0.15.2",
+- [sinon](https://www.npmjs.com/package/sinon)
 
-- "mocha": "^5.2.0",
-
-- "pg": "^7.6.0",
-
-- "sinon": "^7.1.1",
-
-- "stripe": "^6.15.0"
+- [stripe](https://www.npmjs.com/package/stripe)
 
 ### Back end dependencies (development)
 
-- "nodemon": "^1.18.6"
+- [nodemon](https://www.npmjs.com/package/nodemon)
 
 ### Front end dependencies (production)
 
-- "auth0-js": "^9.8.1",
+- [auth0-js](https://www.npmjs.com/package/auth0-js)
 
-- "auth0-lock": "^11.11.0",
+- [axios](https://www.npmjs.com/package/axios)
 
-- "axios": "^0.18.0",
+- [dotenv](https://www.npmjs.com/package/dotenv)
 
-- "dotenv": "^6.1.0",
+- [history](https://www.npmjs.com/package/history)
 
-- "history": "^4.7.2",
+- [prop-types](https://www.npmjs.com/package/prop-types)
 
-- "prop-types": "^15.6.2",
+- [react-highlight.js](https://www.npmjs.com/package/react-highlight.js)
 
-- "react": "^16.6.0",
+- [react-modal](https://www.npmjs.com/package/react-modal)
 
-- "react-dom": "^16.6.0",
+- [react-router](https://www.npmjs.com/package/react-router)
 
-- "react-highlight.js": "^1.0.7",
+- [react-stripe-elements](https://www.npmjs.com/package/react-stripe-elements)
 
-- "react-modal": "^3.6.1",
-
-- "react-router": "^4.3.1",
-
-- "react-router-dom": "^4.3.1",
-
-- "react-scripts": "2.1.1",
-
-- "react-stripe-elements": "^2.0.1",
-
-- "styled-components": "^4.1.1"
+- [styled-components](https://www.npmjs.com/package/styled-components)
 
 ### Front end dependencies (development)
 
-- "eslint": "^5.8.0",
-
-- "eslint-config-airbnb": "^17.1.0",
-
-- "eslint-plugin-import": "^2.14.0",
-
-- "eslint-plugin-jsx-a11y": "^6.1.2",
-
-- "eslint-plugin-react": "^7.11.1"
+- [eslint-config-airbnb](https://www.npmjs.com/package/eslint-config-airbnb)
 
 # API Documentation
 
-## Third-Party APIs
+## Third-Party APIs and libraries
 
-Stripe
+[Stripe](https://stripe.com/docs/api)
+[Highlight.js](https://highlightjs.org/)
 
 ## Backend API
 
