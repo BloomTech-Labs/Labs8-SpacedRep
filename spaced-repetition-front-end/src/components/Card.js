@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Highlight from 'react-highlight.js';
 import styled from 'styled-components';
 import axios from 'axios';
 
@@ -19,18 +20,6 @@ class Card extends React.Component {
     language: '',
     tags: '',
   };
-
-
-  componentDidMount = () => {
-    const { card, decks } = this.props;
-
-    // console.log(card)
-    this.setState({
-      title: card.title, question: card.question, answer: card.answer, language: card.language, selectedDeck: card.deck_id,
-    });
-    // const deckNames = grabDeckInfo();
-    // this.setState({ deckNames }, () => console.log('deckNames', deckNames));
-  }
 
   handleChange = (e) => {
     const { name, value } = e.target;
@@ -172,10 +161,12 @@ class Card extends React.Component {
 
   render() {
     const { card, deckName, disableEdit } = this.props;
+    const {
+      qContentType, aContentType, qFilteredContent, aFilteredContent,
+    } = card;
     // const { tags } = card;
     const tags = ['js', 'css', 'plaintext'];
     const { isEditing } = this.state;
-
     return (
 
       isEditing
@@ -189,11 +180,30 @@ class Card extends React.Component {
               <Body>
                 <BodyGroup>
                   <Label>Question:</Label>
-                  <Text>{card.question}</Text>
+
+                  {qFilteredContent.map((content, i) => {
+                    if (qContentType[i] === 'txt') {
+                      return <Text key={`${i + qContentType[i]}`}>{content}</Text>;
+                    }
+                    return (
+                      <Highlight key={`${i + qContentType[i]}`} language={card.language}>
+                        {content}
+                      </Highlight>
+                    );
+                  })}
                 </BodyGroup>
                 <BodyGroup bottom>
                   <Label> Answer: </Label>
-                  <Text>{card.answer}</Text>
+                  {aFilteredContent.map((content, i) => {
+                    if (aContentType[i] === 'txt') {
+                      return <Text key={`${i + qContentType[i]}`}>{content}</Text>;
+                    }
+                    return (
+                      <Highlight key={`${i + qContentType[i]}`} language={card.language}>
+                        {content}
+                      </Highlight>
+                    );
+                  })}
                 </BodyGroup>
               </Body>
               <TagsLang id="tagslang">

@@ -73,7 +73,7 @@ class App extends Component {
       profile: null,
       cardsToUpdate: [],
       serverUpdateTimer: null,
-      errorMessage: '', // better to add redux or pass the same error props everywhere?
+      errorMessage: '',
     };
   }
 

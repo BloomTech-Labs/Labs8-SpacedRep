@@ -1,22 +1,30 @@
 import React, { Component } from 'react';
+// import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import handleCardSnippets from '../snippets';
 import Card from './Card';
 import CardListTools from './CardListTools';
 // import CardInputs from './CardInputs';
 import AddCard from './AddCard';
 
-
-//FIX: if 1 or 2 cards, the card's height is way too much and looks terrible
 class CardList extends Component {
   state = {
     addNewCard: false,
-    // deckArr: [],
+    // formattedDeck: [],
   };
 
-  componentDidMount = () => {
-    window.scrollTo(0, 0);
-  }
+  // componentDidMount = () => {
+  //   const { deck } = this.props;
+  //   const formattedDeck = [];
+
+  //   deck.cards.forEach((card) => {
+  //     const formattedCard = handleCardSnippets(card);
+  //     formattedDeck.push(formattedCard);
+  //   });
+
+  //   this.setState({ formattedDeck });
+  // }
 
 
   handleAddCard = () => {
@@ -41,7 +49,7 @@ class CardList extends Component {
 
   render() {
     const { decks } = this.props;
-    const { addNewCard, deckArr } = this.state;
+    const { addNewCard } = this.state;
     return (
       <CardListContainer id="CardListContainer">
         <CardListTools addNewCard={this.handleAddCard} />
@@ -50,7 +58,8 @@ class CardList extends Component {
 
         {decks.length > 0 && decks.map((deck) => {
           return deck.cards.map((card) => {
-            return <Card key={card.id} card={card} deckName={deck.name} decks={decks} />;
+            const formattedCard = handleCardSnippets(card);
+            return <Card key={card.id} card={formattedCard} deckName={deck.name} decks={decks} />;
           });
         })}
         {/* </div> */}
