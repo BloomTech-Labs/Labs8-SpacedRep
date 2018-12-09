@@ -87,6 +87,7 @@ This project was built using yarn v1.12.1 and node v10.13.0.
 ## Third-Party APIs and libraries
 
 [Stripe](https://stripe.com/docs/api)
+
 [Highlight.js](https://highlightjs.org/)
 
 ## Backend API
