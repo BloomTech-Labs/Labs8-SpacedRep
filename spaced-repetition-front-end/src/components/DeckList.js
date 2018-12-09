@@ -68,11 +68,15 @@ justify-content: center;
 align-items: flex-start;
 background: ${props => props.theme.dark.bodyBackground};
 
-@media (max-width: 500px) {
-  margin-left: 0;
-  margin-top: 65px;
-  padding-top: 15px;
-}
+/* &::-webkit-scrollbar {
+  display: none;
+} */
+
+  @media (max-width: 500px) {
+    margin-left: 0;
+    margin-top: 65px;
+    padding-top: 15px;
+  }
 `;
 
 const DeckListContainer = styled.div`
