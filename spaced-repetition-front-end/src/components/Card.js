@@ -182,20 +182,49 @@ class Card extends React.Component {
         ? this.editCard()
         : (
           <CardContainer>
-            <Title>
-              {card.title}
-            </Title>
-            <LineContainer><LineDescription> Question: </LineDescription> <LineItem>{card.question}</LineItem></LineContainer>
-            <LineContainer><LineDescription> Answer: </LineDescription> <LineItem> {card.answer} </LineItem> </LineContainer>
-            <LineContainer><LineDescription>Language: </LineDescription> <LineItem> {card.language}</LineItem></LineContainer>
-            <LineDescription>Tags:</LineDescription>
-            <TagsContainer>
-              {tags && tags.map(tag => <p key={tag}>{tag}</p>)}
-            </TagsContainer>
-            <CardInteractions>
-              <p>{`From deck: ${deckName}`}</p>
-              {!disableEdit && <EditButton type="button" onClick={this.toggleEdit}>Edit</EditButton>}
-            </CardInteractions>
+            <CardTop>
+              <Title>
+                {card.title}
+              </Title>
+              <Body>
+                <BodyGroup>
+                  <Label>Question:</Label>
+                  <Text>{card.question}</Text>
+                </BodyGroup>
+                <BodyGroup bottom>
+                  <Label> Answer: </Label>
+                  <Text>{card.answer}</Text>
+                </BodyGroup>
+              </Body>
+              <TagsLang id="tagslang">
+                <List>
+                  <Item pb><Label>Language: </Label></Item>
+                  <Item>
+                    <Tag>
+                      {card.language ? card.language : 'none'}
+                    </Tag>
+                  </Item>
+                  <Item pb><Label>Tags: </Label></Item>
+                  {tags ? tags.map(tag => <Item><Tag key={tag}>{tag}</Tag></Item>) : null}
+                </List>
+              </TagsLang>
+            </CardTop>
+            <CardBottom>
+              <FromDeck>
+                Belongs to
+                {/* The {' '} corrects the spacing issue */}
+                {' '}
+                <DeckName>{deckName}</DeckName>
+                {' '}
+                Deck
+              </FromDeck>
+              {!disableEdit && (
+                <EditButton type="button" onClick={this.toggleEdit}>
+                  <i className="fas fa-pencil-alt" />
+                  edit card
+                </EditButton>
+              )}
+            </CardBottom>
           </CardContainer>
         )
     );
@@ -207,131 +236,191 @@ export default Card;
 // styles
 
 const CardContainer = styled.div`
-  /* display:flex; */
-  /* flex-direction: column; */
-  width: 315px;
-  margin: 2%;
-  padding: 2%;
-  /* border: 1px solid ${props => props.theme.dark.sidebar}; */
-  border: 1px solid ${props => props.theme.dark.main};
-  background: ${props => props.theme.dark.cardBackground};
+box-shadow: 2px 2px 10px 0px black;
+border-radius: 20px;
+width: 100%;
+max-width: 415px;
+height: 100%;
+max-height: 370px;
+margin: 2%;
+border: 1px solid ${props => props.theme.dark.main};
+background: ${props => props.theme.dark.cardBackground};
 `;
 
-const CardInteractions = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-`;
-
-const Title = styled.p`
-  padding-bottom: 8px;
-  font-size: 22px;
-  font-weight: bold;
-`
-
-const LineContainer = styled.p`
-  padding: 4px 0px 4px 0px;
-`
-
-const LineDescription = styled.span`
-  font-weight: bold;
-`
-
-const LineItem = styled.span``
-
-const TagsContainer = styled.div`
-  display: flex;
-  p {
-    /* border: 1px solid black; */
-    padding: 2%;
-    margin: 2%;
-  }
-`;
-
-
-// ////////////edit
-const EditCard = styled.form`
-  color: white;
-  padding: 10px;
-  margin: 10px;
-  border: 1px solid ${props => props.theme.dark.sidebar};
-  background: ${props => props.theme.dark.sidebar};
-`;
-const HeaderContainer = styled.div`
-  display: flex;
-  justify-content:space-between;
-  align-items: center;
-  /* align-content:center; */
-  width: 100%;
-  margin-bottom: 5px;
-`;
-const Instructions = styled.h3`
-  padding: 0px;
-  margin: 0px;
-
-`;
-const Cancel = styled.button`
-  border: none;
-  background: none;
-  color: lightgrey;
-  font-weight: bold;
-
-  height: 26px;
-  margin: 0px;
-
-  &:hover {
-    background: grey;
-  }
-  /* width: 100px; */
-`;
-const SaveButton = styled.button`
-    ${props => props.theme.dark.buttons.base}
-  &:hover {
-    background: ${props => props.theme.dark.logo};
-    cursor: pointer;
-  }
-`;
-
-const DDWrapper = styled.div`
-  color: white;
-`;
-
-const DDTitleBox = styled.div`
-  border: 1px solid gray;
-  padding: 4%;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-`;
-
-const DDlist = styled.ul`
-border: 1px solid gray;
+const CardTop = styled.div`
+width: 100%;
+height: 88%;
 padding: 4%;
-display: -webkit-box;
-display: -webkit-flex;
-display: -ms-flexbox;
-width: 274px;
-margin: -10px 0 10px 0;
-margin-bottom: 10px;
-list-style-type: none;
-flex-direction: column;
 `;
 
-const TextArea = styled.textarea`
-  height: 80px;
+const Title = styled.h2`
+height: 10%;
+font-size: 22px;
+font-weight: bold;
+`;
+
+const Body = styled.div`
+height: 70%;
+display: flex;
+flex-direction: column;
+justify-content: space-around;
+line-height: 1.2;
+`;
+
+const BodyGroup = styled.div`
+margin-bottom: ${props => props.bottom ? '15px' : null};
+`;
+
+const Label = styled.h3`
+font-weight: bold;
+letter-spacing: 0.5px;
+`;
+
+const Text = styled.p`
+`;
+
+const TagsLang = styled.div`
+height: 20%;
+display: flex;
+flex-wrap: wrap;
+font-size: 14px;
+color: lightgray;
+`;
+
+const Item = styled.li`
+padding-bottom: ${props => props.pb ? '8px' : null};
+`;
+
+const List = styled.ul`
+width: 100%;
+display: flex;
+flex-wrap: wrap;
+align-items: flex-end;
+justify-content: space-between;
+`;
+
+const Tag = styled(Text)`
+padding: 7px 10px 8px 10px;
+margin-right: 5px;
+background: ${props => props.theme.dark.main};
+border-radius: 2px 10px 10px;`;
+
+const CardBottom = styled.div`
+width: 100%;
+height: 12%;
+padding: 2% 4%;
+display: flex;
+justify-content: space-between;
+align-items: baseline;
+font-size: 14px;
+background-color: #2f3d47;
+border-bottom-left-radius: 20px;
+border-bottom-right-radius: 20px;
+`;
+
+const FromDeck = styled.p`
+color: slategray;
+`;
+
+const DeckName = styled.span`
+color: lightseagreen;
+text-decoration: underline;
+cursor: pointer;
+
+&:hover {
+  color: mediumseagreen;
+}
 `;
 
 const EditButton = styled.button`
-  ${props => props.theme.dark.buttons.base}
-  &:hover {
-    background: ${props => props.theme.dark.logo};
-    cursor: pointer;
-  }
-  
-`
+height: 25px;
+margin-top: 0;
+padding: 0;
+text-align: right;
+color: lightseagreen;
+cursor: pointer;
+background-color: transparent;
+border: none;
 
+&:hover {
+  color: mediumseagreen;
+}
 
+i {
+  margin-right: 5px;
+}
+`;
+
+const EditCard = styled.form`
+// color: white;
+// padding: 10px;
+// margin: 10px;
+// border: 1px solid ${props => props.theme.dark.sidebar};
+// background: ${props => props.theme.dark.sidebar};
+`;
+
+const HeaderContainer = styled.div`
+// display: flex;
+// justify-content:space-between;
+// align-items: center;
+// width: 100%;
+// margin-bottom: 5px;
+`;
+
+const Instructions = styled.h3`
+// padding: 0px;
+// margin: 0px;
+`;
+
+const Cancel = styled.button`
+// border: none;
+// background: none;
+// color: lightgrey;
+// font-weight: bold;
+// height: 26px;
+// margin: 0px;
+
+// &:hover {
+//   background: grey;
+// }
+`;
+
+const SaveButton = styled.button`
+// ${props => props.theme.dark.buttons.base}
+// &:hover {
+//   background: ${props => props.theme.dark.logo};
+//   cursor: pointer;
+// }
+`;
+
+const DDWrapper = styled.div`
+// color: white;
+`;
+
+const DDTitleBox = styled.div`
+// border: 1px solid gray;
+// padding: 4%;
+// display: flex;
+// justify-content: space-between;
+// margin-bottom: 10px;
+`;
+
+const DDlist = styled.ul`
+// border: 1px solid gray;
+// padding: 4%;
+// display: -webkit-box;
+// display: -webkit-flex;
+// display: -ms-flexbox;
+// width: 274px;
+// margin: -10px 0 10px 0;
+// margin-bottom: 10px;
+// list-style-type: none;
+// flex-direction: column;
+`;
+
+const TextArea = styled.textarea`
+// height: 80px;
+`;
 
 Card.propTypes = {
   card: PropTypes.instanceOf(Object).isRequired,
