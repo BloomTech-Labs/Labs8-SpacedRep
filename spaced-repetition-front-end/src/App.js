@@ -301,7 +301,7 @@ class App extends Component {
               path="/dashboard/decks/:deckId/train/:id/delete"
               render={props => <DeleteCardModal deleteCard={this.handleCardDeletion} {...props} />}
             />
-            <Route exact path="/share/deck/:id" render={props => <ImportDeck {...props} />} />
+            <Route exact path="/dashboard/share/deck/:id" render={props => <ImportDeck {...props} />} />
           </Wrapper>
         </Switch>
 

@@ -22,14 +22,14 @@ class Wrapper extends React.Component {
     return (
       <React.Fragment id="WC">
         {/* If the user is authenticated, render: */}
-        {auth.isAuthenticated() && (
+        {auth.isAuthenticated() ? (
           <BodyContainer>
             <Sidebar />
             {children}
           </BodyContainer>
-        )}
-        {/* If the user is not authenticated, render: */}
-        {!auth.isAuthenticated() && <h1>You are not logged in!</h1>}
+        )
+          : <h1>You are not logged in!</h1>
+        }
       </React.Fragment>
     );
   }

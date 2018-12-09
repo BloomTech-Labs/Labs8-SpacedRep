@@ -114,6 +114,7 @@ const TrainingContainer = styled.div`
 
 const TrainingHeader = styled.h2`
 `;
+
 TrainDeck.defaultProps = {
   deck: null,
 };

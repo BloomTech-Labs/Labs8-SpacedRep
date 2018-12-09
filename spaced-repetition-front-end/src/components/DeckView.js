@@ -52,7 +52,7 @@ class CardList extends Component {
       <DeckViewContainer>
         <Header>
           <CardListTools addNewCard={this.handleAddCard} />
-          <Deck deck={deck} today={today} />
+          <Deck deck={deck} today={today} disableDelete disableTraining />
         </Header>
 
 
