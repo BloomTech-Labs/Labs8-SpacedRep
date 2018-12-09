@@ -187,8 +187,6 @@ class Card extends React.Component {
               <Title>
                 {card.title}
               </Title>
-
-
               <Body>
                 <BodyGroup>
                   <Label>Question:</Label>
@@ -201,19 +199,17 @@ class Card extends React.Component {
               </Body>
 
 
-
               <TagsLang id="tagslang">
-                <p>
-                  <span>Language:{' '}</span>
-                  {card.language}
-                </p>
-                <TagsContainer>
-                  {/* <span>Tags:</span> */}
-                  <div>
-                    {tags && tags.map(tag => <p key={tag}>{tag}</p>)}
-                  </div>
-                </TagsContainer>
+                <List>
+                  <Item pb><Label>Language: </Label></Item>
+                  <Item ><Tag>{card.language}</Tag></Item>
+                  <Item pb><Label>Tags: </Label></Item>
+                  {tags ? tags.map(tag => <Item><Tag key={tag}>{tag}</Tag></Item>) : null}
+                </List>
               </TagsLang>
+
+
+
             </CardTop>
             <CardBottom>
               <FromDeck>
@@ -257,16 +253,10 @@ const CardTop = styled.div`
 width: 100%;
 height: 88%;
 padding: 4%;
-
-// div {
-// padding: 3% 0;
-// height: 65%;
-// }
 `;
 
 const Title = styled.h2`
 height: 10%;
-// border: 1px solid pink; // temp
 font-size: 22px;
 font-weight: bold;
 `;
@@ -277,7 +267,6 @@ display: flex;
 flex-direction: column;
 justify-content: space-around;
 line-height: 1.2;
-// border: 1px solid pink; // temp
 `;
 
 const BodyGroup = styled.div`
@@ -285,34 +274,38 @@ margin-bottom: ${props => props.bottom ? '15px' : null};
 `;
 
 const Label = styled.h3`
-// padding: 4px 0px 4px 0px;
 font-weight: bold;
 letter-spacing: 0.5px;
 `;
 
 const Text = styled.p`
-// font-weight: bold;
-// display: block;
-// width: 25%;
-// padding-bottom: 4px;
-// border-bottom: 2px solid mediumseagreen;
 `;
 
 const TagsLang = styled.div`
 height: 20%;
-border: 1px solid pink;
-
-// font-size: 14px;
-// color: lightgray;
-
-// p {
-//   span {
-//     font-weight: bold;
-//     margin-bottom: 8px;
-//     padding-bottom: 4px;
-//   }
-// }
+display: flex;
+flex-wrap: wrap;
+font-size: 14px;
+color: lightgray;
 `;
+
+const Item = styled.li`
+padding-bottom: ${props => props.pb ? '8px' : null};
+`;
+
+const List = styled.ul`
+width: 100%;
+display: flex;
+flex-wrap: wrap;
+align-items: flex-end;
+justify-content: space-between;
+`;
+
+const Tag = styled(Text)`
+padding: 7px 10px 8px 10px;
+margin-right: 5px;
+background: ${props => props.theme.dark.main};
+border-radius: 2px 10px 10px;`;
 
 const CardBottom = styled.div`
 width: 100%;
@@ -358,34 +351,6 @@ border: none;
 i {
   margin-right: 5px;
 }
-`;
-
-// const Bottom = styled.div`
-// // display: flex;
-// // justify-content: space-between;
-// // align-items: center;
-// // width: 100%;
-// `;
-
-
-const TagsContainer = styled.div`
-// display: flex;
-
-// div {
-//   display: flex;
-//   flex-wrap: wrap;
-
-//   &::before {
-//     content: 'Tags: ';
-//   }
-// }
-
-// p {
-//   padding: 7px 10px 8px 10px;
-//   margin-right: 5px;
-//   background: ${props => props.theme.dark.main};
-//   border-radius: 2px 10px 10px;
-// }
 `;
 
 const EditCard = styled.form`
