@@ -211,10 +211,12 @@ class Card extends React.Component {
               </TagsLang>
             </CardTop>
             <CardBottom>
-              {/* <Bottom> */}
               <FromDeck>
                 Belongs to
+                {/* The {' '} corrects the spacing issue */}
+                {' '}
                 <DeckName>{deckName}</DeckName>
+                {' '}
                 Deck
               </FromDeck>
               {!disableEdit && (
@@ -223,7 +225,6 @@ class Card extends React.Component {
                   edit card
                 </EditButton>
               )}
-              {/* </Bottom> */}
             </CardBottom>
           </CardContainer>
         )
