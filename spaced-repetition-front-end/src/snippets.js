@@ -8,7 +8,7 @@ const handleCardSnippets = (card) => {
 
     const filteredContent = [];
     content.forEach((element) => {
-      if (element !== '') filteredContent.push(element);
+      if (element !== ' ' && element !== '') filteredContent.push(element);
     });
 
     //   // if data starts with text
@@ -19,6 +19,7 @@ const handleCardSnippets = (card) => {
 
     for (let i = 0; i < data.length; i += 1) {
       const substr = data.substring(i, i + 3);
+      console.log(substr)
 
       // if the current index + next 2 chars are ```, add to cache
       if (substr === trigger) {
@@ -27,6 +28,15 @@ const handleCardSnippets = (card) => {
         if (cache.includes('code')) {
           contentType.push('code');
           cache = [];
+          console.log('next', data.substring(i + 3, i + 6), i + 3, i + 6)
+          if (data.substring(i + 3, i + 6) === trigger) {
+            cache.push('code');
+            i = i + 7;
+          } else if (data.substring(i + 3, i + 6) !== trigger && data.substring(i + 3, i + 6) !== '' && data.substring(i + 3, i + 6) !== ' ``' && data.substring(i + 3, i + 6) !== '  `') {
+            contentType.push('txt');
+            i = i + 7;
+            console.log('ct', contentType)
+          }
         } else {
           // beginning of code snippet
           cache.push('code');
@@ -46,7 +56,7 @@ const handleCardSnippets = (card) => {
   const answerData = abstractSnippet('answer', answer);
 
   // assign formatted data to card for passing as prop
-  const formattedCard = card; // eslint fix...
+  const formattedCard = card;
   formattedCard.qFilteredContent = questionData.filteredContent;
   formattedCard.aFilteredContent = answerData.filteredContent;
   formattedCard.qContentType = questionData.contentType;
@@ -55,4 +65,22 @@ const handleCardSnippets = (card) => {
   return formattedCard;
 };
 
+
 export default handleCardSnippets;
+
+// tests
+// const simpleCard = { question: "Hello", answer: "Answer"}; //Good
+// const snippetInFirst = { question: "```Snippet```", answer: "Answer"}; //Good
+// const consecutiveSnippets = { question: "```SnippetA``````SnippbetB```", answer: "Answer"}; //Good
+// const snippetInLast = { question: "This has a snippet next. ```SnippbetB```", answer: "Answer"}; //Good
+// const consecutiveSnippetsSpace = { question: "```SnippetA``` ```SnippbetB```", answer: "Answer"}; //Good
+// const codetxtcode = {question: "```SnippetA``` This is some text.```SnippbetB```", answer: "Answer"} //Good
+// const txtcodetxtcode = {question: "Hi```SnippetA``` This is some text.```SnippbetB```", answer: "Answer"} //Good
+
+// console.log(handleCardSnippets(simpleCard));
+// console.log(handleCardSnippets(snippetInFirst));
+// console.log(handleCardSnippets(consecutiveSnippets));
+// console.log(handleCardSnippets(snippetInLast));
+// console.log(handleCardSnippets(consecutiveSnippetsSpace));
+// console.log(handleCardSnippets(codetxtcode));
+// console.log(handleCardSnippets(txtcodetxtcode));

@@ -167,6 +167,7 @@ class Card extends React.Component {
     // const { tags } = card;
     const tags = ['js', 'css', 'plaintext'];
     const { isEditing } = this.state;
+    console.log('card', card);
     return (
 
       isEditing
@@ -196,7 +197,7 @@ class Card extends React.Component {
                   <Label> Answer: </Label>
                   {aFilteredContent.map((content, i) => {
                     if (aContentType[i] === 'txt') {
-                      return <Text key={`${i + qContentType[i]}`}>{content}</Text>;
+                      return <Text spacing key={`${i + qContentType[i]}`}>{content}</Text>;
                     }
                     return (
                       <Highlight key={`${i + qContentType[i]}`} language={card.language}>
@@ -215,7 +216,7 @@ class Card extends React.Component {
                     </Tag>
                   </Item>
                   <Item pb><Label>Tags: </Label></Item>
-                  {tags ? tags.map(tag => <Item><Tag key={tag}>{tag}</Tag></Item>) : null}
+                  {tags ? tags.map(tag => <Item key={tag}><Tag>{tag}</Tag></Item>) : null}
                 </List>
               </TagsLang>
             </CardTop>
@@ -278,7 +279,17 @@ line-height: 1.2;
 `;
 
 const BodyGroup = styled.div`
-margin-bottom: ${props => props.bottom ? '15px' : null};
+margin-top: ${props => props.bottom ? '10px' : null};
+
+code {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: 8px 0;
+  background-color: #212b31;
+  border-radius: 3px;
+  box-shadow: inset 1px 1px 2px black;
+}
 `;
 
 const Label = styled.h3`

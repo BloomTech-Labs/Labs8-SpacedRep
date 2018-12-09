@@ -57,9 +57,9 @@ class CardList extends Component {
         {/* <div id="cardlistcontainer"> */}
 
         {decks.length > 0 && decks.map((deck) => {
-          return deck.cards.map((card) => {
+          return deck.cards.map((card, i) => {
             const formattedCard = handleCardSnippets(card);
-            return <Card key={card.id} card={formattedCard} deckName={deck.name} decks={decks} />;
+            return <Card key={`${card.id} ${card.title}`} card={formattedCard} deckName={deck.name} decks={decks} />;
           });
         })}
         {/* </div> */}
