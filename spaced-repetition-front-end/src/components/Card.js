@@ -183,7 +183,6 @@ class Card extends React.Component {
         : (
           <CardContainer>
             <CardTop>
-
               <Title>
                 {card.title}
               </Title>
@@ -197,19 +196,18 @@ class Card extends React.Component {
                   <Text>{card.answer}</Text>
                 </BodyGroup>
               </Body>
-
-
               <TagsLang id="tagslang">
                 <List>
                   <Item pb><Label>Language: </Label></Item>
-                  <Item ><Tag>{card.language}</Tag></Item>
+                  <Item>
+                    <Tag>
+                      {card.language ? card.language : 'none'}
+                    </Tag>
+                  </Item>
                   <Item pb><Label>Tags: </Label></Item>
                   {tags ? tags.map(tag => <Item><Tag key={tag}>{tag}</Tag></Item>) : null}
                 </List>
               </TagsLang>
-
-
-
             </CardTop>
             <CardBottom>
               <FromDeck>
