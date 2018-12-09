@@ -213,14 +213,15 @@ class Card extends React.Component {
             <CardBottom>
               {/* <Bottom> */}
               <FromDeck>
-                Belongs to <DeckName>{deckName}</DeckName> Deck
-                {/* {deckName} */}
+                Belongs to
+                <DeckName>{deckName}</DeckName>
+                Deck
               </FromDeck>
               {!disableEdit && (
                 <EditButton type="button" onClick={this.toggleEdit}>
-                  <i class="fas fa-pencil-alt" />
+                  <i className="fas fa-pencil-alt" />
                   edit card
-                  </EditButton>
+                </EditButton>
               )}
               {/* </Bottom> */}
             </CardBottom>
@@ -271,8 +272,6 @@ border-bottom-right-radius: 20px;
 `;
 
 const FromDeck = styled.p`
-// color: lightgray;
-// font-size: 14px;
 color: slategray;
 `;
 
@@ -287,18 +286,13 @@ cursor: pointer;
 `;
 
 const EditButton = styled.button`
-text-align: right;
-padding: 0;
-
 height: 25px;
 margin-top: 0;
-/* height: 50px; */
-cursor: pointer;
-/* border-radius: 3px; */
-/* margin-top: 5px; */
+padding: 0;
+text-align: right;
 color: lightseagreen;
+cursor: pointer;
 background-color: transparent;
-// border-color: transparent;
 border: none;
 
 &:hover {
@@ -308,32 +302,6 @@ border: none;
 i {
   margin-right: 5px;
 }
-
-// width: 75px;
-// background-color: none;
-// background: none;
-// font-size: 14px;
-// text-align: right;
-// border: none;
-// padding-right: 0;
-          
-// &:hover {
-//   cursor: pointer;
-
-//   i, p {
-//     color: mediumseagreen;
-//   }
-// }
-
-// i {
-//   color: lightseagreen;
-//   margin: 5px;
-// }
-        
-// p {
-//   display: inline-block;
-//   color: lightseagreen;
-// }
 `;
 
 // const Bottom = styled.div`
