@@ -251,8 +251,8 @@ box-shadow: 2px 2px 10px 0px black;
 border-radius: 20px;
 width: 100%;
 max-width: 415px;
-height: 100%;
-max-height: 370px;
+/* height: 100%; */
+/* max-height: 370px; */
 margin: 2%;
 border: 1px solid ${props => props.theme.dark.main};
 background: ${props => props.theme.dark.cardBackground};
@@ -268,6 +268,8 @@ const Title = styled.h2`
 height: 10%;
 font-size: 22px;
 font-weight: bold;
+padding-bottom: 10px;
+margin-bottom: 4px;
 `;
 
 const Body = styled.div`
@@ -294,7 +296,11 @@ code {
 
 const Label = styled.h3`
 font-weight: bold;
+height: 20px;
+padding-top: 5px;
 letter-spacing: 0.5px;
+color: lightgrey;
+padding-bottom: 3px;
 `;
 
 const Text = styled.p`
