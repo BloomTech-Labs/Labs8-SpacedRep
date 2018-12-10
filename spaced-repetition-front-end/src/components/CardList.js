@@ -18,15 +18,18 @@ class CardList extends Component {
     window.scrollTo(0, 0);
   }
 
+  countCards = (decksArray) => {
+    let cardCount;
+    for (let i = 0; i < decksArray.length; i++) {
+      cardCount += decksArray[i].cards.length;
+    }
+    return cardCount;
+  }
 
   handleAddCard = () => {
     const { profile, decks, history } = this.props;
     if (decks.length === 0) history.push('/dashboard/decks');
-    let cardCount;
-    for (let i = 0; i < decks.length; i++) {
-      cardCount += decks[i].cards.length;
-    }
-    if (profile.tier === 'free' && cardCount >= 150) {
+    if (profile.tier === 'free' && this.countCards(decks) >= 150) {
       this.setState({ modalIsOpen: true });
       return;
     }
@@ -54,8 +57,14 @@ class CardList extends Component {
   }
 
   render() {
-    const { decks } = this.props;
+    const { decks, profile } = this.props;
     const { addNewCard, modalIsOpen } = this.state;
+    let allowedDecks;
+    if (profile && profile.tier === 'free') {
+      allowedDecks = decks.slice(0, 3);
+    } else {
+      allowedDecks = decks;
+    }
     return (
       <CardListContainer id="CardListContainer">
         <ModalWrapper isOpen={modalIsOpen} onRequestClose={this.closeModal}>
@@ -73,9 +82,9 @@ class CardList extends Component {
         {addNewCard && <AddCard grabDeckInfo={this.handleDeckData} toggleAddCard={this.handleAddCard} />}
         {/* <div id="cardlistcontainer"> */}
 
-        {decks.length > 0 && decks.map((deck) => {
+        {allowedDecks.length > 0 && allowedDecks.map((deck) => {
           return deck.cards.map((card) => {
-            return <Card key={card.id} card={card} deckName={deck.name} decks={decks} />;
+            return <Card key={card.id} card={card} deckName={deck.name} decks={allowedDecks} />;
           });
         })}
         {/* </div> */}

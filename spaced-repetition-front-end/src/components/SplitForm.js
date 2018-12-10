@@ -62,6 +62,7 @@ const Form = styled.form`
   padding: 10px;
   box-shadow: none;
   background: ${props => props.theme.dark.cardBackground};
+  border-radius: 4px;
 `;
 
 const Label = styled.label`

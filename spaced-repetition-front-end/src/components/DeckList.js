@@ -43,8 +43,14 @@ class DeckList extends React.Component {
   }
 
   render() {
-    const { decks, today } = this.props;
+    const { decks, today, profile } = this.props;
     const { showAddDeck, modalIsOpen } = this.state;
+    let allowedDecks;
+    if (profile && profile.tier === 'free' && decks.length > 3) {
+      allowedDecks = decks.slice(0, 3);
+    } else {
+      allowedDecks = decks;
+    }
     return (
       <Container id="decklist container">
         <ModalWrapper isOpen={modalIsOpen} onRequestClose={this.closeModal}>
@@ -62,7 +68,7 @@ class DeckList extends React.Component {
         <DeckListContainer>
           {showAddDeck ? 
             <AddDeck toggleAddDeck={this.toggleAddDeck} />
-            : decks.length > 0 ? decks.map(deck => (
+            : allowedDecks.length > 0 ? allowedDecks.map(deck => (
               <Deck key={deck.name} deck={deck} today={today} disableDelete disableEdit />
             ))
               :
