@@ -201,6 +201,10 @@ const BackToTopContainer = styled.div`
 position: absolute;
 top: 95%;
 right: 5%;
+
+a {
+  font-size: 14px;
+}
 `;
 
 const animate = keyframes`
