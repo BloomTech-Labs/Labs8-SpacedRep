@@ -12,7 +12,7 @@ const LandingPage = ({ auth }) => {
   }
 
   return (
-    <WrapperContainer id="landingpagewrapper" isLoggedIn={auth.isAuthenticated()}>
+    <WrapperContainer id="top" isLoggedIn={auth.isAuthenticated()}>
       <Header>
         <JumboTron>
           <CTAText>
