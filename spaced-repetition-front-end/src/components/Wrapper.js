@@ -20,18 +20,16 @@ class Wrapper extends React.Component {
   render() {
     const { children, auth } = this.props;
     return (
-      <React.Fragment id="WC">
+      <React.Fragment>
         {/* If the user is authenticated, render: */}
-        {auth.isAuthenticated() && (
+        {auth.isAuthenticated() ? (
           <BodyContainer>
             <Sidebar />
             {children}
           </BodyContainer>
-        )}
-        {/* If the user is not authenticated, render: */}
-        {!auth.isAuthenticated() && (
-          <h1>You are not logged in!</h1>
-        )}
+        )
+          : <h1>You are not logged in!</h1>
+        }
       </React.Fragment>
     );
   }
@@ -55,10 +53,11 @@ Wrapper.propTypes = {
 // styles
 
 const BodyContainer = styled.div`
-max-width: 1500px;
-height: 100%;
-margin-top: 55px;
-display: flex;
+  max-width: 1500px;
+  height: 100%;
+  margin-top: 55px;
+  display: flex;
+  
 
   @media (max-width: 900px) {
   }

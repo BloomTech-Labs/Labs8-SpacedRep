@@ -16,7 +16,7 @@ import CardInputs from './CardInputs';
 // then you could set state like cards[i].title = val.title. This would also elminate
 // the need for a save button when you finish writing a card!
 
-class AddDeck extends React.Component {
+class AddCard extends React.Component {
   constructor(props) {
     super(props);
 
@@ -39,8 +39,10 @@ class AddDeck extends React.Component {
 
   componentDidMount() {
     const { grabDeckInfo, deckID } = this.props;
+
     const deckNames = grabDeckInfo();
-    this.setState({ deckNames }, () => console.log('deckNames', deckNames));
+    console.log(deckNames)
+    this.setState({ deckNames, deck_id: deckNames[0].id });
 
     if (deckID) this.setState({ singleDeckView: deckID, deck_id: deckID })
   }
@@ -54,7 +56,7 @@ class AddDeck extends React.Component {
     const { name, value } = e.target;
     this.setState({
       [name]: value,
-    }, () => console.log(this.state));
+    });
   }
 
   onCardSave = (event) => {
@@ -71,9 +73,10 @@ class AddDeck extends React.Component {
     const headers = { Authorization: `Bearer ${token}` };
     axios.post(`${process.env.REACT_APP_URL}/api/cards/`, body, { headers })
       .then((response) => {
-        console.log('===add card res', response)
+        console.log('add card res', response)
         //       deckCards.forEach((x) => {
         //         x.deck_id = response.data;
+        window.location.reload();
       })
       .catch(err => console.log(err.message));
 
@@ -92,14 +95,13 @@ class AddDeck extends React.Component {
   }
 
   toggleSelectedDecks = (event) => {
-    console.log('event', event.target);
-    const name = event.target.getAttribute('name'); //'HOME'
-    const id = event.target.getAttribute('id'); //'HOME'
+    const id = event.target.value; //'HOME'
     // change language selected to true
     // const selected = this.state.languages.filter(lang => lang === name);
+    console.log(id)
 
     this.setState({
-      selectedDeck: name,
+      // selectedDeck: name,
       deck_id: id,
     }, console.log('deck_id', this.state.deck_id));
     // console.log('id', id, 'key', key);
@@ -131,130 +133,115 @@ class AddDeck extends React.Component {
 
   render() {
     const {
-      title, tags, question, answer, dropDownOpenDecks, dropDownOpenLangs, languages, selectedLang, selectedDeck, deckNames, singleDeckView, deck_id
+      deckNames, singleDeckView, deck_id
     } = this.state;
     const { toggleAddCard } = this.props;
+    const { props, state } = this;
     return (
-      <div onClick={this.onClickOutside}>
-        {deckNames.length > 0 && (
-          <AddCardContainer onSubmit={this.addDeck}>
-            <HeaderContainer>
-              <Instructions>Add New Card:</Instructions>
-              <Cancel type="button" onClick={toggleAddCard}>X</Cancel>
-            </HeaderContainer>
-            <input type="text" value={title} name="title" onChange={this.handleChange} placeholder="Title" required />
-            {singleDeckView ? null :
-              <DDWrapper id="deckDropdown">
-                <DDTitleBox onClick={this.toggleListDecks}>
-                  <div>{`Deck: ${selectedDeck}`}</div>
-                  {dropDownOpenDecks
-                    ? 'X'
-                    : 'open'
-                  }
-                </DDTitleBox>
-                {dropDownOpenDecks && (
-                  <DDlist>
-                    {deckNames.map(deck => (
-                      // <li className="dd-list-item" key={deck.id}>{deck.title}</li>
-                      <li
-                        key={deck.name}
-                        onClick={this.toggleSelectedDecks}
-                        name={deck.name}
-                        id={deck.id}
-                      >
-                        {deck.name}
-                      </li>
-                    ))}
-                  </DDlist>
-                )}
-              </DDWrapper>
+      <Container>
+        <CardInfo>
+          <Header>
+            <h2>Add New Card:</h2>
+            <Caption> Supports code snippets too, just surround code with 3 backticks ``` </Caption>
+            <Cancel type="button" onClick={toggleAddCard}>x</Cancel>
+          </Header>
+
+          <DescriptionLine> <p>Title</p> </DescriptionLine>
+          <TopRow>
+            <input type="text" value={state.title} name="title" onChange={this.handleChange} placeholder="Title for your new card" required />
+
+          </TopRow>
+          <DescriptionLine>
+            {!singleDeckView && <Description>Deck </Description>} <Description>Language </Description>
+          </DescriptionLine>
+          <DropdownLine>
+            {!singleDeckView && <Dropdown onChange={this.toggleSelectedDecks}>
+              {deckNames.map(deck => (
+                <DropdownOption
+                  key={deck.name}
+                  value={deck.id}
+                >
+                  {deck.name}
+                </DropdownOption>
+              ))}
+            </Dropdown>
             }
-            <DDWrapper id="langDropdown">
-              <DDTitleBox onClick={this.toggleListLangs}>
-                <div>{`Code Language: ${selectedLang}`}</div>
-                {dropDownOpenLangs
-                  ? 'X'
-                  : 'open'
-                }
-              </DDTitleBox>
-              {dropDownOpenLangs && (
-                <DDlist>
-                  {languages.map(lang => (
-                    // <li className="dd-list-item" key={lang.id}>{lang.title}</li>
-                    <li
-                      key={lang}
-                      onClick={this.toggleSelectedLangs}
-                      name={lang}
-                    >
-                      {lang}
-                      {/* {lang === selected && 'check'} */}
-                    </li>
-                  ))}
-                </DDlist>
-              )}
-            </DDWrapper>
-            <textarea value={question} onChange={this.handleChange} placeholder="Question" name="question" />
-            <textarea value={answer} onChange={this.handleChange} placeholder="Answer" name="answer" />
-            <input type="text" value={tags} name="tags" onChange={this.handleChange} placeholder="Enter a list of tags separated by comma (no spaces)" required />
+            <Dropdown name="language" onChange={this.handleChange}>
+              <DropdownOption value="Plain Text">Plain Text</DropdownOption>
+              <DropdownOption value="JavaScript">JavaScript</DropdownOption>
+              <DropdownOption value="Python">Python</DropdownOption>
+              <DropdownOption value="C++">C++</DropdownOption>
+            </Dropdown>
+          </DropdownLine>
 
+          <DescriptionLine>
+            <Description>Question </Description>
+          </DescriptionLine>
+          <TextArea type="text" value={state.question} name="question" onChange={this.handleChange} placeholder="Question to display on this new card" required />
 
+          <DescriptionLine>
+            <Description>Answer </Description>
+          </DescriptionLine>
+          <TextArea type="text" value={state.answer} name="answer" onChange={this.handleChange} placeholder="Answer to this card's question" required />
+          <DropdownLine>
             <Save type="submit" onClick={this.onCardSave}>Add Card</Save>
-
-          </AddCardContainer>
-        )}
-        {deckNames.length === 0 && (
-          <div>
-            <h3>Oops!</h3>
-            <p>You need to make at least 1 deck before you can make cards.</p>
-            <Link to="/dashboard/add-deck">Click here to make your first deck!</Link>
-          </div>
-        )}
-      </div>
+          </DropdownLine>
+        </CardInfo>
+      </Container>
     );
   }
 }
 
-export default AddDeck;
+export default AddCard;
 
-const AddCardContainer = styled.form`
-  /* width: 100%; */
-  padding: 10px;
-  margin: 10px;
-  border: 1px solid ${props => props.theme.dark.sidebar};
-  background: ${props => props.theme.dark.sidebar};
-`
+// const AddCardContainer = styled.form`
+//   /* width: 100%; */
+//   padding: 10px;
+//   margin: 10px;
+//   border: 1px solid ${props => props.theme.dark.sidebar};
+//   background: ${props => props.theme.dark.sidebar};
+// `
 
-const HeaderContainer = styled.div`
-  display: flex;
-  justify-content:space-between;
-  align-items: center;
-  /* align-content:center; */
-  width: 100%;
-  margin-bottom: 5px;
-`
-const Instructions = styled.h3`
-  padding: 0px;
-  margin: 0px;
+// const HeaderContainer = styled.div`
+//   display: flex;
+//   justify-content:space-between;
+//   align-items: center;
+//   /* align-content:center; */
+//   width: 100%;
+//   margin-bottom: 5px;
+// `
+// const Instructions = styled.h3`
+//   padding: 0px;
+//   margin: 0px;
 
-`
-const Cancel = styled.button`
-  border: none;
-  background: none;
-  color: lightgrey;
-  font-weight: bold;
+// `
+// const Cancel = styled.button`
+//   border: none;
+//   background: none;
+//   color: lightgrey;
+//   font-weight: bold;
 
-  height: 26px;
-  margin: 0px;
+//   height: 26px;
+//   margin: 0px;
 
-  &:hover {
-    background: grey;
-  }
-  /* width: 100px; */
-`
+//   &:hover {
+//     background: grey;
+//   }
+//   /* width: 100px; */
+// `
 
 const Save = styled.button`
-  /* width: 100px; */
+    width: 100%;
+    ${props => props.theme.dark.buttons.base}
+    &:hover {
+      background: ${props => props.theme.dark.logo};
+      color: ${props => props.theme.dark.main};
+      cursor: pointer;
+    }
+    font-size: 16px;
 `
+
+
 const DDWrapper = styled.div`
   color: white;
 `;
@@ -280,3 +267,120 @@ list-style-type: none;
 flex-direction: column;
 `;
 
+//from CardInputs.js
+
+const Container = styled.div`
+  width: 100%;
+  margin: 10px;
+  h2 {
+    font-weight: bold;
+  }
+`
+
+const Header = styled.div`
+  display: flex;
+  justify-content:space-between;
+  align-items: center;
+  /* align-content:center; */
+  width: 100%;
+  margin-bottom: 12px;
+  font-size: 18px;
+`
+
+const Cancel = styled.button`
+  border: none;
+  background: none;
+  color: lightgrey;
+  font-weight: bold;
+  font-size: 24px;
+  height: 26px;
+  margin: 0px;
+  color: ${props => props.theme.dark.buttons.negative};
+  &:hover {
+    /* background: grey; */
+  }
+  /* width: 100px; */
+`;
+
+const DescriptionLine = styled.div`
+  display:flex;
+  justify-content:space-between;
+  font-size: 18px;
+  padding-bottom: 2px;
+`
+
+const DropdownLine = styled.div`
+  display:flex;
+  justify-content:space-between;
+  padding-bottom: 2px;
+  font-size: 18px;
+`
+
+const Caption = styled.p`
+  font-size: 14px;
+  color: lightgrey;
+`
+
+
+
+const TopRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  background: #5e707b;
+  border-radius: 3px;
+  align-items: baseline;
+  justify-content: space-between;
+  box-shadow: none;
+
+  input[name="title"] {
+    flex-grow:1;
+  }
+
+  button, select {
+    margin-left: 5px;
+  }
+`;
+
+const CardInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 10px;
+  background: ${props => props.theme.dark.cardBackground};
+  border-radius: 3px;
+  box-shadow: none;
+
+  input[type="text"] {
+    /* width: 100%; */
+  }
+
+`;
+
+const Description = styled.p`
+  font-size: 18px;
+  padding-right: 10px;
+`
+
+
+
+const Dropdown = styled.select`
+  border-radius: 3px;
+  background-color: lightgray;
+  border: none;
+  height: 50px;
+  width: 30%;
+  min-width: 100px;
+`;
+
+const DropdownOption = styled.option`
+  /* background: darkgrey; */
+  background: ${props => props.theme.dark.main};
+  color: white;
+`
+
+const TextArea = styled.textarea`
+    height: 75px;
+    padding: 15px;
+    resize: vertical;
+`

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const CardListTools = ({ addNewCard }) => {
   return (
     <ToolsContainer>
-      <ToolButton type="button" onClick={addNewCard}> + Add Card </ToolButton>
+      <ToolButton type="button" onClick={addNewCard}>+ Add Card </ToolButton>
     </ToolsContainer>
   );
 };
@@ -14,11 +14,14 @@ export default CardListTools;
 // styles
 
 const ToolsContainer = styled.div`
+position: sticky;
+top: 0px;
   display: flex;
   height: 50px;
   width: 100%;
   box-shadow: 0px 1px 3px 0px black;
   background-color: #505c65;
+  min-height: 50px;
 `;
 
 const ToolButton = styled.button`

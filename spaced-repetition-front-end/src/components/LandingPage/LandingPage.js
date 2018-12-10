@@ -1,30 +1,28 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import HeaderFeaturettes from './HeaderFeaturettes';
 import WhySpacedReps from './WhySpacedReps';
-import Features from './Features';
 import Pricing from './Pricing';
-import Team from './Team';
 
 const headerImg = require('../../images/brandi-redd-122054-unsplash.jpg');
-// const textImg = require('../../images/basic_sample.png');
 
 const LandingPage = ({ auth }) => {
   function login() {
     auth.login();
   }
+
   return (
-    <WrapperContainer>
+    <WrapperContainer id="top" isLoggedIn={auth.isAuthenticated()}>
       <Header>
         <JumboTron>
-          <div>
+          <CTAText>
             <h1>Focus on your what matters to you.</h1>
             <h1>Let us take care of the when.</h1>
-            <p>We believe in providing a seamless and intuitive study session from beginning to end. Whether you're adding new material or reviewing previous.</p>
-          </div>
+            <p>Our application is built on the scientifically proven principles of spaced repetition to help you study more efficiently and less often. We believe in providing a seamless and intuitive study session from beginning to end, whether you're adding new material or reviewing previous.</p>
+            <p>Studying with us is as easy as creating your own digital flashcards and decks. We take care of the rest! Are you a programmer? Check out our code snippet integration!</p>
+          </CTAText>
           <CTAButtonsGroup>
-            <CTABtn onClick={login}>Sign up</CTABtn>
+            {auth.isAuthenticated() ? <CTABtn>Go To Dashboard</CTABtn> : <CTABtn onClick={login}>Sign up</CTABtn>}
             <CTABtn learn href="#why">Learn more</CTABtn>
           </CTAButtonsGroup>
         </JumboTron>
@@ -34,12 +32,10 @@ const LandingPage = ({ auth }) => {
         </ArrowContainer>
       </Header>
       <Body>
-        <WhySpacedReps />
-        <Features />
-        <Pricing />
-        <Team />
+        {/* <WhySpacedReps /> */}
+        <Pricing login={login} />
         <BackToTopContainer>
-          <a href="top">Back to top</a>
+          <a href="#top">Back to top</a>
         </BackToTopContainer>
       </Body>
     </WrapperContainer>
@@ -51,30 +47,32 @@ export default LandingPage;
 // styles
 
 const WrapperContainer = styled.div`
+height: 100%;
+padding-top: 55px;
+// margin-top: ${props => props.isLoggedIn ? '90px' : '55px'};
 
-@media (max-width: 540px) {
-  h1 {
-    font-size: 28px;
-  }
-}
+// @media (max-width: 540px) {
+//   h1 {
+//     font-size: 28px;
+//   }
+// }
 `;
 
 const Header = styled.div`
-height: 100vh;
+height: 100%;
 `;
 
 const JumboTron = styled.div`
-padding: 5% 10%;
-  height: 55vh;
+height: 60%;
+width: 100%;
+padding: 5% 8%;
   background-size: cover;
   background-position: center bottom;
-  // background-image: url(${headerImg});
   letter-spacing: 1px;
-  // color: #3e3d3d;
   color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: space-between;
 
   &::before {
     background-image: url(${headerImg});
@@ -85,27 +83,14 @@ padding: 5% 10%;
     top: 0;
     left: 0;
     width: 100%;
-    height: 65vh;
+    height: 60%;
     z-index: -2;
     opacity: 0.2;
-    }
-
-    div {
-      max-width: 700px;
-      width: 100%;
-    }
-
-    h1 {
-      font-size: 38px;
-    }
-
-    p {
-      margin-top: 30px;
-      line-height: 25px;
     }
 `;
 
 const Body = styled.div`
+height: 100%;
   margin-top: 55px;
   position: relative;
   flex:1;
@@ -114,27 +99,94 @@ const Body = styled.div`
   -webkit-overflow-scrolling:touch;
 `;
 
+const CTAText = styled.div`
+  height: 70%;
+  font-size: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  @media (max-width: 600px) {
+    justify-content: space-around;
+  }
+  
+  @media (max-width: 950px) {
+    height: 75%;
+  }
+  
+  @media (max-width: 900px) {
+    font-size: 16px;
+  }
+
+  @media (max-width: 500px) {
+    height: 85%;
+  }
+
+h1 {
+  font-size: 35px;
+
+  @media( max-width: 700px) {
+    font-size: 32px;
+  }
+  
+  @media( max-width: 650px) {
+    font-size: 30px;
+  }
+  
+  @media( max-width: 600px) {
+    font-size: 28px;
+  }
+  
+  @media( max-width: 500px) {
+    font-size: 20px;
+    font-weight: bold;
+  }
+}
+
+p {
+  line-height: 1.2;
+  
+  @media( max-width: 650px) {
+    font-size: 14px;
+  }
+}
+`;
+
 const CTAButtonsGroup = styled.div`
+height: 30%;
 text-align: center;
 margin: 0 auto;
+padding-top: 3%;
 
-button {
-  // width: 200px;
-  
+@media (max-width: 500px) {
+  height: 15%;
 }
 `;
 
 const CTABtn = styled.button`
+${props => props.theme.dark.buttons.base}
 font-size: 18px;
-height: 40px;
+height: 50px;
 margin-right: ${props => props.learn ? 0 : '20px'};
-color: ${props => props.learn ? null : 'lightseagreen'};
-border-color: ${props => props.learn ? null : 'lightseagreen'};
-background: ${props => props.learn ? null : 'none'};
-width: 200px;
+color: ${props => props.learn ? 'white' : '#d6d6d6'};
+background-color: ${props => props.learn ? 'lightseagreen' : '#2f3d47'}
+border-color: ${props => props.learn ? '#707070' : '#2f3d47'};
+// background: ${props => props.learn ? null : 'none'};
+width: 250px;
 
-@media (max-width: 540px) {
-  width: 115px;
+@media( max-width: 700px) {
+  width: 225px;
+}
+
+@media (max-width: 600px) {
+  width: 200px;
+  height: 40px;
+}
+
+@media (max-width: 500px) {
+  width: 150px;
+  height: 30px;
+  font-size: 14px;
 }
 `;
 
@@ -149,6 +201,10 @@ const BackToTopContainer = styled.div`
 position: absolute;
 top: 95%;
 right: 5%;
+
+a {
+  font-size: 14px;
+}
 `;
 
 const animate = keyframes`

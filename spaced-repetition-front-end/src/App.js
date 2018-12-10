@@ -7,7 +7,7 @@ import styled, { createGlobalStyle } from 'styled-components';
 import styles from './styles';
 import Auth from './auth/Auth';
 import Callback from './auth/Callback';
-import Header from './components/Header';
+import UserHeader from './components/UserHeader';
 import LandingPage from './components/LandingPage/LandingPage';
 import DeckList from './components/DeckList';
 import CardList from './components/CardList';
@@ -19,6 +19,8 @@ import TrainDeck from './components/TrainDeck';
 import DeckView from './components/DeckView';
 import DeleteCardModal from './components/DeleteCardModal';
 import ImportDeck from './components/ImportDeck';
+import Welcome from './components/Welcome';
+import VisitorHeader from './components/VisitorHeader';
 // import './App.css';
 
 const GlobalStyle = createGlobalStyle`
@@ -71,7 +73,7 @@ class App extends Component {
       profile: null,
       cardsToUpdate: [],
       serverUpdateTimer: null,
-      errorMessage: '', // better to add redux or pass the same error props everywhere?
+      errorMessage: '',
     };
   }
 
@@ -264,7 +266,8 @@ class App extends Component {
     return (
       <AppWrapper id="AppWrapper">
         <GlobalStyle />
-        <Route path="/" render={props => <Header auth={auth} {...props} />} />
+        <Route exact path="/" render={props => <VisitorHeader auth={auth} {...props} />} />
+        <Route path="/dashboard" render={props => <UserHeader auth={auth} {...props} />} />
 
         <Switch>
           <Route exact path="/" render={props => <LandingPage auth={auth} {...props} />} />
@@ -278,7 +281,7 @@ class App extends Component {
           />
 
           <Wrapper auth={auth} handleProfile={this.handleProfile} handleData={this.handleData}>
-            <Route exact path="/dashboard" decks={decks} />
+            <Route exact path="/dashboard" decks={decks} render={props => <Welcome />} />
             <Route exact path="/dashboard/add-deck" render={props => <AddDeck />} />
             <Route exact path="/dashboard/profile" render={props => <Profile profile={profile} handleUpdateTier={this.handleUpdateTier} {...props} />} />
             <Route exact path="/dashboard/decks" render={props => <DeckList decks={decks} today={today} {...props} />} />
@@ -298,7 +301,7 @@ class App extends Component {
               path="/dashboard/decks/:deckId/train/:id/delete"
               render={props => <DeleteCardModal deleteCard={this.handleCardDeletion} {...props} />}
             />
-            <Route exact path="/share/deck/:id" render={props => <ImportDeck {...props} />} />
+            <Route exact path="/dashboard/share/deck/:id" render={props => <ImportDeck {...props} />} />
           </Wrapper>
         </Switch>
 
@@ -311,8 +314,9 @@ export default withRouter(App);
 
 // styles
 const AppWrapper = styled.div`
-max-width: 1500px;
-height: 100%;
-min-height: 100%;
-color: ${props => props.theme.dark.mainFontColor};
+  max-width: 1500px;
+  height: 100%;
+  min-height: 100%;
+  color: ${props => props.theme.dark.mainFontColor};
+  overflow: hidden;
 `;

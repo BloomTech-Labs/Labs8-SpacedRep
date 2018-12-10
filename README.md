@@ -1,300 +1,112 @@
-# Labs8 Spaced Repetition
+# Labs8 Spaced Repetition [![Build Status](https://travis-ci.com/Lambda-School-Labs/Labs8-SpacedRep.svg?branch=master)](https://travis-ci.com/Lambda-School-Labs/Labs8-SpacedRep)
 
 ## Links
 
-- Deployed site: https://srsly-manual.netlify.com/
+- Deployed site: https://spaced-repetition.netlify.com/
+
 - Wireframes: https://balsamiq.cloud/snv27r3/p2yk660/r7DA1
 
 ## Contributors
 
 Team Members
 
-- Drew Moody
-- Gabriel Duquette
-- Saxon Hunt
-- Megan Williamson
+- [Drew Moody](https://github.com/DrewMoody)
+
+- [Gabriel Duquette](https://github.com/affordances)
+
+- [Saxon Hunt](https://github.com/noxasaxon)
+
+- [Megan Williamson](https://github.com/gooseandmegander)
 
 Project Manager
 
-- Keith Haag
+- [Keith Haag](https://github.com/kkhaag)
 
 ## Dependencies and Environment
 
 This project was built using yarn v1.12.1 and node v10.13.0.
 
-Client side dependencies:
+### Back end dependencies (production)
 
-Server side dependencies:
+- [chai](https://www.npmjs.com/package/chai)
 
-Dev dependencies:
+- [cors](https://www.npmjs.com/package/cors)
 
-## How to Contribute
+- [dotenv](https://www.npmjs.com/package/dotenv)
+
+- [express](https://www.npmjs.com/package/express)
+
+- [express-jwt](https://www.npmjs.com/package/express-jwt)
+
+- [helmet](https://www.npmjs.com/package/helmet)
+
+- [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
+
+- [knex](https://www.npmjs.com/package/knex)
+
+- [mocha](https://www.npmjs.com/package/mocha)
+
+- [pg](https://www.npmjs.com/package/pg)
+
+- [sinon](https://www.npmjs.com/package/sinon)
+
+- [stripe](https://www.npmjs.com/package/stripe)
+
+### Back end dependencies (development)
+
+- [nodemon](https://www.npmjs.com/package/nodemon)
+
+### Front end dependencies (production)
+
+- [auth0-js](https://www.npmjs.com/package/auth0-js)
+
+- [axios](https://www.npmjs.com/package/axios)
+
+- [dotenv](https://www.npmjs.com/package/dotenv)
+
+- [history](https://www.npmjs.com/package/history)
+
+- [prop-types](https://www.npmjs.com/package/prop-types)
+
+- [react-highlight.js](https://www.npmjs.com/package/react-highlight.js)
+
+- [react-modal](https://www.npmjs.com/package/react-modal)
+
+- [react-router](https://www.npmjs.com/package/react-router)
+
+- [react-stripe-elements](https://www.npmjs.com/package/react-stripe-elements)
+
+- [styled-components](https://www.npmjs.com/package/styled-components)
+
+### Front end dependencies (development)
+
+- [eslint-config-airbnb](https://www.npmjs.com/package/eslint-config-airbnb)
 
 # API Documentation
 
-## Third-Party APIs
+## Third-Party APIs and libraries
+
+[Stripe](https://stripe.com/docs/api)
+
+[Highlight.js](https://highlightjs.org/)
 
 ## Backend API
 
-### Auth Token Payload
-
-### User Routes
-
-#### Register User
-
-POST `/api/users/register`
-
-Registers a new user.
-
-Request body should look like this:
-
-```
-{
-    "firstName": "John",
-    "lastName": "Doe",
-    "email": "johndoe@email.com",
-    "tier": "free"
-}
-```
-
-`firstName`: String, required
-
-`lastName`: String, required
-
-`email`: Email, required, must be unique
-
-`tier`: String, required
-
-Response:
-
-```
-{
-}
-```
-
-#### Login User
-
-POST `/api/users/login`
-
-Logs in a user.
-
-Request body should look like this:
-
-```
-{
-}
-```
-
-Response:
-
-```
-{
-}
-```
-
-#### Update User
-
-PUT `/api/users/:id/update`
-
-Changes the name, email or password for the user. The id in the params must match the id of the current user.
-
-Request body should look like this:
-
-```
-{
-    "firstName": "John",
-    "lastName": "Doe",
-    "email": "johndoe@email.com",
-    "tier": "free"
-}
-```
-
-Response will be a success message.
-
-Response:
-
-```
-{
-    "message": "User successfully updated."
-}
-```
-
-#### Change Tier
-
-PUT `/api/users/:id/update/tier`
-
-Changes the tier of the user with the given ID.
-
-Request body should look like this:
-
-```
-{
-    "firstName": "John",
-    "lastName": "Doe",
-    "email": "johndoe@email.com",
-    "tier": "paid"
-}
-```
-
-Response will be a success message.
-
-Response:
-
-```
-{
-    "message": "User successfully updated."
-}
-```
-
-#### Delete User
-
-DELETE `/api/users/:id/delete`
-
-Deletes a user from the database.
-
-Response includes a success message.
-
-Response:
-
-```
-{
-    "message": "User successfully updated."
-}
-```
-
-### Card Routes
-
-#### Add Card
-
-POST `/api/cards/add`
-
-**Only paid tier users can add cards.**
-
-Adds a new card to the database.
-
-Request body should look like this:
-
-```
-{
-    title: "SQL definition",
-    question: "What is SQL?",
-    answer: "Structured Query Language",
-    deck_id: 1,
-    language: "Plain Text"
-}
-```
-
-`title`: String, required, must be unique
-
-`question`: String, required
-
-`answer`: String, required
-
-`deck_id`: Number, required
-
-`language`: String, optional
-
-Response:
-
-```
-{
-}
-```
-
-#### Get All Cards
-
-GET `/api/cards`
-
-Retrieves all of the user's cards from the database.
-
-Response:
-
-```
-{
-  "cards": [
-    {
-        "id": 1,
-        "title": "SQL definition",
-        "question": "What is SQL?",
-        "answer": "Structured Query Language",
-        "deck_id": 1,
-        "language": "Plain Text"
-    },
-    {
-        "id": 2,
-        title: "React definition",
-        question: "What is React?",
-        answer: "Javscript library",
-        deck_id: 2,
-        language: "Javascript"
-    },
-    ...and so forth
-  ]
-}
-```
-
-#### Get Card
-
-GET `/api/cards/:id`
-
-Retrieves the card by the id specified in the parameters.
-
-Response:
-
-```
-{
-    "card": {
-        "id": 1,
-        "title": "SQL definition",
-        "question": "What is SQL?",
-        "answer": "Structured Query Language",
-        "deck_id": 1,
-        "language": "Plain Text"
-    }
-}
-```
-
-#### Update Card
-
-PUT `/api/cards/:id/update`
-
-Updates information for an existing card. The id in the params must match the id of the card.
-
-If only updating the title, the request body should look like this:
-
-```
-{
-  "title": "A question about SQL"
-}
-```
-
-Response:
-
-```
-{
-    "updatedCard": {
-        "id": 1,
-        "title": "A question about SQL",
-        "question": "What is SQL?",
-        "answer": "Structured Query Language",
-        "deck_id": 1,
-        "language": "Plain Text"
-    }
-}
-```
-
-#### Delete Card
-
-DELETE `/api/cards/:id/delete`
-
-Deletes a card from the database.
-
-Response includes a success message.
-
-Response:
-
-```
-{
-    "message": "Card successfully deleted."
-}
-```
+| Method | Endpoint             | Purpose                                        |
+| ------ | -------------------- | ---------------------------------------------- |
+| GET    | `api/users/`         | Retrieve all users                             |
+| POST   | `api/users/`         | Add new user                                   |
+| GET    | `api/users/user`     | Retrieve user                                  |
+| GET    | `api/users/progress` | Retrieve user's algorithmic status             |
+| POST   | `api/users/progress` | Update user's algorithmic status               |
+| POST   | `api/stripe/`        | Create Stripe customer and subscription        |
+| PUT    | `api/stripe/`        | Cancel subscription and delete Stripe customer |
+| GET    | `api/cards/`         | Retrieve all cards                             |
+| POST   | `api/cards/`         | Add new card                                   |
+| POST   | `api/cards/batch`    | Post array of cards                            |
+| PUT    | `api/cards/:id`      | Update card information                        |
+| DELETE | `api/cards/:id`      | Delete card                                    |
+| GET    | `api/decks/`         | Retrieve all decks                             |
+| POST   | `api/decks/`         | Add new deck                                   |
+| PUT    | `api/decks/:id`      | Update deck                                    |
+| DELETE | `api/decks/:id`      | Delete deck                                    |

@@ -1,5 +1,5 @@
 /*  don't need? */
-.form-container {
+/* .form-container {
   height: 100%;
   display: flex;
   justify-content: center;
@@ -14,7 +14,7 @@ form {
   background: white;
   border-radius: 3px;
   box-shadow: 10px 10px 10px grey;
-}
+} */
 
 input {
   height: 50px;
@@ -43,7 +43,7 @@ button {
   background: lightseagreen;
 }
 
-.form-link-text {
+/* .form-link-text {
   color: darkgray;
   font-size: 12px;
   text-align: center;
@@ -57,4 +57,4 @@ button {
 
 .form-link a:visited {
   color: lightseagreen;
-}
+} */
