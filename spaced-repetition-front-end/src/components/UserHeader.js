@@ -52,6 +52,7 @@ align-items: center;
 justify-content: space-between;
 background: ${props => props.theme.dark.main};
 border-bottom: 1px solid white;
+/* margin: 0 auto;  //needed to fix header going off center when zoom out?*/
 `;
 
 const AppName = styled(Link)`

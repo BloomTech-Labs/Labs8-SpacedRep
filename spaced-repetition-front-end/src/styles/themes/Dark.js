@@ -6,6 +6,10 @@ const dark = {
   mainFontColor: 'white',
   buttons: {
     base: `
+      height: 50px;
+      cursor: pointer;
+      margin-top: 5px;
+      color: white;
       font-size: 16px;
       padding: 3px 20px 3px 20px;
       margin: 0px;

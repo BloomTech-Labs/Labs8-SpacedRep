@@ -19,7 +19,7 @@ const handleCardSnippets = (card) => {
 
     for (let i = 0; i < data.length; i += 1) {
       const substr = data.substring(i, i + 3);
-      console.log(substr)
+      // console.log(substr)
 
       // if the current index + next 2 chars are ```, add to cache
       if (substr === trigger) {
@@ -28,14 +28,14 @@ const handleCardSnippets = (card) => {
         if (cache.includes('code')) {
           contentType.push('code');
           cache = [];
-          console.log('next', data.substring(i + 3, i + 6), i + 3, i + 6)
+          // console.log('next', data.substring(i + 3, i + 6), i + 3, i + 6)
           if (data.substring(i + 3, i + 6) === trigger) {
             cache.push('code');
             i = i + 7;
           } else if (data.substring(i + 3, i + 6) !== trigger && data.substring(i + 3, i + 6) !== '' && data.substring(i + 3, i + 6) !== ' ``' && data.substring(i + 3, i + 6) !== '  `') {
             contentType.push('txt');
             i = i + 7;
-            console.log('ct', contentType)
+            // console.log('ct', contentType)
           }
         } else {
           // beginning of code snippet
