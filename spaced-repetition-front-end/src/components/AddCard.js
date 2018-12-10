@@ -40,7 +40,7 @@ class AddCard extends React.Component {
   componentDidMount() {
     const { grabDeckInfo, deckID } = this.props;
     const deckNames = grabDeckInfo();
-    this.setState({ deckNames }, () => console.log('deckNames', deckNames));
+    this.setState({ deckNames });
 
     if (deckID) this.setState({ singleDeckView: deckID, deck_id: deckID })
   }
@@ -54,7 +54,7 @@ class AddCard extends React.Component {
     const { name, value } = e.target;
     this.setState({
       [name]: value,
-    }, () => console.log(this.state));
+    });
   }
 
   onCardSave = (event) => {
@@ -71,9 +71,10 @@ class AddCard extends React.Component {
     const headers = { Authorization: `Bearer ${token}` };
     axios.post(`${process.env.REACT_APP_URL}/api/cards/`, body, { headers })
       .then((response) => {
-        console.log('===add card res', response)
+        console.log('add card res', response)
         //       deckCards.forEach((x) => {
         //         x.deck_id = response.data;
+        window.location.reload();
       })
       .catch(err => console.log(err.message));
 
@@ -92,14 +93,13 @@ class AddCard extends React.Component {
   }
 
   toggleSelectedDecks = (event) => {
-    console.log('event', event.target);
-    const name = event.target.getAttribute('name'); //'HOME'
-    const id = event.target.getAttribute('id'); //'HOME'
+    const id = event.target.value; //'HOME'
     // change language selected to true
     // const selected = this.state.languages.filter(lang => lang === name);
+    console.log(id)
 
     this.setState({
-      selectedDeck: name,
+      // selectedDeck: name,
       deck_id: id,
     }, console.log('deck_id', this.state.deck_id));
     // console.log('id', id, 'key', key);
@@ -131,89 +131,11 @@ class AddCard extends React.Component {
 
   render() {
     const {
-      title, tags, question, answer, dropDownOpenDecks, dropDownOpenLangs, languages, selectedLang, selectedDeck, deckNames, singleDeckView, deck_id
+      deckNames, singleDeckView, deck_id
     } = this.state;
     const { toggleAddCard } = this.props;
     const { props, state } = this;
     return (
-      // <div onClick={this.onClickOutside}>
-      //   {deckNames.length > 0 && (
-      //     <AddCardContainer onSubmit={this.addDeck}>
-      //       <HeaderContainer>
-      //         <Instructions>Add New Card:</Instructions>
-      //         <Cancel type="button" onClick={toggleAddCard}>X</Cancel>
-      //       </HeaderContainer>
-      //       <input type="text" value={title} name="title" onChange={this.handleChange} placeholder="Title" required />
-      //       {singleDeckView ? null :
-      //         <DDWrapper id="deckDropdown">
-      //           <DDTitleBox onClick={this.toggleListDecks}>
-      //             <div>{`Deck: ${selectedDeck}`}</div>
-      //             {dropDownOpenDecks
-      //               ? 'X'
-      //               : 'open'
-      //             }
-      //           </DDTitleBox>
-      //           {dropDownOpenDecks && (
-      //             <DDlist>
-      //               {deckNames.map(deck => (
-      //                 // <li className="dd-list-item" key={deck.id}>{deck.title}</li>
-      //                 <li
-      //                   key={deck.name}
-      //                   onClick={this.toggleSelectedDecks}
-      //                   name={deck.name}
-      //                   id={deck.id}
-      //                 >
-      //                   {deck.name}
-      //                 </li>
-      //               ))}
-      //             </DDlist>
-      //           )}
-      //         </DDWrapper>
-      //       }
-      //       <DDWrapper id="langDropdown">
-      //         <DDTitleBox onClick={this.toggleListLangs}>
-      //           <div>{`Code Language: ${selectedLang}`}</div>
-      //           {dropDownOpenLangs
-      //             ? 'X'
-      //             : 'open'
-      //           }
-      //         </DDTitleBox>
-      //         {dropDownOpenLangs && (
-      //           <DDlist>
-      //             {languages.map(lang => (
-      //               // <li className="dd-list-item" key={lang.id}>{lang.title}</li>
-      //               <li
-      //                 key={lang}
-      //                 onClick={this.toggleSelectedLangs}
-      //                 name={lang}
-      //               >
-      //                 {lang}
-      //                 {/* {lang === selected && 'check'} */}
-      //               </li>
-      //             ))}
-      //           </DDlist>
-      //         )}
-      //       </DDWrapper>
-      //       <textarea value={question} onChange={this.handleChange} placeholder="Question" name="question" />
-      //       <textarea value={answer} onChange={this.handleChange} placeholder="Answer" name="answer" />
-      //       <input type="text" value={tags} name="tags" onChange={this.handleChange} placeholder="Enter a list of tags separated by comma (no spaces)" required />
-
-
-      //       <Save type="submit" onClick={this.onCardSave}>Add Card</Save>
-
-      //     </AddCardContainer>
-      //   )}
-      //   {deckNames.length === 0 && (
-      //     <div>
-      //       <h3>Oops!</h3>
-      //       <p>You need to make at least 1 deck before you can make cards.</p>
-      //       <Link to="/dashboard/add-deck">Click here to make your first deck!</Link>
-      //     </div>
-      //   )}
-      // </div>
-
-
-
       <Container>
         <CardInfo>
           <Header>
@@ -228,17 +150,14 @@ class AddCard extends React.Component {
 
           </TopRow>
           <DescriptionLine>
-            <Description>Deck </Description> <Description>Language </Description>
+            {!singleDeckView && <Description>Deck </Description>} <Description>Language </Description>
           </DescriptionLine>
           <DropdownLine>
-            {singleDeckView ? null : <Dropdown>
+            {!singleDeckView && <Dropdown onChange={this.toggleSelectedDecks}>
               {deckNames.map(deck => (
-                // <li className="dd-list-item" key={deck.id}>{deck.title}</li>
                 <DropdownOption
                   key={deck.name}
-                  onClick={this.toggleSelectedDecks}
-                  name={deck.name}
-                  id={deck.id}
+                  value={deck.id}
                 >
                   {deck.name}
                 </DropdownOption>
@@ -253,32 +172,6 @@ class AddCard extends React.Component {
             </Dropdown>
           </DropdownLine>
 
-          {/* {singleDeckView ? null :
-            <DDWrapper id="deckDropdown">
-              <DDTitleBox onClick={this.toggleListDecks}>
-                <div>{`Deck: ${selectedDeck}`}</div>
-                {dropDownOpenDecks
-                  ? 'X'
-                  : 'open'
-                }
-              </DDTitleBox>
-              {dropDownOpenDecks && (
-                <DDlist>
-                  {deckNames.map(deck => (
-                    // <li className="dd-list-item" key={deck.id}>{deck.title}</li>
-                    <DropdownOption
-                      key={deck.name}
-                      onClick={this.toggleSelectedDecks}
-                      name={deck.name}
-                      id={deck.id}
-                    >
-                      {deck.name}
-                    </DropdownOption>
-                  ))}
-                </DDlist>
-              )}
-            </DDWrapper>
-          } */}
           <DescriptionLine>
             <Description>Question </Description>
           </DescriptionLine>
@@ -336,14 +229,14 @@ export default AddCard;
 // `
 
 const Save = styled.button`
-width: 100%;
+    width: 100%;
     ${props => props.theme.dark.buttons.base}
-  &:hover {
-    background: ${props => props.theme.dark.logo};
-    color: ${props => props.theme.dark.main};
-    cursor: pointer;
-  }
-  font-size: 16px;
+    &:hover {
+      background: ${props => props.theme.dark.logo};
+      color: ${props => props.theme.dark.main};
+      cursor: pointer;
+    }
+    font-size: 16px;
 `
 
 const DeleteCard = styled(Save)`
