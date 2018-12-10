@@ -65,6 +65,7 @@ const Container = styled.div`
       justify-content: space-between;
       border-bottom: 1px solid white;
   background: ${props => props.theme.dark.main};
+  /* margin: 0 auto;  //needed to fix header going off center when zoom out?*/
 
   @media (max-width: 500px) {
     height: ${props => props.isLoggedIn ? '90px' : '55px'};

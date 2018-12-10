@@ -319,4 +319,5 @@ const AppWrapper = styled.div`
   min-height: 100%;
   color: ${props => props.theme.dark.mainFontColor};
   overflow: hidden;
+  margin: 0 auto;
 `;
