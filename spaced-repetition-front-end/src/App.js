@@ -281,10 +281,10 @@ class App extends Component {
           />
 
           <Wrapper auth={auth} handleProfile={this.handleProfile} handleData={this.handleData}>
-            <Route exact path="/dashboard" decks={decks} render={props => <Welcome />} />
-            <Route exact path="/dashboard/add-deck" render={props => <AddDeck />} />
+            <Route exact path="/dashboard" decks={decks} render={props => <Welcome {...props} />} />
+            <Route exact path="/dashboard/add-deck" render={props => <AddDeck {...props} />} />
             <Route exact path="/dashboard/profile" render={props => <Profile profile={profile} handleUpdateTier={this.handleUpdateTier} {...props} />} />
-            <Route exact path="/dashboard/decks" render={props => <DeckList decks={decks} today={today} {...props} />} />
+            <Route exact path="/dashboard/decks" render={props => <DeckList decks={decks} profile={profile} today={today} {...props} />} />
             <Route exact path="/dashboard/decks/:deckId" render={props => <DeckView decks={decks} today={today} {...props} />} />
             <Route exact path="/dashboard/cards" render={props => <CardList decks={decks} {...props} />} />
             <Route exact path="/dashboard/billing" render={props => <Billing profile={profile} {...props} />} />

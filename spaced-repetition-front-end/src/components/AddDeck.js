@@ -45,12 +45,10 @@ class AddDeck extends React.Component {
   }
 
   addDeck = (e) => {
-    console.log('clicked')
+    console.log('clicked');
     e.preventDefault();
     const deck = this.state;
-
     const deckCards = [...deck.cards];
-
     const validatedCards = [];
     //validate decks
     if (deck.name.length > 0) {
@@ -96,8 +94,6 @@ class AddDeck extends React.Component {
         cards: [{ language: 'Plain Text' }],
       });
     }
-
-
   }
 
   newCard = () => {
@@ -108,8 +104,8 @@ class AddDeck extends React.Component {
     const { cards } = this.state;
     // needed to do it this way otherwise React will just erase the array
     // because it thinks you are modifying state directly
-    let newCards = [...cards]
-    newCards.splice(index, 1)
+    const newCards = [...cards];
+    newCards.splice(index, 1);
     this.setState({ cards: newCards });
   }
 
@@ -118,7 +114,6 @@ class AddDeck extends React.Component {
     const { toggleAddDeck } = this.props;
 
     return (
-
       <AddDeckContainer>
         <Header>
           Create New Deck:
@@ -148,7 +143,6 @@ class AddDeck extends React.Component {
           {state.cards.length > 1 && <SaveButton onClick={this.addDeck}> Save Deck </SaveButton>}
         </ControlsContainer>
       </AddDeckContainer>
-
     );
   }
 }
@@ -178,7 +172,7 @@ const Header = styled.h2`
   justify-content: space-between;
   font-size: 20px;
   padding: 10px 0px 10px 0px;
-`
+`;
 
 const Cancel = styled.button`
   border: none;
@@ -239,7 +233,7 @@ const DeckItem = styled.div`
     }
     
   }
-`
+`;
 
 const Public = styled.div`
   width: 100%;
@@ -259,7 +253,7 @@ const Public = styled.div`
     color: white;
     padding-right: 10px;
   }
-`
+`;
 
 const SaveButton = styled.button`
   ${props => props.theme.dark.buttons.base}
@@ -268,7 +262,7 @@ const SaveButton = styled.button`
     cursor: pointer;
   }
   font-size: 16px;
-`
+`;
 
 const AddCard = styled.button`
   ${props => props.theme.dark.buttons.base}
@@ -277,10 +271,10 @@ const AddCard = styled.button`
     cursor: pointer;
   }
   font-size: 16px;
-`
+`;
 
 const ControlsContainer = styled.div`
   display:flex;
   width: 100%;
   justify-content: space-between;
-`
+`;
