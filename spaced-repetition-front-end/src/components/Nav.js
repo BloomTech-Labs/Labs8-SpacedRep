@@ -19,7 +19,7 @@ export default Nav;
 // styles
 
 const NavContainer = styled.ul`
-width: 20%;
+width: 30%;
 display: flex;
 list-style-type: none;
 justify-content: space-between;
@@ -84,3 +84,15 @@ const DashLink = styled.li`
   display: none;
 }
 `;
+
+
+const Button = styled.button`
+  ${props => props.theme.dark.buttons.base}
+  height: 30px;
+  &:hover {
+    background: ${props => props.theme.dark.logo};
+    color: ${props => props.theme.dark.main};
+    cursor: pointer;
+  }
+  font-size: 16px;
+`
