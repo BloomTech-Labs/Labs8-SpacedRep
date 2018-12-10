@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Highlight from 'react-highlight.js';
 import styled from 'styled-components';
 import axios from 'axios';
 
@@ -19,18 +20,6 @@ class Card extends React.Component {
     language: '',
     tags: '',
   };
-
-
-  componentDidMount = () => {
-    const { card, decks } = this.props;
-
-    // console.log(card)
-    this.setState({
-      title: card.title, question: card.question, answer: card.answer, language: card.language, selectedDeck: card.deck_id,
-    });
-    // const deckNames = grabDeckInfo();
-    // this.setState({ deckNames }, () => console.log('deckNames', deckNames));
-  }
 
   handleChange = (e) => {
     const { name, value } = e.target;
@@ -172,10 +161,13 @@ class Card extends React.Component {
 
   render() {
     const { card, deckName, disableEdit } = this.props;
+    const {
+      qContentType, aContentType, qFilteredContent, aFilteredContent,
+    } = card;
     // const { tags } = card;
     const tags = ['js', 'css', 'plaintext'];
     const { isEditing } = this.state;
-
+    console.log('card', card);
     return (
 
       isEditing
@@ -189,11 +181,30 @@ class Card extends React.Component {
               <Body>
                 <BodyGroup>
                   <Label>Question:</Label>
-                  <Text>{card.question}</Text>
+
+                  {qFilteredContent.map((content, i) => {
+                    if (qContentType[i] === 'txt') {
+                      return <Text key={`${i + qContentType[i]}`}>{content}</Text>;
+                    }
+                    return (
+                      <Highlight key={`${i + qContentType[i]}`} language={card.language}>
+                        {content}
+                      </Highlight>
+                    );
+                  })}
                 </BodyGroup>
                 <BodyGroup bottom>
                   <Label> Answer: </Label>
-                  <Text>{card.answer}</Text>
+                  {aFilteredContent.map((content, i) => {
+                    if (aContentType[i] === 'txt') {
+                      return <Text spacing key={`${i + qContentType[i]}`}>{content}</Text>;
+                    }
+                    return (
+                      <Highlight key={`${i + qContentType[i]}`} language={card.language}>
+                        {content}
+                      </Highlight>
+                    );
+                  })}
                 </BodyGroup>
               </Body>
               <TagsLang id="tagslang">
@@ -205,7 +216,7 @@ class Card extends React.Component {
                     </Tag>
                   </Item>
                   <Item pb><Label>Tags: </Label></Item>
-                  {tags ? tags.map(tag => <Item><Tag key={tag}>{tag}</Tag></Item>) : null}
+                  {tags ? tags.map(tag => <Item key={tag}><Tag>{tag}</Tag></Item>) : null}
                 </List>
               </TagsLang>
             </CardTop>
@@ -268,7 +279,17 @@ line-height: 1.2;
 `;
 
 const BodyGroup = styled.div`
-margin-bottom: ${props => props.bottom ? '15px' : null};
+margin-top: ${props => props.bottom ? '10px' : null};
+
+code {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: 8px 0;
+  background-color: #212b31;
+  border-radius: 3px;
+  box-shadow: inset 1px 1px 2px black;
+}
 `;
 
 const Label = styled.h3`

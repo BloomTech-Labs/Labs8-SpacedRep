@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+// import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Modal from 'react-modal';
+import handleCardSnippets from '../snippets';
 import Card from './Card';
 import CardListTools from './CardListTools';
 // import CardInputs from './CardInputs';
@@ -12,11 +14,20 @@ class CardList extends Component {
   state = {
     addNewCard: false,
     modalIsOpen: false,
+     // formattedDeck: [],
   };
 
-  componentDidMount = () => {
-    window.scrollTo(0, 0);
-  }
+  // componentDidMount = () => {
+  //   const { deck } = this.props;
+  //   const formattedDeck = [];
+
+  //   deck.cards.forEach((card) => {
+  //     const formattedCard = handleCardSnippets(card);
+  //     formattedDeck.push(formattedCard);
+  //   });
+
+  //   this.setState({ formattedDeck });
+  // }
 
   countCards = (decksArray) => {
     let cardCount;
@@ -81,10 +92,10 @@ class CardList extends Component {
         <CardListTools addNewCard={this.handleAddCard} />
         {addNewCard && <AddCard grabDeckInfo={this.handleDeckData} toggleAddCard={this.handleAddCard} />}
         {/* <div id="cardlistcontainer"> */}
-
         {allowedDecks.length > 0 && allowedDecks.map((deck) => {
           return deck.cards.map((card) => {
-            return <Card key={card.id} card={card} deckName={deck.name} decks={allowedDecks} />;
+            const formattedCard = handleCardSnippets(card);
+            return <Card key={`${card.id} ${card.title}`} card={formattedCard} deckName={deck.name} decks={allowedDecks} />;
           });
         })}
         {/* </div> */}
@@ -113,10 +124,6 @@ display: flex;
 flex-wrap: wrap;
 justify-content: center;
 background: ${props => props.theme.dark.bodyBackground};
-
-&::-webkit-scrollbar {
-  display: none;
-}
 
 @media (max-width: 500px) {
   margin-left: 0;

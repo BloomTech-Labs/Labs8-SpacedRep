@@ -20,7 +20,7 @@ class Wrapper extends React.Component {
   render() {
     const { children, auth } = this.props;
     return (
-      <React.Fragment id="WC">
+      <React.Fragment>
         {/* If the user is authenticated, render: */}
         {auth.isAuthenticated() ? (
           <BodyContainer>
@@ -57,6 +57,7 @@ const BodyContainer = styled.div`
   height: 100%;
   margin-top: 55px;
   display: flex;
+  
 
   @media (max-width: 900px) {
   }

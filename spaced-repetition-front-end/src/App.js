@@ -73,7 +73,7 @@ class App extends Component {
       profile: null,
       cardsToUpdate: [],
       serverUpdateTimer: null,
-      errorMessage: '', // better to add redux or pass the same error props everywhere?
+      errorMessage: '',
     };
   }
 
@@ -314,8 +314,9 @@ export default withRouter(App);
 
 // styles
 const AppWrapper = styled.div`
-max-width: 1500px;
-height: 100%;
-min-height: 100%;
-color: ${props => props.theme.dark.mainFontColor};
+  max-width: 1500px;
+  height: 100%;
+  min-height: 100%;
+  color: ${props => props.theme.dark.mainFontColor};
+  overflow: hidden;
 `;

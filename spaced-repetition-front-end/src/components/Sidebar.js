@@ -15,7 +15,7 @@ class Sidebar extends React.Component {
     const { props } = this;
     const { pathname } = props.location;
     return (
-      <React.Fragment id="sidebar div">
+      <React.Fragment>
         <Container id="Sidebar Container">
           <SidebarItem path={pathname} thisroute="/dashboard/decks" to="/dashboard/decks">
             <ItemName path={pathname} thisroute="/dashboard/decks">
