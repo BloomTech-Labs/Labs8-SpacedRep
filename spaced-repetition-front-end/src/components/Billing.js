@@ -10,15 +10,78 @@ const Billing = (props) => {
     <StripeProvider apiKey="pk_test_KoWcK14l0HlLnKEAFc9icsPa">
       <Container>
         {profile && profile.tier === 'paid' ? (
-          <PaidText>
-            <Text>You are a paid user!</Text>
-            <Text>Enjoy your unlimited access to decks and cards.</Text>
-          </PaidText>
+          <FreeContainer>
+            <Header>
+              <Tier>Free</Tier>
+              <Price>
+                <span>0</span>
+                /mo.
+              </Price>
+            </Header>
+            <Card>
+              <Item>
+                <i className="fas fa-check fs-2x" />
+                Code Snippets
+              </Item>
+              <Item>
+                <i className="fas fa-check fs-2x" />
+                Built-in SRS
+              </Item>
+              <Item>
+                <i className="fas fa-check fs-2x" />
+                Team Support
+              </Item>
+              <Item>
+                <i className="fas fa-check fs-2x" />
+                Deck Sharing
+              </Item>
+              <Item>
+                <i className="fas fa-check fs-2x" />
+                Training Mode
+              </Item>
+              <Item>
+                <i className="fas fa-check fs-2x" />
+3 Decks/150 Cards
+              </Item>
+            </Card>
+          </FreeContainer>
         ) : (
-          <FreeText>
-            <Text>Free tier users are limited to 3 decks and a maximum of 150 cards.</Text>
-            <Text>No limit for paid.</Text>
-          </FreeText>
+          <UnContainer>
+            <Header>
+              <Tier>Unlimited</Tier>
+              <Price>
+                <span>9</span>
+                .99/mo.
+              </Price>
+            </Header>
+            <Card>
+              <Item>
+                <i className="fas fa-check fs-2x" />
+                Code Snippets
+              </Item>
+              <Item>
+                <i className="fas fa-check fs-2x" />
+                Built-in SRS
+              </Item>
+              <Item>
+                <i className="fas fa-check fs-2x" />
+                Team Support
+              </Item>
+              <Item>
+                <i className="fas fa-check fs-2x" />
+                Deck Sharing
+              </Item>
+              <Item>
+                <i className="fas fa-check fs-2x" />
+                Training Mode
+              </Item>
+              <Item>
+                <i className="fas fa-check fs-2x" />
+                {' '}
+Unlimited Usage
+              </Item>
+            </Card>
+          </UnContainer>
         )}
         <Elements>
           <CheckoutForm handleUpdateTier={handleUpdateTier} profile={profile} />
@@ -44,13 +107,122 @@ const Container = styled.div`
   }
 `;
 
-const PaidText = styled.div``;
-
-const FreeText = styled.div``;
-
-const Text = styled.p`
-  font-size: 25px;
+const FreeContainer = styled.div`
+  border: 1px solid gray;
+  background-color: #3c4f5d;
+  width: 45%;
+  height: 90%;
   margin-bottom: 20px;
-  width: 300px;
-  line-height: 30px;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    height: 40%;
+    box-shadow: none;
+  }
+`;
+
+const UnContainer = styled(FreeContainer)`
+  margin-bottom: 20px;
+  width: 40%;
+  height: 80%;
+  box-shadow: none;
+`;
+
+const Header = styled.div`
+  width: 100%;
+  height: 30%;
+
+  span {
+    font-size: 50px;
+
+    &::before {
+      content: '$';
+      position: absolute;
+      font-size: 15px;
+      margin-left: -10px;
+      margin-top: 10px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    display: flex;
+    justify-content: space-between;
+    height: 40%;
+    background: lightseagreen;
+    padding: 0 4%;
+  }
+`;
+
+const Card = styled.ul`
+  height: 70%;
+
+  @media (max-width: 600px) {
+    display: flex;
+    height: 60%;
+    display: flex;
+    height: 60%;
+    flex-wrap: wrap;
+    justify-content: center;
+    font-size: 14px;
+  }
+`;
+
+const Item = styled.li`
+  height: 16.666%;
+  text-align: left;
+  padding-top: 5%;
+
+  i {
+    padding: 0 5%;
+  }
+
+  @media (max-width: 900px) {
+    padding-top: 2%;
+  }
+
+  @media (max-width: 600px) {
+    // margin: 0px 2%;
+    width: 48%;
+  }
+`;
+
+const Tier = styled.p`
+  padding-top: 4%;
+  height: 40%;
+  font-size: 32px;
+  font-weight: bold;
+  text-align: center;
+  background: lightseagreen;
+
+  @media (max-width: 900px) {
+    padding-top: 1%;
+    font-size: 30px;
+  }
+
+  @media (max-width: 600px) {
+    padding-top: 4%;
+  }
+`;
+
+const Price = styled.p`
+  height: 20%;
+  padding-top: 8%;
+  text-shadow: 1px 1px 2px black;
+  font-weight: bold;
+  text-align: center;
+  span {
+    font-size: 50px;
+
+    &::before {
+      content: '$';
+      position: absolute;
+      font-size: 15px;
+      margin-left: -10px;
+      margin-top: 10px;
+    }
+  }
+
+  @media (max-width: 900px) {
+    padding-top: 1%;
+  }
 `;
