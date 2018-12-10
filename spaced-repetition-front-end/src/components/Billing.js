@@ -15,11 +15,11 @@ const Billing = (props) => {
             <Text>Enjoy your unlimited access to decks and cards.</Text>
           </PaidText>
         ) : (
-          <FreeText>
-            <Text>Free tier users are limited to 3 decks and a maximum of 150 cards.</Text>
-            <Text>No limit for paid.</Text>
-          </FreeText>
-        )}
+            <FreeText>
+              <Text>Free tier users are limited to 3 decks and a maximum of 150 cards.</Text>
+              <Text>No limit for paid.</Text>
+            </FreeText>
+          )}
         <Elements>
           <CheckoutForm handleUpdateTier={handleUpdateTier} profile={profile} />
         </Elements>

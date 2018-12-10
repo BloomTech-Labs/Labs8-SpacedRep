@@ -10,7 +10,7 @@ import Deck from './Deck';
 import handleCardSnippets from '../snippets';
 
 
-class CardList extends Component {
+class DeckView extends Component {
   state = {
     addNewCard: false,
     // deckArr: [],
@@ -73,7 +73,7 @@ class CardList extends Component {
   }
 }
 
-export default withRouter(CardList);
+export default withRouter(DeckView);
 
 // styled
 
@@ -110,6 +110,6 @@ const CardsContainer = styled.div`
 `;
 
 
-CardList.propTypes = {
+DeckView.propTypes = {
   decks: PropTypes.instanceOf(Object).isRequired,
 };
