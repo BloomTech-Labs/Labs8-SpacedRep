@@ -27,23 +27,20 @@ export default HeaderFeaturettes;
 
 const Container = styled.div`
 display: flex;
-// padding: 40px 0;
+padding: 0 50px;
 justify-content: space-around;
 width: 100%;
-// border: 1px solid yellow;
-// border: 1px solid yellow;
 margin-top: 30px;
 height: 200px;
 `;
 
 const Featurette = styled.div`
-width: 300px;
-// border: 1px solid pink;
+width: 255px;
 display: flex;
 flex-direction: column;
-justify-content: center;
 text-align: center;
 height: 100%;
+margin: 10px;
 
 h3 {
   margin-bottom: 15px;
