@@ -167,7 +167,7 @@ class Card extends React.Component {
     // const { tags } = card;
     const tags = ['js', 'css', 'plaintext'];
     const { isEditing } = this.state;
-    console.log('card', card);
+    // console.log('card', card);
     return (
 
       isEditing
@@ -338,7 +338,7 @@ height: 12%;
 padding: 2% 4%;
 display: flex;
 justify-content: space-between;
-align-items: baseline;
+align-items: center;
 font-size: 14px;
 background-color: #2f3d47;
 border-bottom-left-radius: 20px;

@@ -86,7 +86,7 @@ const Cancel = styled.button`
   background: none;
   color: lightgrey;
   font-weight: bold;
-
+  font-size: 24px;
   height: 26px;
   margin: 0px;
   color: ${props => props.theme.dark.buttons.negative};
@@ -162,7 +162,7 @@ const DropdownOption = styled.option`
 `
 
 const TextArea = styled.textarea`
-    height: 50px;
+    height: 75px;
     padding: 15px;
     resize: vertical;
 `
