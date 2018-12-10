@@ -52,19 +52,19 @@ VisitorHeader.propTypes = {
 
 // styles
 const Container = styled.div`
-      padding: 0 2%;
-      position: fixed;
-      z-index: 1;
-      top: 0;
-      left: 0;
-      width: 100%;
-      max-width: 1500px;
-      align-items: center;
-      height: 55px;
-      display: flex;
-      justify-content: space-between;
-      border-bottom: 1px solid white;
-  background: ${props => props.theme.dark.main};
+    padding: 0 2%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-width: 1500px;
+    align-items: center;
+    height: 55px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid white;
+    background: ${props => props.theme.dark.main};
   /* margin: 0 auto;  //needed to fix header going off center when zoom out?*/
 
   @media (max-width: 500px) {
