@@ -214,7 +214,6 @@ span {
     background: lightseagreen;
     padding: 0 4%;
   }
-}
 `;
 
 const Card = styled.ul`

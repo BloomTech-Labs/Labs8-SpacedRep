@@ -61,10 +61,12 @@ const Form = styled.form`
   box-sizing: border-box;
   padding: 10px;
   box-shadow: none;
+  background: ${props => props.theme.dark.cardBackground};
+  border-radius: 4px;
 `;
 
 const Label = styled.label`
-  color: #6b7c93;
+  color: white;
   font-weight: 100;
   letter-spacing: 0.025em;
   font-size: 15px;

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import Modal from 'react-modal';
 import Deck from './Deck';
 import AddDeck from './AddDeck';
 import DeckListTools from './DeckListTools.js';
@@ -11,7 +12,8 @@ class DeckList extends React.Component {
     super(props);
     this.state = {
       showAddDeck: false,
-    }
+      modalIsOpen: false,
+    };
   }
 
   componentDidMount = () => {
@@ -19,22 +21,54 @@ class DeckList extends React.Component {
   };
 
   toggleAddDeck = () => {
-    this.setState({ showAddDeck: !this.state.showAddDeck })
-    console.log('toggle')
+    const { profile, decks } = this.props;
+    if (profile.tier === 'free' && decks.length >= 3) {
+      this.setState({ modalIsOpen: true });
+      return;
+    }
+    this.setState(prevState => ({
+      showAddDeck: !prevState.showAddDeck,
+    }));
+    console.log('toggle');
   }
 
+  goToCheckout = (e) => {
+    e.preventDefault();
+    const { history } = this.props;
+    history.push('/dashboard/profile');
+  }
 
+  closeModal = () => {
+    this.setState({ modalIsOpen: false });
+  }
 
   render() {
-    const { decks, today } = this.props;
-    const { showAddDeck } = this.state;
+    const { decks, today, profile } = this.props;
+    const { showAddDeck, modalIsOpen } = this.state;
+    let allowedDecks;
+    if (profile && profile.tier === 'free' && decks.length > 3) {
+      allowedDecks = decks.slice(0, 3);
+    } else {
+      allowedDecks = decks;
+    }
     return (
       <Container id="decklist container">
+        <ModalWrapper isOpen={modalIsOpen} onRequestClose={this.closeModal}>
+          <Text>Only paid users can make more than 3 decks!</Text>
+          <ButtonContainer>
+            <SaveButton onClick={this.goToCheckout} type="submit">
+              Go to checkout
+            </SaveButton>
+            <Cancel onClick={this.closeModal} type="submit">
+              No thanks
+            </Cancel>
+          </ButtonContainer>
+        </ModalWrapper>
         <DeckListTools toggleAddDeck={this.toggleAddDeck} showAddDeck={showAddDeck} />
         <DeckListContainer>
-          {showAddDeck ?
+          {showAddDeck ? 
             <AddDeck toggleAddDeck={this.toggleAddDeck} />
-            : decks.length > 0 ? decks.map(deck => (
+            : allowedDecks.length > 0 ? allowedDecks.map(deck => (
               <Deck key={deck.name} deck={deck} today={today} disableDelete disableEdit />
             ))
               :
@@ -53,6 +87,7 @@ export default DeckList;
 
 DeckList.propTypes = {
   decks: PropTypes.instanceOf(Array).isRequired,
+  profile: PropTypes.instanceOf(Object).isRequired,
 };
 
 // styles
@@ -81,7 +116,7 @@ const DeckListContainer = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   /* align-items: baseline; */
-`
+`;
 
 
 const Welcome = styled.div`
@@ -107,4 +142,61 @@ const Welcome = styled.div`
     cursor:pointer;
   }
   }
-`
+`;
+
+const ModalWrapper = styled(Modal)`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  transform: translate(130%, 100%);
+  padding: 25px;
+  width: 350px;
+  height: 200px;
+  border: 1px solid black;
+  color: white;
+  background: ${props => props.theme.dark.cardBackground};
+  border-radius: 4px;
+  &:focus {
+    outline: none;
+  }
+  @media (max-width: 500px) {
+    transform: translate(7%, 60%);
+  }
+`;
+
+const Text = styled.p`
+  width: 300px;
+  font-size: 25px;
+  text-align: center;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const SaveButton = styled.button`
+  ${props => props.theme.dark.buttons.base}
+  &:hover {
+    background: ${props => props.theme.dark.logo};
+    cursor: pointer;
+  }
+  font-size: 16px;
+`;
+
+const Cancel = styled.button`
+  border: none;
+  background: none;
+  color: lightgrey;
+  font-weight: bold;
+  font-size: 20px;
+  height: 26px;
+  margin: 0px;
+  padding: 10px 0 0 0;
+  color: white;
+  &:hover {
+    text-decoration: underline;
+  }
+  /* width: 100px; */
+`;

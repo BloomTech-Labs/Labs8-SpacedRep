@@ -47,9 +47,7 @@ class AddDeck extends React.Component {
   addDeck = (e) => {
     e.preventDefault();
     const deck = this.state;
-
     const deckCards = [...deck.cards];
-
     const validatedCards = [];
     //validate decks
     if (deck.name.length > 0) {
@@ -95,8 +93,6 @@ class AddDeck extends React.Component {
         cards: [{ language: 'Plain Text' }],
       });
     }
-
-
   }
 
   newCard = () => {
@@ -117,7 +113,6 @@ class AddDeck extends React.Component {
     const { toggleAddDeck } = this.props;
 
     return (
-
       <AddDeckContainer>
         <Header>
           Create New Deck:
@@ -147,7 +142,6 @@ class AddDeck extends React.Component {
           {state.cards.length > 1 && <SaveButton onClick={this.addDeck}> Save Deck </SaveButton>}
         </ControlsContainer>
       </AddDeckContainer>
-
     );
   }
 }

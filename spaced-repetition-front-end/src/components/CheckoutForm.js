@@ -106,7 +106,9 @@ class CheckoutForm extends Component {
         <PaymentFormContainer>
           <CancelModal isOpen={isCancelModalOpen} onRequestClose={this.closeCancelModal}>
             <CancelText>Sure you want to cancel?</CancelText>
-            <CancelText>So many decks and cards...</CancelText>
+            <CancelText>
+              {"You'll only have access to your first 3 decks and 150 cards..."}
+            </CancelText>
             <ButtonContainer>
               <CancelSubscription onClick={this.cancelSubscription} type="submit">
                 Cancel now
@@ -160,9 +162,8 @@ const PurchaseModal = styled(Modal)`
   transform: translate(130%, 18%);
   width: 350px;
   height: 500px;
-  border: 1px solid #979797;
-  background: #ffffff;
-  border-radius: 4px;
+  border: 1px solid black;
+  background: ${props => props.theme.dark.cardBackground};
   &:focus {
     outline: none;
   }
@@ -180,8 +181,9 @@ const CancelModal = styled(Modal)`
   padding: 25px 0 25px 0;
   width: 350px;
   height: 300px;
-  border: 1px solid #979797;
-  background: #ffffff;
+  border: 1px solid black;
+  color: white;
+  background: ${props => props.theme.dark.cardBackground};
   border-radius: 4px;
   &:focus {
     outline: none;
@@ -200,8 +202,9 @@ const CancelCompleteModal = styled(Modal)`
   padding: 25px 0 25px 0;
   width: 350px;
   height: 300px;
-  border: 1px solid #979797;
-  background: #ffffff;
+  border: 1px solid black;
+  color: white;
+  background: ${props => props.theme.dark.cardBackground};
   border-radius: 4px;
   &:focus {
     outline: none;
