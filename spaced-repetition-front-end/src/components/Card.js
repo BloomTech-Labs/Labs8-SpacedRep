@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Highlight from 'react-highlight.js';
 import styled from 'styled-components';
 import axios from 'axios';
+import {withRouter} from 'react-router-dom'
 
 class Card extends React.Component {
   state = {
@@ -97,6 +98,19 @@ class Card extends React.Component {
       .catch(err => console.log(err.message));
   };
 
+  handleDeleteCard = (cardID) => {
+    const { history } = this.props;
+    const token = localStorage.getItem('id_token');
+    const headers = { Authorization: `Bearer ${token}` };
+
+    axios.delete(`${process.env.REACT_APP_URL}/api/cards/${cardID}`, { headers })
+      .then(response => console.log(response.data))
+      .catch(error => console.log(error));
+
+    history.push('/dashboard/cards');
+    window.location.reload();
+  }
+
   editCard = () => {
     const {
       title, tags, question, answer, dropDownOpenDecks, dropDownOpenLangs, languages, selectedLang, selectedDeck, deckNames,
@@ -104,71 +118,8 @@ class Card extends React.Component {
     const { toggleEdit } = this;
 
     const { state } = this;
-    console.log(this.state)
-    console.log(this.props)
     return (
-      // <EditCard onSubmit={this.addDeck}>
-      //   <HeaderContainer>
-      //     <Instructions>Edit Card:</Instructions>
-      //     <Cancel type="button" onClick={toggleEdit}>X</Cancel>
-      //   </HeaderContainer>
-      //   <input type="text" value={title} name="title" onChange={this.handleChange} placeholder="Title" required />
-      //   <DDWrapper id="deckDropdown">
-      //     <DDTitleBox onClick={this.toggleListDecks}>
-      //       <div>{`Deck: ${selectedDeck}`}</div>
-      //       {dropDownOpenDecks
-      //         ? 'X'
-      //         : 'open'
-      //       }
-      //     </DDTitleBox>
-      //     {dropDownOpenDecks && (
-      //       <DDlist>
-      //         {deckNames.map(deck => (
-      //           // <li className="dd-list-item" key={deck.id}>{deck.title}</li>
-      //           <li
-      //             key={deck.name}
-      //             onClick={this.toggleSelectedDecks}
-      //             name={deck.name}
-      //             id={deck.id}
-      //           >
-      //             {deck.name}
-      //           </li>
-      //         ))}
-      //       </DDlist>
-      //     )}
-      //   </DDWrapper>
-      //   <DDWrapper id="langDropdown">
-      //     <DDTitleBox onClick={this.toggleListLangs}>
-      //       <div>{`Code Language: ${selectedLang}`}</div>
-      //       {dropDownOpenLangs
-      //         ? 'X'
-      //         : 'open'
-      //       }
-      //     </DDTitleBox>
-      //     {dropDownOpenLangs && (
-      //       <DDlist>
-      //         {languages.map(lang => (
-      //           // <li className="dd-list-item" key={lang.id}>{lang.title}</li>
-      //           <li
-      //             key={lang}
-      //             onClick={this.toggleSelectedLangs}
-      //             name={lang}
-      //           >
-      //             {lang}
-      //             {/* {lang === selected && 'check'} */}
-      //           </li>
-      //         ))}
-      //       </DDlist>
-      //     )}
-      //   </DDWrapper>
-      //   <TextArea value={question} onChange={this.handleChange} placeholder="Question" name="question" />
-      //   <TextArea value={answer} onChange={this.handleChange} placeholder="Answer" name="answer" />
-      //   {/* <input type="text" value={tags} name="tags" onChange={this.handleChange} placeholder="Enter a list of tags separated by comma (no spaces)" required /> */}
-      //   <SaveButton type="submit" onClick={this.onCardSave}>Save</SaveButton>
-      // </EditCard>
-
-
-      <Container>
+      <EditContainer>
         <CardInfo>
           <Header>
             <h2>Edit Card:</h2>
@@ -185,17 +136,6 @@ class Card extends React.Component {
             {/*<Description> Deck </Description>*/} <Description>Language </Description>
           </DescriptionLine>
           <DropdownLine>
-            {/* <Dropdown onChange={this.toggleSelectedDecks}>
-              {deckNames.map(deck => (
-                <DropdownOption
-                  key={deck.name}
-                  value={deck.id}
-                >
-                  {deck.name}
-                </DropdownOption>
-              ))}
-            </Dropdown> */}
-
             <Dropdown name="language" onChange={this.handleChange}>
               <DropdownOption value="Plain Text">Plain Text</DropdownOption>
               <DropdownOption value="JavaScript">JavaScript</DropdownOption>
@@ -215,9 +155,10 @@ class Card extends React.Component {
           <TextArea type="text" value={state.answer} name="answer" onChange={this.handleChange} placeholder="Answer to this card's question" required />
           <DropdownLine>
             <Save type="submit" onClick={this.onCardSave}>Save Edits</Save>
+            <DeleteCard onClick={() => this.handleDeleteCard(this.props.card.id)}>Delete Card</DeleteCard>
           </DropdownLine>
         </CardInfo>
-      </Container>
+      </EditContainer>
     );
   }
 
@@ -304,7 +245,7 @@ class Card extends React.Component {
   }
 }
 
-export default Card;
+export default withRouter(Card);
 
 // styles
 
@@ -499,8 +440,21 @@ const DDlist = styled.ul`
 //////////////////////
 //from CardInputs.js
 
-const Container = styled.div`
+const EditContainer = styled.div`
+
+/* box-shadow: 2px 2px 10px 0px black; */
+/* border-radius: 20px; */
+width: 100%;
+max-width: 415px;
+/* height: 100%; */
+/* max-height: 370px; */
+/* margin: 2%; */
+border: 1px solid ${props => props.theme.dark.main};
+background: ${props => props.theme.dark.cardBackground};
+
+
   width: 100%;
+  max-width: 415px;
   margin: 10px;
   h2 {
     font-weight: bold;
@@ -616,7 +570,7 @@ const TextArea = styled.textarea`
 `
 
 const Save = styled.button`
-    width: 100%;
+    width: 40%;
     ${props => props.theme.dark.buttons.base}
     &:hover {
       background: ${props => props.theme.dark.logo};
@@ -626,7 +580,14 @@ const Save = styled.button`
     font-size: 16px;
 `
 
+const DeleteCard = styled(Save)`
+    background: ${props => props.theme.dark.buttons.negative};
+    &:hover {
+    color: ${props => props.theme.dark.main};
+    background: #F7979C;
+  }
 
+`
 
 Card.propTypes = {
   card: PropTypes.instanceOf(Object).isRequired,

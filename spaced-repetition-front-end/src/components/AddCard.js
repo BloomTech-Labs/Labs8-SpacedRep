@@ -239,9 +239,7 @@ const Save = styled.button`
     font-size: 16px;
 `
 
-const DeleteCard = styled(Save)`
-  background: ${props => props.theme.dark.buttons.negative};
-`
+
 const DDWrapper = styled.div`
   color: white;
 `;
