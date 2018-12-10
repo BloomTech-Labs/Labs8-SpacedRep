@@ -53,5 +53,9 @@ i {
 
 p {
   text-align: left;
+
+  @media (max-width: 600px) {
+    font-size: 14px;
+  }
 }
 `;

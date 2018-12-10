@@ -106,19 +106,61 @@ const CTAText = styled.div`
   flex-direction: column;
   justify-content: space-between;
 
+  @media (max-width: 600px) {
+    justify-content: space-around;
+  }
+  
+  @media (max-width: 950px) {
+    height: 75%;
+  }
+  
+  @media (max-width: 900px) {
+    font-size: 16px;
+  }
+
+  @media (max-width: 500px) {
+    height: 85%;
+  }
+
 h1 {
   font-size: 35px;
+
+  @media( max-width: 700px) {
+    font-size: 32px;
+  }
+  
+  @media( max-width: 650px) {
+    font-size: 30px;
+  }
+  
+  @media( max-width: 600px) {
+    font-size: 28px;
+  }
+  
+  @media( max-width: 500px) {
+    font-size: 20px;
+    font-weight: bold;
+  }
 }
 
 p {
   line-height: 1.2;
-}`;
+  
+  @media( max-width: 650px) {
+    font-size: 14px;
+  }
+}
+`;
 
 const CTAButtonsGroup = styled.div`
 height: 30%;
 text-align: center;
 margin: 0 auto;
 padding-top: 3%;
+
+@media (max-width: 500px) {
+  height: 15%;
+}
 `;
 
 const CTABtn = styled.button`
@@ -132,8 +174,19 @@ border-color: ${props => props.learn ? '#707070' : '#2f3d47'};
 // background: ${props => props.learn ? null : 'none'};
 width: 250px;
 
-@media (max-width: 540px) {
-  width: 115px;
+@media( max-width: 700px) {
+  width: 225px;
+}
+
+@media (max-width: 600px) {
+  width: 200px;
+  height: 40px;
+}
+
+@media (max-width: 500px) {
+  width: 150px;
+  height: 30px;
+  font-size: 14px;
 }
 `;
 
