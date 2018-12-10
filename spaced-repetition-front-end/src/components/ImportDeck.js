@@ -4,10 +4,8 @@ import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import Card from './Card';
-import CardListTools from './CardListTools';
-// import CardInputs from './CardInputs';
-import AddCard from './AddCard';
 import Deck from './Deck';
+import handleCardSnippets from '../snippets';
 
 class ImportDeck extends Component {
   state = {
@@ -162,9 +160,10 @@ class ImportDeck extends Component {
 
           {/* {addNewCard && <AddCard grabDeckInfo={this.handleDeckData} toggleAddCard={this.handleAddCard} deckID={selectedDeckID} />} */}
 
-          {deck.cards.map(card => (
-            <Card key={card.id} card={card} deckName={deck.name} decks={decks} disableEdit />
-          ))}
+          {deck.cards.map((card) => {
+            const formattedCard = handleCardSnippets(card);
+            return <Card key={`${card.id} ${card.title}`} card={formattedCard} deckName={deck.name} decks={decks} />;
+          })}
 
         </CardsContainer>
       </DeckViewContainer>
@@ -181,6 +180,8 @@ const DeckViewContainer = styled.div`
   height: 100%;
   background: ${props => props.theme.dark.bodyBackground};
   margin-left: 100px;
+  overflow: auto;
+  padding-bottom: 5%;
   h1{
     font-size: 25px;
     padding: 15px 15px 0px 15px ;
