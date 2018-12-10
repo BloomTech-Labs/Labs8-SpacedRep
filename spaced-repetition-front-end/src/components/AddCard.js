@@ -144,55 +144,24 @@ class AddCard extends React.Component {
             </HeaderContainer>
             <input type="text" value={title} name="title" onChange={this.handleChange} placeholder="Title" required />
             {singleDeckView ? null :
-              <DDWrapper id="deckDropdown">
-                <DDTitleBox onClick={this.toggleListDecks}>
-                  <div>{`Deck: ${selectedDeck}`}</div>
-                  {dropDownOpenDecks
-                    ? 'X'
-                    : 'open'
-                  }
-                </DDTitleBox>
-                {dropDownOpenDecks && (
-                  <DDlist>
-                    {deckNames.map(deck => (
-                      // <li className="dd-list-item" key={deck.id}>{deck.title}</li>
-                      <li
-                        key={deck.name}
-                        onClick={this.toggleSelectedDecks}
-                        name={deck.name}
-                        id={deck.id}
-                      >
-                        {deck.name}
-                      </li>
-                    ))}
-                  </DDlist>
-                )}
-              </DDWrapper>
+              <Dropdown name="language" onChange={this.handleChange}>
+                <DropdownOption value="Plain Text">Plain Text</DropdownOption>
+                <DropdownOption value="JavaScript">JavaScript</DropdownOption>
+                <DropdownOption value="HTML">HTML</DropdownOption>
+                <DropdownOption value="CSS">CSS</DropdownOption>
+                <DropdownOption value="Python">Python</DropdownOption>
+                <DropdownOption value="C++">C++</DropdownOption>
+              </Dropdown>
             }
-            <DDWrapper id="langDropdown">
-              <DDTitleBox onClick={this.toggleListLangs}>
-                <div>{`Code Language: ${selectedLang}`}</div>
-                {dropDownOpenLangs
-                  ? 'X'
-                  : 'open'
-                }
-              </DDTitleBox>
-              {dropDownOpenLangs && (
-                <DDlist>
-                  {languages.map(lang => (
-                    // <li className="dd-list-item" key={lang.id}>{lang.title}</li>
-                    <li
-                      key={lang}
-                      onClick={this.toggleSelectedLangs}
-                      name={lang}
-                    >
-                      {lang}
-                      {/* {lang === selected && 'check'} */}
-                    </li>
-                  ))}
-                </DDlist>
-              )}
-            </DDWrapper>
+            <Dropdown name="language" onChange={this.handleChange}>
+              <DropdownOption value="Plain Text">Plain Text</DropdownOption>
+              <DropdownOption value="JavaScript">JavaScript</DropdownOption>
+              <DropdownOption value="HTML">HTML</DropdownOption>
+              <DropdownOption value="CSS">CSS</DropdownOption>
+              <DropdownOption value="Python">Python</DropdownOption>
+              <DropdownOption value="C++">C++</DropdownOption>
+            </Dropdown>
+
             <textarea value={question} onChange={this.handleChange} placeholder="Question" name="question" />
             <textarea value={answer} onChange={this.handleChange} placeholder="Answer" name="answer" />
             <input type="text" value={tags} name="tags" onChange={this.handleChange} placeholder="Enter a list of tags separated by comma (no spaces)" required />
@@ -255,28 +224,40 @@ const Cancel = styled.button`
 const Save = styled.button`
   /* width: 100px; */
 `
-const DDWrapper = styled.div`
+// const DDWrapper = styled.div`
+//   color: white;
+// `;
+
+// const DDTitleBox = styled.div`
+//   border: 1px solid gray;
+//   padding: 4%;
+//   display: flex;
+//   justify-content: space-between;
+//   margin-bottom: 10px;
+// `;
+
+// const DDlist = styled.ul`
+// border: 1px solid gray;
+// padding: 4%;
+// display: -webkit-box;
+// display: -webkit-flex;
+// display: -ms-flexbox;
+// width: 274px;
+// margin: -10px 0 10px 0;
+// margin-bottom: 10px;
+// list-style-type: none;
+// flex-direction: column;
+// `;
+
+const Dropdown = styled.select`
+  border-radius: 3px;
+  background-color: lightgray;
+  border: none;
+  height: 50px;
+`;
+
+const DropdownOption = styled.option`
+  /* background: darkgrey; */
+  background: ${props => props.theme.dark.main};
   color: white;
-`;
-
-const DDTitleBox = styled.div`
-  border: 1px solid gray;
-  padding: 4%;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-`;
-
-const DDlist = styled.ul`
-border: 1px solid gray;
-padding: 4%;
-display: -webkit-box;
-display: -webkit-flex;
-display: -ms-flexbox;
-width: 274px;
-margin: -10px 0 10px 0;
-margin-bottom: 10px;
-list-style-type: none;
-flex-direction: column;
-`;
-
+`

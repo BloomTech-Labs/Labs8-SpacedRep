@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const info = [
   { icon: 'fa fa-life-ring fa-3x', title: 'Team Support', description: 'Contact our team whenever you have questions or feedback. We love both!' },
-  { icon: 'fas fa-share-square fa-3x', title: 'Deck Sharing', description: 'Share your decks with your peers.' },
+  { icon: 'fas fa-share-square fa-3x', title: 'Deck Sharing', description: 'Make learning collaborative. Share your decks with your peers.' },
   { icon: 'fas fa-code fa-3x', title: 'Code Snippets', description: 'We support Javascript, HTML, CSS, and Python as well as images and markdown.' },
 ];
 // fas fa-share-alt
@@ -45,8 +45,13 @@ justify-content: center;
 text-align: center;
 height: 100%;
 
+h3 {
+  margin-bottom: 15px;
+}
+
 i {
   color: lightseagreen;
+  margin-bottom: 15px;
 }
 
 p {
