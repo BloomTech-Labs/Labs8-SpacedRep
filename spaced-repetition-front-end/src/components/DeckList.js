@@ -67,7 +67,7 @@ flex-wrap: wrap;
 justify-content: center;
 align-items: flex-start;
 background: ${props => props.theme.dark.bodyBackground};
-
+padding-bottom: 5%;
   @media (max-width: 500px) {
     margin-left: 0;
     margin-top: 65px;

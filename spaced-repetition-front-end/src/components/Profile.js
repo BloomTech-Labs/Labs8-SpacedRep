@@ -23,10 +23,10 @@ const Profile = (props) => {
       <Billing profile={profile} handleUpdateTier={handleUpdateTier} />
     </Container>
   ) : (
-    <Container>
-      <ProfileContainer>Loading...</ProfileContainer>
-    </Container>
-  );
+      <Container>
+        <ProfileContainer>Loading...</ProfileContainer>
+      </Container>
+    );
 };
 
 export default Profile;
@@ -43,7 +43,7 @@ const Container = styled.div`
   flex-direction: row;
   align-items: left;
   background: ${props => props.theme.dark.bodyBackground};
-
+  padding-bottom: 5%;
   @media (max-width: 500px) {
     margin-left: 0;
     min-height: 750px;
