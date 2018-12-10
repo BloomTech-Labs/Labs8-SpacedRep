@@ -7,6 +7,8 @@ import CardListTools from './CardListTools';
 // import CardInputs from './CardInputs';
 import AddCard from './AddCard';
 import Deck from './Deck';
+import handleCardSnippets from '../snippets';
+
 
 class CardList extends Component {
   state = {
@@ -60,9 +62,10 @@ class CardList extends Component {
 
           {addNewCard && <AddCard grabDeckInfo={this.handleDeckData} toggleAddCard={this.handleAddCard} deckID={selectedDeckID} />}
 
-          {deck.cards.map((card) => (
-            <Card key={card.id} card={card} deckName={deck.name} decks={decks} />
-          ))}
+          {deck.cards.map((card) => {
+            const formattedCard = handleCardSnippets(card);
+            return <Card key={`${card.id} ${card.title}`} card={formattedCard} deckName={deck.name} decks={decks} />;
+          })}
 
         </CardsContainer>
       </DeckViewContainer>
