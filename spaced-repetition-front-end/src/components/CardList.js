@@ -88,6 +88,7 @@ display: flex;
 flex-wrap: wrap;
 justify-content: center;
 background: ${props => props.theme.dark.bodyBackground};
+padding-bottom: 5%;
 
 @media (max-width: 500px) {
   margin-left: 0;
