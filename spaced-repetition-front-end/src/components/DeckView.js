@@ -12,7 +12,7 @@ class CardList extends Component {
   state = {
     addNewCard: false,
     // deckArr: [],
-    deck: false
+    deck: false,
   };
 
   componentDidMount = () => {
@@ -29,43 +29,49 @@ class CardList extends Component {
 
     if (!match) history.push('/dashboard/decks');
     this.setState({ deck: match });
-  }
-
+  };
 
   handleAddCard = () => {
     this.setState({ addNewCard: !this.state.addNewCard });
-  }
+  };
 
   handleDeckData = () => {
     const { decks } = this.props;
     const deckData = decks.map(deck => ({ id: deck.id, name: deck.name }));
 
     return deckData;
-  }
+  };
 
   render() {
     const { today, decks } = this.props;
     const { addNewCard, deck } = this.state;
     const selectedDeckID = this.props.match.params.deckId;
+    if (deck) {
+      console.log('deck: ', deck);
+    }
     return (
-      deck &&
-      <DeckViewContainer>
-        <Header>
-          <CardListTools addNewCard={this.handleAddCard} />
-          <Deck deck={deck} today={today} disableDelete disableTraining />
-        </Header>
+      deck && (
+        <DeckViewContainer>
+          <Header>
+            <CardListTools addNewCard={this.handleAddCard} />
+            <Deck deck={deck} today={today} disableDelete disableTraining />
+          </Header>
 
+          <CardsContainer>
+            {addNewCard && (
+              <AddCard
+                grabDeckInfo={this.handleDeckData}
+                toggleAddCard={this.handleAddCard}
+                deckID={selectedDeckID}
+              />
+            )}
 
-        <CardsContainer>
-
-          {addNewCard && <AddCard grabDeckInfo={this.handleDeckData} toggleAddCard={this.handleAddCard} deckID={selectedDeckID} />}
-
-          {deck.cards.map((card) => (
-            <Card key={card.id} card={card} deckName={deck.name} decks={decks} />
-          ))}
-
-        </CardsContainer>
-      </DeckViewContainer>
+            {deck.cards.map(card => (
+              <Card key={card.id} card={card} deckName={deck.name} decks={decks} />
+            ))}
+          </CardsContainer>
+        </DeckViewContainer>
+      )
     );
   }
 }
@@ -75,14 +81,14 @@ export default withRouter(CardList);
 // styled
 
 const DeckViewContainer = styled.div`
-width: 100%;
-height: 100%;
-margin-left: 100px;
-display: flex;
-flex-wrap: wrap;
-justify-content: center;
-background: ${props => props.theme.dark.bodyBackground};
-overflow: auto;
+  width: 100%;
+  height: 100%;
+  margin-left: 100px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  background: ${props => props.theme.dark.bodyBackground};
+  overflow: auto;
 
   @media (max-width: 500px) {
     margin-left: 0;
@@ -92,12 +98,11 @@ overflow: auto;
 
 const Header = styled.div`
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   width: 100%;
   /* justify-content: center; */
   align-items: center;
 `;
-
 
 const CardsContainer = styled.div`
   width: 100%;
@@ -105,7 +110,6 @@ const CardsContainer = styled.div`
   flex-wrap: wrap;
   justify-content: center;
 `;
-
 
 CardList.propTypes = {
   decks: PropTypes.instanceOf(Object).isRequired,

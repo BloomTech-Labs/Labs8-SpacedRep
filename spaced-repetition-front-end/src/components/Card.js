@@ -167,9 +167,7 @@ class Card extends React.Component {
     // const { tags } = card;
     const tags = ['js', 'css', 'plaintext'];
     const { isEditing } = this.state;
-    console.log('card', card);
     return (
-
       isEditing
         ? this.editCard()
         : (
