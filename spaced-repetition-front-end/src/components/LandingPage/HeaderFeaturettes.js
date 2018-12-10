@@ -11,7 +11,7 @@ const HeaderFeaturettes = () => {
   return (
     <Container>
       {info.map(featurette => (
-        <Featurette key={featurette.title}>
+        <Featurette name={featurette.title} key={featurette.title}>
           <h3>{featurette.title}</h3>
           <i className={featurette.icon} aria-hidden="true"></i>
           <p>{featurette.description}</p>
@@ -32,6 +32,14 @@ justify-content: space-around;
 width: 100%;
 margin-top: 30px;
 height: 200px;
+
+@media( max-width: 650px) {
+  font-size: 14px;
+}
+
+@media( max-width: 650px) {
+  flex-wrap: wrap;
+}
 `;
 
 const Featurette = styled.div`
@@ -41,6 +49,11 @@ flex-direction: column;
 text-align: center;
 height: 100%;
 margin: 10px;
+
+@media (max-width: 500px) {
+  display: ${props => props.name === 'Team Support' ? 'none' : null};
+  display: ${props => props.name === 'Code Snippets' ? 'none' : null};
+}
 
 h3 {
   margin-bottom: 15px;

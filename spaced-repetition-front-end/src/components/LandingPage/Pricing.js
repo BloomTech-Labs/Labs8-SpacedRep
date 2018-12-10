@@ -63,6 +63,7 @@ width: 100%;
 height: 100%;
 margin: auto 0;
 padding: 5%;
+background-color: #2f3d47;
 `;
 
 const Content = styled.div`

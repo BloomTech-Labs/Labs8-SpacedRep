@@ -32,7 +32,7 @@ const LandingPage = ({ auth }) => {
         </ArrowContainer>
       </Header>
       <Body>
-        <WhySpacedReps />
+        {/* <WhySpacedReps /> */}
         <Pricing login={login} />
         <BackToTopContainer>
           <a href="#top">Back to top</a>

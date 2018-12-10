@@ -6,7 +6,7 @@ const Nav = ({
 }) => {
   return (
     <NavContainer id="NavContainer" toggle={toggle} isLoggedIn={isLoggedIn()}>
-      <li><a href="#why">Why SpacedReps</a></li>
+      {/* <li><a href="#why">Why SpacedReps</a></li> */}
       <li><a href="#pricing">Pricing</a></li>
       {isLoggedIn() ? <DashLink><a href="/dashboard">Dashboard</a></DashLink> : null}
       {isLoggedIn() ? <li><button type="button" onClick={logout}>Sign out</button></li> : <li><button type="button" onClick={login}>Sign in</button></li>}
@@ -19,7 +19,7 @@ export default Nav;
 // styles
 
 const NavContainer = styled.ul`
-width: 45%;
+width: 20%;
 display: flex;
 list-style-type: none;
 justify-content: space-between;
@@ -29,7 +29,8 @@ padding: 0;
 
   @media (max-width: 900px) {
     flex-wrap: wrap;
-    justify-content: space-between;
+    // justify-content: space-between;
+    justify-content: flex-end;
     padding: 15px 2%;
     max-width: 900px;
     width: 100%;
@@ -55,6 +56,8 @@ padding: 0;
   }
 
   li {
+    padding-left: 20px;
+
     @media (max-width: 900px) {
       text-align: right;
     }
