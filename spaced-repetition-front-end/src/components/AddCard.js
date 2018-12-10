@@ -39,8 +39,10 @@ class AddCard extends React.Component {
 
   componentDidMount() {
     const { grabDeckInfo, deckID } = this.props;
+
     const deckNames = grabDeckInfo();
-    this.setState({ deckNames });
+    console.log(deckNames)
+    this.setState({ deckNames, deck_id: deckNames[0].id });
 
     if (deckID) this.setState({ singleDeckView: deckID, deck_id: deckID })
   }
