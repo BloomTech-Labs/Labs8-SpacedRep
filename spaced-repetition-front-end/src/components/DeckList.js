@@ -66,7 +66,8 @@ class DeckList extends React.Component {
         </ModalWrapper>
         <DeckListTools toggleAddDeck={this.toggleAddDeck} showAddDeck={showAddDeck} />
         <DeckListContainer>
-          {showAddDeck ? 
+          {/* <DeckContainer> */}
+          {showAddDeck ?
             <AddDeck toggleAddDeck={this.toggleAddDeck} />
             : allowedDecks.length > 0 ? allowedDecks.map(deck => (
               <Deck key={deck.name} deck={deck} today={today} disableDelete disableEdit />
@@ -77,6 +78,7 @@ class DeckList extends React.Component {
                 <p> Click  <span onClick={this.toggleAddDeck}> +Add Deck </span>  on the toolbar to create your first deck. </p>
               </Welcome>
           }
+          {/* </DeckContainer> */}
         </DeckListContainer>
       </Container>
     );
@@ -98,8 +100,7 @@ width: 100%;
 height: 100%;
 margin-left: 100px;
 display: flex;
-flex-wrap: wrap;
-justify-content: center;
+flex-direction: column;
 align-items: flex-start;
 background: ${props => props.theme.dark.bodyBackground};
 padding-bottom: 5%;
@@ -114,10 +115,7 @@ const DeckListContainer = styled.div`
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  /* align-items: baseline; */
 `;
-
 
 const Welcome = styled.div`
   display:flex;
