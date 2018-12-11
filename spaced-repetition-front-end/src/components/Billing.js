@@ -8,44 +8,69 @@ const Billing = (props) => {
   const { profile, handleUpdateTier } = props;
   return (
     <StripeProvider apiKey="pk_test_KoWcK14l0HlLnKEAFc9icsPa">
-      <Container>
-        {profile && profile.tier === 'paid' ? (
+      {profile && profile.tier === 'paid' ? (
+        <Container>
           <InnerContainer>
             <Header>
-              <Tier>Free</Tier>
-              <Price>
-                <span>0</span>
-                /mo
-              </Price>
+              <Tier>FREE</Tier>
             </Header>
             <Card>
-              <Item>
-                <i className="fas fa-check fs-2x" />
-                Code Snippets
-              </Item>
-              <Item>
-                <i className="fas fa-check fs-2x" />
-                Built-in SRS
-              </Item>
-              <Item>
-                <i className="fas fa-check fs-2x" />
-                Team Support
-              </Item>
-              <Item>
-                <i className="fas fa-check fs-2x" />
-                Deck Sharing
-              </Item>
-              <Item>
-                <i className="fas fa-check fs-2x" />
-                Training Mode
-              </Item>
-              <Item>
-                <i className="fas fa-check fs-2x" />
-                3 Decks/150 Cards
-              </Item>
+              <Price>
+                <span>0</span>
+                .00/mo
+              </Price>
+              <ItemContainerContainer>
+                <ItemContainer>
+                  <Item>
+                    <i className="fas fa-check fs-2x" />
+                    <ItemName>Code Snippets</ItemName>
+                  </Item>
+                </ItemContainer>
+                <ItemContainer>
+                  <Item>
+                    <i className="fas fa-check fs-2x" />
+                    <ItemName>Built-in SRS</ItemName>
+                  </Item>
+                </ItemContainer>
+                <ItemContainer>
+                  <Item>
+                    <i className="fas fa-check fs-2x" />
+                    <ItemName>Team Support</ItemName>
+                  </Item>
+                </ItemContainer>
+                <ItemContainer>
+                  <Item>
+                    <i className="fas fa-check fs-2x" />
+                    <ItemName>Deck Sharing</ItemName>
+                  </Item>
+                </ItemContainer>
+                <ItemContainer>
+                  <Item>
+                    <i className="fas fa-check fs-2x" />
+                    <ItemName>Training Mode</ItemName>
+                  </Item>
+                </ItemContainer>
+                <ItemContainer>
+                  <Item>
+                    <i className="fas fa-check fs-2x" />
+                    <ItemName>3 Decks/150 Cards</ItemName>
+                  </Item>
+                </ItemContainer>
+              </ItemContainerContainer>
             </Card>
           </InnerContainer>
-        ) : (
+          <ButtonContainer>
+            <TextContainer>
+              <Text>Subscribe now</Text>
+              <Pointers>👉 👉 👉</Pointers>
+            </TextContainer>
+            <Elements>
+              <CheckoutForm handleUpdateTier={handleUpdateTier} profile={profile} />
+            </Elements>
+          </ButtonContainer>
+        </Container>
+      ) : (
+        <Container>
           <InnerContainer>
             <Header>
               <Tier>UNLIMITED</Tier>
@@ -95,17 +120,17 @@ const Billing = (props) => {
               </ItemContainerContainer>
             </Card>
           </InnerContainer>
-        )}
-        <ButtonContainer>
-          <TextContainer>
-            <Text>Subscribe now</Text>
-            <Pointers> 👉 👉 👉</Pointers>
-          </TextContainer>
-          <Elements>
-            <CheckoutForm handleUpdateTier={handleUpdateTier} profile={profile} />
-          </Elements>
-        </ButtonContainer>
-      </Container>
+          <ButtonContainer>
+            <TextContainer>
+              <Text>Subscribe now</Text>
+              <Pointers>👉 👉 👉</Pointers>
+            </TextContainer>
+            <Elements>
+              <CheckoutForm handleUpdateTier={handleUpdateTier} profile={profile} />
+            </Elements>
+          </ButtonContainer>
+        </Container>
+      )}
     </StripeProvider>
   );
 };
@@ -143,6 +168,7 @@ const Header = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  text-shadow: 1px 1px 2px black;
 `;
 
 const Tier = styled.p`
@@ -166,6 +192,7 @@ const Card = styled.ul`
 
 const Price = styled.p`
   // border: 1px solid black;
+  border-right: 1px solid gray;
   width: 50%;
   display: flex;
   justify-content: center;
@@ -225,8 +252,9 @@ const TextContainer = styled.div`
 const Text = styled.div`
   font-size: 25px;
   margin: 0 0 10px 0;
+  text-shadow: 1px 1px 2px black;
 `;
 
-const Pointers = styled.div`
+const Pointers = styled.span`
   font-size: 30px;
 `;
