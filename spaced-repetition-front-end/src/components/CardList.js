@@ -14,7 +14,7 @@ class CardList extends Component {
   state = {
     addNewCard: false,
     modalIsOpen: false,
-     // formattedDeck: [],
+    // formattedDeck: [],
   };
 
   // componentDidMount = () => {
@@ -91,14 +91,15 @@ class CardList extends Component {
         </ModalWrapper>
         <CardListTools addNewCard={this.handleAddCard} />
         {addNewCard && <AddCard grabDeckInfo={this.handleDeckData} toggleAddCard={this.handleAddCard} />}
-        {/* <div id="cardlistcontainer"> */}
-        {allowedDecks.length > 0 && allowedDecks.map((deck) => {
-          return deck.cards.map((card) => {
-            const formattedCard = handleCardSnippets(card);
-            return <Card key={`${card.id} ${card.title}`} card={formattedCard} deckName={deck.name} decks={allowedDecks} />;
-          });
-        })}
-        {/* </div> */}
+        <CardsContainer>
+
+          {allowedDecks.length > 0 && allowedDecks.map((deck) => {
+            return deck.cards.map((card) => {
+              const formattedCard = handleCardSnippets(card);
+              return <Card key={`${card.id} ${card.title}`} card={formattedCard} deckName={deck.name} decks={allowedDecks} />;
+            });
+          })}
+        </CardsContainer>
 
         {decks.length === 0 && !addNewCard && (
           <Welcome>
@@ -121,8 +122,7 @@ width: 100%;
 height: 100%;
 margin-left: 100px;
 display: flex;
-flex-wrap: wrap;
-justify-content: center;
+flex-direction: column;
 background: ${props => props.theme.dark.bodyBackground};
 padding-bottom: 5%;
 
@@ -130,6 +130,12 @@ padding-bottom: 5%;
   margin-left: 0;
   margin-top: 65px;
 }
+`;
+
+const CardsContainer = styled.div`
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
 `;
 
 
