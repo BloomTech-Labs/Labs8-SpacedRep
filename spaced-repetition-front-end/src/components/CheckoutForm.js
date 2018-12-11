@@ -159,16 +159,17 @@ const PurchaseModal = styled(Modal)`
   z-index: 100;
   justify-content: center;
   align-items: center;
-  transform: translate(130%, 18%);
   width: 350px;
   height: 500px;
+  position: absolute;
+  left: 50%;
+  top: 50%; 
+  margin-left: -175px;
+  margin-top: -250px;
   border: 1px solid black;
   background: ${props => props.theme.dark.cardBackground};
   &:focus {
     outline: none;
-  }
-  @media (max-width: 500px) {
-    transform: translate(7%, 18%);
   }
 `;
 
@@ -177,19 +178,20 @@ const CancelModal = styled(Modal)`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  transform: translate(130%, 60%);
-  padding: 25px 0 25px 0;
-  width: 350px;
+  padding: 25px;
+  width: 300px;
   height: 300px;
+  position: absolute;
+  left: 50%;
+  top: 50%; 
+  margin-left: -150px;
+  margin-top: -150px;
   border: 1px solid black;
   color: white;
   background: ${props => props.theme.dark.cardBackground};
   border-radius: 4px;
   &:focus {
     outline: none;
-  }
-  @media (max-width: 500px) {
-    transform: translate(7%, 60%);
   }
 `;
 
@@ -199,9 +201,14 @@ const CancelCompleteModal = styled(Modal)`
   justify-content: center;
   align-items: center;
   transform: translate(130%, 60%);
-  padding: 25px 0 25px 0;
-  width: 350px;
+  padding: 25px;
+  width: 300px;
   height: 300px;
+  position: absolute;
+  left: 50%;
+  top: 50%; 
+  margin-left: -150px;
+  margin-top: -150px;
   border: 1px solid black;
   color: white;
   background: ${props => props.theme.dark.cardBackground};
@@ -209,24 +216,22 @@ const CancelCompleteModal = styled(Modal)`
   &:focus {
     outline: none;
   }
-  @media (max-width: 500px) {
-    transform: translate(7%, 60%);
-  }
 `;
 
 const ButtonContainer = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
 `;
 
 const CancelText = styled.p`
-  width: 300px;
-  font-size: 25px;
+  width: 100%;
+  font-size: 20px;
   text-align: center;
 `;
 
 const Subscribe = styled.button`
-  width: 300px;
+  width: 100%;
   ${props => props.theme.dark.buttons.base}
   &:hover {
     background: ${props => props.theme.dark.logo};
@@ -235,7 +240,7 @@ const Subscribe = styled.button`
 `;
 
 const Cancel = styled.button`
-  width: 300px;
+width: 100%;
   ${props => props.theme.dark.buttons.base}
   background: ${props => props.theme.dark.buttons.negative};
   &:hover {
@@ -244,7 +249,7 @@ const Cancel = styled.button`
 `;
 
 const CancelSubscription = styled.button`
-  width: 300px;
+  width: 100%;
   ${props => props.theme.dark.buttons.base}
   margin-bottom: 10px;
   &:hover {
@@ -254,7 +259,7 @@ const CancelSubscription = styled.button`
 `;
 
 const KeepSubscription = styled.button`
-  width: 300px;
+  width: 100%;
   ${props => props.theme.dark.buttons.base}
   background: ${props => props.theme.dark.buttons.negative};
   &:hover {
