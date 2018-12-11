@@ -135,6 +135,7 @@ padding-bottom: 5%;
 const CardsContainer = styled.div`
 display: flex;
 flex-wrap: wrap;
+justify-content: center;
 `;
 
 
