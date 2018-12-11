@@ -23,10 +23,10 @@ const Profile = (props) => {
       <Billing profile={profile} handleUpdateTier={handleUpdateTier} />
     </Container>
   ) : (
-      <Container>
-        <ProfileContainer>Loading...</ProfileContainer>
-      </Container>
-    );
+    <Container>
+      <ProfileContainer>Loading...</ProfileContainer>
+    </Container>
+  );
 };
 
 export default Profile;
@@ -38,7 +38,7 @@ export default Profile;
 const Container = styled.div`
   width: 100%;
   margin-left: 100px;
-  padding: 30px;
+  padding: 30px 50px 0 50px;
   display: flex;
   flex-direction: row;
   align-items: left;
@@ -55,6 +55,7 @@ const Container = styled.div`
 `;
 
 const ProfileContainer = styled.div`
+  // border: 1px solid black;
   display: flex;
   width: 50%;
   flex-direction: column;

@@ -10,12 +10,12 @@ const Billing = (props) => {
     <StripeProvider apiKey="pk_test_KoWcK14l0HlLnKEAFc9icsPa">
       <Container>
         {profile && profile.tier === 'paid' ? (
-          <FreeContainer>
+          <InnerContainer>
             <Header>
               <Tier>Free</Tier>
               <Price>
                 <span>0</span>
-                /mo.
+                /mo
               </Price>
             </Header>
             <Card>
@@ -44,48 +44,67 @@ const Billing = (props) => {
                 3 Decks/150 Cards
               </Item>
             </Card>
-          </FreeContainer>
+          </InnerContainer>
         ) : (
-            <UnContainer>
-              <Header>
-                <Tier>Unlimited</Tier>
-                <Price>
-                  <span>9</span>
-                  .99/mo.
+          <InnerContainer>
+            <Header>
+              <Tier>UNLIMITED</Tier>
+            </Header>
+            <Card>
+              <Price>
+                <span>9</span>
+                .99/mo
               </Price>
-              </Header>
-              <Card>
-                <Item>
-                  <i className="fas fa-check fs-2x" />
-                  Code Snippets
-              </Item>
-                <Item>
-                  <i className="fas fa-check fs-2x" />
-                  Built-in SRS
-              </Item>
-                <Item>
-                  <i className="fas fa-check fs-2x" />
-                  Team Support
-              </Item>
-                <Item>
-                  <i className="fas fa-check fs-2x" />
-                  Deck Sharing
-              </Item>
-                <Item>
-                  <i className="fas fa-check fs-2x" />
-                  Training Mode
-              </Item>
-                <Item>
-                  <i className="fas fa-check fs-2x" />
-                  {' '}
-                  Unlimited Usage
-              </Item>
-              </Card>
-            </UnContainer>
-          )}
-        <Elements>
-          <CheckoutForm handleUpdateTier={handleUpdateTier} profile={profile} />
-        </Elements>
+              <ItemContainerContainer>
+                <ItemContainer>
+                  <Item>
+                    <i className="fas fa-check fs-2x" />
+                    <ItemName>Code Snippets</ItemName>
+                  </Item>
+                </ItemContainer>
+                <ItemContainer>
+                  <Item>
+                    <i className="fas fa-check fs-2x" />
+                    <ItemName>Built-in SRS</ItemName>
+                  </Item>
+                </ItemContainer>
+                <ItemContainer>
+                  <Item>
+                    <i className="fas fa-check fs-2x" />
+                    <ItemName>Team Support</ItemName>
+                  </Item>
+                </ItemContainer>
+                <ItemContainer>
+                  <Item>
+                    <i className="fas fa-check fs-2x" />
+                    <ItemName>Deck Sharing</ItemName>
+                  </Item>
+                </ItemContainer>
+                <ItemContainer>
+                  <Item>
+                    <i className="fas fa-check fs-2x" />
+                    <ItemName>Training Mode</ItemName>
+                  </Item>
+                </ItemContainer>
+                <ItemContainer>
+                  <Item>
+                    <i className="fas fa-check fs-2x" />
+                    <ItemName>Unlimited Usage</ItemName>
+                  </Item>
+                </ItemContainer>
+              </ItemContainerContainer>
+            </Card>
+          </InnerContainer>
+        )}
+        <ButtonContainer>
+          <TextContainer>
+            <Text>Subscribe now</Text>
+            <Pointers> 👉 👉 👉</Pointers>
+          </TextContainer>
+          <Elements>
+            <CheckoutForm handleUpdateTier={handleUpdateTier} profile={profile} />
+          </Elements>
+        </ButtonContainer>
       </Container>
     </StripeProvider>
   );
@@ -96,10 +115,10 @@ export default Billing;
 // styles
 
 const Container = styled.div`
+  // border: 1px solid black;
   display: flex;
   width: 50%;
   flex-direction: column;
-  padding-left: 20px;
 
   @media (max-width: 500px) {
     width: 100%;
@@ -107,122 +126,107 @@ const Container = styled.div`
   }
 `;
 
-const FreeContainer = styled.div`
+const InnerContainer = styled.div`
   border: 1px solid gray;
   background-color: #3c4f5d;
-  width: 45%;
-  height: 90%;
+  width: 100%;
   margin-bottom: 20px;
 
   @media (max-width: 600px) {
     width: 100%;
-    height: 40%;
     box-shadow: none;
   }
 `;
 
-const UnContainer = styled(FreeContainer)`
-  margin-bottom: 20px;
-  width: 40%;
-  height: 80%;
-  box-shadow: none;
-`;
-
 const Header = styled.div`
+  // border: 1px solid black;
   width: 100%;
-  height: 30%;
-
-  span {
-    font-size: 50px;
-
-    &::before {
-      content: '$';
-      position: absolute;
-      font-size: 15px;
-      margin-left: -10px;
-      margin-top: 10px;
-    }
-  }
-
-  @media (max-width: 600px) {
-    display: flex;
-    justify-content: space-between;
-    height: 40%;
-    background: lightseagreen;
-    padding: 0 4%;
-  }
-`;
-
-const Card = styled.ul`
-  height: 70%;
-
-  @media (max-width: 600px) {
-    display: flex;
-    height: 60%;
-    display: flex;
-    height: 60%;
-    flex-wrap: wrap;
-    justify-content: center;
-    font-size: 14px;
-  }
-`;
-
-const Item = styled.li`
-  height: 16.666%;
-  text-align: left;
-  padding-top: 5%;
-
-  i {
-    padding: 0 5%;
-  }
-
-  @media (max-width: 900px) {
-    padding-top: 2%;
-  }
-
-  @media (max-width: 600px) {
-    // margin: 0px 2%;
-    width: 48%;
-  }
+  display: flex;
+  flex-direction: column;
 `;
 
 const Tier = styled.p`
-  padding-top: 4%;
-  height: 40%;
-  font-size: 32px;
+  // border: 1px solid black;
+  letter-spacing: 5px;
+  font-size: 40px;
   font-weight: bold;
+  padding: 20px 0 20px 0;
   text-align: center;
   background: lightseagreen;
+`;
 
-  @media (max-width: 900px) {
-    padding-top: 1%;
-    font-size: 30px;
-  }
-
-  @media (max-width: 600px) {
-    padding-top: 4%;
-  }
+const Card = styled.ul`
+  width: 100%;
+  // border: 1px solid black;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 20px 0 20px 0;
 `;
 
 const Price = styled.p`
-  height: 20%;
-  padding-top: 8%;
+  // border: 1px solid black;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-shadow: 1px 1px 2px black;
+  letter-spacing: 5px;
+  font-size: 30px;
   font-weight: bold;
-  text-align: center;
+  padding-left: 20px;
   span {
-    font-size: 50px;
-
-    &::before {
-      content: '$';
-      position: absolute;
-      font-size: 15px;
-      margin-left: -10px;
-      margin-top: 10px;
-    }
+    font-size: 90px;
   }
+`;
 
-  @media (max-width: 900px) {
-    padding-top: 1%;
+const ItemContainerContainer = styled.div`
+  width: 50%;
+  padding-right: 20px;
+`;
+
+const ItemContainer = styled.div``;
+
+const Item = styled.li`
+  // border: 1px solid black;
+  display: flex;
+  flex-direction: row;
+  padding: 10px 0 10px 0;
+
+  i {
+    // border: 1px solid black;
+    text-align: center;
+    width: 50%;
   }
+`;
+
+const ItemName = styled.div`
+  // border: 1px solid black;
+  text-align: left;
+  width: 50%;
+`;
+
+const ButtonContainer = styled.div`
+  // border: 1px solid black;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: flex-start;
+`;
+
+const TextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Text = styled.div`
+  font-size: 25px;
+  margin: 0 0 10px 0;
+`;
+
+const Pointers = styled.div`
+  font-size: 30px;
 `;

@@ -231,7 +231,6 @@ const CancelText = styled.p`
 `;
 
 const Subscribe = styled.button`
-  width: 100%;
   ${props => props.theme.dark.buttons.base}
   &:hover {
     background: ${props => props.theme.dark.logo};
