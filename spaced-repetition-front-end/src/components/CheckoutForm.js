@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { injectStripe } from 'react-stripe-elements';
 import axios from 'axios';
@@ -147,6 +148,11 @@ class CheckoutForm extends Component {
 }
 
 export default injectStripe(CheckoutForm);
+
+CheckoutForm.propTypes = {
+  profile: PropTypes.instanceOf(Object).isRequired,
+  handleUpdateTier: PropTypes.instanceOf(Function).isRequired,
+};
 
 const PaymentFormContainer = styled.div`
   display: flex;

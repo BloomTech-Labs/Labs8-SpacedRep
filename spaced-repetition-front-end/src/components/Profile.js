@@ -1,5 +1,5 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Billing from './Billing';
 import '../App.css';
@@ -31,9 +31,10 @@ const Profile = (props) => {
 
 export default Profile;
 
-// Profile.propTypes = {
-//   profile: PropTypes.object,
-// };
+Profile.propTypes = {
+  profile: PropTypes.instanceOf(Object).isRequired,
+  handleUpdateTier: PropTypes.instanceOf(Function).isRequired,
+};
 
 const Container = styled.div`
   width: 100%;

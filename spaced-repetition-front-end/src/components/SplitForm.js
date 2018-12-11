@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import {
@@ -58,6 +59,11 @@ const SplitForm = (props) => {
 };
 
 export default injectStripe(SplitForm);
+
+SplitForm.propTypes = {
+  handleSubscribe: PropTypes.instanceOf(Function).isRequired,
+  closePurchaseModal: PropTypes.instanceOf(Function).isRequired,
+};
 
 const Form = styled.form`
   width: 100%;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Elements, StripeProvider } from 'react-stripe-elements';
 import CheckoutForm from './CheckoutForm';
@@ -136,6 +137,11 @@ const Billing = (props) => {
 };
 
 export default Billing;
+
+Billing.propTypes = {
+  profile: PropTypes.instanceOf(Object).isRequired,
+  handleUpdateTier: PropTypes.instanceOf(Function).isRequired,
+};
 
 // styles
 
