@@ -10,7 +10,7 @@ import {
   injectStripe,
 } from 'react-stripe-elements';
 
-const createOptions = (fontSize, padding) => ({
+const createOptions = fontSize => ({
   style: {
     base: {
       fontSize,
@@ -20,7 +20,6 @@ const createOptions = (fontSize, padding) => ({
       '::placeholder': {
         color: '#aab7c4',
       },
-      padding,
     },
     invalid: {
       color: '#9e2146',
@@ -34,19 +33,19 @@ const SplitForm = (props) => {
     <Form onSubmit={handleSubscribe}>
       <Label>Card number</Label>
       <Input>
-        <CardNumberElement {...createOptions('15px', '10px 14px')} />
+        <CardNumberElement {...createOptions('15px')} />
       </Input>
       <Label>Expiration date</Label>
       <Input>
-        <CardExpiryElement {...createOptions('15px', '10px 14px')} />
+        <CardExpiryElement {...createOptions('15px')} />
       </Input>
       <Label>CVC</Label>
       <Input>
-        <CardCVCElement {...createOptions('15px', '10px 14px')} />
+        <CardCVCElement {...createOptions('15px')} />
       </Input>
       <Label>Postal code</Label>
       <Input>
-        <PostalCodeElement {...createOptions('15px', '10px 14px')} />
+        <PostalCodeElement {...createOptions('15px')} />
       </Input>
       <ButtonContainer>
         <Subscribe type="submit">Buy now</Subscribe>

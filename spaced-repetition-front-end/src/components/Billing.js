@@ -63,7 +63,11 @@ const Billing = (props) => {
           <ButtonContainer>
             <TextContainer>
               <Text>Subscribe now</Text>
-              <Pointers>👉 👉 👉</Pointers>
+              <Pointers>
+                <span role="img" aria-label="White Right Pointing Backhand Index">
+                  👉 👉 👉
+                </span>
+              </Pointers>
             </TextContainer>
             <Elements>
               <CheckoutForm handleUpdateTier={handleUpdateTier} profile={profile} />
@@ -124,7 +128,11 @@ const Billing = (props) => {
           <ButtonContainer>
             <TextContainer>
               <Text>Subscribe now</Text>
-              <Pointers>👉 👉 👉</Pointers>
+              <Pointers>
+                <span role="img" aria-label="White Right Pointing Backhand Index">
+                  👉 👉 👉
+                </span>
+              </Pointers>
             </TextContainer>
             <Elements>
               <CheckoutForm handleUpdateTier={handleUpdateTier} profile={profile} />
@@ -261,6 +269,6 @@ const Text = styled.div`
   text-shadow: 1px 1px 2px black;
 `;
 
-const Pointers = styled.span`
+const Pointers = styled.div`
   font-size: 30px;
 `;

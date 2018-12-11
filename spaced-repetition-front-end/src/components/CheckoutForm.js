@@ -128,7 +128,7 @@ class CheckoutForm extends Component {
     }
     return (
       <PaymentFormContainer>
-        <PurchaseModal isOpen={isPurchaseModalOpen} onRequestClose={this.closePurchaseModal}>
+        <PurchaseModal ariaHideApp={false} isOpen={isPurchaseModalOpen} onRequestClose={this.closePurchaseModal}>
           <SplitForm
             handleSubscribe={this.handleSubscribe}
             closePurchaseModal={this.closePurchaseModal}
@@ -206,7 +206,6 @@ const CancelCompleteModal = styled(Modal)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  transform: translate(130%, 60%);
   padding: 25px;
   width: 300px;
   height: 300px;
