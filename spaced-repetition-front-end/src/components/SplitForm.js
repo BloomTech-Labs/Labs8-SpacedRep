@@ -47,10 +47,12 @@ const SplitForm = (props) => {
       <Input>
         <PostalCodeElement {...createOptions('15px', '10px 14px')} />
       </Input>
-      <Subscribe type="submit">Buy now</Subscribe>
-      <Cancel onClick={closePurchaseModal} type="submit">
-        No thanks
-      </Cancel>
+      <ButtonContainer>
+        <Subscribe type="submit">Buy now</Subscribe>
+        <Cancel onClick={closePurchaseModal} type="submit">
+          No thanks
+        </Cancel>
+      </ButtonContainer>
     </Form>
   );
 };
@@ -58,8 +60,9 @@ const SplitForm = (props) => {
 export default injectStripe(SplitForm);
 
 const Form = styled.form`
+  width: 100%;
   box-sizing: border-box;
-  padding: 10px;
+  padding: 20px 30px 20px 30px;
   box-shadow: none;
   background: ${props => props.theme.dark.cardBackground};
   border-radius: 4px;
@@ -105,4 +108,9 @@ const Cancel = styled.button`
   &:hover {
     background: #ed494e;
   }
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
